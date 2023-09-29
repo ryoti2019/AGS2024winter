@@ -32,4 +32,7 @@ private:
 	// プレイヤー
 	Player* player_;
 
+	// デバッグ描画
+	void DrawDebug(void);
+
 };

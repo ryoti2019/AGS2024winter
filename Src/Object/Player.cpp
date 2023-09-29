@@ -123,12 +123,29 @@ void Player::Move(void)
 
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
-
 	// WASDでカメラの位置を変える
-	if (ins.IsNew(KEY_INPUT_W)) { dir = { 0.0f, 0.0f, 1.0f }; }
-	if (ins.IsNew(KEY_INPUT_A)) { dir = { -1.0f, 0.0f, 0.0f }; }
-	if (ins.IsNew(KEY_INPUT_S)) { dir = { 0.0f, 0.0f, -1.0f }; }
-	if (ins.IsNew(KEY_INPUT_D)) { dir = { 1.0f, 0.0f, 0.0f }; }
+	if (ins.IsNew(KEY_INPUT_W)) { dir = { 0.0f, 0.0f, -1.0f }; }
+	if (ins.IsNew(KEY_INPUT_A)) { dir = { 1.0f, 0.0f, 0.0f }; }
+	if (ins.IsNew(KEY_INPUT_S)) { dir = { 0.0f, 0.0f, 1.0f }; }
+	if (ins.IsNew(KEY_INPUT_D)) { dir = { -1.0f, 0.0f, 0.0f }; }
+
+	
+	float deg = 0.0f;
+	if (ins.IsNew(KEY_INPUT_C)) { deg = -10.0f;}
+	if (ins.IsNew(KEY_INPUT_V)) { deg = 10.0f;}
+
+
+
+	if (!/*AsoUtility::EqualsVZero(rot)*/deg == 0.0f)
+	{
+		// 回転量の作成
+		Quaternion rotPow = Quaternion::Identity();
+		rotPow = Quaternion::Mult(
+			rotPow,
+			Quaternion::AngleAxis(AsoUtility::Deg2RadF(deg), AsoUtility::AXIS_Y));
+
+		transform_.quaRot = Quaternion::Mult(transform_.quaRot,rotPow);
+	}
 
 	if (!AsoUtility::EqualsVZero(dir))
 	{
@@ -150,7 +167,7 @@ void Player::Move(void)
 		float angle = atan2f(dir.x, dir.z);
 
 		// カメラの角度を基準とし、方向分の角度を加える
-		//rot_.y = cameraAngles.y + angle;
+		//transform_.rot.y = AsoUtility::Deg2RadF(cameraAngles.y + angle);
 
 		// カメラの角度を基準とし、方向分の角度を加える
 		//LazyRotation(cameraAngles.y + angle);
@@ -225,5 +242,33 @@ void Player::SetRunAnimation(void)
 
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
+}
+
+void Player::LazyRotation(float goalRot)
+{
+
+	// 回転処理
+	float degNowAngleY = AsoUtility::Rad2DegF(transform_.rot.y);
+	float degGoalAngleY = AsoUtility::Rad2DegF(goalRot);
+
+	// 0度～360度以内に角度をおさめる
+	degGoalAngleY = static_cast<float>(AsoUtility::DegIn360(degGoalAngleY));
+
+	// 回転が少ない方の回転向きを取得する(時計回り:1、反時計回り:-1)
+	int aroundDir = AsoUtility::DirNearAroundDeg(degNowAngleY, degGoalAngleY);
+
+	// 到達したい角度に回転を加える
+	if (fabs(degGoalAngleY - degNowAngleY) >= 5)
+	{
+		transform_.rot.y += SPEED_ROT_RAD * static_cast<float>(aroundDir);
+	}
+	else
+	{
+		transform_.rot.y = goalRot;
+	}
+
+	// 0度～360度以内に角度をおさめる
+	transform_.rot.y = static_cast<float>(AsoUtility::RadIn2PI(transform_.rot.y));
 
 }

@@ -9,6 +9,12 @@ public:
 	// 移動スピード
 	static constexpr float SPEED_MOVE = 0.0f;
 
+	// 回転量(deg)
+	static constexpr float SPEED_ROT = 8.0f;
+
+	// 回転量(rad)
+	static constexpr float SPEED_ROT_RAD = SPEED_ROT * (DX_PI_F / 180.0f);
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -59,6 +65,9 @@ protected:
 	// プレイヤーの状態
 	STATE state_;
 
+	// 回転
+	Quaternion quaRot_;
+
 	// 移動処理
 	void Move(void);
 
@@ -73,6 +82,9 @@ protected:
 	// アニメーションの初期設定
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
+
+	// 遅延回転
+	void LazyRotation(float goalRot);
 
 };
 

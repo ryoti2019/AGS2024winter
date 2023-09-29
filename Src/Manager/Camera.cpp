@@ -156,15 +156,28 @@ void Camera::SetBeforeDrawFollow(void)
 	// ‰ñ“]
 	//-------------------------------------
 	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
-	if (ins.IsNew(KEY_INPUT_UP)) { axisDeg.x += 1.0f; }
-	if (ins.IsNew(KEY_INPUT_DOWN)) { axisDeg.x += -1.0f; }
-	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += 1.0f; }
-	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += -1.0f; }
+
+
+	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += -1.0f; }
+	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += 1.0f; }
+
+	if (ins.IsNew(KEY_INPUT_UP) && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
+	{
+		axisDeg.x += -1.0f;
+	}
+	if (ins.IsNew(KEY_INPUT_DOWN) && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
+	{
+		axisDeg.x += 1.0f;
+	}
 
 	if (!AsoUtility::EqualsVZero(axisDeg))
 	{
 
 		// ƒJƒƒ‰‚ð‰ñ“]‚³‚¹‚é
+		// XŽ²‚ÌƒJƒƒ‰‚ÌˆÚ“®§Œä
+
+
+
 		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
 		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
 

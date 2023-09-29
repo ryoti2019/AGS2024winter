@@ -42,10 +42,10 @@ public:
 	// T - TARGET - 注視点
 
 	// 追従対象からカメラの位置までの相対座標
-	static constexpr VECTOR LOCAL_F2C_POS = { 0.0f, 500.0f,-500.0f };
+	static constexpr VECTOR LOCAL_F2C_POS = { 0.0f, 500.0f,400.0f };
 
 	// 追従対象から注視点までの相対座標
-	static constexpr VECTOR LOCAL_F2T_POS = { 0.0f,0.0f,500.0f };
+	static constexpr VECTOR LOCAL_F2T_POS = { 0.0f,0.0f,-500.0f };
 
 	// カメラモード
 	enum class MODE
@@ -104,7 +104,7 @@ private:
 	VECTOR angle_;
 
 	// カメラの角度(rad)
-	VECTOR angles_;
+	//VECTOR angles_;
 
 	// カメラを初期位置に戻す
 	void SetDefault(void);

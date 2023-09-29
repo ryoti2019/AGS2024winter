@@ -56,9 +56,8 @@ void GameScene::Draw(void)
 
 	player_->Draw();
 
-	Camera* camera = SceneManager::GetInstance().GetCamera();
-
-	DrawSphere3D(camera->GetTargetPos(), 20, 1, 0xffffff, 0xffffff, true);
+	// デバッグ描画
+	DrawDebug();
 
 }
 
@@ -70,5 +69,20 @@ void GameScene::Release(void)
 	stage_->Release();
 
 	player_->Release();
+
+}
+
+void GameScene::DrawDebug(void)
+{
+	// カメラ情報を取得
+	Camera* camera = SceneManager::GetInstance().GetCamera();
+	VECTOR pos = camera->GetPos();
+	VECTOR angles = camera->GetAngles();
+
+	DrawFormatString(0, 10, 0xffffff, "カメラ座標 : (%.1f, %.1f, %.1f)", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 30, 0xffffff, "カメラ角度deg : (%.1f, %.1f, %.1f)", 180 / DX_PI * angles.x, 180 / DX_PI * angles.y, 180 / DX_PI * angles.z);
+	DrawFormatString(0, 50, 0xffffff, "カメラ角度rad : (%.5f, %.5f, %.5f)", angles.x, angles.y, angles.z);
+
+	DrawSphere3D(camera->GetTargetPos(), 20, 1, 0xffffff, 0xffffff, true);
 
 }

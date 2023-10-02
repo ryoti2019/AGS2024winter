@@ -83,6 +83,8 @@ void GameScene::DrawDebug(void)
 	DrawFormatString(0, 30, 0xffffff, "ƒJƒƒ‰Šp“xdeg : (%.1f, %.1f, %.1f)", 180 / DX_PI * angles.x, 180 / DX_PI * angles.y, 180 / DX_PI * angles.z);
 	DrawFormatString(0, 50, 0xffffff, "ƒJƒƒ‰Šp“xrad : (%.5f, %.5f, %.5f)", angles.x, angles.y, angles.z);
 
+
+
 	DrawSphere3D(camera->GetTargetPos(), 20, 1, 0xffffff, 0xffffff, true);
 
 }

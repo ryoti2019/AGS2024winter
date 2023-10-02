@@ -10,7 +10,7 @@ public:
 	static constexpr float SPEED_MOVE = 0.0f;
 
 	// ‰ñ“]—Ê(deg)
-	static constexpr float SPEED_ROT = 8.0f;
+	static constexpr float SPEED_ROT = 300.0f;
 
 	// ‰ñ“]—Ê(rad)
 	static constexpr float SPEED_ROT_RAD = SPEED_ROT * (DX_PI_F / 180.0f);
@@ -85,6 +85,9 @@ protected:
 
 	// ’x‰„‰ñ“]
 	void LazyRotation(float goalRot);
+
+	// ƒfƒoƒbƒO•`‰æ
+	void DrawDebug(void);
 
 };
 

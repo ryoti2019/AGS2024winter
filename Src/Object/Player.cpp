@@ -75,8 +75,11 @@ void Player::Update(void)
 void Player::Draw(void)
 {
 
+	// プレイヤーの描画
 	MV1DrawModel(transform_.modelId);
 
+	// デバッグ描画
+	DrawDebug();
 }
 
 void Player::Release(void)
@@ -129,24 +132,6 @@ void Player::Move(void)
 	if (ins.IsNew(KEY_INPUT_S)) { dir = { 0.0f, 0.0f, 1.0f }; }
 	if (ins.IsNew(KEY_INPUT_D)) { dir = { -1.0f, 0.0f, 0.0f }; }
 
-	
-	float deg = 0.0f;
-	if (ins.IsNew(KEY_INPUT_C)) { deg = -10.0f;}
-	if (ins.IsNew(KEY_INPUT_V)) { deg = 10.0f;}
-
-
-
-	if (!/*AsoUtility::EqualsVZero(rot)*/deg == 0.0f)
-	{
-		// 回転量の作成
-		Quaternion rotPow = Quaternion::Identity();
-		rotPow = Quaternion::Mult(
-			rotPow,
-			Quaternion::AngleAxis(AsoUtility::Deg2RadF(deg), AsoUtility::AXIS_Y));
-
-		transform_.quaRot = Quaternion::Mult(transform_.quaRot,rotPow);
-	}
-
 	if (!AsoUtility::EqualsVZero(dir))
 	{
 
@@ -167,10 +152,7 @@ void Player::Move(void)
 		float angle = atan2f(dir.x, dir.z);
 
 		// カメラの角度を基準とし、方向分の角度を加える
-		//transform_.rot.y = AsoUtility::Deg2RadF(cameraAngles.y + angle);
-
-		// カメラの角度を基準とし、方向分の角度を加える
-		//LazyRotation(cameraAngles.y + angle);
+		LazyRotation(cameraAngles.y + angle);
 
 	}
 
@@ -249,26 +231,56 @@ void Player::LazyRotation(float goalRot)
 {
 
 	// 回転処理
-	float degNowAngleY = AsoUtility::Rad2DegF(transform_.rot.y);
-	float degGoalAngleY = AsoUtility::Rad2DegF(goalRot);
+	//float degNowAngleY = AsoUtility::Rad2DegF(transform_.quaRot.y);
+	//float degGoalAngleY = AsoUtility::Rad2DegF(goalRot);
+	float degNowAngleY = transform_.quaRot.y;
+	float degGoalAngleY = goalRot;
 
 	// 0度～360度以内に角度をおさめる
-	degGoalAngleY = static_cast<float>(AsoUtility::DegIn360(degGoalAngleY));
+	//degGoalAngleY = static_cast<float>(AsoUtility::DegIn360(degGoalAngleY));
+	degGoalAngleY = static_cast<float>(AsoUtility::RadIn2PI(degGoalAngleY));
 
 	// 回転が少ない方の回転向きを取得する(時計回り:1、反時計回り:-1)
-	int aroundDir = AsoUtility::DirNearAroundDeg(degNowAngleY, degGoalAngleY);
+	//int aroundDir = AsoUtility::DirNearAroundDeg(degNowAngleY, degGoalAngleY);
+	int aroundDir = AsoUtility::DirNearAroundRad(degNowAngleY, degGoalAngleY);
 
-	// 到達したい角度に回転を加える
-	if (fabs(degGoalAngleY - degNowAngleY) >= 5)
+	// 回転量の作成
+	Quaternion rotPow = Quaternion::Identity();
+	rotPow = Quaternion::Mult(
+		rotPow,
+		Quaternion::AngleAxis(AsoUtility::Deg2RadF(SPEED_ROT_RAD * static_cast<float>(aroundDir)), AsoUtility::AXIS_Y));
+
+	auto localRot = transform_.quaRot.ToEuler();
+
+	if (fabs(AsoUtility::Rad2DegF(degGoalAngleY - localRot.y)) >= 5)
 	{
-		transform_.rot.y += SPEED_ROT_RAD * static_cast<float>(aroundDir);
+		transform_.quaRot = Quaternion::Mult(transform_.quaRot, rotPow);
 	}
 	else
 	{
-		transform_.rot.y = goalRot;
+		transform_.quaRot.y = goalRot;
 	}
+	
+	//// 到達したい角度に回転を加える
+	//if (fabs(degGoalAngleY - degNowAngleY) >= 5)
+	//{
+	//	transform_.rot.y += SPEED_ROT_RAD * static_cast<float>(aroundDir);
+	//}
+	//else
+	//{
+	//	transform_.rot.y = goalRot;
+	//}
 
 	// 0度～360度以内に角度をおさめる
-	transform_.rot.y = static_cast<float>(AsoUtility::RadIn2PI(transform_.rot.y));
+	transform_.quaRot.y = static_cast<float>(AsoUtility::RadIn2PI(transform_.quaRot.y));
 
+}
+
+void Player::DrawDebug(void)
+{
+	DrawFormatString(0, 70, 0xffffff, "プレイヤー座標 : (%.1f, %.1f, %.1f)", transform_.pos.x, transform_.pos.y, transform_.pos.z);
+	DrawFormatString(0, 90, 0xffffff, "プレイヤー角度deg : (%.1f, %.1f, %.1f)",
+		180 / DX_PI * transform_.quaRot.x, 180 / DX_PI * transform_.quaRot.y, 180 / DX_PI * transform_.quaRot.z);
+	DrawFormatString(0, 110, 0xffffff, "プレイヤー角度rad : (%.5f, %.5f, %.5f)",
+		transform_.quaRot.x, transform_.quaRot.y, transform_.quaRot.z);
 }

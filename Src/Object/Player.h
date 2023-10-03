@@ -19,6 +19,7 @@ public:
 	// プレイヤーの状態
 	enum class STATE
 	{
+		IDLE,
 		WALK,
 		RUN,
 		ATTACK
@@ -32,10 +33,6 @@ public:
 
 	void Init(void) override;
 
-	void InitAnimation(void)override;
-
-	//void Update(void);
-
 	void Draw(void);
 
 	void Release(void);
@@ -44,30 +41,6 @@ public:
 	const Transform& GetTransform(void) const;
 
 protected:
-
-	//// アニメーションのアタッチ番号
-	//int animAttachNo_;
-
-	//// アニメーションの総再生時間
-	//float animTotalTime_;
-
-	//// 再生中のアニメーション時間
-	//float stepAnim_;
-
-	//// アニメーション速度
-	//float speedAnim_;
-
-	//// モデルの中にあるアニメーションの番号
-	//int animNo_;
-
-	// 歩くアニメーション
-	int walkAnim_;
-
-	// 走るアニメーション
-	int runAnim_;
-
-	//// モデル制御の基本情報
-	//Transform transform_;
 
 	// プレイヤーの状態
 	STATE state_;
@@ -83,10 +56,8 @@ protected:
 	// 状態遷移
 	void ChangeState(STATE state);
 
-	// アニメーション
-	void Animation(void);
-
 	// アニメーションの初期設定
+	void SetIdleAnimation(void);
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
 
@@ -98,6 +69,9 @@ protected:
 
 	// パラメータ設定
 	void SetParam(void) override;
+
+	// アニメーションの初期化
+	void InitAnimation(void) override;
 
 };
 

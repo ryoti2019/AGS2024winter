@@ -32,6 +32,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/TestStage.mv1");
 	resourcesMap_.emplace(SRC::TEST_STAGE, res);
 
+	// プレイヤーの待機アニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Idle.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_IDLE, res);
+
 	// プレイヤーの攻撃アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK, res);

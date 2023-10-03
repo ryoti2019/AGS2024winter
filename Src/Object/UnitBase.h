@@ -87,13 +87,7 @@ protected:
 	// アニメーション
 	void Animation(void);
 
-	// 回転設定
-	void SetRotation(void);
-
-	// 遅延回転
-	void LazyRotation(float goalRot);
-	
-	// 
-	virtual void InitAnimation(void);
+	// アニメーションの初期化
+	virtual void InitAnimation(void) = 0;
 
 };

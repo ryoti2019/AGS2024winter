@@ -19,6 +19,9 @@ void Player::Init(void)
 	// アニメーションの初期設定
 	InitAnimation();
 
+	// プレイヤーのパラメーター
+	SetParam();
+
 }
 
 void Player::InitAnimation(void)
@@ -57,14 +60,12 @@ void Player::InitAnimation(void)
 
 }
 
-//void Player::Update(void)
-//{
-//
-//}
-
 void Player::Draw(void)
 {
+
+	// モデルの描画
 	UnitBase::Draw();
+
 	// デバッグ描画
 	DrawDebug();
 
@@ -73,6 +74,7 @@ void Player::Draw(void)
 void Player::Release(void)
 {
 
+	// モデルの開放
 	MV1DeleteModel(transform_.modelId);
 
 }
@@ -89,21 +91,40 @@ void Player::Move(void)
 	VECTOR cameraAngles = SceneManager::GetInstance().GetCamera()->GetAngles();
 
 	auto& ins = InputManager::GetInstance();
+
+	// 移動量
 	float movePow = 10.0f;
 
-	// 左のシフトキーで走る
-	if (ins.IsNew(KEY_INPUT_SPACE))
+	// 方向(direction)
+	VECTOR dir = AsoUtility::VECTOR_ZERO;
+
+	// WASDでプレイヤーの位置を変える
+	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
+	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f}); }
+	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
+	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
+
+	// スペースキーで走る
+	if (AsoUtility::EqualsVZero(dir))
 	{
-		ChangeState(STATE::RUN);
+		ChangeState(STATE::IDLE);
 		movePow = 20.0f;
 	}
-	else if (!ins.IsNew(KEY_INPUT_SPACE))
+	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::RUN);
+	}
+	else if (!AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::WALK);
 	}
 
+
 	switch (state_)
 	{
+	case Player::STATE::IDLE:
+		SetIdleAnimation();
+		break;
 	case Player::STATE::WALK:
 		SetWalkAnimation();
 		break;
@@ -112,27 +133,15 @@ void Player::Move(void)
 		break;
 	}
 
-	// 方向(direction)
-	VECTOR dir = AsoUtility::VECTOR_ZERO;
-
-	// WASDでカメラの位置を変える
-	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
-	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f}); }
-	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
-	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
-
 	if (!AsoUtility::EqualsVZero(dir))
 	{
 		
+		// 方向を正規化
 		dir = VNorm(dir);
-		
 
-		// XYZの回転行列
-		// XZ平面移動にする場合は、XZの回転を考慮しないようにする
+		// Y軸の行列
 		MATRIX mat = MGetIdent();
-		//mat = MMult(mat, MGetRotX(angles_.x));
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
-		//mat = MMult(mat, MGetRotZ(angles_.z));
 
 		// 回転行列を使用して、ベクトルを回転させる
 		VECTOR moveDir = VTransform(dir, mat);
@@ -158,22 +167,24 @@ void Player::ChangeState(STATE state)
 
 }
 
-void Player::Animation(void)
+void Player::SetIdleAnimation(void)
 {
 
-	// アニメーション再生
-	// 経過時間の取得
-	float deltaTime = SceneManager::GetInstance().GetDeltaTime();
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
-	// アニメーション時間の進行
-	stepAnim_ += (speedAnim_ * deltaTime);
-	if (stepAnim_ > animTotalTime_)
-	{
-		// ループ再生
-		stepAnim_ = 0.0f;
-	}
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_,
+		ResourceManager::GetInstance().LoadModelDuplicate(
+			ResourceManager::SRC::PLAYER_IDLE));
 
-	// 再生するアニメーション時間の設定
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+	//stepAnim_ = 0.0f;
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }

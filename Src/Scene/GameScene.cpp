@@ -4,6 +4,7 @@
 #include "../Object/Grid.h"
 #include "../Object/Stage.h"
 #include "../Object/Player.h"
+#include "../Object/UnitBase.h"
 #include "GameScene.h"
 
 GameScene::GameScene(void)
@@ -65,6 +66,7 @@ void GameScene::Release(void)
 {
 
 	grid_->Release();
+	delete grid_;
 
 	stage_->Release();
 

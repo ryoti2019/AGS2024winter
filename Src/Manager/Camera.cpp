@@ -241,6 +241,11 @@ void Camera::ChangeMode(MODE mode)
 
 }
 
+Quaternion Camera::GetRotY(void) const
+{
+	return rotY_;
+}
+
 void Camera::SetDefault(void)
 {
 

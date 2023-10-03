@@ -1,7 +1,8 @@
 #pragma once
 #include "Common/Transform.h"
+#include "UnitBase.h"
 
-class Player
+class Player : public UnitBase
 {
 
 public:
@@ -29,11 +30,11 @@ public:
 	// デストラクタ
 	~Player(void);
 
-	void Init(void);
+	void Init(void) override;
 
-	void InitAnimation(void);
+	void InitAnimation(void)override;
 
-	void Update(void);
+	//void Update(void);
 
 	void Draw(void);
 
@@ -44,23 +45,29 @@ public:
 
 protected:
 
-	// アニメーションのアタッチ番号
-	int animAttachNo_;
+	//// アニメーションのアタッチ番号
+	//int animAttachNo_;
 
-	// アニメーションの総再生時間
-	float animTotalTime_;
+	//// アニメーションの総再生時間
+	//float animTotalTime_;
 
-	// 再生中のアニメーション時間
-	float stepAnim_;
+	//// 再生中のアニメーション時間
+	//float stepAnim_;
 
-	// アニメーション速度
-	float speedAnim_;
+	//// アニメーション速度
+	//float speedAnim_;
 
-	// モデルの中にあるアニメーションの番号
-	int animNo_;
+	//// モデルの中にあるアニメーションの番号
+	//int animNo_;
 
-	// モデル制御の基本情報
-	Transform transform_;
+	// 歩くアニメーション
+	int walkAnim_;
+
+	// 走るアニメーション
+	int runAnim_;
+
+	//// モデル制御の基本情報
+	//Transform transform_;
 
 	// プレイヤーの状態
 	STATE state_;
@@ -69,7 +76,7 @@ protected:
 	Quaternion quaRot_;
 
 	// 移動処理
-	void Move(void);
+	void Move(void) override;
 
 	// カメラの移動処理
 	
@@ -88,6 +95,9 @@ protected:
 
 	// デバッグ描画
 	void DrawDebug(void);
+
+	// パラメータ設定
+	void SetParam(void) override;
 
 };
 

@@ -50,6 +50,7 @@ void TitleScene::Draw(void)
 
 void TitleScene::Release(void)
 {
+	DeleteGraph(imgTitleLogo_);
 }
 
 void TitleScene::DrawLogo(void)

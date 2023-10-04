@@ -48,6 +48,14 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Standard Run.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_RUN, res);
 
+	// プレイヤーの走るアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Breathing Idle.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_IDLE, res);
+
+	// 剣のモデル
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/uploads_files_4143503_sword(1).mv1");
+	resourcesMap_.emplace(SRC::SWORD, res);
+
 }
 
 void ResourceManager::Release(void)

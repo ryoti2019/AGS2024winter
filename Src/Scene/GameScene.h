@@ -4,6 +4,8 @@
 class Grid;
 class Stage;
 class Player;
+class Enemy;
+class Sword;
 
 class GameScene : public SceneBase
 {
@@ -31,6 +33,12 @@ private:
 
 	// プレイヤー
 	Player* player_;
+
+	// 敵
+	Enemy* enemy_;
+
+	// 剣
+	Sword* sword_;
 
 	// デバッグ描画
 	void DrawDebug(void);

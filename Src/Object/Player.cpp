@@ -13,24 +13,13 @@ Player::~Player(void)
 {
 }
 
-void Player::Init(void)
-{
-
-	// アニメーションの初期設定
-	InitAnimation();
-
-	// プレイヤーのパラメーター
-	SetParam();
-
-}
-
 void Player::InitAnimation(void)
 {
 
 	// モデル制御の基本情報
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::PLAYER_WALK));
+			ResourceManager::SRC::PLAYER_IDLE));
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 200.0f, 0.0f };
@@ -57,6 +46,17 @@ void Player::InitAnimation(void)
 
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
+}
+
+void Player::Init(void)
+{
+
+	// アニメーションの初期設定
+	InitAnimation();
+
+	// プレイヤーのパラメーター
+	SetParam();
 
 }
 
@@ -108,11 +108,11 @@ void Player::Move(void)
 	if (AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::IDLE);
-		movePow = 20.0f;
 	}
 	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::RUN);
+		movePow = 20.0f;
 	}
 	else if (!AsoUtility::EqualsVZero(dir))
 	{
@@ -223,10 +223,9 @@ void Player::SetRunAnimation(void)
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-	//stepAnim_ = 0.0f;
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = 40.0f;
 
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);

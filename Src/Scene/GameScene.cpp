@@ -4,6 +4,8 @@
 #include "../Object/Grid.h"
 #include "../Object/Stage.h"
 #include "../Object/Player.h"
+#include "../Object/Enemy.h"
+#include "../Object/Sword.h"
 #include "../Object/UnitBase.h"
 #include "GameScene.h"
 
@@ -21,14 +23,20 @@ void GameScene::Init(void)
 	//// カメラモード：フリーカメラ
 	//SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FREE);
 
-	grid_ = new Grid;
+	grid_ = new Grid();
 	grid_->Init();
 
-	stage_ = new Stage;
+	stage_ = new Stage();
 	stage_->Init();
 
-	player_ = new Player;
+	player_ = new Player();
 	player_->Init();
+
+	enemy_ = new Enemy();
+	enemy_->Init();
+
+	sword_ = new Sword(player_->GetTransform());
+	sword_->Init();
 
 	//// カメラモード：追従
 	Camera* camera = SceneManager::GetInstance().GetCamera();
@@ -46,6 +54,9 @@ void GameScene::Update(void)
 
 	player_->Update();
 
+	enemy_->Update();
+
+	sword_->Update();
 }
 
 void GameScene::Draw(void)
@@ -56,6 +67,10 @@ void GameScene::Draw(void)
 	stage_->Draw();
 
 	player_->Draw();
+
+	enemy_->Draw();
+
+	sword_->Draw();
 
 	// デバッグ描画
 	DrawDebug();
@@ -69,8 +84,16 @@ void GameScene::Release(void)
 	delete grid_;
 
 	stage_->Release();
+	delete stage_;
 
 	player_->Release();
+	delete player_;
+
+	enemy_->Release();
+	delete enemy_;
+
+	sword_->Release();
+	delete sword_;
 
 }
 
@@ -85,8 +108,7 @@ void GameScene::DrawDebug(void)
 	DrawFormatString(0, 30, 0xffffff, "カメラ角度deg : (%.1f, %.1f, %.1f)", 180 / DX_PI * angles.x, 180 / DX_PI * angles.y, 180 / DX_PI * angles.z);
 	DrawFormatString(0, 50, 0xffffff, "カメラ角度rad : (%.5f, %.5f, %.5f)", angles.x, angles.y, angles.z);
 
-
-
+	// 注視点
 	DrawSphere3D(camera->GetTargetPos(), 20, 1, 0xffffff, 0xffffff, true);
 
 }

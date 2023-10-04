@@ -1,6 +1,7 @@
 #pragma once
 #include <DxLib.h>
 #include "../Object/Common/Transform.h"
+
 class Stage
 {
 

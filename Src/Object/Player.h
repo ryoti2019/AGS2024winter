@@ -7,15 +7,6 @@ class Player : public UnitBase
 
 public:
 
-	// 移動スピード
-	static constexpr float SPEED_MOVE = 0.0f;
-
-	// 回転量(deg)
-	static constexpr float SPEED_ROT = 300.0f;
-
-	// 回転量(rad)
-	static constexpr float SPEED_ROT_RAD = SPEED_ROT * (DX_PI_F / 180.0f);
-
 	// プレイヤーの状態
 	enum class STATE
 	{

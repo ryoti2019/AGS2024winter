@@ -3,7 +3,11 @@
 #include "../Manager/SceneManager.h"
 #include "Sword.h"
 
-Sword::Sword(const Transform& follow) : follow_(follow)
+//Sword::Sword(const Transform& follow) : follow_(follow)
+//{
+//}
+
+Sword::Sword(void)
 {
 }
 
@@ -65,16 +69,38 @@ void Sword::Update(void)
 
 	// プレイヤーの右手に追従させる
 	// 追従対象(プレイヤー)の位置
-	VECTOR followPos = MV1GetFramePosition(follow_->modelId, 34);
+	
+	//武器をアタッチするフレームの番号を検索
+	int WeponAttachFrameNum = MV1SearchFrame(followTransform_->modelId, "mixamorig:RightHandMiddle1");
+
+	//武器をアタッチするフレームのローカル→ワールド変換行列を取得する
+	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(followTransform_->modelId, WeponAttachFrameNum);
+
+	// 行列からクォータニオン
+	Quaternion qua = Quaternion::GetRotation(WeponFrameMatrix);
+
+	//クォータニオンからラジアン
+	VECTOR rad = qua.ToEuler();
 
 	// 追従対象の向き
-	Quaternion followRot = follow_->quaRot;
+	Quaternion followRot = followTransform_->quaRot;
 
 	// 追従対象から自機までの相対座標
 	VECTOR swordPos = followRot.PosAxis(transform_.pos);
 
 	// 剣の位置の更新
-	transform_.pos = VAdd(followPos, swordPos);
+	transform_.pos = VAdd(rad, swordPos);
+
+	// ラジアンから行列
+	MATRIX matPos = MGetTranslate(transform_.pos);
+
+	MV1SetMatrix(transform_.modelId, matPos);
+
+	//MV1SetPosition(followTransform_->modelId,transform_.pos);
+
+	//transform_.pos = followPos;
+
+	//transform_.Update();
 
 }
 
@@ -96,5 +122,7 @@ void Sword::Release(void)
 
 void Sword::SetFollow(const Transform* follow)
 {
-	follow_ = follow;
+
+	followTransform_ = follow;
+
 }

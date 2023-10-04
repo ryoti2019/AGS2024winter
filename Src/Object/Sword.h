@@ -7,7 +7,9 @@ class Sword
 public:
 
 	// コンストラクタ
-	Sword(const Transform& follow);
+	//Sword(const Transform& follow);
+
+	Sword(void);
 
 	// デストラクタ
 	~Sword(void);
@@ -32,8 +34,10 @@ private:
 	void InitAnimation(void);
 
 	// 追従対象
-	const Transform* follow_;
+	//const Transform& follow_;
 
+	// 追従対象
+	const Transform* followTransform_;
 };
 
 

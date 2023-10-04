@@ -35,9 +35,11 @@ void GameScene::Init(void)
 	enemy_ = new Enemy();
 	enemy_->Init();
 
-	sword_ = new Sword(player_->GetTransform());
+	//sword_ = new Sword(player_->GetTransform());
+	sword_ = new Sword();
 	sword_->Init();
-
+	sword_->SetFollow(&player_->GetTransform());
+	
 	//// カメラモード：追従
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 	camera->SetFollow(&player_->GetTransform());

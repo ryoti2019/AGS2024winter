@@ -37,8 +37,9 @@ void GameScene::Init(void)
 
 	//sword_ = new Sword(player_->GetTransform());
 	sword_ = new Sword();
-	sword_->Init();
 	sword_->SetFollow(&player_->GetTransform());
+	sword_->Init();
+
 	
 	//// カメラモード：追従
 	Camera* camera = SceneManager::GetInstance().GetCamera();

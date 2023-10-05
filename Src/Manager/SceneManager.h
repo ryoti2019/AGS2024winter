@@ -43,6 +43,12 @@ public:
 	// カメラの取得
 	Camera* GetCamera(void) const;
 
+	// ゲームパッドで操作するフラグを取得する
+	bool GetGamePad(void);
+
+	// ゲームパッドで操作するフラグを取得する
+	void SetGamePad(bool isPad);
+
 private:
 
 	// 静的インスタンス
@@ -67,6 +73,9 @@ private:
 	std::chrono::system_clock::time_point preTime_;
 	float deltaTime_;
 	
+	// ゲームパッドで操作するためのフラグ
+	bool isGamePad_;
+
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする
 	SceneManager(void);
@@ -83,5 +92,6 @@ private:
 
 	// フェード
 	void Fade(void);
+
 
 };

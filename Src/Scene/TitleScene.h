@@ -21,7 +21,7 @@ private:
 
 	// ƒ^ƒCƒgƒ‹ƒƒS
 	int imgTitleLogo_;
-
+	
 	// ƒƒS•`‰æ
 	void DrawLogo(void);
 

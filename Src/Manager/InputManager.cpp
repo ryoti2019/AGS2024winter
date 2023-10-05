@@ -233,19 +233,27 @@ void InputManager::SetJPadInState(JOYPAD_NO jpNo)
 		stateNow.ButtonsNew[i] = stateNew.ButtonsNew[i];
 
 		stateNow.IsOld[i] = stateNow.IsNew[i];
-		//stateNow.IsNew[i] = stateNow.ButtonsNew[i] == 128 || stateNow.ButtonsNew[i] == 255;
 		stateNow.IsNew[i] = stateNow.ButtonsNew[i] > 0;
 
 		stateNow.IsTrgDown[i] = stateNow.IsNew[i] && !stateNow.IsOld[i];
 		stateNow.IsTrgUp[i] = !stateNow.IsNew[i] && stateNow.IsOld[i];
 
-
-		stateNow.AKeyLX = stateNew.AKeyLX;
-		stateNow.AKeyLY = stateNew.AKeyLY;
-		stateNow.AKeyRX = stateNew.AKeyRX;
-		stateNow.AKeyRY = stateNew.AKeyRY;
-
 	}
+
+
+	stateNow.AKeyLXOld = stateNow.AKeyLX;
+	stateNow.AKeyLYOld = stateNow.AKeyLY;
+
+	stateNow.AKeyLX = stateNew.AKeyLX;
+	stateNow.AKeyLY = stateNew.AKeyLY;
+	stateNow.AKeyRX = stateNew.AKeyRX;
+	stateNow.AKeyRY = stateNew.AKeyRY;
+
+	stateNow.AKeyLXTrgDown = stateNow.AKeyLX != 0 && stateNow.AKeyLXOld == 0;
+	stateNow.AKeyLYTrgDown = stateNow.AKeyLY != 0 && stateNow.AKeyLYOld == 0;
+
+	stateNow.AKeyLTrgDown = stateNow.AKeyLX != 0 && stateNow.AKeyLXOld == 0 && stateNow.AKeyLYOld == 0 ||
+		stateNow.AKeyLY != 0 && stateNow.AKeyLXOld == 0 && stateNow.AKeyLYOld == 0;
 
 }
 
@@ -365,6 +373,21 @@ bool InputManager::IsPadBtnTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const
 bool InputManager::IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const
 {
 	return padInfos_[static_cast<int>(no)].IsTrgUp[static_cast<int>(btn)];
+}
+
+bool InputManager::IsPadStickTrgDownX(JOYPAD_NO no, JOYPAD_BTN btn) const
+{
+	return padInfos_[static_cast<int>(no)].AKeyLXTrgDown;
+}
+
+bool InputManager::IsPadStickTrgDownY(JOYPAD_NO no, JOYPAD_BTN btn) const
+{
+	return padInfos_[static_cast<int>(no)].AKeyLYTrgDown;
+}
+
+bool InputManager::IsPadStickTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const
+{
+	return  padInfos_[static_cast<int>(no)].AKeyLTrgDown;
 }
 
 

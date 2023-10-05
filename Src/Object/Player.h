@@ -64,5 +64,11 @@ protected:
 	// アニメーションの初期化
 	void InitAnimation(void) override;
 
+	// キーボードの操作
+	void KeybordContoroller(void);
+
+	// ゲームパッドの操作
+	void GamePadController(void);
+
 };
 

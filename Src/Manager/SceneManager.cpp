@@ -50,6 +50,9 @@ void SceneManager::Init(void)
 	// 初期シーンの設定
 	DoChangeScene(SCENE_ID::TITLE);
 
+	// ゲームパッドを使うときtrue
+	isGamePad_ = false;
+
 }
 
 void SceneManager::Init3D(void)
@@ -167,6 +170,16 @@ float SceneManager::GetDeltaTime(void) const
 Camera* SceneManager::GetCamera(void) const
 {
 	return camera_;
+}
+
+bool SceneManager::GetGamePad(void)
+{
+	return isGamePad_;
+}
+
+void SceneManager::SetGamePad(bool isPad)
+{
+	isGamePad_ = isPad;
 }
 
 SceneManager::SceneManager(void)

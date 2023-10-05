@@ -87,6 +87,23 @@ const Transform& Player::GetTransform(void) const
 void Player::Move(void)
 {
 
+	// キーボードでの操作
+	if (!SceneManager::GetInstance().GetGamePad())
+	{
+		KeybordContoroller();
+	}
+
+	// ゲームパッドでの操作
+	if (SceneManager::GetInstance().GetGamePad())
+	{
+		GamePadController();
+	}
+
+}
+
+void Player::KeybordContoroller(void)
+{
+
 	// カメラの角度を取得
 	VECTOR cameraAngles = SceneManager::GetInstance().GetCamera()->GetAngles();
 
@@ -100,42 +117,13 @@ void Player::Move(void)
 
 	// WASDでプレイヤーの位置を変える
 	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
-	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f}); }
+	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
 	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
-	// スペースキーで走る
-	if (AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::IDLE);
-	}
-	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::RUN);
-		movePow = 20.0f;
-	}
-	else if (!AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::WALK);
-	}
-
-
-	switch (state_)
-	{
-	case Player::STATE::IDLE:
-		SetIdleAnimation();
-		break;
-	case Player::STATE::WALK:
-		SetWalkAnimation();
-		break;
-	case Player::STATE::RUN:
-		SetRunAnimation();
-		break;
-	}
-
 	if (!AsoUtility::EqualsVZero(dir))
 	{
-		
+
 		// 方向を正規化
 		dir = VNorm(dir);
 
@@ -155,6 +143,120 @@ void Player::Move(void)
 		// カメラの角度を基準とし、方向分の角度を加える
 		LazyRotation(cameraAngles.y + angle);
 
+	}
+
+	// スペースキーで走る
+	if (AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::IDLE);
+	}
+	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::RUN);
+		movePow = 20.0f;
+	}
+	else if (!AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::WALK);
+	}
+
+	// アニメーションの変更
+	switch (state_)
+	{
+	case Player::STATE::IDLE:
+		SetIdleAnimation();
+		break;
+	case Player::STATE::WALK:
+		SetWalkAnimation();
+		break;
+	case Player::STATE::RUN:
+		SetRunAnimation();
+		break;
+	}
+
+}
+
+void Player::GamePadController(void)
+{
+
+	// カメラの角度を取得
+	VECTOR cameraAngles = SceneManager::GetInstance().GetCamera()->GetAngles();
+
+	auto& ins = InputManager::GetInstance();
+
+	// 移動量
+	float movePow = 10.0f;
+
+	// 方向(direction)
+	VECTOR dir = AsoUtility::VECTOR_ZERO;
+
+	// ゲームパッドの番号を取得
+	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
+
+	// 左のスティックの情報を取得する
+	auto isTrgLStick = ins.IsPadStickTrgDown(InputManager::JOYPAD_NO::PAD1,InputManager::JOYPAD_BTN::DOWN);
+
+	// スティックの角度を取得する
+	float rad = atan2f(pad.AKeyLY, pad.AKeyLX);
+	float deg = rad * 180.0f / DX_PI_F;
+
+	// WASDでプレイヤーの位置を変える
+	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
+	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
+	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
+	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
+
+	if (isTrgLStick)
+	{
+
+		// 方向を正規化
+		dir = VNorm(dir);
+
+		// Y軸の行列
+		MATRIX mat = MGetIdent();
+		mat = MMult(mat, MGetRotY(cameraAngles.y));
+
+		// 回転行列を使用して、ベクトルを回転させる
+		VECTOR moveDir = VTransform(dir, mat);
+
+		// 方向×スピードで移動量を作って、座標に足して移動
+		transform_.pos = VAdd(transform_.pos, VScale(moveDir, movePow));
+
+		// 方向を角度に変換する(XZ平面 Y軸)
+		float angle = atan2f(pad.AKeyLX, pad.AKeyLY);
+
+		// カメラの角度を基準とし、方向分の角度を加える
+		LazyRotation(cameraAngles.y + angle);
+
+	}
+
+	// スペースキーで走る
+	if (AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::IDLE);
+	}
+	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::RUN);
+		movePow = 20.0f;
+	}
+	else if (!AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::WALK);
+	}
+
+	// アニメーションの変更
+	switch (state_)
+	{
+	case Player::STATE::IDLE:
+		SetIdleAnimation();
+		break;
+	case Player::STATE::WALK:
+		SetWalkAnimation();
+		break;
+	case Player::STATE::RUN:
+		SetRunAnimation();
+		break;
 	}
 
 }

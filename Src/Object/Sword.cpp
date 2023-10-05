@@ -3,10 +3,6 @@
 #include "../Manager/SceneManager.h"
 #include "Sword.h"
 
-//Sword::Sword(const Transform& follow) : follow_(follow)
-//{
-//}
-
 Sword::Sword(void)
 {
 }
@@ -24,35 +20,24 @@ void Sword::InitAnimation(void)
 			ResourceManager::SRC::SWORD));
 	float scale = 0.1f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = { 400.0f, 300.0f, 0.0f };
+	transform_.pos = { 0.0f, 0.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
 	rotPow = Quaternion::Mult(
 		rotPow,
-		Quaternion::AngleAxis(AsoUtility::Deg2RadF(-90), AsoUtility::AXIS_X));
+		Quaternion::AngleAxis(AsoUtility::Deg2RadF(-90), AsoUtility::AXIS_Z));
+	rotPow = rotPow.Mult(Quaternion::AngleAxis(AsoUtility::Deg2RadF(90), AsoUtility::AXIS_X));
+	//VECTOR localRot = { AsoUtility::Deg2RadF(90),AsoUtility::Deg2RadF(0), AsoUtility::Deg2RadF(60) };
+	//transform_.quaRotLocal = Quaternion::Euler(localRot);
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
-
-	//animNo_ = 1;
-
-	//// 再生するアニメーションの設定
-	//animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_);
-
-	//// アニメーション総時間の取得
-	//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	//stepAnim_ = 0.0f;
-
-	//// アニメーション速度
-	//speedAnim_ = 20.0f;
-
-	//// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
 void Sword::Init(void)
 {
+	//武器をアタッチするフレームの番号を検索
+	WeponAttachFrameNum = MV1SearchFrame(followTransform_->modelId, "mixamorig:RightHand");
 
 	// アニメーションの初期設定
 	InitAnimation();
@@ -70,37 +55,39 @@ void Sword::Update(void)
 	// プレイヤーの右手に追従させる
 	// 追従対象(プレイヤー)の位置
 	
-	//武器をアタッチするフレームの番号を検索
-	int WeponAttachFrameNum = MV1SearchFrame(followTransform_->modelId, "mixamorig:RightHandMiddle1");
+
 
 	//武器をアタッチするフレームのローカル→ワールド変換行列を取得する
 	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(followTransform_->modelId, WeponAttachFrameNum);
 
-	// 行列からクォータニオン
-	Quaternion qua = Quaternion::GetRotation(WeponFrameMatrix);
+	// 行列からラジアン
+	auto rot = MGetRotElem(WeponFrameMatrix);
+	auto pos = MGetTranslateElem(WeponFrameMatrix);
 
-	//クォータニオンからラジアン
-	VECTOR rad = qua.ToEuler();
+	// 行列からクォータニオン
+	Quaternion qua = Quaternion::GetRotation(rot);
 
 	// 追従対象の向き
-	Quaternion followRot = followTransform_->quaRot;
+	Quaternion followRot = qua;
 
 	// 追従対象から自機までの相対座標
-	VECTOR swordPos = followRot.PosAxis(transform_.pos);
+	VECTOR swordPos = followRot.PosAxis({60.0f,0.0f,0.0f});
 
 	// 剣の位置の更新
-	transform_.pos = VAdd(rad, swordPos);
+	transform_.pos = VAdd(pos, swordPos);
 
-	// ラジアンから行列
-	MATRIX matPos = MGetTranslate(transform_.pos);
+	transform_.quaRot = qua;
 
-	MV1SetMatrix(transform_.modelId, matPos);
+	//// ラジアンから行列
+	//MATRIX matPos = MGetTranslate(transform_.pos);
+
+	//MV1SetMatrix(transform_.modelId, matPos);
 
 	//MV1SetPosition(followTransform_->modelId,transform_.pos);
 
 	//transform_.pos = followPos;
 
-	//transform_.Update();
+	transform_.Update();
 
 }
 

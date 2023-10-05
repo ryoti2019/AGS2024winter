@@ -38,6 +38,15 @@ void TitleScene::Update(void)
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 	}
 
+	// ゲームパッドの番号を取得
+	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
+
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
+		SceneManager::GetInstance().SetGamePad(true);
+	}
+
 }
 
 void TitleScene::Draw(void)

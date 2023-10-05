@@ -6,9 +6,6 @@ class Sword
 {
 public:
 
-	// コンストラクタ
-	//Sword(const Transform& follow);
-
 	Sword(void);
 
 	// デストラクタ
@@ -33,11 +30,10 @@ private:
 	// アニメーションの初期化
 	void InitAnimation(void);
 
-	// 追従対象
-	//const Transform& follow_;
+	//武器をアタッチするフレームの番号
+	int WeponAttachFrameNum;
 
 	// 追従対象
 	const Transform* followTransform_;
+
 };
-
-

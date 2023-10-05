@@ -57,14 +57,15 @@ public:
 		bool IsTrgDown[static_cast<int>(JOYPAD_BTN::MAX)];
 		bool IsTrgUp[static_cast<int>(JOYPAD_BTN::MAX)];
 		int AKeyLX;
-		int AKeyLXOld;
-		int AKeyLYOld;
-		int AKeyLY;
+		int AKeyLZ;
 		int AKeyRX;
-		int AKeyRY;
-		bool AKeyLXTrgDown;
-		bool AKeyLYTrgDown;
+		int AKeyRZ;
 		bool AKeyLTrgDown;
+		bool AKeyLXTrgDown;
+		bool AKeyLZTrgDown;
+		bool AKeyRTrgDown;
+		bool AKeyRXTrgDown;
+		bool AKeyRZTrgDown;
 	};
 
 	// インスタンスを明示的に生成
@@ -120,13 +121,20 @@ public:
 	bool IsPadBtnTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
 	bool IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const;
 
-	// 左のアナログキーXが押された
-	bool IsPadStickTrgDownX(JOYPAD_NO no, JOYPAD_BTN btn) const;
-	// 左のアナログキーYが押された
-	bool IsPadStickTrgDownY(JOYPAD_NO no, JOYPAD_BTN btn) const;
-
 	// 左のアナログキーが押された
-	bool IsPadStickTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
+	bool IsPadLStickTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
+	// 左のアナログキーXが押された
+	bool IsPadXStickTrgDownX(JOYPAD_NO no, JOYPAD_BTN btn) const;
+	// 左のアナログキーYが押された
+	bool IsPadZStickTrgDownZ(JOYPAD_NO no, JOYPAD_BTN btn) const;
+
+	// 右のアナログキーが押された
+	bool IsPadRStickTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
+	// 左のアナログキーXが押された
+	bool IsPadRXStickTrgDownX(JOYPAD_NO no, JOYPAD_BTN btn) const;
+	// 左のアナログキーYが押された
+	bool IsPadRZStickTrgDownZ(JOYPAD_NO no, JOYPAD_BTN btn) const;
+
 private:
 
 	// キー情報
@@ -168,7 +176,7 @@ private:
 
 	// マウスカーソルの位置
 	Vector2 mousePos_;
-	
+
 	// マウスボタンの入力状態
 	int mouseInput_;
 

@@ -36,9 +36,6 @@ protected:
 	// ƒvƒŒƒCƒ„[‚Ìó‘Ô
 	STATE state_;
 
-	// ‰ñ“]
-	Quaternion quaRot_;
-
 	// ˆÚ“®ˆ—
 	void Move(void) override;
 

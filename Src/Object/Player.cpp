@@ -47,6 +47,7 @@ void Player::InitAnimation(void)
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
+
 }
 
 void Player::Init(void)
@@ -121,6 +122,35 @@ void Player::KeybordContoroller(void)
 	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
+	// スペースキーで走る
+	if (AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::IDLE);
+	}
+	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::RUN);
+		movePow = 20.0f;
+	}
+	else if (!AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::WALK);
+	}
+
+	// アニメーションの変更
+	switch (state_)
+	{
+	case Player::STATE::IDLE:
+		SetIdleAnimation();
+		break;
+	case Player::STATE::WALK:
+		SetWalkAnimation();
+		break;
+	case Player::STATE::RUN:
+		SetRunAnimation();
+		break;
+	}
+
 	if (!AsoUtility::EqualsVZero(dir))
 	{
 
@@ -145,35 +175,6 @@ void Player::KeybordContoroller(void)
 
 	}
 
-	// スペースキーで走る
-	if (AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::IDLE);
-	}
-	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::RUN);
-		movePow = 20.0f;
-	}
-	else if (!AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::WALK);
-	}
-
-	// アニメーションの変更
-	switch (state_)
-	{
-	case Player::STATE::IDLE:
-		SetIdleAnimation();
-		break;
-	case Player::STATE::WALK:
-		SetWalkAnimation();
-		break;
-	case Player::STATE::RUN:
-		SetRunAnimation();
-		break;
-	}
-
 }
 
 void Player::GamePadController(void)
@@ -194,41 +195,22 @@ void Player::GamePadController(void)
 	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
 
 	// 左のスティックの情報を取得する
-	auto isTrgLStick = ins.IsPadStickTrgDown(InputManager::JOYPAD_NO::PAD1,InputManager::JOYPAD_BTN::DOWN);
+	auto isTrgLStick = ins.IsPadLStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::L_TRIGGER);
 
 	// スティックの角度を取得する
-	float rad = atan2f(pad.AKeyLY, pad.AKeyLX);
+	float rad = atan2f(pad.AKeyLZ, pad.AKeyLX);
 	float deg = rad * 180.0f / DX_PI_F;
 
 	// WASDでプレイヤーの位置を変える
-	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
-	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
-	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
-	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
+	//if (deg <= 360 && deg >= 180) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
+	//if (deg <= 270 && deg >= 90) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
+	//if (deg >= 0   && deg <= 180) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
+	//if (deg >= 270 && deg <= 360 || deg >= 0 && deg <= 90) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
-	if (isTrgLStick)
-	{
-
-		// 方向を正規化
-		dir = VNorm(dir);
-
-		// Y軸の行列
-		MATRIX mat = MGetIdent();
-		mat = MMult(mat, MGetRotY(cameraAngles.y));
-
-		// 回転行列を使用して、ベクトルを回転させる
-		VECTOR moveDir = VTransform(dir, mat);
-
-		// 方向×スピードで移動量を作って、座標に足して移動
-		transform_.pos = VAdd(transform_.pos, VScale(moveDir, movePow));
-
-		// 方向を角度に変換する(XZ平面 Y軸)
-		float angle = atan2f(pad.AKeyLX, pad.AKeyLY);
-
-		// カメラの角度を基準とし、方向分の角度を加える
-		LazyRotation(cameraAngles.y + angle);
-
-	}
+	if (deg >= -105.0f && deg <= -75.0f) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
+	if (deg >= 165.0f && deg <= 180.0f || deg <= -165.0f && deg >= -180.0f) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
+	if (deg >= 45.0f && deg <= 105.0f) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
+	if (deg >= -15.0f && deg <= 15.0f) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
 	// スペースキーで走る
 	if (AsoUtility::EqualsVZero(dir))
@@ -257,6 +239,30 @@ void Player::GamePadController(void)
 	case Player::STATE::RUN:
 		SetRunAnimation();
 		break;
+	}
+
+	if (isTrgLStick)
+	{
+
+		// 方向を正規化
+		dir = VNorm(dir);
+
+		// Y軸の行列
+		MATRIX mat = MGetIdent();
+		mat = MMult(mat, MGetRotY(cameraAngles.y));
+
+		// 回転行列を使用して、ベクトルを回転させる
+		VECTOR moveDir = VTransform(dir, mat);
+
+		// 方向×スピードで移動量を作って、座標に足して移動
+		transform_.pos = VAdd(transform_.pos, VScale(moveDir, movePow));
+
+		// 方向を角度に変換する(XZ平面 Y軸)
+		float angle = atan2f(pad.AKeyLX, pad.AKeyLZ);
+
+		// カメラの角度を基準とし、方向分の角度を加える
+		LazyRotation(cameraAngles.y + angle);
+
 	}
 
 }

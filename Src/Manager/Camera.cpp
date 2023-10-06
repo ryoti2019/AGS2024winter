@@ -1,5 +1,6 @@
 #include "../Utility/AsoUtility.h"
-#include "../Manager/InputManager.h"
+#include "InputManager.h"
+#include "SceneManager.h"
 #include "../Object/Common/Transform.h"
 #include "Camera.h"
 
@@ -151,64 +152,17 @@ VECTOR Camera::GetTargetPos(void) const
 void Camera::SetBeforeDrawFollow(void)
 {
 
-	auto& ins = InputManager::GetInstance();
-
-	// 回転
-	//-------------------------------------
-	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
-
-
-	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += -1.0f; }
-	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += 1.0f; }
-
-	if (ins.IsNew(KEY_INPUT_UP) && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
+	// キーボードでの操作
+	if (!SceneManager::GetInstance().GetGamePad())
 	{
-		axisDeg.x += -1.0f;
-	}
-	if (ins.IsNew(KEY_INPUT_DOWN) && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
-	{
-		axisDeg.x += 1.0f;
+		KeybordContoroller();
 	}
 
-	if (!AsoUtility::EqualsVZero(axisDeg))
+	// ゲームパッドでの操作
+	if (SceneManager::GetInstance().GetGamePad())
 	{
-
-		// カメラを回転させる
-		// X軸のカメラの移動制御
-
-
-
-		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
-		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
-
-		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
-
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
-
+		GamePadController();
 	}
-
-	//// デバッグ描画
-	//DebugDraw();
-
-	// 追従対象の位置
-	VECTOR followPos = followTransform_->pos;
-
-
-	// 追従対象から注視点までの相対座標を回転
-	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
-
-	// 注視点の更新
-	targetPos_ = VAdd(followPos, relativeTPos);
-
-	// 追従対象からカメラまでの相対座標
-	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_F2C_POS);
-
-	// カメラ位置の更新
-	pos_ = VAdd(followPos, relativeCPos);
-
-	// カメラの上方向
-	//cameraUp_ = followRot.PosAxis(rotXY_.GetUp());
-	cameraUp_ = AsoUtility::DIR_U;
 
 }
 
@@ -288,6 +242,132 @@ void Camera::SetTargetPosFollowForward(void)
 	// カメラの移動
 	localRotPos = VTransform(localCameraPos, mat);
 	pos_ = VAdd(followPos, localRotPos);
+
+}
+
+void Camera::KeybordContoroller(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// 回転
+	//-------------------------------------
+	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+
+
+	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += -1.0f; }
+	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += 1.0f; }
+
+	if (ins.IsNew(KEY_INPUT_UP) && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
+	{
+		axisDeg.x += -1.0f;
+	}
+	if (ins.IsNew(KEY_INPUT_DOWN) && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
+	{
+		axisDeg.x += 1.0f;
+	}
+
+	if (!AsoUtility::EqualsVZero(axisDeg))
+	{
+
+		// カメラを回転させる
+		// X軸のカメラの移動制御
+
+
+
+		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
+		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
+
+		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
+
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+
+	}
+
+	//// デバッグ描画
+	//DebugDraw();
+
+	// 追従対象の位置
+	VECTOR followPos = followTransform_->pos;
+
+	// 追従対象から注視点までの相対座標を回転
+	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
+
+	// 注視点の更新
+	targetPos_ = VAdd(followPos, relativeTPos);
+
+	// 追従対象からカメラまでの相対座標
+	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_F2C_POS);
+
+	// カメラ位置の更新
+	pos_ = VAdd(followPos, relativeCPos);
+
+	// カメラの上方向
+	//cameraUp_ = followRot.PosAxis(rotXY_.GetUp());
+	cameraUp_ = AsoUtility::DIR_U;
+
+}
+
+void Camera::GamePadController(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// 回転
+	//-------------------------------------
+	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+
+	// ゲームパッドの番号を取得
+	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
+
+	// 右のスティックの情報を取得する
+	auto isTrgRStick = ins.IsPadRStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_TRIGGER);
+
+	// パッドの方向をdirに直す
+	axisDeg.x = pad.AKeyRZ;
+	axisDeg.y = pad.AKeyRX;
+
+	if (isTrgRStick)
+	{
+
+		// カメラを回転させる
+		// X軸のカメラの移動制御
+
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+
+		VECTOR moveAxisDeg = VScale(axisDeg, 3.0f);
+
+		angle_.x += AsoUtility::Deg2RadF(moveAxisDeg.x);
+		angle_.y += AsoUtility::Deg2RadF(moveAxisDeg.y);
+
+		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
+
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+
+	}
+
+	//// デバッグ描画
+	//DebugDraw();
+
+	// 追従対象の位置
+	VECTOR followPos = followTransform_->pos;
+
+	// 追従対象から注視点までの相対座標を回転
+	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
+
+	// 注視点の更新
+	targetPos_ = VAdd(followPos, relativeTPos);
+
+	// 追従対象からカメラまでの相対座標
+	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_F2C_POS);
+
+	// カメラ位置の更新
+	pos_ = VAdd(followPos, relativeCPos);
+
+	// カメラの上方向
+	//cameraUp_ = followRot.PosAxis(rotXY_.GetUp());
+	cameraUp_ = AsoUtility::DIR_U;
 
 }
 

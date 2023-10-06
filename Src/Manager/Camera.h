@@ -117,13 +117,11 @@ private:
 	// 追従対象
 	const Transform* followTransform_;
 
-	//// カメラの回転
-	//void RotateCamera(float angleX, float angleY);
+	// キーボードの操作
+	void KeybordContoroller(void);
 
-	//// カメラの更新
-	//void UpdateCamera(void);
-
-	//void DebugDraw(void);
+	// ゲームパッドの操作
+	void GamePadController(void);
 
 };
 

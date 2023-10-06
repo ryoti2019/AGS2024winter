@@ -245,10 +245,10 @@ void InputManager::SetJPadInState(JOYPAD_NO jpNo)
 
 	stateNow.AKeyLXTrgDown = stateNow.AKeyLX;
 	stateNow.AKeyLZTrgDown = stateNow.AKeyLZ;
-	stateNow.AKeyLTrgDown = stateNow.AKeyLX != 0 && stateNow.AKeyLZ != 0;
+	stateNow.AKeyLTrgDown = stateNow.AKeyLX != 0 || stateNow.AKeyLZ != 0;
 	stateNow.AKeyRXTrgDown = stateNow.AKeyRX;
 	stateNow.AKeyRZTrgDown = stateNow.AKeyRZ;
-	stateNow.AKeyRTrgDown = stateNow.AKeyRX != 0 && stateNow.AKeyRZ != 0;
+	stateNow.AKeyRTrgDown = stateNow.AKeyRX != 0 || stateNow.AKeyRZ != 0;
 
 }
 
@@ -303,7 +303,7 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 
 		// 右スティック
 		ret.AKeyRX = d.Rx;
-		ret.AKeyRZ = d.Rz;
+		ret.AKeyRZ = d.Ry;
 
 	}
 	break;

@@ -37,18 +37,18 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_IDLE, res);
 
 	// プレイヤーの攻撃アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword Slash 1.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK, res);
 	
 	// プレイヤーの歩くアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Walking.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Running.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_WALK, res);
 
 	// プレイヤーの走るアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Standard Run.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_RUN, res);
 
-	// プレイヤーの走るアニメーション
+	// 敵の待機アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Breathing Idle.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_IDLE, res);
 

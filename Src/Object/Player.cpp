@@ -197,27 +197,16 @@ void Player::GamePadController(void)
 	// 左のスティックの情報を取得する
 	auto isTrgLStick = ins.IsPadLStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::L_TRIGGER);
 
-	// スティックの角度を取得する
-	float rad = atan2f(pad.AKeyLZ, pad.AKeyLX);
-	float deg = rad * 180.0f / DX_PI_F;
-
-	// WASDでプレイヤーの位置を変える
-	//if (deg <= 360 && deg >= 180) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
-	//if (deg <= 270 && deg >= 90) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
-	//if (deg >= 0   && deg <= 180) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
-	//if (deg >= 270 && deg <= 360 || deg >= 0 && deg <= 90) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
-
-	if (deg >= -105.0f && deg <= -75.0f) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
-	if (deg >= 165.0f && deg <= 180.0f || deg <= -165.0f && deg >= -180.0f) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
-	if (deg >= 45.0f && deg <= 105.0f) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
-	if (deg >= -15.0f && deg <= 15.0f) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
+	// パッドの方向をdirに直す
+	dir.x = pad.AKeyLX;
+	dir.z = -pad.AKeyLZ;
 
 	// スペースキーで走る
 	if (AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::IDLE);
 	}
-	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+	else if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN) && !AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::RUN);
 		movePow = 20.0f;
@@ -239,6 +228,9 @@ void Player::GamePadController(void)
 	case Player::STATE::RUN:
 		SetRunAnimation();
 		break;
+	case Player::STATE::ATTACK:
+		SetRunAnimation();
+		break;
 	}
 
 	if (isTrgLStick)
@@ -258,7 +250,7 @@ void Player::GamePadController(void)
 		transform_.pos = VAdd(transform_.pos, VScale(moveDir, movePow));
 
 		// 方向を角度に変換する(XZ平面 Y軸)
-		float angle = atan2f(pad.AKeyLX, pad.AKeyLZ);
+		float angle = atan2f(pad.AKeyLX, -pad.AKeyLZ);
 
 		// カメラの角度を基準とし、方向分の角度を加える
 		LazyRotation(cameraAngles.y + angle);
@@ -312,7 +304,7 @@ void Player::SetWalkAnimation(void)
 	//stepAnim_ = 0.0f;
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = 30.0f;
 
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
@@ -334,6 +326,27 @@ void Player::SetRunAnimation(void)
 
 	// アニメーション速度
 	speedAnim_ = 40.0f;
+
+	// モデルに指定時間のアニメーションを設定する
+	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
+}
+
+void Player::SetAttackAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_,
+		ResourceManager::GetInstance().LoadModelDuplicate(
+			ResourceManager::SRC::PLAYER_ATTACK));
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
 
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
@@ -384,7 +397,7 @@ void Player::LazyRotation(float goalRot)
 
 
 	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
-	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.1f);
+	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 1.0f);
 
 }
 

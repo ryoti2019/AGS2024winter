@@ -48,6 +48,7 @@ protected:
 	void SetIdleAnimation(void);
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
+	void SetAttackAnimation(void);
 
 	// ’x‰„‰ñ“]
 	void LazyRotation(float goalRot);

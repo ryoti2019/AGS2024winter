@@ -121,9 +121,6 @@ void Camera::SetBeforeDrawFree(void)
 
 	}
 
-	//MoveXYZDirection();
-	// 
-
 }
 
 void Camera::Draw(void)
@@ -144,6 +141,24 @@ VECTOR Camera::GetAngles(void) const
 	return angle_;
 }
 
+void Camera::SetAngles(const VECTOR angles)
+{
+
+	angle_ = angles;
+
+	LazyRotation(angle_.y);
+
+	rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
+	rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+	
+}
+
+void Camera::SetLazyAngles(const VECTOR angles)
+{
+	lazyGoalRotY_ = Quaternion::Euler(0.0f, angles.y, 0.0f);
+	isLazy = true;
+}
+
 VECTOR Camera::GetTargetPos(void) const
 {
 	return targetPos_;
@@ -162,6 +177,11 @@ void Camera::SetBeforeDrawFollow(void)
 	if (SceneManager::GetInstance().GetGamePad())
 	{
 		GamePadController();
+	}
+
+	if (isLazy)
+	{
+		LazyRotation2();
 	}
 
 }
@@ -273,8 +293,6 @@ void Camera::KeybordContoroller(void)
 		// ƒJƒƒ‰‚ð‰ñ“]‚³‚¹‚é
 		// XŽ²‚ÌƒJƒƒ‰‚ÌˆÚ“®§Œä
 
-
-
 		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
 		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
 
@@ -369,5 +387,32 @@ void Camera::GamePadController(void)
 	//cameraUp_ = followRot.PosAxis(rotXY_.GetUp());
 	cameraUp_ = AsoUtility::DIR_U;
 
+}
+
+void Camera::LazyRotation(float goalRot)
+{
+	//float time = 0.0f;
+
+	//time += SceneManager::GetInstance().GetDeltaTime();
+
+	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
+	rotY_ = Quaternion::Slerp(rotY_, goal, 0.1f);
+}
+
+void Camera::LazyRotation2(void)
+{
+	if (Quaternion::Angle(rotY_, lazyGoalRotY_) > 2.0f)
+	{
+		rotY_ = Quaternion::Slerp(rotY_, lazyGoalRotY_, 0.1f);
+		angle_.y = rotY_.ToEuler().y;
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+	}
+	else
+	{
+		rotY_ = lazyGoalRotY_;
+		isLazy = false;
+		angle_.y = rotY_.ToEuler().y;
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+	}
 }
 

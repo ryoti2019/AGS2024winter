@@ -71,6 +71,9 @@ public:
 
 	VECTOR GetAngles(void) const;
 
+	void SetAngles(const VECTOR angles);
+	void SetLazyAngles(const VECTOR angles);
+
 	VECTOR GetTargetPos(void) const;
 
 	void SetBeforeDrawFollow(void);
@@ -82,6 +85,10 @@ public:
 	void ChangeMode(MODE mode);
 
 	Quaternion GetRotY(void) const;
+
+	// ’x‰„‰ñ“]
+	void LazyRotation(float goalRot);
+	void LazyRotation2(void);
 
 private:
 
@@ -102,8 +109,13 @@ private:
 
 	Quaternion rotY_;
 
+	Quaternion lazyGoalRotY_;
+	bool isLazy = false;
+
+
 	// ƒJƒƒ‰‚Ì‰ñ“]
 	VECTOR angle_;
+
 
 	// ƒJƒƒ‰‚ÌŠp“x(rad)
 	//VECTOR angles_;

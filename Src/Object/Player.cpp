@@ -47,6 +47,8 @@ void Player::InitAnimation(void)
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
+	// 攻撃時間
+	attackTime_ = 0.0f;
 
 }
 
@@ -122,19 +124,42 @@ void Player::KeybordContoroller(void)
 	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
+	// 攻撃処理
+	if (ins.IsTrgDown(KEY_INPUT_J))
+	{
+		if (attackAnimTime_ >= attackTime_ )
+		{	
+			attackTime_ += SceneManager::GetInstance().GetDeltaTime();
+			ChangeState(STATE::ATTACK);
+		}
+	}
+
 	// スペースキーで走る
-	if (AsoUtility::EqualsVZero(dir))
+	if (attackTime_ <= 0.0f)
 	{
-		ChangeState(STATE::IDLE);
+		if (AsoUtility::EqualsVZero(dir))
+		{
+			ChangeState(STATE::IDLE);
+		}
+		else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+		{
+			ChangeState(STATE::RUN);
+			movePow = 20.0f;
+		}
+		else if (!AsoUtility::EqualsVZero(dir))
+		{
+			ChangeState(STATE::WALK);
+		}
+
 	}
-	else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+
+	// プレイヤーが向いている方向にカメラを向ける
+	auto rad = transform_.quaRot.ToEuler();
+	if (ins.IsTrgDown(KEY_INPUT_Q))
 	{
-		ChangeState(STATE::RUN);
-		movePow = 20.0f;
-	}
-	else if (!AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::WALK);
+		// カメラの角度を基準とし、方向分の角度を加える
+		//SceneManager::GetInstance().GetCamera()->SetAngles(rad);
+		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
 	}
 
 	// アニメーションの変更
@@ -149,9 +174,12 @@ void Player::KeybordContoroller(void)
 	case Player::STATE::RUN:
 		SetRunAnimation();
 		break;
+	case Player::STATE::ATTACK:
+		SetAttackAnimation();
+		break;
 	}
 
-	if (!AsoUtility::EqualsVZero(dir))
+	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK)
 	{
 
 		// 方向を正規化
@@ -201,19 +229,34 @@ void Player::GamePadController(void)
 	dir.x = pad.AKeyLX;
 	dir.z = -pad.AKeyLZ;
 
+	// 攻撃処理
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1,InputManager::JOYPAD_BTN::RIGHT))
+	{
+		if (attackAnimTime_ >= attackTime_)
+		{
+			attackTime_ += SceneManager::GetInstance().GetDeltaTime();
+			ChangeState(STATE::ATTACK);
+		}
+	}
+
 	// スペースキーで走る
-	if (AsoUtility::EqualsVZero(dir))
+	if (attackTime_ <= 0.0f)
 	{
-		ChangeState(STATE::IDLE);
-	}
-	else if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN) && !AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::RUN);
-		movePow = 20.0f;
-	}
-	else if (!AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::WALK);
+
+		if (AsoUtility::EqualsVZero(dir))
+		{
+			ChangeState(STATE::IDLE);
+		}
+		else if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN) && !AsoUtility::EqualsVZero(dir))
+		{
+			ChangeState(STATE::RUN);
+			movePow = 20.0f;
+		}
+		else if (!AsoUtility::EqualsVZero(dir))
+		{
+			ChangeState(STATE::WALK);
+		}
+
 	}
 
 	// アニメーションの変更
@@ -229,11 +272,11 @@ void Player::GamePadController(void)
 		SetRunAnimation();
 		break;
 	case Player::STATE::ATTACK:
-		SetRunAnimation();
+		SetAttackAnimation();
 		break;
 	}
 
-	if (isTrgLStick)
+	if (isTrgLStick && state_ != STATE::ATTACK)
 	{
 
 		// 方向を正規化
@@ -346,10 +389,24 @@ void Player::SetAttackAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = 60.0f;
 
 	// モデルに指定時間のアニメーションを設定する
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
+	// モデルの再生時間を取得する
+	attackAnimTime_ = MV1GetAttachAnimTime(transform_.modelId, animAttachNo_);
+
+	if (attackAnimTime_ >= attackTime_)
+	{
+		attackTime_ += SceneManager::GetInstance().GetDeltaTime();
+	}
+	if (attackAnimTime_ <= attackTime_)
+	{
+		attackTime_ = 0.0f;
+		//attackAnimTime_ = 0.0f;
+		ChangeState(STATE::IDLE);
+	}
 
 }
 
@@ -397,7 +454,7 @@ void Player::LazyRotation(float goalRot)
 
 
 	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
-	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 1.0f);
+	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.1f);
 
 }
 

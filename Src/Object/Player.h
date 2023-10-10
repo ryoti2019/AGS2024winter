@@ -7,6 +7,9 @@ class Player : public UnitBase
 
 public:
 
+	// 攻撃時間
+	static constexpr float ATTACK_TIME = 0.5f;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -36,11 +39,15 @@ protected:
 	// プレイヤーの状態
 	STATE state_;
 
+	// 攻撃時間
+	float attackTime_;
+
+	// 攻撃アニメーションの再生時間
+	float attackAnimTime_;
+
 	// 移動処理
 	void Move(void) override;
 
-	// カメラの移動処理
-	
 	// 状態遷移
 	void ChangeState(STATE state);
 

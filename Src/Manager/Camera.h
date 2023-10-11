@@ -72,6 +72,8 @@ public:
 	VECTOR GetAngles(void) const;
 
 	void SetAngles(const VECTOR angles);
+
+	// プレイヤーが向いている角度
 	void SetLazyAngles(const VECTOR angles);
 
 	VECTOR GetTargetPos(void) const;
@@ -88,6 +90,8 @@ public:
 
 	// 遅延回転
 	void LazyRotation(float goalRot);
+
+	// 遅延回転2
 	void LazyRotation2(void);
 
 private:
@@ -106,19 +110,16 @@ private:
 
 	// カメラの回転
 	Quaternion rotXY_;
-
 	Quaternion rotY_;
 
+	// Y軸のゴールの角度
 	Quaternion lazyGoalRotY_;
-	bool isLazy = false;
 
+	// SetLazyAngleに値が入ったらtrue
+	bool isLazy = false;
 
 	// カメラの回転
 	VECTOR angle_;
-
-
-	// カメラの角度(rad)
-	//VECTOR angles_;
 
 	// カメラを初期位置に戻す
 	void SetDefault(void);

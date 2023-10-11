@@ -32,6 +32,14 @@ void Sword::InitAnimation(void)
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 
+	// 敵と剣の当たり判定
+	EnemyCheckHit();
+
+}
+
+void Sword::EnemyCheckHit(void)
+{
+
 }
 
 void Sword::Init(void)
@@ -54,8 +62,6 @@ void Sword::Update(void)
 
 	// プレイヤーの右手に追従させる
 	// 追従対象(プレイヤー)の位置
-	
-
 
 	//武器をアタッチするフレームのローカル→ワールド変換行列を取得する
 	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(followTransform_->modelId, WeponAttachFrameNum);
@@ -96,6 +102,9 @@ void Sword::Draw(void)
 
 	// ロードされた３Ｄモデルを画面に描画
 	MV1DrawModel(transform_.modelId);
+
+	// 当たり判定の描画
+	DrawCapsule3D(transform_.pos,transform_.pos, 10, 10, 0xff0000, 0xff0000, false);
 
 }
 

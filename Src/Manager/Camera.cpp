@@ -155,8 +155,10 @@ void Camera::SetAngles(const VECTOR angles)
 
 void Camera::SetLazyAngles(const VECTOR angles)
 {
+
 	lazyGoalRotY_ = Quaternion::Euler(0.0f, angles.y, 0.0f);
 	isLazy = true;
+
 }
 
 VECTOR Camera::GetTargetPos(void) const
@@ -179,6 +181,7 @@ void Camera::SetBeforeDrawFollow(void)
 		GamePadController();
 	}
 
+	// Qキーを押したらtrueになる
 	if (isLazy)
 	{
 		LazyRotation2();
@@ -302,9 +305,6 @@ void Camera::KeybordContoroller(void)
 
 	}
 
-	//// デバッグ描画
-	//DebugDraw();
-
 	// 追従対象の位置
 	VECTOR followPos = followTransform_->pos;
 
@@ -401,12 +401,16 @@ void Camera::LazyRotation(float goalRot)
 
 void Camera::LazyRotation2(void)
 {
-	if (Quaternion::Angle(rotY_, lazyGoalRotY_) > 2.0f)
+
+	// プレイヤーが向いている方向にカメラを回転させる
+	// 二つのクォータニオンの角度差
+	if (Quaternion::Angle(rotY_, lazyGoalRotY_) > abs(2.0f))
 	{
 		rotY_ = Quaternion::Slerp(rotY_, lazyGoalRotY_, 0.1f);
 		angle_.y = rotY_.ToEuler().y;
 		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
 	}
+	// 回転しない場合
 	else
 	{
 		rotY_ = lazyGoalRotY_;
@@ -414,5 +418,6 @@ void Camera::LazyRotation2(void)
 		angle_.y = rotY_.ToEuler().y;
 		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
 	}
+
 }
 

@@ -158,7 +158,6 @@ void Player::KeybordContoroller(void)
 	if (ins.IsTrgDown(KEY_INPUT_Q))
 	{
 		// カメラの角度を基準とし、方向分の角度を加える
-		//SceneManager::GetInstance().GetCamera()->SetAngles(rad);
 		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
 	}
 
@@ -257,6 +256,14 @@ void Player::GamePadController(void)
 			ChangeState(STATE::WALK);
 		}
 
+	}
+
+	// プレイヤーが向いている方向にカメラを向ける
+	auto rad = transform_.quaRot.ToEuler();
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_BOTTON))
+	{
+		// カメラの角度を基準とし、方向分の角度を加える
+		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
 	}
 
 	// アニメーションの変更

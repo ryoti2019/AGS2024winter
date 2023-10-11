@@ -36,4 +36,10 @@ private:
 	// ’Ç]‘ÎÛ
 	const Transform* followTransform_;
 
+	// “G‚Æ‚Ì“–‚½‚è”»’è
+	void EnemyCheckHit(void);
+
+	// Õ“Ë”»’è‚ÌÀ•W
+	VECTOR collisionPos_;
+
 };

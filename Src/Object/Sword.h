@@ -6,6 +6,18 @@ class Sword
 {
 public:
 
+	// プレイヤーの右手から剣までの相対座標
+	static constexpr VECTOR LOCAL_SWORD_POS = { 60.0f,0.0f,0.0f };
+
+	// 剣から持ち手の当たり判定までの相対座標
+	static constexpr VECTOR LOCAL_C_DOWN_POS = { -50.0f,5.0f,0.0f };
+
+	// 剣から剣先の当たり判定までの相対座標
+	static constexpr VECTOR LOCAL_C_UP_POS = { 100.0f,5.0f,0.0f };
+
+	// 衝突判定の球体半径
+	static constexpr float COLLISION_RADIUS = 10.0f;
+
 	Sword(void);
 
 	// デストラクタ
@@ -21,6 +33,12 @@ public:
 
 	// 剣のTransformの取得
 	const Transform& GetTransform(void) const;
+
+	// 衝突判定の下の座標の取得
+	VECTOR GetCPosDown(void);
+
+	// 衝突判定の上の座標の取得
+	VECTOR GetCPosUP(void);
 
 private:
 
@@ -40,6 +58,11 @@ private:
 	void EnemyCheckHit(void);
 
 	// 衝突判定の座標
-	VECTOR collisionPos_;
+	VECTOR cPosUp_;
+	VECTOR cPosDown_;
+
+	// 衝突判定の回転
+	Quaternion cQuaUP_;
+	Quaternion cQuaDOWN_;
 
 };

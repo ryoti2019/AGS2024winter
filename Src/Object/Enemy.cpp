@@ -62,11 +62,11 @@ void Enemy::Init(void)
 void Enemy::Draw(void)
 {
 
-	// モデルの描画
-	UnitBase::Draw();
+	// ロードされた３Ｄモデルを画面に描画
+	MV1DrawModel(transform_.modelId);
 
-	// デバッグ描画
-	DrawDebug();
+	// 衝突判定のカプセルの描画
+	DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 }
 
@@ -83,8 +83,21 @@ const Transform& Enemy::GetTransform(void) const
 	return transform_;
 }
 
+VECTOR Enemy::GetCPosDown(void)
+{
+	return cPosDown_;
+}
+
+VECTOR Enemy::GetCPosUP(void)
+{
+	return cPosUp_;
+}
+
 void Enemy::Move(void)
 {
+
+	// 衝突判定用
+	Collision();
 
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
@@ -101,6 +114,20 @@ void Enemy::Move(void)
 		SetIdleAnimation();
 		break;
 	}
+
+}
+
+void Enemy::Collision(void)
+{
+
+	// 剣から当たり判定の下までの相対座標
+	VECTOR cPosDOWN = transform_.quaRot.PosAxis(LOCAL_C_DOWN_POS);
+	// 剣から当たり判定の上までの相対座標
+	VECTOR cPosUP = transform_.quaRot.PosAxis(LOCAL_C_UP_POS);
+
+	// 剣の位置の更新
+	cPosDown_ = VAdd(transform_.pos, cPosDOWN);
+	cPosUp_ = VAdd(transform_.pos, cPosUP);
 
 }
 

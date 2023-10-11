@@ -436,6 +436,67 @@ bool AsoUtility::IsHitSphereCapsule(
 
 }
 
+bool AsoUtility::IsHitCapsules(const VECTOR& capPos1, const VECTOR& capPos2, float capRadius1, const VECTOR& capPos3, const VECTOR& capPos4, float capRadius2)
+{
+
+    bool ret = false;
+
+    // カプセル球体の中心を繋ぐベクトル
+    VECTOR cap1to2 = VSub(capPos2, capPos1);
+
+    // ベクトルを正規化
+    VECTOR cap1to2ENor = VNorm(cap1to2);
+
+    // カプセル繋ぎの単位ベクトルと、
+    // そのベクトル元から球体へのベクトルの内積を取る
+    float dot = VDot(cap1to2ENor, VSub(sphPos, capPos1));
+
+    // 内積で求めた射影距離を使って、カプセル繋ぎ上の座標を取る
+    VECTOR capRidePos = VAdd(capPos1, VScale(cap1to2ENor, dot));
+
+    // カプセル繋ぎのベクトルの長さを取る
+    float len = AsoUtility::MagnitudeF(cap1to2);
+
+    // 球体がカプセル繋ぎ上にいるか判別するため、比率を取る
+    float rate = dot / len;
+
+    VECTOR centerPos;
+
+    // 球体の位置が３エリアに分割されたカプセル形状のどこにいるか判別
+    if (rate > 0.0f && rate <= 1.0f)
+    {
+        // ①球体がカプセル繋ぎ上にいる
+        centerPos = VAdd(capPos1, VScale(cap1to2ENor, dot));
+    }
+    else if (rate > 1.0f)
+    {
+        // ②球体がカプセルの終点側にいる
+        centerPos = capPos2;
+    }
+    else if (rate < 0.0f)
+    {
+        // ③球体がカプセルの始点側にいる
+        centerPos = capPos1;
+    }
+    else
+    {
+        // ここにきてはいけない
+    }
+
+    // 球体同士の当たり判定
+    if (AsoUtility::IsHitSpheres(centerPos, capRadius, sphPos, sphRadius))
+    {
+        ret = true;
+    }
+    else
+    {
+        ret = false;
+    }
+
+    return ret;
+
+}
+
 bool AsoUtility::Equals(const VECTOR& v1, const VECTOR& v2)
 {
     if (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z)

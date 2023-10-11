@@ -1,6 +1,7 @@
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
+#include "../Utility/AsoUtility.h"
 #include "../Object/Grid.h"
 #include "../Object/Stage.h"
 #include "../Object/Player.h"
@@ -60,6 +61,16 @@ void GameScene::Update(void)
 	enemy_->Update();
 
 	sword_->Update();
+
+	// Œ•‚Æ“G‚ÌÕ“Ë”»’è
+	if (AsoUtility::IsHitCa(
+		sword_->GetCPosDown(), sword_->COLLISION_RADIUS,
+		enemy_.)
+	{
+		// “G‚Éƒ_ƒ[ƒW‚ð—^‚¦‚é
+		shot->Blast();
+	}
+
 }
 
 void GameScene::Draw(void)

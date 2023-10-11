@@ -99,6 +99,11 @@ public:
 		const VECTOR& sphPos, float sphRadius, 
 		const VECTOR& capPos1, const VECTOR& capPos2, float capRadius);
 
+	// ƒJƒvƒZƒ‹“¯m‚ÌÕ“Ë”»’è
+	static bool IsHitCapsules(
+		const VECTOR& capPos1, const VECTOR& capPos2, float capRadius1,
+		const VECTOR& capPos3, const VECTOR& capPos4, float capRadius2);
+
 	// ”äŠr
 	static bool Equals(const VECTOR& v1, const VECTOR& v2);
 	static bool EqualsVZero(const VECTOR& v1);

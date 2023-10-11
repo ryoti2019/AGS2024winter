@@ -35,6 +35,9 @@ void Sword::InitAnimation(void)
 	// 敵と剣の当たり判定
 	EnemyCheckHit();
 
+	cPosUp_ = { 0.0f,0.0f,0.0f };
+	cPosDown_ = { 0.0f,0.0f,0.0f };
+
 }
 
 void Sword::EnemyCheckHit(void)
@@ -57,6 +60,16 @@ const Transform& Sword::GetTransform(void) const
 	return transform_;
 }
 
+VECTOR Sword::GetCPosDown(void)
+{
+	return cPosDown_;
+}
+
+VECTOR Sword::GetCPosUP(void)
+{
+	return cPosUp_;
+}
+
 void Sword::Update(void)
 {
 
@@ -77,12 +90,21 @@ void Sword::Update(void)
 	Quaternion followRot = qua;
 
 	// 追従対象から自機までの相対座標
-	VECTOR swordPos = followRot.PosAxis({60.0f,0.0f,0.0f});
+	VECTOR swordPos = followRot.PosAxis(LOCAL_SWORD_POS);
 
 	// 剣の位置の更新
 	transform_.pos = VAdd(pos, swordPos);
 
 	transform_.quaRot = qua;
+
+	// 剣から当たり判定の下までの相対座標
+	VECTOR cPosDOWN = transform_.quaRot.PosAxis(LOCAL_C_DOWN_POS);
+	// 剣から当たり判定の上までの相対座標
+	VECTOR cPosUP = transform_.quaRot.PosAxis(LOCAL_C_UP_POS);
+
+	// 剣の位置の更新
+	cPosDown_ = VAdd(transform_.pos, cPosDOWN);
+	cPosUp_ = VAdd(transform_.pos, cPosUP);
 
 	//// ラジアンから行列
 	//MATRIX matPos = MGetTranslate(transform_.pos);
@@ -103,8 +125,12 @@ void Sword::Draw(void)
 	// ロードされた３Ｄモデルを画面に描画
 	MV1DrawModel(transform_.modelId);
 
+	//collisionUPPos_ = VAdd(collisionUPPos_, { 0.0f,5.0f,0.0f });
+	//collisionDOWNPos_ = VAdd(collisionDOWNPos_, { 0.0f,-5.0f,0.0f });
+
 	// 当たり判定の描画
-	DrawCapsule3D(transform_.pos,transform_.pos, 10, 10, 0xff0000, 0xff0000, false);
+	//DrawCapsule3D(VAdd(transform_.pos, cPosDown_), VAdd(transform_.pos, cPosUp_), 10, 10, 0xff0000, 0xff0000, false);
+	DrawCapsule3D(cPosDown_,cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 }
 

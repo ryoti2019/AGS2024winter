@@ -157,7 +157,7 @@ void Camera::SetLazyAngles(const VECTOR angles)
 {
 
 	lazyGoalRotY_ = Quaternion::Euler(0.0f, angles.y, 0.0f);
-	isLazy = true;
+	isLazy_ = true;
 
 }
 
@@ -168,6 +168,12 @@ VECTOR Camera::GetTargetPos(void) const
 
 void Camera::SetBeforeDrawFollow(void)
 {
+
+	// Qキーを押したらtrueになる
+	if (isLazy_)
+	{
+		LazyRotation2();
+	}
 
 	// キーボードでの操作
 	if (!SceneManager::GetInstance().GetGamePad())
@@ -181,11 +187,11 @@ void Camera::SetBeforeDrawFollow(void)
 		GamePadController();
 	}
 
-	// Qキーを押したらtrueになる
-	if (isLazy)
-	{
-		LazyRotation2();
-	}
+	//// Qキーを押したらtrueになる
+	//if (isLazy_ && !isOp_)
+	//{
+	//	LazyRotation2();
+	//}
 
 }
 
@@ -293,9 +299,11 @@ void Camera::KeybordContoroller(void)
 	if (!AsoUtility::EqualsVZero(axisDeg))
 	{
 
+		// プレイヤーがカメラを動かしたときのフラグ
+		isOp_ = true;
+
 		// カメラを回転させる
 		// X軸のカメラの移動制御
-
 		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
 		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
 
@@ -303,6 +311,12 @@ void Camera::KeybordContoroller(void)
 
 		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
 
+	}
+
+	// プレイヤーが動かしていないとき
+	if (AsoUtility::EqualsVZero(axisDeg))
+	{
+		isOp_ = false;
 	}
 
 	// 追従対象の位置
@@ -348,14 +362,16 @@ void Camera::GamePadController(void)
 	if (isTrgRStick)
 	{
 
-		// カメラを回転させる
-		// X軸のカメラの移動制御
+		// プレイヤーがカメラを動かしたときのフラグ
+		isOp_ = true;
 
 		// 方向を正規化
 		axisDeg = VNorm(axisDeg);
 
 		VECTOR moveAxisDeg = VScale(axisDeg, 3.0f);
 
+		// カメラを回転させる
+		// X軸のカメラの移動制御
 		angle_.x += AsoUtility::Deg2RadF(moveAxisDeg.x);
 		angle_.y += AsoUtility::Deg2RadF(moveAxisDeg.y);
 
@@ -365,8 +381,11 @@ void Camera::GamePadController(void)
 
 	}
 
-	//// デバッグ描画
-	//DebugDraw();
+	// プレイヤーが動かしていないとき
+	if (AsoUtility::EqualsVZero(axisDeg))
+	{
+		isOp_ = false;
+	}
 
 	// 追従対象の位置
 	VECTOR followPos = followTransform_->pos;
@@ -402,6 +421,11 @@ void Camera::LazyRotation(float goalRot)
 void Camera::LazyRotation2(void)
 {
 
+	if (isOp_)
+	{
+		isLazy_ = false;
+	}
+
 	// プレイヤーが向いている方向にカメラを回転させる
 	// 二つのクォータニオンの角度差
 	if (Quaternion::Angle(rotY_, lazyGoalRotY_) > abs(2.0f))
@@ -414,10 +438,11 @@ void Camera::LazyRotation2(void)
 	else
 	{
 		rotY_ = lazyGoalRotY_;
-		isLazy = false;
+		isLazy_ = false;
 		angle_.y = rotY_.ToEuler().y;
 		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
 	}
+
 
 }
 

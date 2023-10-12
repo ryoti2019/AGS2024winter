@@ -20,6 +20,19 @@ void Player::InitAnimation(void)
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::PLAYER_IDLE));
+
+	idleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_IDLE);
+
+	walkAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_WALK);
+
+	runAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_RUN);
+
+	attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_ATTACK);
+
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 200.0f, 0.0f };
@@ -85,6 +98,11 @@ void Player::Release(void)
 const Transform& Player::GetTransform(void) const
 {
 	return transform_;
+}
+
+Player::STATE Player::GetState(void)
+{
+	return state_;
 }
 
 void Player::Move(void)
@@ -323,9 +341,7 @@ void Player::SetIdleAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_,
-		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::PLAYER_IDLE));
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, idleAnim_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
@@ -345,9 +361,7 @@ void Player::SetWalkAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, 
-		ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_WALK));
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, walkAnim_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
@@ -367,9 +381,7 @@ void Player::SetRunAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_,
-		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::PLAYER_RUN));
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, runAnim_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
@@ -388,9 +400,7 @@ void Player::SetAttackAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_,
-		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::PLAYER_ATTACK));
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);

@@ -46,16 +46,6 @@ void UnitBase::Release(void)
 
 }
 
-VECTOR UnitBase::GetPos(void) const
-{
-	return pos_;
-}
-
-VECTOR UnitBase::GetRot(void) const
-{
-	return rot_;
-}
-
 const Transform& UnitBase::GetTransform(void) const
 {
 	return transform_;

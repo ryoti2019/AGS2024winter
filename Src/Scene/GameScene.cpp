@@ -34,6 +34,7 @@ void GameScene::Init(void)
 	player_->Init();
 
 	enemy_ = new Enemy();
+	enemy_->SetFollow(&player_->GetTransform());
 	enemy_->Init();
 
 	//sword_ = new Sword(player_->GetTransform());
@@ -46,6 +47,8 @@ void GameScene::Init(void)
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 	camera->SetFollow(&player_->GetTransform());
 	camera->ChangeMode(Camera::MODE::FOLLOW);
+
+	attack_ = true;
 
 }
 
@@ -62,13 +65,23 @@ void GameScene::Update(void)
 
 	sword_->Update();
 
-	// Œ•‚Æ“G‚ÌÕ“Ë”»’è
-	if (AsoUtility::IsHitCa(
-		sword_->GetCPosDown(), sword_->COLLISION_RADIUS,
-		enemy_.)
+	// Œ•‚Æ“G‚ÌƒJƒvƒZƒ‹“¯m‚Ì“–‚½‚è”»’è
+	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
+								 enemy_->GetCPosDown(), enemy_->GetCPosUP(),enemy_->COLLISION_RADIUS)
+								 && player_->GetState() == Player::STATE::ATTACK)
 	{
-		// “G‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
-		shot->Blast();
+
+		if (attack_) {
+			attack_ = false;
+			enemy_->SetHP(-1);
+		}
+	}
+
+	if (Player::STATE::IDLE == player_->GetState() ||
+		Player::STATE::RUN  == player_->GetState() ||
+		Player::STATE::WALK == player_->GetState())
+	{
+		attack_ = true;
 	}
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Common/Transform.h"
 #include "UnitBase.h"
+class Player;
 
 class Enemy : public UnitBase
 {
@@ -37,7 +38,7 @@ public:
 
 	void Release(void);
 
-	// プレイヤーのTransformの取得
+	// 敵のTransformの取得
 	const Transform& GetTransform(void) const;
 
 	// 衝突判定の下の座標の取得
@@ -46,10 +47,32 @@ public:
 	// 衝突判定の上の座標の取得
 	VECTOR GetCPosUP(void);
 
+	// 敵のHP取得
+	int GetHP(void);
+
+	// 敵のHPの設定
+	void SetHP(int hp);
+
+	// 追従対象の設定
+	void SetFollow(const Transform* follow);
+
 protected:
+
+	// プレイヤーの取得
+	Player* player_;
 
 	// プレイヤーの状態
 	STATE state_;
+
+	int idleAnim_;
+	int walkAnim_;
+	int runAnim_;
+	int attackAnim_;
+
+	// 追従対象
+	const Transform* followTransform_;
+
+
 
 	// 移動処理
 	void Move(void) override;
@@ -64,6 +87,7 @@ protected:
 	void SetIdleAnimation(void);
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
+	void SetAttackAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

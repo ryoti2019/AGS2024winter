@@ -29,9 +29,6 @@ public:
 	virtual void Draw(void);
 	virtual void Release(void);
 
-	VECTOR GetPos(void) const;
-	VECTOR GetRot(void) const;
-
 	// プレイヤーのTransformの取得
 	const Transform& GetTransform(void) const;
 
@@ -77,6 +74,12 @@ protected:
 	// ローカル角度
 	//(内部的に調整するための角度)
 	VECTOR rotLocal_;
+
+	// HP
+	int hp_;
+
+	// HPの最大値
+	int hpMax_;
 
 	// パラメータ設定
 	virtual void SetParam(void) = 0;

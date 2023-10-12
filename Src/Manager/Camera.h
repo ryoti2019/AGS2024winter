@@ -116,10 +116,13 @@ private:
 	Quaternion lazyGoalRotY_;
 
 	// SetLazyAngleに値が入ったらtrue
-	bool isLazy = false;
+	bool isLazy_ = false;
 
 	// カメラの回転
 	VECTOR angle_;
+
+	// プレイヤーがカメラを動かしたときのフラグ
+	bool isOp_ = false;
 
 	// カメラを初期位置に戻す
 	void SetDefault(void);

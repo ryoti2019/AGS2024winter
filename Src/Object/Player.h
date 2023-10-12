@@ -34,6 +34,9 @@ public:
 	// プレイヤーのTransformの取得
 	const Transform& GetTransform(void) const;
 
+	// プレイヤーの状態を取得
+	Player::STATE GetState(void);
+
 protected:
 
 	// プレイヤーの状態
@@ -44,6 +47,11 @@ protected:
 
 	// 攻撃アニメーションの再生時間
 	float attackAnimTime_;
+
+	int idleAnim_;
+	int walkAnim_;
+	int runAnim_;
+	int attackAnim_;
 
 	// 移動処理
 	void Move(void) override;

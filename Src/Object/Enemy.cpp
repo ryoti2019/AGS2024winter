@@ -2,6 +2,7 @@
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
+#include "Player.h"
 #include "Enemy.h"
 
 Enemy::Enemy(void)
@@ -19,6 +20,13 @@ void Enemy::InitAnimation(void)
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::ENEMY_IDLE));
+
+	idleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_IDLE);
+
+	attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_ATTACK);
+
 	float scale = 2.0f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 200.0f, 0.0f };
@@ -68,6 +76,9 @@ void Enemy::Draw(void)
 	// 衝突判定のカプセルの描画
 	DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
 
+	// デバッグ描画
+	DrawDebug();
+
 }
 
 void Enemy::Release(void)
@@ -93,6 +104,23 @@ VECTOR Enemy::GetCPosUP(void)
 	return cPosUp_;
 }
 
+int Enemy::GetHP(void)
+{
+	return hp_;
+}
+
+void Enemy::SetHP(int hp)
+{
+	hp_ += hp;
+}
+
+void Enemy::SetFollow(const Transform* follow)
+{
+
+	followTransform_ = follow;
+
+}
+
 void Enemy::Move(void)
 {
 
@@ -102,16 +130,28 @@ void Enemy::Move(void)
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
 
+	VECTOR vec = VSub(followTransform_->pos,transform_.pos);
+	auto veca = AsoUtility::Magnitude(vec);
+
+
+
 	// スペースキーで走る
 	if (AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::IDLE);
+	}
+	if (veca < 500.0f&& AsoUtility::EqualsVZero(dir))
+	{
+		ChangeState(STATE::ATTACK);
 	}
 
 	switch (state_)
 	{
 	case Enemy::STATE::IDLE:
 		SetIdleAnimation();
+		break;
+	case Enemy::STATE::ATTACK:
+		SetAttackAnimation();
 		break;
 	}
 
@@ -145,13 +185,10 @@ void Enemy::SetIdleAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_,
-		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::ENEMY_IDLE));
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, idleAnim_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-	//stepAnim_ = 0.0f;
 
 	// アニメーション速度
 	speedAnim_ = 20.0f;
@@ -169,14 +206,56 @@ void Enemy::SetRunAnimation(void)
 {
 }
 
+void Enemy::SetAttackAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+	// モデルに指定時間のアニメーションを設定する
+	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
+}
+
 void Enemy::LazyRotation(float goalRot)
 {
 }
 
 void Enemy::DrawDebug(void)
 {
+
+	// HPバー
+	int hpLength = 300;
+	int H;
+	int hpGauge;
+	H = hp_ * (512.0f / hpMax_) - 100;
+	int R = min(max((384 - H), 0), 0xff);
+	int G = min(max((H + 64), 0), 0xff);
+	int B = max((H - 384), 0);
+	hpGauge = hpLength * hp_ / hpMax_;
+
+	if (hp_ >= 0)
+	{
+		DrawBox(700, 0, 700 + hpGauge, 30, GetColor(R, G, B), true);
+	}
+
 }
 
 void Enemy::SetParam(void)
 {
+
+	// HPの最大値
+	hpMax_ = 100;
+
+	// HP
+	hp_ = hpMax_;
+
 }

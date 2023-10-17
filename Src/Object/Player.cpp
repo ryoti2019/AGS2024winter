@@ -49,19 +49,19 @@ void Player::InitAnimation(void)
 	// 再生するアニメーションの設定
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_);
 
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+	//// アニメーション総時間の取得
+	//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	stepAnim_ = 0.0f;
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = 0.0f;
 
-	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//// モデルに指定時間のアニメーションを設定する
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 	// 攻撃時間
-	attackTime_ = 0.0f;
+	//attackTime_ = 0.0f;
 
 }
 
@@ -74,6 +74,8 @@ void Player::Init(void)
 	// プレイヤーのパラメーター
 	SetParam();
 
+	// 待機アニメーション
+	SetIdleAnimation();
 }
 
 void Player::Draw(void)
@@ -107,6 +109,8 @@ Player::STATE Player::GetState(void)
 
 void Player::Move(void)
 {
+
+	preState_ = state_;
 
 	// キーボードでの操作
 	if (!SceneManager::GetInstance().GetGamePad())
@@ -142,18 +146,9 @@ void Player::KeybordContoroller(void)
 	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
-	// 攻撃処理
-	if (ins.IsTrgDown(KEY_INPUT_J))
-	{
-		if (attackAnimTime_ >= attackTime_ )
-		{	
-			attackTime_ += SceneManager::GetInstance().GetDeltaTime();
-			ChangeState(STATE::ATTACK);
-		}
-	}
-
 	// スペースキーで走る
-	if (attackTime_ <= 0.0f)
+	//if (attackTime_ <= 0.0f)
+	if (state_ != STATE::ATTACK)
 	{
 		if (AsoUtility::EqualsVZero(dir))
 		{
@@ -168,7 +163,14 @@ void Player::KeybordContoroller(void)
 		{
 			ChangeState(STATE::WALK);
 		}
+	}
 
+	// 攻撃処理
+	if (ins.IsTrgDown(KEY_INPUT_J))
+	{
+		//if (attackAnimTime_ >= attackTime_)
+			//attackTime_ += SceneManager::GetInstance().GetDeltaTime();
+		ChangeState(STATE::ATTACK);
 	}
 
 	// プレイヤーが向いている方向にカメラを向ける
@@ -177,23 +179,6 @@ void Player::KeybordContoroller(void)
 	{
 		// カメラの角度を基準とし、方向分の角度を加える
 		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
-	}
-
-	// アニメーションの変更
-	switch (state_)
-	{
-	case Player::STATE::IDLE:
-		SetIdleAnimation();
-		break;
-	case Player::STATE::WALK:
-		SetWalkAnimation();
-		break;
-	case Player::STATE::RUN:
-		SetRunAnimation();
-		break;
-	case Player::STATE::ATTACK:
-		SetAttackAnimation();
-		break;
 	}
 
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK)
@@ -219,6 +204,9 @@ void Player::KeybordContoroller(void)
 		LazyRotation(cameraAngles.y + angle);
 
 	}
+
+	// アニメーションの変更
+	ChangeAnimation();
 
 }
 
@@ -249,15 +237,15 @@ void Player::GamePadController(void)
 	// 攻撃処理
 	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1,InputManager::JOYPAD_BTN::RIGHT))
 	{
-		if (attackAnimTime_ >= attackTime_)
+		//if (attackAnimTime_ >= attackTime_)
 		{
-			attackTime_ += SceneManager::GetInstance().GetDeltaTime();
+			//attackTime_ += SceneManager::GetInstance().GetDeltaTime();
 			ChangeState(STATE::ATTACK);
 		}
 	}
 
-	// スペースキーで走る
-	if (attackTime_ <= 0.0f)
+	// Bボタンで走る
+	if (state_ != STATE::ATTACK)
 	{
 
 		if (AsoUtility::EqualsVZero(dir))
@@ -284,24 +272,7 @@ void Player::GamePadController(void)
 		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
 	}
 
-	// アニメーションの変更
-	switch (state_)
-	{
-	case Player::STATE::IDLE:
-		SetIdleAnimation();
-		break;
-	case Player::STATE::WALK:
-		SetWalkAnimation();
-		break;
-	case Player::STATE::RUN:
-		SetRunAnimation();
-		break;
-	case Player::STATE::ATTACK:
-		SetAttackAnimation();
-		break;
-	}
-
-	if (isTrgLStick && state_ != STATE::ATTACK)
+	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK)
 	{
 
 		// 方向を正規化
@@ -325,6 +296,9 @@ void Player::GamePadController(void)
 
 	}
 
+	// アニメーションの変更
+	ChangeAnimation();
+
 }
 
 void Player::ChangeState(STATE state)
@@ -345,13 +319,12 @@ void Player::SetIdleAnimation(void)
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-	//stepAnim_ = 0.0f;
 
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
-	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//// モデルに指定時間のアニメーションを設定する
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
@@ -365,13 +338,12 @@ void Player::SetWalkAnimation(void)
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-	//stepAnim_ = 0.0f;
 
 	// アニメーション速度
 	speedAnim_ = 30.0f;
 
-	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//// モデルに指定時間のアニメーションを設定する
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
@@ -389,8 +361,8 @@ void Player::SetRunAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 40.0f;
 
-	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//// モデルに指定時間のアニメーションを設定する
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
@@ -408,21 +380,45 @@ void Player::SetAttackAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 60.0f;
 
-	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//// モデルに指定時間のアニメーションを設定する
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
-	// モデルの再生時間を取得する
-	attackAnimTime_ = MV1GetAttachAnimTime(transform_.modelId, animAttachNo_);
+	//// モデルの再生時間を取得する
+	//attackAnimTime_ = MV1GetAttachAnimTime(transform_.modelId, animAttachNo_);
 
-	if (attackAnimTime_ >= attackTime_)
+	//if (attackAnimTime_ >= attackTime_)
+	//{
+	//	attackTime_ += SceneManager::GetInstance().GetDeltaTime();
+	//}
+	//if (attackAnimTime_ <= attackTime_)
+	//{
+	//	attackTime_ = 0.0f;
+	//	attackAnimTime_ = 0.0f;
+	//	stepAnim_ = 0.0f;
+	//	ChangeState(STATE::IDLE);
+	//}
+}
+
+void Player::ChangeAnimation(void)
+{
+
+	if (state_ == preState_) return;
+
+	stepAnim_ = 0.0f;
+	switch (state_)
 	{
-		attackTime_ += SceneManager::GetInstance().GetDeltaTime();
-	}
-	if (attackAnimTime_ <= attackTime_)
-	{
-		attackTime_ = 0.0f;
-		//attackAnimTime_ = 0.0f;
-		ChangeState(STATE::IDLE);
+	case Player::STATE::IDLE:
+		SetIdleAnimation();
+		break;
+	case Player::STATE::WALK:
+		SetWalkAnimation();
+		break;
+	case Player::STATE::RUN:
+		SetRunAnimation();
+		break;
+	case Player::STATE::ATTACK:
+		SetAttackAnimation();
+		break;
 	}
 
 }
@@ -491,4 +487,31 @@ void Player::DrawDebug(void)
 
 void Player::SetParam(void)
 {
+}
+
+void Player::Animation(void)
+{
+
+	// アニメーション再生
+	// 経過時間の取得
+	float deltaTime = SceneManager::GetInstance().GetDeltaTime();
+
+	// アニメーション時間の進行
+	stepAnim_ += (speedAnim_ * deltaTime);
+	if (stepAnim_ > animTotalTime_)
+	{
+		// ループ再生
+		stepAnim_ = 0.0f;
+
+		if (state_ == STATE::ATTACK)
+		{
+			ChangeState(STATE::IDLE);
+			SetIdleAnimation();
+		}
+		
+	}
+
+	// 再生するアニメーション時間の設定
+	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
 }

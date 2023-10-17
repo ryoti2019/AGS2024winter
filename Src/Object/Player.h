@@ -41,13 +41,9 @@ protected:
 
 	// プレイヤーの状態
 	STATE state_;
+	STATE preState_;
 
-	// 攻撃時間
-	float attackTime_;
-
-	// 攻撃アニメーションの再生時間
-	float attackAnimTime_;
-
+	// アニメーション
 	int idleAnim_;
 	int walkAnim_;
 	int runAnim_;
@@ -59,11 +55,17 @@ protected:
 	// 状態遷移
 	void ChangeState(STATE state);
 
+	// アニメーション
+	void Animation(void)override;
+
 	// アニメーションの初期設定
 	void SetIdleAnimation(void);
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
 	void SetAttackAnimation(void);
+
+	// アニメーションの変更
+	void ChangeAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

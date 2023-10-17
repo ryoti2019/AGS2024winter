@@ -44,15 +44,15 @@ void Enemy::InitAnimation(void)
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_);
 
 	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+	//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	stepAnim_ = 0.0f;
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = 0.0f;
 
-	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//// モデルに指定時間のアニメーションを設定する
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
@@ -64,6 +64,9 @@ void Enemy::Init(void)
 
 	// プレイヤーのパラメーター
 	SetParam();
+
+	// 待機アニメーション
+	SetIdleAnimation();
 
 }
 
@@ -124,6 +127,8 @@ void Enemy::SetFollow(const Transform* follow)
 void Enemy::Move(void)
 {
 
+	preState_ = state_;
+
 	// 衝突判定用
 	Collision();
 
@@ -133,39 +138,32 @@ void Enemy::Move(void)
 	VECTOR vec = VSub(followTransform_->pos,transform_.pos);
 	auto veca = AsoUtility::Magnitude(vec);
 
-
-
-	// スペースキーで走る
-	if (AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::IDLE);
-	}
-	if (veca < 500.0f&& AsoUtility::EqualsVZero(dir))
+	// 敵とプレイヤーの距離が一定距離になったら攻撃する
+	if (veca < 500.0f && AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::ATTACK);
 	}
 
-	switch (state_)
+	// 待機状態
+	if (!AsoUtility::EqualsVZero(dir))
 	{
-	case Enemy::STATE::IDLE:
-		SetIdleAnimation();
-		break;
-	case Enemy::STATE::ATTACK:
-		SetAttackAnimation();
-		break;
+		ChangeState(STATE::IDLE);
 	}
+
+	// アニメーションの変更
+	ChangeAnimation();
 
 }
 
 void Enemy::Collision(void)
 {
 
-	// 剣から当たり判定の下までの相対座標
+	// 敵から当たり判定の下までの相対座標
 	VECTOR cPosDOWN = transform_.quaRot.PosAxis(LOCAL_C_DOWN_POS);
-	// 剣から当たり判定の上までの相対座標
+	// 敵から当たり判定の上までの相対座標
 	VECTOR cPosUP = transform_.quaRot.PosAxis(LOCAL_C_UP_POS);
 
-	// 剣の位置の更新
+	// 敵の位置の更新
 	cPosDown_ = VAdd(transform_.pos, cPosDOWN);
 	cPosUp_ = VAdd(transform_.pos, cPosUP);
 
@@ -194,7 +192,7 @@ void Enemy::SetIdleAnimation(void)
 	speedAnim_ = 20.0f;
 
 	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
@@ -221,7 +219,31 @@ void Enemy::SetAttackAnimation(void)
 	speedAnim_ = 20.0f;
 
 	// モデルに指定時間のアニメーションを設定する
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
+}
+
+void Enemy::ChangeAnimation(void)
+{
+
+	if (state_ == preState_) return;
+
+	stepAnim_ = 0.0f;
+	switch (state_)
+	{
+	case Enemy::STATE::IDLE:
+		SetIdleAnimation();
+		break;
+	case Enemy::STATE::WALK:
+		SetWalkAnimation();
+		break;
+	case Enemy::STATE::RUN:
+		SetRunAnimation();
+		break;
+	case Enemy::STATE::ATTACK:
+		SetAttackAnimation();
+		break;
+	}
 
 }
 
@@ -257,5 +279,32 @@ void Enemy::SetParam(void)
 
 	// HP
 	hp_ = hpMax_;
+
+}
+
+void Enemy::Animation(void)
+{
+
+	// アニメーション再生
+	// 経過時間の取得
+	float deltaTime = SceneManager::GetInstance().GetDeltaTime();
+
+	// アニメーション時間の進行
+	stepAnim_ += (speedAnim_ * deltaTime);
+	if (stepAnim_ > animTotalTime_)
+	{
+		// ループ再生
+		stepAnim_ = 0.0f;
+
+		if (state_ == STATE::ATTACK)
+		{
+			ChangeState(STATE::IDLE);
+			SetIdleAnimation();
+		}
+
+	}
+
+	// 再生するアニメーション時間の設定
+	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }

@@ -88,7 +88,7 @@ protected:
 	virtual void Move(void);
 
 	// アニメーション
-	void Animation(void);
+	virtual void Animation(void);
 
 	// アニメーションの初期化
 	virtual void InitAnimation(void) = 0;

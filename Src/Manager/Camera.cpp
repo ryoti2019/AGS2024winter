@@ -287,11 +287,11 @@ void Camera::KeybordContoroller(void)
 	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += -1.0f; }
 	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += 1.0f; }
 
-	if (ins.IsNew(KEY_INPUT_UP) && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
+	if (ins.IsNew(KEY_INPUT_DOWN) && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
 	{
 		axisDeg.x += -1.0f;
 	}
-	if (ins.IsNew(KEY_INPUT_DOWN) && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
+	if (ins.IsNew(KEY_INPUT_UP) && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
 	{
 		axisDeg.x += 1.0f;
 	}
@@ -356,10 +356,28 @@ void Camera::GamePadController(void)
 	auto isTrgRStick = ins.IsPadRStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_TRIGGER);
 
 	// パッドの方向をdirに直す
-	axisDeg.x = pad.AKeyRZ;
-	axisDeg.y = pad.AKeyRX;
+	// 右方向
+	if (pad.AKeyRX > 0)
+	{
+		axisDeg.y = pad.AKeyRX;
+	}
+	// 左方向
+	if (pad.AKeyRX < 0)
+	{
+		axisDeg.y = pad.AKeyRX;
+	}
+	// 上方向
+	if (pad.AKeyRZ < 0 && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
+	{
+		axisDeg.x = -pad.AKeyRZ;
+	}
+	// 下方向
+	if (pad.AKeyRZ > 0 && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
+	{
+		axisDeg.x = -pad.AKeyRZ;
+	}
 
-	if (isTrgRStick)
+	if (!AsoUtility::EqualsVZero(axisDeg))
 	{
 
 		// プレイヤーがカメラを動かしたときのフラグ
@@ -368,7 +386,7 @@ void Camera::GamePadController(void)
 		// 方向を正規化
 		axisDeg = VNorm(axisDeg);
 
-		VECTOR moveAxisDeg = VScale(axisDeg, 3.0f);
+		VECTOR moveAxisDeg = VScale(axisDeg, 1.0f);
 
 		// カメラを回転させる
 		// X軸のカメラの移動制御

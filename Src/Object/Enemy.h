@@ -63,6 +63,7 @@ protected:
 
 	// プレイヤーの状態
 	STATE state_;
+	STATE preState_;
 
 	int idleAnim_;
 	int walkAnim_;
@@ -71,8 +72,6 @@ protected:
 
 	// 追従対象
 	const Transform* followTransform_;
-
-
 
 	// 移動処理
 	void Move(void) override;
@@ -89,6 +88,9 @@ protected:
 	void SetRunAnimation(void);
 	void SetAttackAnimation(void);
 
+	// アニメーションの変更
+	void ChangeAnimation(void);
+
 	// 遅延回転
 	void LazyRotation(float goalRot);
 
@@ -100,6 +102,9 @@ protected:
 
 	// アニメーションの初期化
 	void InitAnimation(void) override;
+
+	// アニメーション
+	void Animation(void) override;
 
 	// 衝突判定の座標
 	VECTOR cPosUp_;

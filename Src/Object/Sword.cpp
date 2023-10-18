@@ -48,7 +48,7 @@ void Sword::EnemyCheckHit(void)
 void Sword::Init(void)
 {
 	//武器をアタッチするフレームの番号を検索
-	WeponAttachFrameNum = MV1SearchFrame(followTransform_->modelId, "mixamorig:RightHand");
+	WeponAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:RightHand");
 
 	// アニメーションの初期設定
 	InitAnimation();
@@ -77,7 +77,7 @@ void Sword::Update(void)
 	// 追従対象(プレイヤー)の位置
 
 	//武器をアタッチするフレームのローカル→ワールド変換行列を取得する
-	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(followTransform_->modelId, WeponAttachFrameNum);
+	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(followTransform_->modelId, WeponAttachFrameNum_);
 
 	// 行列からラジアン
 	auto rot = MGetRotElem(WeponFrameMatrix);

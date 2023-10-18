@@ -67,7 +67,7 @@ void GameScene::Update(void)
 
 	// Œ•‚Æ“G‚ÌƒJƒvƒZƒ‹“¯Žm‚Ì“–‚½‚è”»’è
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
-								 enemy_->GetCPosDown(), enemy_->GetCPosUP(),enemy_->COLLISION_RADIUS)
+								 enemy_->GetCPosDown(), enemy_->GetCPosUP(),enemy_->COLLISION_BODY_RADIUS)
 								 && player_->GetState() == Player::STATE::ATTACK)
 	{
 

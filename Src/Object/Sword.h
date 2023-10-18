@@ -9,10 +9,10 @@ public:
 	// プレイヤーの右手から剣までの相対座標
 	static constexpr VECTOR LOCAL_SWORD_POS = { 60.0f,0.0f,0.0f };
 
-	// 剣から持ち手の当たり判定までの相対座標
+	// カプセルの上の相対座標
 	static constexpr VECTOR LOCAL_C_DOWN_POS = { -50.0f,5.0f,0.0f };
 
-	// 剣から剣先の当たり判定までの相対座標
+	// カプセルの下の相対座標
 	static constexpr VECTOR LOCAL_C_UP_POS = { 100.0f,5.0f,0.0f };
 
 	// 衝突判定の球体半径
@@ -48,8 +48,8 @@ private:
 	// アニメーションの初期化
 	void InitAnimation(void);
 
-	//武器をアタッチするフレームの番号
-	int WeponAttachFrameNum;
+	// 武器をアタッチするフレームの番号
+	int WeponAttachFrameNum_;
 
 	// 追従対象
 	const Transform* followTransform_;

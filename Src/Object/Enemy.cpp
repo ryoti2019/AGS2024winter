@@ -65,6 +65,12 @@ void Enemy::InitAnimation(void)
 void Enemy::Init(void)
 {
 
+	// カプセルをアタッチするフレームの番号を検索
+	EnemyAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:Spine2");
+
+	// 武器をアタッチするフレームの番号を検索
+	WeponAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:LeftHand");
+
 	// アニメーションの初期設定
 	InitAnimation();
 
@@ -82,8 +88,11 @@ void Enemy::Draw(void)
 	// ロードされた３Ｄモデルを画面に描画
 	MV1DrawModel(transform_.modelId);
 
-	// 衝突判定のカプセルの描画
-	DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
+	// エネミー自身の衝突判定のカプセルの描画
+	//DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
+
+	// エネミー武器の衝突判定のカプセルの描画
+	DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 	// デバッグ描画
 	DrawDebug();
@@ -105,12 +114,12 @@ const Transform& Enemy::GetTransform(void) const
 
 VECTOR Enemy::GetCPosDown(void)
 {
-	return cPosDown_;
+	return cBodyPosDown_;
 }
 
 VECTOR Enemy::GetCPosUP(void)
 {
-	return cPosUp_;
+	return cBodyPosUp_;
 }
 
 int Enemy::GetHP(void)
@@ -144,11 +153,11 @@ void Enemy::Move(void)
 	VECTOR vec = VSub(followTransform_->pos,transform_.pos);
 	auto veca = AsoUtility::Magnitude(vec);
 
-	// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	if (veca < 500.0f && AsoUtility::EqualsVZero(dir) && state_ != STATE::DASH_ATTACK)
-	{
-		ChangeState(STATE::ATTACK);
-	}
+	//// 敵とプレイヤーの距離が一定距離になったら攻撃する
+	//if (veca < 500.0f && AsoUtility::EqualsVZero(dir) && state_ != STATE::DASH_ATTACK)
+	//{
+	//	ChangeState(STATE::ATTACK);
+	//}
 
 	// 待機状態
 	if (!AsoUtility::EqualsVZero(dir))
@@ -156,32 +165,32 @@ void Enemy::Move(void)
 		ChangeState(STATE::IDLE);
 	}
 
-	// 敵をプレイヤーが向いている方向に回転する
-	VECTOR Vdirection = VNorm(vec);
+	//// 敵をプレイヤーが向いている方向に回転する
+	//VECTOR Vdirection = VNorm(vec);
 
-	// 方向を角度に変換する(XZ平面 Y軸)
-	float angle = atan2f(Vdirection.x, Vdirection.z);
+	//// 方向を角度に変換する(XZ平面 Y軸)
+	//float angle = atan2f(Vdirection.x, Vdirection.z);
 
-	// 回転
-	LazyRotation(angle);
+	//// 回転
+	//LazyRotation(angle);
 
-	// 移動
-	if (state_ != STATE::ATTACK && state_ != STATE::DASH_ATTACK)
-	{
-		transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 2.0f));
-	}
+	//// 移動
+	//if (state_ != STATE::ATTACK && state_ != STATE::DASH_ATTACK)
+	//{
+	//	transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 2.0f));
+	//}
 
-	// ダッシュ攻撃
-	if (veca > 1000.0f && stepAnim_ == 0.0f)
-	{
-		dashAttack_ = true;
-	}
+	//// ダッシュ攻撃
+	//if (veca > 1000.0f && stepAnim_ == 0.0f)
+	//{
+	//	dashAttack_ = true;
+	//}
 
-	if (dashAttack_)
-	{
-		ChangeState(STATE::DASH_ATTACK);
-		transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 10.0f));
-	}
+	//if (dashAttack_)
+	//{
+	//	ChangeState(STATE::DASH_ATTACK);
+	//	transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 10.0f));
+	//}
 
 	// アニメーションの変更
 	ChangeAnimation();
@@ -191,14 +200,67 @@ void Enemy::Move(void)
 void Enemy::Collision(void)
 {
 
-	// 敵から当たり判定の下までの相対座標
-	VECTOR cPosDOWN = transform_.quaRot.PosAxis(LOCAL_C_DOWN_POS);
-	// 敵から当たり判定の上までの相対座標
-	VECTOR cPosUP = transform_.quaRot.PosAxis(LOCAL_C_UP_POS);
+	// 敵自身の当たり判定
+	EnemyBodyCollision();
+
+	// 敵の武器の当たり判定
+	WeponCollision();
+
+	transform_.Update();
+
+}
+
+void Enemy::EnemyBodyCollision(void)
+{
+
+	// 敵の中心にカプセルを追従させる
+	// カプセルをアタッチするフレームのローカル→ワールド変換行列を取得する
+	MATRIX EnemyFrameMatrix = MV1GetFrameLocalWorldMatrix(transform_.modelId, EnemyAttachFrameNum_);
+
+	// 行列からラジアン
+	auto rot = MGetRotElem(EnemyFrameMatrix);
+	auto pos = MGetTranslateElem(EnemyFrameMatrix);
+
+	// 行列からクォータニオン
+	Quaternion qua = Quaternion::GetRotation(rot);
+
+	// 追従対象の向き
+	Quaternion followRot = qua;
+
+	// 追従対象から自機までの相対座標
+	VECTOR cPosDOWN = followRot.PosAxis(LOCAL_BODY_C_DOWN_POS);
+	VECTOR cPosUP = followRot.PosAxis(LOCAL_BODY_C_UP_POS);
 
 	// 敵の位置の更新
-	cPosDown_ = VAdd(transform_.pos, cPosDOWN);
-	cPosUp_ = VAdd(transform_.pos, cPosUP);
+	cBodyPosDown_ = VAdd(transform_.pos, cPosDOWN);
+	cBodyPosUp_ = VAdd(transform_.pos, cPosUP);
+
+}
+
+void Enemy::WeponCollision(void)
+{
+
+	// エネミー武器にカプセルを追従させる
+	// カプセルをアタッチするフレームのローカル→ワールド変換行列を取得する
+	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(transform_.modelId, WeponAttachFrameNum_);
+
+	// 行列からラジアン
+	auto rot = MGetRotElem(WeponFrameMatrix);
+	auto pos = MGetTranslateElem(WeponFrameMatrix);
+
+	// 行列からクォータニオン
+	Quaternion qua = Quaternion::GetRotation(rot);
+
+	// 追従対象の向き
+	Quaternion followRot = qua;
+
+	// 追従対象から自機までの相対座標
+	VECTOR cPosDOWN = followRot.PosAxis(LOCAL_WEPON_C_DOWN_POS);
+	VECTOR cPosUP = followRot.PosAxis(LOCAL_WEPON_C_UP_POS);
+
+	// 敵の位置の更新
+	cWeponPosDown_ = VAdd(transform_.pos, cPosDOWN);
+	cWeponPosUp_ = VAdd(transform_.pos, cPosUP);
 
 }
 
@@ -364,7 +426,6 @@ void Enemy::Animation(void)
 	{
 		dashAttack_ = false;
 	}
-
 
 	// 再生するアニメーション時間の設定
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);

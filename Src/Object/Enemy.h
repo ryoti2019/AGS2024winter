@@ -8,14 +8,23 @@ class Enemy : public UnitBase
 
 public:
 
-	// 剣から持ち手の当たり判定までの相対座標
-	static constexpr VECTOR LOCAL_C_DOWN_POS = { 0.0f,250.0f,40.0f };
+	// エネミー自身のカプセルの下の相対座標
+	static constexpr VECTOR LOCAL_BODY_C_DOWN_POS = { 0.0f,250.0f,40.0f };
 
-	// 剣から剣先の当たり判定までの相対座標
-	static constexpr VECTOR LOCAL_C_UP_POS = { 0.0f,50.0f,40.0f };
+	// エネミー自身のカプセルの上の相対座標
+	static constexpr VECTOR LOCAL_BODY_C_UP_POS = { 0.0f,50.0f,40.0f };
 
-	// 衝突判定の球体半径
-	static constexpr float COLLISION_RADIUS = 100.0f;
+	// エネミー武器のカプセルの下の相対座標
+	static constexpr VECTOR LOCAL_WEPON_C_DOWN_POS = { 50.0f,-300.0f,100.0f };
+
+	// エネミー武器のカプセルの上の相対座標
+	static constexpr VECTOR LOCAL_WEPON_C_UP_POS = { 100.0f,-100.0f,100.0f };
+
+	// エネミー自身の衝突判定の球体半径
+	static constexpr float COLLISION_BODY_RADIUS = 100.0f;
+
+	// エネミー自身の衝突判定の球体半径
+	static constexpr float COLLISION_WEPON_RADIUS = 50.0f;
 
 	// プレイヤーの状態
 	enum class STATE
@@ -76,6 +85,12 @@ protected:
 	// ダッシュ攻撃のフラグ
 	bool dashAttack_;
 
+	// カプセルをアタッチするフレームの番号
+	int EnemyAttachFrameNum_;
+
+	// 武器をアタッチするフレームの番号
+	int WeponAttachFrameNum_;
+
 	// 追従対象
 	const Transform* followTransform_;
 
@@ -84,6 +99,12 @@ protected:
 
 	// 衝突判定
 	void Collision(void);
+
+	// 敵自身の衝突判定
+	void EnemyBodyCollision(void);
+
+	// 敵の武器の衝突判定
+	void WeponCollision(void);
 
 	// 状態遷移
 	void ChangeState(STATE state);
@@ -113,13 +134,21 @@ protected:
 	// アニメーション
 	void Animation(void) override;
 
-	// 衝突判定の座標
-	VECTOR cPosUp_;
-	VECTOR cPosDown_;
+	// エネミー自身の衝突判定の座標
+	VECTOR cBodyPosUp_;
+	VECTOR cBodyPosDown_;
 
-	// 衝突判定の回転
-	Quaternion cQuaUP_;
-	Quaternion cQuaDOWN_;
+	// エネミー自身の衝突判定の回転
+	Quaternion cBodyQuaUP_;
+	Quaternion cBodyQuaDOWN_;
+
+	// エネミー武器の衝突判定の座標
+	VECTOR cWeponPosUp_;
+	VECTOR cWeponPosDown_;
+
+	// エネミー武器の衝突判定の回転
+	Quaternion cWeponQuaUP_;
+	Quaternion cWeponQuaDOWN_;
 
 };
 

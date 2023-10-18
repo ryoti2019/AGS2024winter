@@ -43,7 +43,7 @@ protected:
 	STATE state_;
 	STATE preState_;
 
-	// アニメーション
+	// アニメーションごとに変数に代入
 	int idleAnim_;
 	int walkAnim_;
 	int runAnim_;

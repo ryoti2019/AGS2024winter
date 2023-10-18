@@ -21,11 +21,17 @@ void Enemy::InitAnimation(void)
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::ENEMY_IDLE));
 
+	// 待機アニメーション
 	idleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_IDLE);
 
+	// 攻撃アニメーション
 	attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_ATTACK);
+
+	// ダッシュ攻撃アニメーション
+	dashAttackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_DASH_ATTACK);
 
 	float scale = 2.0f;
 	transform_.scl = { scale, scale, scale };
@@ -139,7 +145,7 @@ void Enemy::Move(void)
 	auto veca = AsoUtility::Magnitude(vec);
 
 	// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	if (veca < 500.0f && AsoUtility::EqualsVZero(dir))
+	if (veca < 500.0f && AsoUtility::EqualsVZero(dir) && state_ != STATE::DASH_ATTACK)
 	{
 		ChangeState(STATE::ATTACK);
 	}
@@ -148,6 +154,33 @@ void Enemy::Move(void)
 	if (!AsoUtility::EqualsVZero(dir))
 	{
 		ChangeState(STATE::IDLE);
+	}
+
+	// 敵をプレイヤーが向いている方向に回転する
+	VECTOR Vdirection = VNorm(vec);
+
+	// 方向を角度に変換する(XZ平面 Y軸)
+	float angle = atan2f(Vdirection.x, Vdirection.z);
+
+	// 回転
+	LazyRotation(angle);
+
+	// 移動
+	if (state_ != STATE::ATTACK && state_ != STATE::DASH_ATTACK)
+	{
+		transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 2.0f));
+	}
+
+	// ダッシュ攻撃
+	if (veca > 1000.0f && stepAnim_ == 0.0f)
+	{
+		dashAttack_ = true;
+	}
+
+	if (dashAttack_)
+	{
+		ChangeState(STATE::DASH_ATTACK);
+		transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 10.0f));
 	}
 
 	// アニメーションの変更
@@ -223,6 +256,22 @@ void Enemy::SetAttackAnimation(void)
 
 }
 
+void Enemy::SetDashAttackAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, dashAttackAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+}
+
 void Enemy::ChangeAnimation(void)
 {
 
@@ -243,12 +292,19 @@ void Enemy::ChangeAnimation(void)
 	case Enemy::STATE::ATTACK:
 		SetAttackAnimation();
 		break;
+	case Enemy::STATE::DASH_ATTACK:
+		SetDashAttackAnimation();
+		break;
 	}
 
 }
 
 void Enemy::LazyRotation(float goalRot)
 {
+
+	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
+	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.01f);
+
 }
 
 void Enemy::DrawDebug(void)
@@ -296,13 +352,19 @@ void Enemy::Animation(void)
 		// ループ再生
 		stepAnim_ = 0.0f;
 
-		if (state_ == STATE::ATTACK)
+		if (state_ == STATE::ATTACK || state_ == STATE::DASH_ATTACK)
 		{
 			ChangeState(STATE::IDLE);
 			SetIdleAnimation();
 		}
 
 	}
+
+	if (state_ == STATE::DASH_ATTACK && stepAnim_ >= 40.0f)
+	{
+		dashAttack_ = false;
+	}
+
 
 	// 再生するアニメーション時間の設定
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);

@@ -23,7 +23,8 @@ public:
 		IDLE,
 		WALK,
 		RUN,
-		ATTACK
+		ATTACK,
+		DASH_ATTACK,
 	};
 
 	// コンストラクタ
@@ -65,10 +66,15 @@ protected:
 	STATE state_;
 	STATE preState_;
 
+	// アニメーションごとに変数に代入
 	int idleAnim_;
 	int walkAnim_;
 	int runAnim_;
 	int attackAnim_;
+	int dashAttackAnim_;
+
+	// ダッシュ攻撃のフラグ
+	bool dashAttack_;
 
 	// 追従対象
 	const Transform* followTransform_;
@@ -87,6 +93,7 @@ protected:
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
 	void SetAttackAnimation(void);
+	void SetDashAttackAnimation(void);
 
 	// アニメーションの変更
 	void ChangeAnimation(void);

@@ -13,10 +13,15 @@ Stage::~Stage(void)
 void Stage::Init(void)
 {
 
+	//// モデル制御の基本情報
+	//transform_.SetModel(
+	//	ResourceManager::GetInstance().LoadModelDuplicate(
+	//		ResourceManager::SRC::TEST_STAGE));
+
 	// モデル制御の基本情報
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::TEST_STAGE));
+			ResourceManager::SRC::TEST_STAGE1));
 
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };

@@ -32,6 +32,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/TestStage.mv1");
 	resourcesMap_.emplace(SRC::TEST_STAGE, res);
 
+	// テスト1用のステージ
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/TestStage1.mv1");
+	resourcesMap_.emplace(SRC::TEST_STAGE1, res);
+
 	// プレイヤーの待機アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Idle.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_IDLE, res);
@@ -55,6 +59,10 @@ void ResourceManager::Init(void)
 	// 敵の攻撃アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Swiping.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_ATTACK, res);
+
+	// 敵のダッシュ攻撃アニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Jump Attack.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_DASH_ATTACK, res);
 
 	// 剣のモデル
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/uploads_files_4143503_sword(1).mv1");

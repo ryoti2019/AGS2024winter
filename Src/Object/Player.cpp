@@ -35,7 +35,7 @@ void Player::InitAnimation(void)
 
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = { 0.0f, 200.0f, 0.0f };
+	transform_.pos = { 0.0f, 0.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
 	rotPow = Quaternion::Mult(

@@ -35,7 +35,7 @@ void Enemy::InitAnimation(void)
 
 	float scale = 2.0f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = { 0.0f, 200.0f, 0.0f };
+	transform_.pos = { 0.0f, 0.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
 	rotPow = Quaternion::Mult(
@@ -59,6 +59,8 @@ void Enemy::InitAnimation(void)
 
 	//// モデルに指定時間のアニメーションを設定する
 	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
+	dashAttack_ = false;
 
 }
 
@@ -89,7 +91,7 @@ void Enemy::Draw(void)
 	MV1DrawModel(transform_.modelId);
 
 	// エネミー自身の衝突判定のカプセルの描画
-	//DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
+	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 	// エネミー武器の衝突判定のカプセルの描画
 	DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
@@ -153,11 +155,11 @@ void Enemy::Move(void)
 	VECTOR vec = VSub(followTransform_->pos,transform_.pos);
 	auto veca = AsoUtility::Magnitude(vec);
 
-	//// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	//if (veca < 500.0f && AsoUtility::EqualsVZero(dir) && state_ != STATE::DASH_ATTACK)
-	//{
-	//	ChangeState(STATE::ATTACK);
-	//}
+	// 敵とプレイヤーの距離が一定距離になったら攻撃する
+	if (veca < 500.0f && AsoUtility::EqualsVZero(dir) && state_ != STATE::DASH_ATTACK)
+	{
+		ChangeState(STATE::ATTACK);
+	}
 
 	// 待機状態
 	if (!AsoUtility::EqualsVZero(dir))
@@ -165,32 +167,32 @@ void Enemy::Move(void)
 		ChangeState(STATE::IDLE);
 	}
 
-	//// 敵をプレイヤーが向いている方向に回転する
-	//VECTOR Vdirection = VNorm(vec);
+	// 敵をプレイヤーが向いている方向に回転する
+	VECTOR Vdirection = VNorm(vec);
 
-	//// 方向を角度に変換する(XZ平面 Y軸)
-	//float angle = atan2f(Vdirection.x, Vdirection.z);
+	// 方向を角度に変換する(XZ平面 Y軸)
+	float angle = atan2f(Vdirection.x, Vdirection.z);
 
-	//// 回転
-	//LazyRotation(angle);
+	// 回転
+	LazyRotation(angle);
 
-	//// 移動
-	//if (state_ != STATE::ATTACK && state_ != STATE::DASH_ATTACK)
-	//{
-	//	transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 2.0f));
-	//}
+	// 移動
+	if (state_ != STATE::ATTACK && state_ != STATE::DASH_ATTACK)
+	{
+		transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 2.0f));
+	}
 
-	//// ダッシュ攻撃
-	//if (veca > 1000.0f && stepAnim_ == 0.0f)
-	//{
-	//	dashAttack_ = true;
-	//}
+	// ダッシュ攻撃
+	if (veca > 1000.0f && stepAnim_ == 0.0f)
+	{
+		dashAttack_ = true;
+	}
 
-	//if (dashAttack_)
-	//{
-	//	ChangeState(STATE::DASH_ATTACK);
-	//	transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 10.0f));
-	//}
+	if (dashAttack_)
+	{
+		ChangeState(STATE::DASH_ATTACK);
+		transform_.pos = VAdd(transform_.pos, VScale(Vdirection, 10.0f));
+	}
 
 	// アニメーションの変更
 	ChangeAnimation();
@@ -232,8 +234,8 @@ void Enemy::EnemyBodyCollision(void)
 	VECTOR cPosUP = followRot.PosAxis(LOCAL_BODY_C_UP_POS);
 
 	// 敵の位置の更新
-	cBodyPosDown_ = VAdd(transform_.pos, cPosDOWN);
-	cBodyPosUp_ = VAdd(transform_.pos, cPosUP);
+	cBodyPosDown_ = VAdd(pos, cPosDOWN);
+	cBodyPosUp_ = VAdd(pos, cPosUP);
 
 }
 
@@ -259,9 +261,10 @@ void Enemy::WeponCollision(void)
 	VECTOR cPosUP = followRot.PosAxis(LOCAL_WEPON_C_UP_POS);
 
 	// 敵の位置の更新
-	cWeponPosDown_ = VAdd(transform_.pos, cPosDOWN);
-	cWeponPosUp_ = VAdd(transform_.pos, cPosUP);
-
+	//cWeponPosDown_ = VAdd(transform_.pos, cPosDOWN);
+	//cWeponPosUp_ = VAdd(transform_.pos, cPosUP);
+	cWeponPosDown_ = VAdd(pos, cPosDOWN);
+	cWeponPosUp_ = VAdd(pos, cPosUP);
 }
 
 void Enemy::ChangeState(STATE state)

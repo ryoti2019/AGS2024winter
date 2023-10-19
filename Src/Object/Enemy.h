@@ -9,16 +9,16 @@ class Enemy : public UnitBase
 public:
 
 	// エネミー自身のカプセルの下の相対座標
-	static constexpr VECTOR LOCAL_BODY_C_DOWN_POS = { 0.0f,250.0f,40.0f };
+	static constexpr VECTOR LOCAL_BODY_C_DOWN_POS = { 0.0f,50.0f,0.0f };
 
 	// エネミー自身のカプセルの上の相対座標
-	static constexpr VECTOR LOCAL_BODY_C_UP_POS = { 0.0f,50.0f,40.0f };
+	static constexpr VECTOR LOCAL_BODY_C_UP_POS = { 0.0f,-100.0f,-50.0f };
 
 	// エネミー武器のカプセルの下の相対座標
-	static constexpr VECTOR LOCAL_WEPON_C_DOWN_POS = { 50.0f,-300.0f,100.0f };
+	static constexpr VECTOR LOCAL_WEPON_C_DOWN_POS = { 0.0f,0.0f,0.0f };
 
 	// エネミー武器のカプセルの上の相対座標
-	static constexpr VECTOR LOCAL_WEPON_C_UP_POS = { 100.0f,-100.0f,100.0f };
+	static constexpr VECTOR LOCAL_WEPON_C_UP_POS = { 0.0f,150.0f,0.0f };
 
 	// エネミー自身の衝突判定の球体半径
 	static constexpr float COLLISION_BODY_RADIUS = 100.0f;
@@ -85,6 +85,9 @@ protected:
 	// ダッシュ攻撃のフラグ
 	bool dashAttack_;
 
+	// 移動制限をつけるフレーム番号
+	int EnemyPosFrameNum_;
+	
 	// カプセルをアタッチするフレームの番号
 	int EnemyAttachFrameNum_;
 

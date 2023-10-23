@@ -1,6 +1,7 @@
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
+#include "../Application.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
 #include "Player.h"
@@ -49,24 +50,18 @@ void Player::InitAnimation(void)
 	// 再生するアニメーションの設定
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_);
 
-	//// アニメーション総時間の取得
-	//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
 	stepAnim_ = 0.0f;
 
 	// アニメーション速度
 	speedAnim_ = 0.0f;
 
-	//// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
-
-	// 攻撃時間
-	//attackTime_ = 0.0f;
-
 }
 
 void Player::Init(void)
 {
+
+	// カプセルをアタッチするフレームの番号を検索
+	playerAttachFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Hips");
 
 	// アニメーションの初期設定
 	InitAnimation();
@@ -107,6 +102,36 @@ Player::STATE Player::GetState(void)
 	return state_;
 }
 
+VECTOR Player::GetCPosDown(void)
+{
+	return cBodyPosDown_;
+}
+
+VECTOR Player::GetCPosUP(void)
+{
+	return cBodyPosUp_;
+}
+
+bool Player::GetAttack(void)
+{
+	return attack_;
+}
+
+void Player::SetAttack(bool attack)
+{
+	attack_ = attack;
+}
+
+int Player::GetHP(void)
+{
+	return hp_;
+}
+
+void Player::SetHP(int hp)
+{
+	hp_ += hp;
+}
+
 void Player::Move(void)
 {
 
@@ -123,6 +148,45 @@ void Player::Move(void)
 	{
 		GamePadController();
 	}
+
+	// 衝突判定
+	Collision();
+}
+
+void Player::Collision(void)
+{
+
+	// 敵自身の当たり判定
+	PlayerBodyCollision();
+
+	transform_.Update();
+
+}
+
+void Player::PlayerBodyCollision(void)
+{
+
+	// 敵の中心にカプセルを追従させる
+	// カプセルをアタッチするフレームのローカル→ワールド変換行列を取得する
+	MATRIX PlayerFrameMatrix = MV1GetFrameLocalWorldMatrix(transform_.modelId, 0);
+
+	// 行列からラジアン
+	auto rot = MGetRotElem(PlayerFrameMatrix);
+	auto pos = MGetTranslateElem(PlayerFrameMatrix);
+
+	// 行列からクォータニオン
+	Quaternion qua = Quaternion::GetRotation(rot);
+
+	// 追従対象の向き
+	Quaternion followRot = qua;
+
+	// 追従対象から自機までの相対座標
+	VECTOR cPosDOWN = followRot.PosAxis(LOCAL_BODY_C_DOWN_POS);
+	VECTOR cPosUP = followRot.PosAxis(LOCAL_BODY_C_UP_POS);
+
+	// プレイヤーの位置の更新
+	cBodyPosDown_ = VAdd(pos, cPosDOWN);
+	cBodyPosUp_ = VAdd(pos, cPosUP);
 
 }
 
@@ -147,7 +211,6 @@ void Player::KeybordContoroller(void)
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
 	// スペースキーで走る
-	//if (attackTime_ <= 0.0f)
 	if (state_ != STATE::ATTACK)
 	{
 		if (AsoUtility::EqualsVZero(dir))
@@ -168,8 +231,6 @@ void Player::KeybordContoroller(void)
 	// 攻撃処理
 	if (ins.IsTrgDown(KEY_INPUT_J))
 	{
-		//if (attackAnimTime_ >= attackTime_)
-			//attackTime_ += SceneManager::GetInstance().GetDeltaTime();
 		ChangeState(STATE::ATTACK);
 	}
 
@@ -235,13 +296,9 @@ void Player::GamePadController(void)
 	dir.z = -pad.AKeyLZ;
 
 	// 攻撃処理
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1,InputManager::JOYPAD_BTN::RIGHT))
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
 	{
-		//if (attackAnimTime_ >= attackTime_)
-		{
-			//attackTime_ += SceneManager::GetInstance().GetDeltaTime();
-			ChangeState(STATE::ATTACK);
-		}
+		ChangeState(STATE::ATTACK);
 	}
 
 	// Bボタンで走る
@@ -323,9 +380,6 @@ void Player::SetIdleAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
-	//// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
-
 }
 
 void Player::SetWalkAnimation(void)
@@ -341,9 +395,6 @@ void Player::SetWalkAnimation(void)
 
 	// アニメーション速度
 	speedAnim_ = 30.0f;
-
-	//// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
@@ -361,9 +412,6 @@ void Player::SetRunAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 40.0f;
 
-	//// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
-
 }
 
 void Player::SetAttackAnimation(void)
@@ -380,23 +428,6 @@ void Player::SetAttackAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 60.0f;
 
-	//// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
-
-	//// モデルの再生時間を取得する
-	//attackAnimTime_ = MV1GetAttachAnimTime(transform_.modelId, animAttachNo_);
-
-	//if (attackAnimTime_ >= attackTime_)
-	//{
-	//	attackTime_ += SceneManager::GetInstance().GetDeltaTime();
-	//}
-	//if (attackAnimTime_ <= attackTime_)
-	//{
-	//	attackTime_ = 0.0f;
-	//	attackAnimTime_ = 0.0f;
-	//	stepAnim_ = 0.0f;
-	//	ChangeState(STATE::IDLE);
-	//}
 }
 
 void Player::ChangeAnimation(void)
@@ -418,7 +449,16 @@ void Player::ChangeAnimation(void)
 		break;
 	case Player::STATE::ATTACK:
 		SetAttackAnimation();
+		attack_ = true;
 		break;
+	}
+
+	// 攻撃のフラグをtrueに直す
+	if (Player::STATE::IDLE == state_||
+		Player::STATE::RUN  == state_ ||
+		Player::STATE::WALK == state_)
+	{
+		attack_ = true;
 	}
 
 }
@@ -474,6 +514,21 @@ void Player::LazyRotation(float goalRot)
 void Player::DrawDebug(void)
 {
 
+	// HPバー
+	int hpLength = 300;
+	int H;
+	int hpGauge;
+	H = hp_ * (512.0f / hpMax_) - 100;
+	int R = min(max((384 - H), 0), 0xff);
+	int G = min(max((H + 64), 0), 0xff);
+	int B = max((H - 384), 0);
+	hpGauge = hpLength * hp_ / hpMax_;
+
+	if (hp_ >= 0)
+	{
+		DrawBox(0, Application::SCREEN_SIZE_Y - 30, 500 + hpGauge, Application::SCREEN_SIZE_Y, GetColor(R, G, B), true);
+	}
+
 	auto rad = transform_.quaRot.ToEuler();
 
 	VECTOR pDeg = { AsoUtility::Rad2DegF(rad.x),
@@ -483,10 +538,20 @@ void Player::DrawDebug(void)
 	DrawFormatString(0, 90, 0xffffff, "プレイヤー角度deg : (%.1f, %.1f, %.1f)", pDeg.x, pDeg.y, pDeg.z);
 	DrawFormatString(0, 110, 0xffffff, "プレイヤー角度rad : (%.5f, %.5f, %.5f)", rad.x, rad.y, rad.z);
 
+	// エネミー自身の衝突判定のカプセルの描画
+	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
+
 }
 
 void Player::SetParam(void)
 {
+
+	// HPの最大値
+	hpMax_ = 100;
+
+	// HP
+	hp_ = hpMax_;
+
 }
 
 void Player::Animation(void)

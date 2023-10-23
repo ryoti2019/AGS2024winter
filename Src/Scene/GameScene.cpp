@@ -65,23 +65,29 @@ void GameScene::Update(void)
 
 	sword_->Update();
 
-	// 剣と敵のカプセル同士の当たり判定
+	// プレイヤーの剣と敵のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
-								 enemy_->GetCPosDown(), enemy_->GetCPosUP(),enemy_->COLLISION_BODY_RADIUS)
+								 enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(),enemy_->COLLISION_BODY_RADIUS)
 								 && player_->GetState() == Player::STATE::ATTACK)
 	{
-
-		if (attack_) {
-			attack_ = false;
+		if (player_->GetAttack())
+		{
+			player_->SetAttack(false);
 			enemy_->SetHP(-1);
 		}
 	}
 
-	if (Player::STATE::IDLE == player_->GetState() ||
-		Player::STATE::RUN  == player_->GetState() ||
-		Player::STATE::WALK == player_->GetState())
+	// プレイヤーと敵の武器のカプセル同士の当たり判定
+	if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
+		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
+		&& enemy_->GetState() == Enemy::STATE::ATTACK || enemy_->GetState() == Enemy::STATE::DASH_ATTACK)
 	{
-		attack_ = true;
+
+		if (enemy_->GetAttack())
+		{
+			enemy_->SetAttack(false);
+			player_->SetHP(-1);
+		}
 	}
 
 }

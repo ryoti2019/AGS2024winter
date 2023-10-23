@@ -44,34 +44,25 @@ void Enemy::InitAnimation(void)
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 
+	// 再生するアニメーションの番号
 	animNo_ = 0;
 
 	// 再生するアニメーションの設定
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_);
 
-	// アニメーション総時間の取得
-	//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
+	// 再生中のアニメーション時間
 	stepAnim_ = 0.0f;
 
 	// アニメーション速度
 	speedAnim_ = 0.0f;
 
-	//// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
-
+	// ダッシュアタックのフラグ
 	dashAttack_ = false;
 
 }
 
 void Enemy::Init(void)
 {
-
-	// カプセルをアタッチするフレームの番号を検索
-	EnemyAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:Spine2");
-
-	// 武器をアタッチするフレームの番号を検索
-	WeponAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:LeftHand");
 
 	// アニメーションの初期設定
 	InitAnimation();
@@ -82,6 +73,16 @@ void Enemy::Init(void)
 	// 待機アニメーション
 	SetIdleAnimation();
 
+	// カプセルをアタッチするフレームの番号を検索
+	enemyAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:Spine2");
+
+	// 武器をアタッチするフレームの番号を検索
+	weponAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:LeftHand");
+
+	// フレーム番号をフレーム名で取得する
+	enemyPosFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Hips");
+	//EnemyPosFrameNum_ = MV1SearchFrame(transform_.modelId, "MutantMesh");
+
 }
 
 void Enemy::Draw(void)
@@ -89,12 +90,6 @@ void Enemy::Draw(void)
 
 	// ロードされた３Ｄモデルを画面に描画
 	MV1DrawModel(transform_.modelId);
-
-	// エネミー自身の衝突判定のカプセルの描画
-	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
-
-	// エネミー武器の衝突判定のカプセルの描画
-	DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 	// デバッグ描画
 	DrawDebug();
@@ -114,14 +109,29 @@ const Transform& Enemy::GetTransform(void) const
 	return transform_;
 }
 
-VECTOR Enemy::GetCPosDown(void)
+Enemy::STATE Enemy::GetState(void)
+{
+	return state_;
+}
+
+VECTOR Enemy::GetCBodyPosDown(void)
 {
 	return cBodyPosDown_;
 }
 
-VECTOR Enemy::GetCPosUP(void)
+VECTOR Enemy::GetCBodyPosUP(void)
 {
 	return cBodyPosUp_;
+}
+
+VECTOR Enemy::GetCWeponPosDown(void)
+{
+	return cWeponPosDown_;
+}
+
+VECTOR Enemy::GetCWeponPosUP(void)
+{
+	return cWeponPosUp_;
 }
 
 int Enemy::GetHP(void)
@@ -139,6 +149,16 @@ void Enemy::SetFollow(const Transform* follow)
 
 	followTransform_ = follow;
 
+}
+
+bool Enemy::GetAttack(void)
+{
+	return attack_;
+}
+
+void Enemy::SetAttack(bool attack)
+{
+	attack_ = attack;
 }
 
 void Enemy::Move(void)
@@ -217,7 +237,7 @@ void Enemy::EnemyBodyCollision(void)
 
 	// 敵の中心にカプセルを追従させる
 	// カプセルをアタッチするフレームのローカル→ワールド変換行列を取得する
-	MATRIX EnemyFrameMatrix = MV1GetFrameLocalWorldMatrix(transform_.modelId, EnemyAttachFrameNum_);
+	MATRIX EnemyFrameMatrix = MV1GetFrameLocalWorldMatrix(transform_.modelId, enemyAttachFrameNum_);
 
 	// 行列からラジアン
 	auto rot = MGetRotElem(EnemyFrameMatrix);
@@ -244,7 +264,7 @@ void Enemy::WeponCollision(void)
 
 	// エネミー武器にカプセルを追従させる
 	// カプセルをアタッチするフレームのローカル→ワールド変換行列を取得する
-	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(transform_.modelId, WeponAttachFrameNum_);
+	MATRIX WeponFrameMatrix = MV1GetFrameLocalWorldMatrix(transform_.modelId, weponAttachFrameNum_);
 
 	// 行列からラジアン
 	auto rot = MGetRotElem(WeponFrameMatrix);
@@ -289,9 +309,6 @@ void Enemy::SetIdleAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
-	// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
-
 }
 
 void Enemy::SetWalkAnimation(void)
@@ -315,9 +332,6 @@ void Enemy::SetAttackAnimation(void)
 
 	// アニメーション速度
 	speedAnim_ = 20.0f;
-
-	// モデルに指定時間のアニメーションを設定する
-	//MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
 }
 
@@ -356,11 +370,21 @@ void Enemy::ChangeAnimation(void)
 		break;
 	case Enemy::STATE::ATTACK:
 		SetAttackAnimation();
+		attack_ = true;
 		break;
 	case Enemy::STATE::DASH_ATTACK:
 		SetDashAttackAnimation();
+		attack_ = true;
 		break;
 	}
+
+	//// 攻撃のフラグをtrueに直す
+	//if (Enemy::STATE::IDLE == state_ ||
+	//	Enemy::STATE::RUN == state_ ||
+	//	Enemy::STATE::WALK == state_)
+	//{
+	//	attack_ = true;
+	//}
 
 }
 
@@ -389,6 +413,12 @@ void Enemy::DrawDebug(void)
 	{
 		DrawBox(700, 0, 700 + hpGauge, 30, GetColor(R, G, B), true);
 	}
+
+	// エネミー自身の衝突判定のカプセルの描画
+	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
+
+	// エネミー武器の衝突判定のカプセルの描画
+	DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 }
 
@@ -433,4 +463,38 @@ void Enemy::Animation(void)
 	// 再生するアニメーション時間の設定
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
+	// アニメーションの固定
+	AnimationFrame();
+
+}
+
+void Enemy::AnimationFrame(void)
+{
+
+	// 対象フレームのローカル行列を初期値にリセットする
+	MV1ResetFrameUserLocalMatrix(transform_.modelId, enemyPosFrameNum_);
+
+	if (state_ == STATE::DASH_ATTACK)
+	{
+
+		// 対象フレームのローカル行列(大きさ、回転、位置)を取得する
+		auto mat = MV1GetFrameLocalMatrix(transform_.modelId, enemyPosFrameNum_);
+
+		auto scl = MGetSize(mat); // 行列から大きさを取り出す
+		auto rot = MGetRotElem(mat); // 行列から回転を取り出す
+		auto pos = MGetTranslateElem(mat); // 行列から移動値を取り出す
+
+		// 大きさ、回転、位置をローカル行列に戻す
+		MATRIX mix = MGetIdent();
+		mix = MMult(mix, MGetScale(scl)); // 大きさ
+		mix = MMult(mix, rot); // 回転
+
+		// ここでローカル座標を行列に、そのまま戻さず、
+		// 調整したローカル座標を設定する
+		mix = MMult(mix, MGetTranslate({ 0.0f, pos.y, 0.0f }));
+
+		// 合成した行列を対象フレームにセットし直して、
+		// アニメーションの移動値を無効化
+		MV1SetFrameUserLocalMatrix(transform_.modelId, enemyPosFrameNum_, mix);
+	}
 }

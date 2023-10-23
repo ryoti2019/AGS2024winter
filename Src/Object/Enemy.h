@@ -23,7 +23,7 @@ public:
 	// エネミー自身の衝突判定の球体半径
 	static constexpr float COLLISION_BODY_RADIUS = 100.0f;
 
-	// エネミー自身の衝突判定の球体半径
+	// エネミー武器の衝突判定の球体半径
 	static constexpr float COLLISION_WEPON_RADIUS = 50.0f;
 
 	// プレイヤーの状態
@@ -51,11 +51,20 @@ public:
 	// 敵のTransformの取得
 	const Transform& GetTransform(void) const;
 
-	// 衝突判定の下の座標の取得
-	VECTOR GetCPosDown(void);
+	// プレイヤーの状態を取得
+	Enemy::STATE GetState(void);
 
-	// 衝突判定の上の座標の取得
-	VECTOR GetCPosUP(void);
+	// 敵自身の衝突判定の下の座標の取得
+	VECTOR GetCBodyPosDown(void);
+
+	// 敵自身の衝突判定の上の座標の取得
+	VECTOR GetCBodyPosUP(void);
+
+	// 敵武器の衝突判定の下の座標の取得
+	VECTOR GetCWeponPosDown(void);
+
+	// 敵武器の上の座標の取得
+	VECTOR GetCWeponPosUP(void);
 
 	// 敵のHP取得
 	int GetHP(void);
@@ -65,6 +74,12 @@ public:
 
 	// 追従対象の設定
 	void SetFollow(const Transform* follow);
+
+	// 攻撃フラグの取得
+	bool GetAttack(void);
+
+	// 攻撃フラグの設定
+	void SetAttack(bool attack);
 
 protected:
 
@@ -82,17 +97,20 @@ protected:
 	int attackAnim_;
 	int dashAttackAnim_;
 
+	// 攻撃のフラグ
+	bool attack_;
+
 	// ダッシュ攻撃のフラグ
 	bool dashAttack_;
 
 	// 移動制限をつけるフレーム番号
-	int EnemyPosFrameNum_;
+	int enemyPosFrameNum_;
 	
 	// カプセルをアタッチするフレームの番号
-	int EnemyAttachFrameNum_;
+	int enemyAttachFrameNum_;
 
 	// 武器をアタッチするフレームの番号
-	int WeponAttachFrameNum_;
+	int weponAttachFrameNum_;
 
 	// 追従対象
 	const Transform* followTransform_;
@@ -137,21 +155,17 @@ protected:
 	// アニメーション
 	void Animation(void) override;
 
+	// アニメーションのフレームの固定
+	void AnimationFrame(void);
+
 	// エネミー自身の衝突判定の座標
 	VECTOR cBodyPosUp_;
 	VECTOR cBodyPosDown_;
-
-	// エネミー自身の衝突判定の回転
-	Quaternion cBodyQuaUP_;
-	Quaternion cBodyQuaDOWN_;
 
 	// エネミー武器の衝突判定の座標
 	VECTOR cWeponPosUp_;
 	VECTOR cWeponPosDown_;
 
-	// エネミー武器の衝突判定の回転
-	Quaternion cWeponQuaUP_;
-	Quaternion cWeponQuaDOWN_;
 
 };
 

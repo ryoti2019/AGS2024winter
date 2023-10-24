@@ -56,9 +56,17 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Breathing Idle.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_IDLE, res);
 
+	// 敵の歩くアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Walking.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_WALK, res);
+
 	// 敵の攻撃アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Swiping.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_ATTACK, res);
+
+	// 敵のタックルアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Run.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_TACKLE, res);
 
 	// 敵のダッシュ攻撃アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Jump Attack.mv1");

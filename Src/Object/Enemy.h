@@ -26,14 +26,17 @@ public:
 	// エネミー武器の衝突判定の球体半径
 	static constexpr float COLLISION_WEPON_RADIUS = 50.0f;
 
+	// 突進の秒数
+	static constexpr float TACKLE_TIME = 4.0f;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
 		IDLE,
 		WALK,
-		RUN,
+		TACKLE,
 		ATTACK,
-		DASH_ATTACK,
+		JUMP_ATTACK,
 	};
 
 	// コンストラクタ
@@ -93,15 +96,21 @@ protected:
 	// アニメーションごとに変数に代入
 	int idleAnim_;
 	int walkAnim_;
-	int runAnim_;
+	int tackleAnim_;
 	int attackAnim_;
-	int dashAttackAnim_;
+	int jumpAttackAnim_;
 
 	// 攻撃のフラグ
 	bool attack_;
 
 	// ダッシュ攻撃のフラグ
-	bool dashAttack_;
+	bool jumpAttack_;
+
+	// タックルの攻撃フラグ
+	bool tackleAttack_;
+
+	// 突進し続ける秒数
+	float tackleCnt_;
 
 	// 移動制限をつけるフレーム番号
 	int enemyPosFrameNum_;
@@ -112,11 +121,43 @@ protected:
 	// 武器をアタッチするフレームの番号
 	int weponAttachFrameNum_;
 
+	// プレイヤーの方向
+	VECTOR pDirection_;
+
+	// エネミー自身の衝突判定の座標
+	VECTOR cBodyPosUp_;
+	VECTOR cBodyPosDown_;
+
+	// エネミー武器の衝突判定の座標
+	VECTOR cWeponPosUp_;
+	VECTOR cWeponPosDown_;
+
+	// ダッシュ攻撃する時のプレイヤー座標を保管する座標
+	VECTOR attackPlayerPos_;
+
 	// 追従対象
 	const Transform* followTransform_;
 
 	// 移動処理
 	void Move(void) override;
+
+	// 回転処理
+	void Rotation(void);
+
+	// 待機
+	void Idle(void);
+
+	// 移動
+	void Walk(void);
+
+	// 通常攻撃
+	void Attack(void);
+
+	// ダッシュ攻撃
+	void DashAttack(void);
+
+	// タックル攻撃
+	void Tackle(void);
 
 	// 衝突判定
 	void Collision(void);
@@ -133,9 +174,9 @@ protected:
 	// アニメーションの初期設定
 	void SetIdleAnimation(void);
 	void SetWalkAnimation(void);
-	void SetRunAnimation(void);
+	void SetTackleAnimation(void);
 	void SetAttackAnimation(void);
-	void SetDashAttackAnimation(void);
+	void SetJumpAttackAnimation(void);
 
 	// アニメーションの変更
 	void ChangeAnimation(void);
@@ -157,15 +198,6 @@ protected:
 
 	// アニメーションのフレームの固定
 	void AnimationFrame(void);
-
-	// エネミー自身の衝突判定の座標
-	VECTOR cBodyPosUp_;
-	VECTOR cBodyPosDown_;
-
-	// エネミー武器の衝突判定の座標
-	VECTOR cWeponPosUp_;
-	VECTOR cWeponPosDown_;
-
 
 };
 

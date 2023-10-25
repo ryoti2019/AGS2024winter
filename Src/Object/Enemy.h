@@ -32,6 +32,7 @@ public:
 	// プレイヤーの状態
 	enum class STATE
 	{
+		THINK,
 		IDLE,
 		WALK,
 		TACKLE,
@@ -138,6 +139,12 @@ protected:
 	// 追従対象
 	const Transform* followTransform_;
 
+	// 一つの行動の時間
+	float step_;
+
+	// 行動の選択
+	void Think(void);
+
 	// 移動処理
 	void Move(void) override;
 
@@ -145,16 +152,16 @@ protected:
 	void Rotation(void);
 
 	// 待機
-	void Idle(void);
+	void UpdateIdle(void);
 
 	// 移動
-	void Walk(void);
+	void UpdateWalk(void);
 
 	// 通常攻撃
 	void Attack(void);
 
 	// ダッシュ攻撃
-	void DashAttack(void);
+	void JumpAttack(void);
 
 	// タックル攻撃
 	void Tackle(void);

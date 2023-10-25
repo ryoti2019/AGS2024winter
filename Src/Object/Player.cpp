@@ -364,6 +364,19 @@ void Player::ChangeState(STATE state)
 	// ó‘Ô‚ÌXV
 	state_ = state;
 
+	// ó‘Ô‘JˆÚ‚Ì‰Šú‰»ˆ—
+	switch (state_)
+	{
+	case Player::STATE::IDLE:
+		break;
+	case Player::STATE::WALK:
+		break;
+	case Player::STATE::RUN:
+		break;
+	case Player::STATE::ATTACK:
+		break;
+	}
+
 }
 
 void Player::SetIdleAnimation(void)

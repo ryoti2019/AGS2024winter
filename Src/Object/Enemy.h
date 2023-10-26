@@ -101,6 +101,12 @@ protected:
 	int attackAnim_;
 	int jumpAttackAnim_;
 
+	// 回転の終了のフラグ
+	bool rotationEnd_;
+
+	// 攻撃の番号
+	int attackNumber_;
+
 	// 攻撃のフラグ
 	bool attack_;
 
@@ -184,9 +190,6 @@ protected:
 	void SetTackleAnimation(void);
 	void SetAttackAnimation(void);
 	void SetJumpAttackAnimation(void);
-
-	// アニメーションの変更
-	void ChangeAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

@@ -70,6 +70,9 @@ void Enemy::InitAnimation(void)
 	// タックルアタックのフラグ
 	tackleAttack_ = false;
 
+	// 回転の終了のフラグ
+	rotationEnd_ = false;
+
 }
 
 void Enemy::Init(void)
@@ -226,14 +229,19 @@ void Enemy::Think(void)
 	// ベクトル方向
 	VECTOR vec = { 0.0f,0.0f,0.0f };
 
-	// 向き
-	VECTOR dir = AsoUtility::VECTOR_ZERO;
-
 	// 距離
 	float length = 0.0f;
+
+	// 攻撃の選択
+	attackNumber_ = GetRand(2);
 	
-	// プレイヤーがいる方向
-	pDirection_ = { 0.0f,0.0f,0.0f };
+	// 移動 --------------------------------------------------
+
+	// 移動
+	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
+	{
+		ChangeState(STATE::WALK);
+	}
 
 	// 通常攻撃 ----------------------------------------------
 
@@ -242,43 +250,58 @@ void Enemy::Think(void)
 	length = AsoUtility::Magnitude(vec);
 
 	// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	if (length < 500.0f && AsoUtility::EqualsVZero(dir) &&
-		state_ != STATE::JUMP_ATTACK && state_ != STATE::TACKLE)
+	if (length < 500.0f)
 	{
 		ChangeState(STATE::ATTACK);
 	}
 
 	// ジャンプ攻撃 ------------------------------------------
-	
-	// プレイヤーの方向を求める
-	vec = VSub(followTransform_->pos, transform_.pos);
-	length = AsoUtility::Magnitude(vec);
 
-	// ジャンプ攻撃
-	if (length > 2000.0f && stepAnim_ == 0.0f)
+	if (attackNumber_ == 0)
 	{
-		ChangeState(STATE::JUMP_ATTACK);
+
+		// プレイヤーがいた座標を代入
+		attackPlayerPos_ = followTransform_->pos;
+
+		// プレイヤーの方向を求める
+		vec = VSub(attackPlayerPos_, transform_.pos);
+		length = AsoUtility::Magnitude(vec);
+
+		// 正規化
+		pDirection_ = VNorm(vec);
+
+		// ジャンプ攻撃
+		if (length > 1000.0f)
+		{
+			ChangeState(STATE::JUMP_ATTACK);
+		}
+
 	}
 
-	// 元居たプレイヤーの方向を求める
-	vec = VSub(attackPlayerPos_, transform_.pos);
+	// タックル攻撃 ------------------------------------------
 
-	// 正規化
-	pDirection_ = VNorm(vec);
-
-
-	// 移動 --------------------------------------------------
-
-	// プレイヤーの方向を求める
-	vec = VSub(followTransform_->pos, transform_.pos);
-
-	// 正規化
-	pDirection_ = VNorm(vec);
-
-	// 移動
-	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
+	if (attackNumber_ == 1)
 	{
-		ChangeState(STATE::WALK);
+
+		// プレイヤーがいた座標を代入
+		attackPlayerPos_ = followTransform_->pos;
+
+		// プレイヤーの方向を求める
+		vec = VSub(attackPlayerPos_, transform_.pos);
+		length = AsoUtility::Magnitude(vec);
+
+		// 正規化
+		pDirection_ = VNorm(vec);
+
+		// タックルし続ける時間
+		tackleCnt_ = TACKLE_TIME;
+
+		// タックル攻撃
+		if (length > 1000.0f)
+		{
+			ChangeState(STATE::TACKLE);
+		}
+
 	}
 
 }
@@ -305,16 +328,6 @@ void Enemy::Rotation(void)
 
 void Enemy::UpdateIdle(void)
 {
-
-	// 方向(direction)
-	VECTOR dir = AsoUtility::VECTOR_ZERO;
-
-	// 待機状態
-	if (!AsoUtility::EqualsVZero(dir))
-	{
-		ChangeState(STATE::IDLE);
-	}
-
 }
 
 void Enemy::UpdateWalk(void)
@@ -326,55 +339,47 @@ void Enemy::UpdateWalk(void)
 	// 正規化
 	pDirection_ = VNorm(vec);
 
+	// 移動処理
 	transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 2.0f));
 
-	step_ += SceneManager::GetInstance().GetDeltaTime();
-	if (step_ > 2.0f)
-	{
-		ChangeState(STATE::THINK);
-	}
 }
 
 void Enemy::Attack(void)
 {
-	step_ += SceneManager::GetInstance().GetDeltaTime();
-	if (step_ > 2.0f)
-	{
-		ChangeState(STATE::THINK);
-	}
 }
 
 void Enemy::JumpAttack(void)
 {
 
-	// ジャンプ攻撃時にプレイヤーの方向に
-	//if (jumpAttack_)
-	//{
-		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 20.0f));
-	//}
+	// プレイヤーとの距離を求める
+	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
+	float length = AsoUtility::Magnitude(vec);
+
+	// プレイヤーとの距離が10.0f未満になるまで移動
+	if (stepAnim_ <= 50.0f)
+	{
+		if (length >= 10.0f)
+		{
+			transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 20.0f));
+		}
+	}
 
 }
 
 void Enemy::Tackle(void)
 {
 
-	// プレイヤーの方向を求める
-	VECTOR vec = VSub(followTransform_->pos, transform_.pos);
-	float length = AsoUtility::Magnitude(vec);
+	tackleCnt_ -= SceneManager::GetInstance().GetDeltaTime();
 
-	// タックル攻撃
-	if (length > 2000.0f && stepAnim_ == 0.0f)
+	if (tackleCnt_ > 0.0f)
 	{
-		tackleAttack_ = true;
-		attackPlayerPos_ = followTransform_->pos;
-		tackleCnt_ = TACKLE_TIME;
+		// 移動処理
+		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 30.0f));
 	}
 
-	// タックル攻撃時にプレイヤー方向に突進
-	if (tackleAttack_)
+	if (tackleCnt_ < 0.0f)
 	{
-		ChangeState(STATE::TACKLE);
-		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 20.0f));
+		ChangeState(STATE::THINK);
 	}
 
 }
@@ -458,6 +463,7 @@ void Enemy::ChangeState(STATE state)
 	switch (state_)
 	{
 	case Enemy::STATE::THINK:
+		rotationEnd_ = false;
 		// これからの行動を考える
 		Think();
 		break;
@@ -504,6 +510,12 @@ void Enemy::SetIdleAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+	// 行動時間の初期化
+	step_ = 0.0f;
+
 }
 
 void Enemy::SetWalkAnimation(void)
@@ -520,8 +532,11 @@ void Enemy::SetWalkAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
-	step_ = 0.0f;
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
 
+	// 行動時間の初期化
+	step_ = 0.0f;
 }
 
 void Enemy::SetTackleAnimation(void)
@@ -536,9 +551,13 @@ void Enemy::SetTackleAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = 40.0f;
 
+	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
+
+	// 行動時間の初期化
+	step_ = 0.0f;
 
 }
 
@@ -556,7 +575,11 @@ void Enemy::SetAttackAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
+	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
+
+	// 行動時間の初期化
+	step_ = 0.0f;
 
 }
 
@@ -574,10 +597,12 @@ void Enemy::SetJumpAttackAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
-}
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
 
-void Enemy::ChangeAnimation(void)
-{
+	// 行動時間の初期化
+	step_ = 0.0f;
+
 }
 
 void Enemy::LazyRotation(float goalRot)
@@ -636,41 +661,80 @@ void Enemy::Animation(void)
 	stepAnim_ += (speedAnim_ * deltaTime);
 	if (stepAnim_ > animTotalTime_)
 	{
+
 		// ループ再生
 		stepAnim_ = 0.0f;
 
-		if (state_ == STATE::ATTACK || state_ == STATE::JUMP_ATTACK)
+	}
+
+
+
+	if (stepAnim_ == 0.0f)
+	{
+
+		// 待機状態にする
+		ChangeState(STATE::IDLE);
+
+		// プレイヤーの方向を求める
+		VECTOR vec = VSub(followTransform_->pos, transform_.pos);
+
+		// 正規化
+		VECTOR Vdirection = VNorm(vec);
+
+		// 方向を角度に変換する(XZ平面 Y軸)
+		float angle = atan2f(Vdirection.x, Vdirection.z);
+
+		auto goal = Quaternion::Euler(0.0f, angle, 0.0f);
+		transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
+
+		// クォータニオンからラジアン
+		VECTOR rad = transform_.quaRot.ToEuler();
+
+		// ラジアンからデグリー
+		float deg = AsoUtility::Rad2DegF(rad.y);
+
+		// ラジアンからデグリー
+		float goalDeg = AsoUtility::Rad2DegF(angle);
+
+		float sub = (deg * -1) - goalDeg;
+
+		if (sub <= 10.0f)
 		{
-			ChangeState(STATE::THINK);
-			SetIdleAnimation();
+			rotationEnd_ = true;
 		}
 
 	}
 
-	// ジャンプ攻撃のフラグをfalseに
-	if (state_ == STATE::JUMP_ATTACK && stepAnim_ >= 40.0f)
+	// 行動を選択
+	if (rotationEnd_)
 	{
-		jumpAttack_ = false;
-	}
-
-	// タックル攻撃のフラグをfalseに
-	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
-	float length = AsoUtility::Magnitude(vec);
-
-	// 突進する秒数のカウント
-	tackleCnt_ -= SceneManager::GetInstance().GetDeltaTime();
-
-	if (tackleCnt_ <= 0.0f)
-	{
-		tackleCnt_ = 0.0f;
-	}
-
-	// 突進のカウントが終了したら突進を止める
-	if (tackleCnt_ <= 0.0f && tackleAttack_)
-	{
-		tackleAttack_ = false;
 		ChangeState(STATE::THINK);
 	}
+
+	//// ジャンプ攻撃のフラグをfalseに
+	//if (state_ == STATE::JUMP_ATTACK && stepAnim_ >= 40.0f)
+	//{
+	//	jumpAttack_ = false;
+	//}
+
+	//// タックル攻撃のフラグをfalseに
+	//VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
+	//float length = AsoUtility::Magnitude(vec);
+
+	//// 突進する秒数のカウント
+	//tackleCnt_ -= SceneManager::GetInstance().GetDeltaTime();
+
+	//if (tackleCnt_ <= 0.0f)
+	//{
+	//	tackleCnt_ = 0.0f;
+	//}
+
+	//// 突進のカウントが終了したら突進を止める
+	//if (tackleCnt_ <= 0.0f && tackleAttack_)
+	//{
+	//	tackleAttack_ = false;
+	//	ChangeState(STATE::THINK);
+	//}
 
 	// 再生するアニメーション時間の設定
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);

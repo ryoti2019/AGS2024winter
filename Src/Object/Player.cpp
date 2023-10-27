@@ -22,18 +22,23 @@ void Player::InitAnimation(void)
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::PLAYER_IDLE));
 
+	// 待機アニメーション
 	idleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_IDLE);
 
+	// 歩くアニメーション
 	walkAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_WALK);
 
+	// 走るアニメーション
 	runAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_RUN);
 
+	// 攻撃アニメーション
 	attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_ATTACK);
 
+	// transformの初期化
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 0.0f, 0.0f };
@@ -45,11 +50,13 @@ void Player::InitAnimation(void)
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 
+	// アニメーションする番号
 	animNo_ = 1;
 
 	// 再生するアニメーションの設定
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_);
 
+	// 再生中のアニメーション時間
 	stepAnim_ = 0.0f;
 
 	// アニメーション速度
@@ -135,8 +142,6 @@ void Player::SetHP(int hp)
 void Player::Move(void)
 {
 
-	preState_ = state_;
-
 	// キーボードでの操作
 	if (!SceneManager::GetInstance().GetGamePad())
 	{
@@ -213,15 +218,19 @@ void Player::KeybordContoroller(void)
 	// スペースキーで走る
 	if (state_ != STATE::ATTACK)
 	{
+
+		// 待機状態
 		if (AsoUtility::EqualsVZero(dir))
 		{
 			ChangeState(STATE::IDLE);
 		}
+		// 走る
 		else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
 		{
 			ChangeState(STATE::RUN);
 			movePow = 20.0f;
 		}
+		// 歩く
 		else if (!AsoUtility::EqualsVZero(dir))
 		{
 			ChangeState(STATE::WALK);
@@ -229,7 +238,7 @@ void Player::KeybordContoroller(void)
 	}
 
 	// 攻撃処理
-	if (ins.IsTrgDown(KEY_INPUT_J))
+	if (ins.IsTrgDown(KEY_INPUT_J) && attack_)
 	{
 		ChangeState(STATE::ATTACK);
 	}
@@ -266,9 +275,6 @@ void Player::KeybordContoroller(void)
 
 	}
 
-	// アニメーションの変更
-	ChangeAnimation();
-
 }
 
 void Player::GamePadController(void)
@@ -296,7 +302,7 @@ void Player::GamePadController(void)
 	dir.z = -pad.AKeyLZ;
 
 	// 攻撃処理
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) && attack_)
 	{
 		ChangeState(STATE::ATTACK);
 	}
@@ -354,7 +360,7 @@ void Player::GamePadController(void)
 	}
 
 	// アニメーションの変更
-	ChangeAnimation();
+	//ChangeAnimation();
 
 }
 
@@ -365,90 +371,6 @@ void Player::ChangeState(STATE state)
 	state_ = state;
 
 	// 状態遷移時の初期化処理
-	switch (state_)
-	{
-	case Player::STATE::IDLE:
-		break;
-	case Player::STATE::WALK:
-		break;
-	case Player::STATE::RUN:
-		break;
-	case Player::STATE::ATTACK:
-		break;
-	}
-
-}
-
-void Player::SetIdleAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, idleAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = 20.0f;
-
-}
-
-void Player::SetWalkAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, walkAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = 30.0f;
-
-}
-
-void Player::SetRunAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, runAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = 40.0f;
-
-}
-
-void Player::SetAttackAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = 60.0f;
-
-}
-
-void Player::ChangeAnimation(void)
-{
-
-	if (state_ == preState_) return;
-
-	stepAnim_ = 0.0f;
 	switch (state_)
 	{
 	case Player::STATE::IDLE:
@@ -467,12 +389,87 @@ void Player::ChangeAnimation(void)
 	}
 
 	// 攻撃のフラグをtrueに直す
-	if (Player::STATE::IDLE == state_||
-		Player::STATE::RUN  == state_ ||
+	if (Player::STATE::IDLE == state_ ||
+		Player::STATE::RUN == state_ ||
 		Player::STATE::WALK == state_)
 	{
 		attack_ = true;
 	}
+}
+
+void Player::SetIdleAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, idleAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+	//// アニメーション時間の初期化
+	//stepAnim_ = 0.0f;
+
+}
+
+void Player::SetWalkAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, walkAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 30.0f;
+
+	//// アニメーション時間の初期化
+	//stepAnim_ = 0.0f;
+
+}
+
+void Player::SetRunAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, runAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 40.0f;
+
+	//// アニメーション時間の初期化
+	//stepAnim_ = 0.0f;
+
+}
+
+void Player::SetAttackAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 60.0f;
+
+	//// アニメーション時間の初期化
+	//stepAnim_ = 0.0f;
 
 }
 

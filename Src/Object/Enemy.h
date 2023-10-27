@@ -145,9 +145,6 @@ protected:
 	// 追従対象
 	const Transform* followTransform_;
 
-	// 一つの行動の時間
-	float step_;
-
 	// 行動の選択
 	void Think(void);
 
@@ -156,6 +153,9 @@ protected:
 
 	// 回転処理
 	void Rotation(void);
+	
+	// 行動後の回転処理
+	void AfterRotation(void);
 
 	// 待機
 	void UpdateIdle(void);

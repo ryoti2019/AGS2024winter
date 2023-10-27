@@ -68,7 +68,6 @@ protected:
 
 	// プレイヤーの状態
 	STATE state_;
-	STATE preState_;
 
 	// 攻撃フラグ
 	bool attack_;

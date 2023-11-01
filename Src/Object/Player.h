@@ -25,7 +25,8 @@ public:
 		IDLE,
 		WALK,
 		RUN,
-		ATTACK
+		ATTACK,
+		HIT
 	};
 
 	// コンストラクタ
@@ -36,6 +37,8 @@ public:
 
 	void Init(void) override;
 
+	void Update(void) override;
+
 	void Draw(void);
 
 	void Release(void);
@@ -45,6 +48,9 @@ public:
 
 	// プレイヤーの状態を取得
 	Player::STATE GetState(void);
+
+	// プレイヤーの状態を設定
+	void SetState(Player::STATE state);
 
 	// 衝突判定の下の座標の取得
 	VECTOR GetCPosDown(void);
@@ -58,11 +64,17 @@ public:
 	// 攻撃フラグの設定
 	void SetAttack(bool attack);
 
-	// 敵のHP取得
+	// プレイヤーのHP取得
 	int GetHP(void);
 
-	// 敵のHPの設定
+	// プレイヤーのHPの設定
 	void SetHP(int hp);
+
+	// 攻撃が当たったかを取得
+	bool GetHit(void);
+
+	// 攻撃が当たったかを設定
+	void SetHit(bool hit);
 
 protected:
 
@@ -72,11 +84,15 @@ protected:
 	// 攻撃フラグ
 	bool attack_;
 
+	// 攻撃がヒットしたか
+	bool hit_;
+
 	// アニメーションごとに変数に代入
 	int idleAnim_;
 	int walkAnim_;
 	int runAnim_;
 	int attackAnim_;
+	int hitAnim_;
 
 	// カプセルをアタッチするフレームの番号
 	int playerAttachFrameNum_;
@@ -84,9 +100,6 @@ protected:
 	// プレイヤーの衝突判定の座標
 	VECTOR cBodyPosUp_;
 	VECTOR cBodyPosDown_;
-
-	// 移動処理
-	void Move(void) override;
 
 	// 衝突判定
 	void Collision(void);
@@ -105,9 +118,7 @@ protected:
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
 	void SetAttackAnimation(void);
-
-	// アニメーションの変更
-	void ChangeAnimation(void);
+	void SetHitAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

@@ -48,8 +48,6 @@ void GameScene::Init(void)
 	camera->SetFollow(&player_->GetTransform());
 	camera->ChangeMode(Camera::MODE::FOLLOW);
 
-	attack_ = true;
-
 }
 
 void GameScene::Update(void)
@@ -70,7 +68,7 @@ void GameScene::Update(void)
 								 enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(),enemy_->COLLISION_BODY_RADIUS)
 								 && player_->GetState() == Player::STATE::ATTACK)
 	{
-		if (player_->GetAttack())
+		if (player_->GetHit())
 		{
 			player_->SetAttack(false);
 			enemy_->SetHP(-1);
@@ -79,14 +77,17 @@ void GameScene::Update(void)
 
 	// プレイヤーと敵の武器のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
-		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
-		&& enemy_->GetState() == Enemy::STATE::ATTACK || enemy_->GetState() == Enemy::STATE::JUMP_ATTACK)
+								 enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
+								 && (enemy_->GetState() == Enemy::STATE::ATTACK
+								  || enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
+								  || enemy_->GetState() == Enemy::STATE::TACKLE))
 	{
 
 		if (enemy_->GetAttack())
 		{
 			enemy_->SetAttack(false);
 			player_->SetHP(-1);
+			player_->SetState(Player::STATE::HIT);
 		}
 	}
 

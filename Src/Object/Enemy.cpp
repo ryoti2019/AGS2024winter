@@ -514,19 +514,19 @@ void Enemy::ChangeState(STATE state)
 		SetWalkAnimation();
 		break;
 	case Enemy::STATE::ATTACK:
-		SetAttackAnimation();
 		// çUåÇÇµÇΩ
 		attack_ = true;
+		SetAttackAnimation();
 		break;
 	case Enemy::STATE::TACKLE:
-		SetTackleAnimation();
 		// çUåÇÇµÇΩ
 		attack_ = true;
+		SetTackleAnimation();
 		break;
 	case Enemy::STATE::JUMP_ATTACK:
-		SetJumpAttackAnimation();
 		// çUåÇÇµÇΩ
 		attack_ = true;
+		SetJumpAttackAnimation();
 		break;
 	}
 

@@ -38,6 +38,10 @@ void Player::InitAnimation(void)
 	attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_ATTACK);
 
+	// ダメージヒットアニメーション
+	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_HIT);
+
 	// transformの初期化
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
@@ -80,6 +84,31 @@ void Player::Init(void)
 	SetIdleAnimation();
 }
 
+void Player::Update(void)
+{
+
+	// キーボードでの操作
+	if (!SceneManager::GetInstance().GetGamePad())
+	{
+		KeybordContoroller();
+	}
+
+	// ゲームパッドでの操作
+	if (SceneManager::GetInstance().GetGamePad())
+	{
+		GamePadController();
+	}
+
+	// アニメーション処理
+	Animation();
+
+	// 衝突判定
+	Collision();
+
+	transform_.Update();
+
+}
+
 void Player::Draw(void)
 {
 
@@ -108,6 +137,12 @@ Player::STATE Player::GetState(void)
 {
 	return state_;
 }
+
+void Player::SetState(Player::STATE state)
+{
+	ChangeState(state);
+}
+
 
 VECTOR Player::GetCPosDown(void)
 {
@@ -139,23 +174,14 @@ void Player::SetHP(int hp)
 	hp_ += hp;
 }
 
-void Player::Move(void)
+bool Player::GetHit(void)
 {
+	return hit_;
+}
 
-	// キーボードでの操作
-	if (!SceneManager::GetInstance().GetGamePad())
-	{
-		KeybordContoroller();
-	}
-
-	// ゲームパッドでの操作
-	if (SceneManager::GetInstance().GetGamePad())
-	{
-		GamePadController();
-	}
-
-	// 衝突判定
-	Collision();
+void Player::SetHit(bool hit)
+{
+	hit_ = hit;
 }
 
 void Player::Collision(void)
@@ -163,8 +189,6 @@ void Player::Collision(void)
 
 	// 敵自身の当たり判定
 	PlayerBodyCollision();
-
-	transform_.Update();
 
 }
 
@@ -216,7 +240,7 @@ void Player::KeybordContoroller(void)
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
 	// スペースキーで走る
-	if (state_ != STATE::ATTACK)
+	if (state_ != STATE::ATTACK && state_ != STATE::HIT)
 	{
 
 		// 待機状態
@@ -251,7 +275,7 @@ void Player::KeybordContoroller(void)
 		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
 	}
 
-	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK)
+	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::HIT)
 	{
 
 		// 方向を正規化
@@ -308,7 +332,7 @@ void Player::GamePadController(void)
 	}
 
 	// Bボタンで走る
-	if (state_ != STATE::ATTACK)
+	if (state_ != STATE::ATTACK && state_ != STATE::HIT)
 	{
 
 		if (AsoUtility::EqualsVZero(dir))
@@ -359,9 +383,6 @@ void Player::GamePadController(void)
 
 	}
 
-	// アニメーションの変更
-	//ChangeAnimation();
-
 }
 
 void Player::ChangeState(STATE state)
@@ -384,7 +405,10 @@ void Player::ChangeState(STATE state)
 		break;
 	case Player::STATE::ATTACK:
 		SetAttackAnimation();
-		attack_ = true;
+		attack_ = false;
+		break;
+	case Player::STATE::HIT:
+		SetHitAnimation();
 		break;
 	}
 
@@ -411,9 +435,6 @@ void Player::SetIdleAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 20.0f;
 
-	//// アニメーション時間の初期化
-	//stepAnim_ = 0.0f;
-
 }
 
 void Player::SetWalkAnimation(void)
@@ -429,9 +450,6 @@ void Player::SetWalkAnimation(void)
 
 	// アニメーション速度
 	speedAnim_ = 30.0f;
-
-	//// アニメーション時間の初期化
-	//stepAnim_ = 0.0f;
 
 }
 
@@ -449,9 +467,6 @@ void Player::SetRunAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 40.0f;
 
-	//// アニメーション時間の初期化
-	//stepAnim_ = 0.0f;
-
 }
 
 void Player::SetAttackAnimation(void)
@@ -468,8 +483,27 @@ void Player::SetAttackAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 60.0f;
 
-	//// アニメーション時間の初期化
-	//stepAnim_ = 0.0f;
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Player::SetHitAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, hitAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 30.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
 
 }
 
@@ -578,10 +612,9 @@ void Player::Animation(void)
 		// ループ再生
 		stepAnim_ = 0.0f;
 
-		if (state_ == STATE::ATTACK)
+		if (state_ == STATE::ATTACK || state_ == STATE::HIT)
 		{
 			ChangeState(STATE::IDLE);
-			SetIdleAnimation();
 		}
 		
 	}

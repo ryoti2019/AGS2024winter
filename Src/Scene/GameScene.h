@@ -40,9 +40,6 @@ private:
 	// 剣
 	Sword* sword_;
 
-	// 剣を振ったとき一回だけ当たり判定をとるフラグ
-	bool attack_;
-
 	// デバッグ描画
 	void DrawDebug(void);
 

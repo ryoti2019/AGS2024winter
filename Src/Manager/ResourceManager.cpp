@@ -52,6 +52,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Standard Run.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_RUN, res);
 
+	// プレイヤーのダメージヒットアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Impact.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_HIT, res);
+
 	// 敵の待機アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Breathing Idle.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_IDLE, res);

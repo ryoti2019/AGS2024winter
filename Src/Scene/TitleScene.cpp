@@ -47,6 +47,9 @@ void TitleScene::Update(void)
 		SceneManager::GetInstance().SetGamePad(true);
 	}
 
+	// 点滅カウンタを加算する
+	logoBlinkCnt_++;
+
 }
 
 void TitleScene::Draw(void)
@@ -69,16 +72,21 @@ void TitleScene::DrawLogo(void)
 	int cy = Application::SCREEN_SIZE_Y / 2;
 
 	// タイトルロゴ
-	DrawGraph(
-		0,0,imgTitleLogo_, true);
+	DrawRotaGraph(cx, cy - 100, 0.4, 0.0, imgTitleLogo_, true);
 
-	//// Pushメッセージ
-	//std::string msg = "Push Space";
-	//SetFontSize(28);
-	//int len = (int)strlen(msg.c_str());
-	//int width = GetDrawStringWidth(msg.c_str(), len);
-	//DrawFormatString(cx - (width / 2), 200, 0x87cefa, msg.c_str());
-	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	//SetFontSize(16);
+	// Pushメッセージ
+	std::string msg = "Push Space";
+	SetFontSize(40);
+	int len = (int)strlen(msg.c_str());
+	int width = GetDrawStringWidth(msg.c_str(), len);
+
+	// 点滅させる
+	if ((logoBlinkCnt_ / 30) % 2)
+	{
+		DrawFormatString(cx - (width / 2), 500, 0x000000, msg.c_str());
+	}
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetFontSize(16);
 
 }

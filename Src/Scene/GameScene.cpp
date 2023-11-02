@@ -24,25 +24,28 @@ void GameScene::Init(void)
 	//// カメラモード：フリーカメラ
 	//SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FREE);
 
+	// グリッド線の生成
 	grid_ = new Grid();
 	grid_->Init();
 
+	// ステージの生成
 	stage_ = new Stage();
 	stage_->Init();
 
+	// プレイヤーの生成
 	player_ = new Player();
 	player_->Init();
 
+	// 敵の生成
 	enemy_ = new Enemy();
 	enemy_->SetFollow(&player_->GetTransform());
 	enemy_->Init();
 
-	//sword_ = new Sword(player_->GetTransform());
+	// 剣の生成
 	sword_ = new Sword();
 	sword_->SetFollow(&player_->GetTransform());
 	sword_->Init();
 
-	
 	//// カメラモード：追従
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 	camera->SetFollow(&player_->GetTransform());
@@ -52,42 +55,66 @@ void GameScene::Init(void)
 
 void GameScene::Update(void)
 {
-	
+
+	// グリッド線の更新
 	grid_->Update();
 
+	// ステージの更新
 	stage_->Update();
 
+	// プレイヤーの更新
 	player_->Update();
 
+	// 敵の更新
 	enemy_->Update();
 
+	// 剣の更新
 	sword_->Update();
 
 	// プレイヤーの剣と敵のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
-								 enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(),enemy_->COLLISION_BODY_RADIUS)
-								 && player_->GetState() == Player::STATE::ATTACK)
+		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
+		&& player_->GetState() == Player::STATE::ATTACK && enemy_->GetState() != Enemy::STATE::HIT)
 	{
-		if (player_->GetHit())
+		// プレイヤーの攻撃がすでに当たっていたら入らない
+		if (player_->GetAttack())
 		{
-			player_->SetAttack(false);
 			enemy_->SetHP(-1);
+			enemy_->SetState(Enemy::STATE::HIT);
+			player_->SetAttack(false);
+			player_->SetHit(true);
 		}
 	}
 
 	// プレイヤーと敵の武器のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
-								 enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
-								 && (enemy_->GetState() == Enemy::STATE::ATTACK
-								  || enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-								  || enemy_->GetState() == Enemy::STATE::TACKLE))
+		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
+		&& (enemy_->GetState() == Enemy::STATE::ATTACK
+			|| enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
+			|| enemy_->GetState() == Enemy::STATE::TACKLE))
 	{
-
+		// 敵の攻撃がすでに当たっていたら入らない
 		if (enemy_->GetAttack())
 		{
-			enemy_->SetAttack(false);
-			player_->SetHP(-1);
 			player_->SetState(Player::STATE::HIT);
+			player_->SetHP(-1);
+			enemy_->SetAttack(false);
+			enemy_->SetHit(true);
+		}
+	}
+	// プレイヤーと敵のカプセル同士の当たり判定
+	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
+		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
+		&& (enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
+			|| enemy_->GetState() == Enemy::STATE::TACKLE))
+	{
+		// 敵の攻撃がすでに当たっていたら入らない
+		if (enemy_->GetAttack())
+		{
+			player_->SetState(Player::STATE::HIT);
+			player_->SetHP(-1);
+			enemy_->SetAttack(false);
+			enemy_->SetHit(true);
 		}
 	}
 
@@ -96,14 +123,19 @@ void GameScene::Update(void)
 void GameScene::Draw(void)
 {
 	
+	// グリッド線の描画
 	grid_->Draw();
 
+	// ステージの描画
 	stage_->Draw();
 
+	// プレイヤーの描画
 	player_->Draw();
 
+	// 敵の描画
 	enemy_->Draw();
 
+	// 剣の描画
 	sword_->Draw();
 
 	// デバッグ描画
@@ -114,18 +146,23 @@ void GameScene::Draw(void)
 void GameScene::Release(void)
 {
 
+	// グリッド線の解放
 	grid_->Release();
 	delete grid_;
 
+	// ステージの開放
 	stage_->Release();
 	delete stage_;
 
+	// プレイヤーの解放
 	player_->Release();
 	delete player_;
 
+	// 敵の開放
 	enemy_->Release();
 	delete enemy_;
 
+	// 剣の開放
 	sword_->Release();
 	delete sword_;
 

@@ -14,7 +14,7 @@ public:
 	static constexpr VECTOR LOCAL_BODY_C_UP_POS = { 0.0f,50.0f,0.0f };
 
 	// ƒvƒŒƒCƒ„[‚ÌÕ“Ë”»’è‚Ì‹…‘Ì”¼Œa
-	static constexpr float COLLISION_BODY_RADIUS = 30.0f;
+	static constexpr float COLLISION_BODY_RADIUS = 40.0f;
 
 	// UŒ‚ŠÔ
 	static constexpr float ATTACK_TIME = 0.5f;

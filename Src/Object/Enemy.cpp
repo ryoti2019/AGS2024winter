@@ -41,6 +41,10 @@ void Enemy::InitAnimation(void)
 	jumpAttackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_DASH_ATTACK);
 
+	// 攻撃を食らったときのアニメーション
+	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_HIT);
+
 	// transformの初期化
 	float scale = 2.0f;
 	transform_.scl = { scale, scale, scale };
@@ -65,15 +69,6 @@ void Enemy::InitAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 0.0f;
 
-	// ダッシュアタックのフラグ
-	jumpAttack_ = false;
-
-	// タックルアタックのフラグ
-	tackleAttack_ = false;
-
-	// 回転の終了のフラグ
-	rotationEnd_ = false;
-
 }
 
 void Enemy::Init(void)
@@ -97,12 +92,27 @@ void Enemy::Init(void)
 	// フレーム番号をフレーム名で取得する
 	enemyPosFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Hips");
 
+	// 攻撃中かどうか
+	attack_ = false;
+
+	// ダッシュアタックのフラグ
+	jumpAttack_ = false;
+
+	// タックルアタックのフラグ
+	tackleAttack_ = false;
+
+	// 回転の終了のフラグ
+	rotationEnd_ = false;
+
+	// 当たったかのフラグ
+	hit_ = false;
+
 	// 初期状態
 	ChangeState(STATE::THINK);
 
 }
 
-void Enemy::Move(void)
+void Enemy::Update(void)
 {
 
 	// 回転しきっていなかったら処理しない
@@ -114,35 +124,37 @@ void Enemy::Move(void)
 	switch (state_)
 	{
 	case Enemy::STATE::THINK:
-		// 考える
 		break;
 	case Enemy::STATE::IDLE:
-		// 待機
 		UpdateIdle();
 		break;
 	case Enemy::STATE::WALK:
-		// 移動
 		UpdateWalk();
 		break;
 	case Enemy::STATE::ATTACK:
-		// 通常攻撃
-		Attack();
-		break;
-	case Enemy::STATE::TACKLE:
-		// タックル攻撃
-		Tackle();
+		UpdateAttack();
 		break;
 	case Enemy::STATE::JUMP_ATTACK:
-		// ジャンプ攻撃
-		JumpAttack();
+		UpdateJumpAttack();
+		break;
+	case Enemy::STATE::TACKLE:
+		UpdateTackle();
+		break;
+	case Enemy::STATE::HIT:
+		UpdateHit();
 		break;
 	}
 
+	// アニメーション処理
+	Animation();
+
 	// 回転処理
- 	Rotation();
+	Rotation();
 
 	// 衝突判定用
 	Collision();
+
+	transform_.Update();
 
 }
 
@@ -173,6 +185,11 @@ const Transform& Enemy::GetTransform(void) const
 Enemy::STATE Enemy::GetState(void)
 {
 	return state_;
+}
+
+void Enemy::SetState(Enemy::STATE state)
+{
+	ChangeState(state);
 }
 
 VECTOR Enemy::GetCBodyPosDown(void)
@@ -222,6 +239,16 @@ void Enemy::SetAttack(bool attack)
 	attack_ = attack;
 }
 
+bool Enemy::GetHit(void)
+{
+	return hit_;
+}
+
+void Enemy::SetHit(bool hit)
+{
+	hit_ = hit;
+}
+
 void Enemy::Think(void)
 {
 
@@ -234,6 +261,9 @@ void Enemy::Think(void)
 	// 攻撃の選択
 	attackNumber_ = GetRand(2);
 	
+	// 攻撃が当たったかどうか
+	hit_ = false;
+
 	// 移動 --------------------------------------------------
 
 	// 移動
@@ -380,11 +410,18 @@ void Enemy::UpdateWalk(void)
 
 }
 
-void Enemy::Attack(void)
+void Enemy::UpdateAttack(void)
 {
+
+	// 攻撃判定が入るアニメーションの秒数
+	if (stepAnim_ >= 30.0f && stepAnim_ <= 50.0f && !hit_)
+	{
+		attack_ = true;
+	}
+
 }
 
-void Enemy::JumpAttack(void)
+void Enemy::UpdateJumpAttack(void)
 {
 
 	// プレイヤーとの距離を求める
@@ -400,9 +437,15 @@ void Enemy::JumpAttack(void)
 		}
 	}
 
+	// 攻撃判定が入るアニメーションの秒数
+	if (stepAnim_ >= 40.0f && stepAnim_ <= 60.0f && !hit_)
+	{
+		attack_ = true;
+	}
+
 }
 
-void Enemy::Tackle(void)
+void Enemy::UpdateTackle(void)
 {
 
 	// タックルする時間を計算
@@ -420,7 +463,17 @@ void Enemy::Tackle(void)
 	{
 		ChangeState(STATE::IDLE);
 	}
+	
+	// 攻撃フラグ
+	if (!hit_)
+	{
+		attack_ = true;
+	}
 
+}
+
+void Enemy::UpdateHit(void)
+{
 }
 
 void Enemy::Collision(void)
@@ -514,19 +567,16 @@ void Enemy::ChangeState(STATE state)
 		SetWalkAnimation();
 		break;
 	case Enemy::STATE::ATTACK:
-		// 攻撃した
-		attack_ = true;
 		SetAttackAnimation();
 		break;
+	case Enemy::STATE::JUMP_ATTACK:
+		SetJumpAttackAnimation();
+		break;
 	case Enemy::STATE::TACKLE:
-		// 攻撃した
-		attack_ = true;
 		SetTackleAnimation();
 		break;
-	case Enemy::STATE::JUMP_ATTACK:
-		// 攻撃した
-		attack_ = true;
-		SetJumpAttackAnimation();
+	case Enemy::STATE::HIT:
+		SetHitAnimation();
 		break;
 	}
 
@@ -570,25 +620,6 @@ void Enemy::SetWalkAnimation(void)
 
 }
 
-void Enemy::SetTackleAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, tackleAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = 40.0f;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
-
-}
-
 void Enemy::SetAttackAnimation(void)
 {
 
@@ -621,6 +652,44 @@ void Enemy::SetJumpAttackAnimation(void)
 
 	// アニメーション速度
 	speedAnim_ = 20.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Enemy::SetHitAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, hitAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Enemy::SetTackleAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, tackleAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 40.0f;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
@@ -724,7 +793,7 @@ void Enemy::AnimationFrame(void)
 	MV1ResetFrameUserLocalMatrix(transform_.modelId, enemyPosFrameNum_);
 
 	// ジャンプ攻撃時に座標を固定する
-	if (state_ == STATE::JUMP_ATTACK)
+	if (state_ == STATE::JUMP_ATTACK || state_ == STATE::HIT)
 	{
 
 		// 対象フレームのローカル行列(大きさ、回転、位置)を取得する

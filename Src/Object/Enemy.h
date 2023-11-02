@@ -24,7 +24,7 @@ public:
 	static constexpr float COLLISION_BODY_RADIUS = 100.0f;
 
 	// エネミー武器の衝突判定の球体半径
-	static constexpr float COLLISION_WEPON_RADIUS = 50.0f;
+	static constexpr float COLLISION_WEPON_RADIUS = 70.0f;
 
 	// 突進の秒数
 	static constexpr float TACKLE_TIME = 4.0f;
@@ -35,9 +35,10 @@ public:
 		THINK,
 		IDLE,
 		WALK,
-		TACKLE,
 		ATTACK,
 		JUMP_ATTACK,
+		TACKLE,
+		HIT,
 	};
 
 	// コンストラクタ
@@ -48,6 +49,8 @@ public:
 
 	void Init(void)override;
 
+	void Update(void)override;
+
 	void Draw(void)override;
 
 	void Release(void);
@@ -57,6 +60,9 @@ public:
 
 	// プレイヤーの状態を取得
 	Enemy::STATE GetState(void);
+
+	// プレイヤーの状態を取得
+	void SetState(Enemy::STATE state);
 
 	// 敵自身の衝突判定の下の座標の取得
 	VECTOR GetCBodyPosDown(void);
@@ -85,6 +91,12 @@ public:
 	// 攻撃フラグの設定
 	void SetAttack(bool attack);
 
+	// 攻撃が当たったかどうかの取得
+	bool GetHit(void);
+
+	// 攻撃が当たったかどうかの設定
+	void SetHit(bool hit);
+
 protected:
 
 	// プレイヤーの取得
@@ -100,6 +112,7 @@ protected:
 	int tackleAnim_;
 	int attackAnim_;
 	int jumpAttackAnim_;
+	int hitAnim_;
 
 	// 回転の終了のフラグ
 	bool rotationEnd_;
@@ -109,6 +122,9 @@ protected:
 
 	// 攻撃のフラグ
 	bool attack_;
+
+	// 攻撃が当たったかどうか
+	bool hit_;
 
 	// ダッシュ攻撃のフラグ
 	bool jumpAttack_;
@@ -148,9 +164,6 @@ protected:
 	// 行動の選択
 	void Think(void);
 
-	// 移動処理
-	void Move(void) override;
-
 	// 回転処理
 	void Rotation(void);
 	
@@ -164,13 +177,16 @@ protected:
 	void UpdateWalk(void);
 
 	// 通常攻撃
-	void Attack(void);
+	void UpdateAttack(void);
 
 	// ダッシュ攻撃
-	void JumpAttack(void);
+	void UpdateJumpAttack(void);
 
 	// タックル攻撃
-	void Tackle(void);
+	void UpdateTackle(void);
+
+	// 攻撃ヒット
+	void UpdateHit(void);
 
 	// 衝突判定
 	void Collision(void);
@@ -190,6 +206,7 @@ protected:
 	void SetTackleAnimation(void);
 	void SetAttackAnimation(void);
 	void SetJumpAttackAnimation(void);
+	void SetHitAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

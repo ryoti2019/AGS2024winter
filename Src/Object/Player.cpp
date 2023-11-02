@@ -82,6 +82,10 @@ void Player::Init(void)
 
 	// 待機アニメーション
 	SetIdleAnimation();
+
+	// 攻撃が当たったかどうか
+	hit_ = false;
+
 }
 
 void Player::Update(void)
@@ -262,9 +266,10 @@ void Player::KeybordContoroller(void)
 	}
 
 	// 攻撃処理
-	if (ins.IsTrgDown(KEY_INPUT_J) && attack_)
+	if (ins.IsTrgDown(KEY_INPUT_J) && !hit_)
 	{
 		ChangeState(STATE::ATTACK);
+		hit_ = true;
 	}
 
 	// プレイヤーが向いている方向にカメラを向ける
@@ -326,7 +331,7 @@ void Player::GamePadController(void)
 	dir.z = -pad.AKeyLZ;
 
 	// 攻撃処理
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) && attack_)
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) && !attack_)
 	{
 		ChangeState(STATE::ATTACK);
 	}
@@ -404,21 +409,14 @@ void Player::ChangeState(STATE state)
 		SetRunAnimation();
 		break;
 	case Player::STATE::ATTACK:
+		attack_ = true;
 		SetAttackAnimation();
-		attack_ = false;
 		break;
 	case Player::STATE::HIT:
 		SetHitAnimation();
 		break;
 	}
 
-	// 攻撃のフラグをtrueに直す
-	if (Player::STATE::IDLE == state_ ||
-		Player::STATE::RUN == state_ ||
-		Player::STATE::WALK == state_)
-	{
-		attack_ = true;
-	}
 }
 
 void Player::SetIdleAnimation(void)
@@ -616,7 +614,6 @@ void Player::Animation(void)
 		{
 			ChangeState(STATE::IDLE);
 		}
-		
 	}
 
 	// 再生するアニメーション時間の設定

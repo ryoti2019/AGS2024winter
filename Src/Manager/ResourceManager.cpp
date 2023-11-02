@@ -25,7 +25,7 @@ void ResourceManager::Init(void)
 	Resource res;
 
 	// タイトルロゴ
-	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "TitleImage.png");
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Vanquish A Monster.png");
 	resourcesMap_.emplace(SRC::TITLE_LOGO, res);
 
 	// テスト用のステージ
@@ -72,9 +72,13 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Run.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_TACKLE, res);
 
-	// 敵のダッシュ攻撃アニメーション
+	// 敵のジャンプ攻撃アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Jump Attack.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_DASH_ATTACK, res);
+
+	// 敵のダメージヒットアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Zombie Reaction Hit.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_HIT, res);
 
 	// 剣のモデル
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/uploads_files_4143503_sword(1).mv1");

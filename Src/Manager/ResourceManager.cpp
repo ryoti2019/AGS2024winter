@@ -41,7 +41,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_IDLE, res);
 
 	// プレイヤーの攻撃アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword Slash 1.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK, res);
 	
 	// プレイヤーの歩くアニメーション

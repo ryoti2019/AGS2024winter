@@ -71,9 +71,6 @@ void Player::InitAnimation(void)
 void Player::Init(void)
 {
 
-	// カプセルをアタッチするフレームの番号を検索
-	playerAttachFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Hips");
-
 	// アニメーションの初期設定
 	InitAnimation();
 
@@ -83,18 +80,71 @@ void Player::Init(void)
 	// 待機アニメーション
 	SetIdleAnimation();
 
+	// カプセルをアタッチするフレームの番号を検索
+	playerAttachFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Hips");
+
 	// 攻撃が当たったかどうか
 	hit_ = false;
+
+	// 攻撃したかどうか
+	attack_ = false;
+
+	// 攻撃１段階目
+	attack1_ = false;
+
+	// 攻撃２段階目
+	attack2_ = false;
+
+	// 攻撃３段階目
+	attack3_ = false;
 
 }
 
 void Player::Update(void)
 {
 
+	switch (state_)
+	{
+	case Player::STATE::IDLE:
+		break;
+	case Player::STATE::WALK:
+		break;
+	case Player::STATE::RUN:
+		break;
+	case Player::STATE::ATTACK:
+		// 攻撃１段階目で終わるとき
+		if (stepAnim_ >= 40.0f && stepAnim_ <= 45.0f && state_ == STATE::ATTACK && !attack2_)
+		{
+			stepAnim_ = 0.0f;
+			hit_ = false;
+			attack1_ = false;
+			ChangeState(STATE::IDLE);
+		}
+		break;
+	case Player::STATE::ATTACK2:
+		// 攻撃２段階目で終わるとき
+			if (stepAnim_ >= 60.0f && stepAnim_ <= 65.0f && state_ == STATE::ATTACK2 && !attack3_)
+			{
+				stepAnim_ = 0.0f;
+				hit_ = false;
+				attack1_ = false;
+				attack2_ = false;
+				ChangeState(STATE::IDLE);
+			}
+		break;
+	case Player::STATE::ATTACK3:
+		break;
+	case Player::STATE::HIT:
+		break;
+	}
+
+
+
+
 	// キーボードでの操作
 	if (!SceneManager::GetInstance().GetGamePad())
 	{
-		KeybordContoroller();
+		KeyboardContoroller();
 	}
 
 	// ゲームパッドでの操作
@@ -146,7 +196,6 @@ void Player::SetState(Player::STATE state)
 {
 	ChangeState(state);
 }
-
 
 VECTOR Player::GetCPosDown(void)
 {
@@ -223,7 +272,21 @@ void Player::PlayerBodyCollision(void)
 
 }
 
-void Player::KeybordContoroller(void)
+void Player::KeyboardContoroller(void)
+{
+
+	// 移動処理
+	KeyboardMove();
+
+	//攻撃処理
+	KeyboardAttack();
+
+	// プレイヤー方向にカメラを向ける処理
+	KeyBoardCamera();
+
+}
+
+void Player::KeyboardMove(void)
 {
 
 	// カメラの角度を取得
@@ -231,11 +294,11 @@ void Player::KeybordContoroller(void)
 
 	auto& ins = InputManager::GetInstance();
 
-	// 移動量
-	float movePow = 10.0f;
-
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
+
+	// 移動量
+	float movePow = 10.0f;
 
 	// WASDでプレイヤーの位置を変える
 	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
@@ -265,21 +328,6 @@ void Player::KeybordContoroller(void)
 		}
 	}
 
-	// 攻撃処理
-	if (ins.IsTrgDown(KEY_INPUT_J) && !hit_)
-	{
-		ChangeState(STATE::ATTACK);
-		hit_ = true;
-	}
-
-	// プレイヤーが向いている方向にカメラを向ける
-	auto rad = transform_.quaRot.ToEuler();
-	if (ins.IsTrgDown(KEY_INPUT_Q))
-	{
-		// カメラの角度を基準とし、方向分の角度を加える
-		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
-	}
-
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::HIT)
 	{
 
@@ -303,10 +351,94 @@ void Player::KeybordContoroller(void)
 		LazyRotation(cameraAngles.y + angle);
 
 	}
+}
+
+void Player::KeyboardAttack(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	//// 攻撃処理
+	//if (ins.IsTrgDown(KEY_INPUT_J) && !hit_)
+	//{
+	//	hit_ = true;
+	//	attack1_ = true;
+	//	ChangeState(STATE::ATTACK);
+	//}
+
+	//if (ins.IsTrgDown(KEY_INPUT_J) && attack1_ && stepAnim_ >= 1.0f && stepAnim_ <= 40.0f)
+	//{
+	//	attack2_ = true;
+	//}
+
+	//if (!hit_ && attack2_)
+	//{
+	//	hit_ = true;
+	//	ChangeState(STATE::ATTACK2);
+	//}
+	// ボタンがクリックされたかどうかを確認
+	if (ins.IsTrgDown(KEY_INPUT_J) && !hit_)
+	{
+		// ボタンが押されたらアニメーションを切り替える
+		// １段階目
+		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK)
+		{
+			hit_ = true;
+			attack1_ = true;
+			ChangeState(STATE::ATTACK);
+		}
+
+		// 次の攻撃につなげるフラグ
+		if (attack1_ && stepAnim_ >= 1.0f && stepAnim_ <= 40.0f)
+		{
+			attack2_ = true;
+		}
+
+		// ２段階目
+		if (state_ == STATE::ATTACK)
+		{
+			hit_ = true;
+			ChangeState(STATE::ATTACK2);
+		}
+		//// ３段階目
+		//if (state_ == STATE::ATTACK3)
+		//{
+		//	ChangeState(STATE::ATTACK3);
+		//}
+	}
+
+}
+
+void Player::KeyBoardCamera(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// プレイヤーが向いている方向にカメラを向ける
+	auto rad = transform_.quaRot.ToEuler();
+	if (ins.IsTrgDown(KEY_INPUT_Q))
+	{
+		// カメラの角度を基準とし、方向分の角度を加える
+		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
+	}
 
 }
 
 void Player::GamePadController(void)
+{
+
+	// 移動処理
+	GamePadMove();
+
+	// 攻撃処理
+	GamePadAttack();
+
+	// プレイヤー方向にカメラを向ける処理
+	GamePadCamera();
+
+}
+
+void Player::GamePadMove(void)
 {
 
 	// カメラの角度を取得
@@ -330,12 +462,6 @@ void Player::GamePadController(void)
 	dir.x = pad.AKeyLX;
 	dir.z = -pad.AKeyLZ;
 
-	// 攻撃処理
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) && !attack_)
-	{
-		ChangeState(STATE::ATTACK);
-	}
-
 	// Bボタンで走る
 	if (state_ != STATE::ATTACK && state_ != STATE::HIT)
 	{
@@ -354,14 +480,6 @@ void Player::GamePadController(void)
 			ChangeState(STATE::WALK);
 		}
 
-	}
-
-	// プレイヤーが向いている方向にカメラを向ける
-	auto rad = transform_.quaRot.ToEuler();
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_BOTTON))
-	{
-		// カメラの角度を基準とし、方向分の角度を加える
-		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
 	}
 
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK)
@@ -390,6 +508,35 @@ void Player::GamePadController(void)
 
 }
 
+void Player::GamePadAttack(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// 攻撃処理
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) && !hit_)
+	{
+		ChangeState(STATE::ATTACK);
+		hit_ = true;
+	}
+
+}
+
+void Player::GamePadCamera(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// プレイヤーが向いている方向にカメラを向ける
+	auto rad = transform_.quaRot.ToEuler();
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_BOTTON))
+	{
+		// カメラの角度を基準とし、方向分の角度を加える
+		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
+	}
+
+}
+
 void Player::ChangeState(STATE state)
 {
 
@@ -411,6 +558,14 @@ void Player::ChangeState(STATE state)
 	case Player::STATE::ATTACK:
 		attack_ = true;
 		SetAttackAnimation();
+		break;
+	case Player::STATE::ATTACK2:
+		attack_ = true;
+		SetAttackAnimation2();
+		break;
+	case Player::STATE::ATTACK3:
+		attack_ = true;
+		SetAttackAnimation3();
 		break;
 	case Player::STATE::HIT:
 		SetHitAnimation();
@@ -483,6 +638,44 @@ void Player::SetAttackAnimation(void)
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
+
+}
+
+void Player::SetAttackAnimation2(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 60.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 40.0f;
+
+}
+
+void Player::SetAttackAnimation3(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 60.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 60.0f;
 
 }
 
@@ -610,8 +803,11 @@ void Player::Animation(void)
 		// ループ再生
 		stepAnim_ = 0.0f;
 
-		if (state_ == STATE::ATTACK || state_ == STATE::HIT)
+		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3 || state_ == STATE::HIT)
 		{
+			stepAnim_ = 0.0f;
+			hit_ = false;
+			attack3_ = false;
 			ChangeState(STATE::IDLE);
 		}
 	}
@@ -619,4 +815,40 @@ void Player::Animation(void)
 	// 再生するアニメーション時間の設定
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 
+	// アニメーションの固定
+	AnimationFrame();
+
+}
+
+void Player::AnimationFrame(void)
+{
+
+	// 対象フレームのローカル行列を初期値にリセットする
+	MV1ResetFrameUserLocalMatrix(transform_.modelId, playerAttachFrameNum_);
+
+	// ジャンプ攻撃時に座標を固定する
+	if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3)
+	{
+
+		// 対象フレームのローカル行列(大きさ、回転、位置)を取得する
+		auto mat = MV1GetFrameLocalMatrix(transform_.modelId, playerAttachFrameNum_);
+
+		auto scl = MGetSize(mat); // 行列から大きさを取り出す
+		auto rot = MGetRotElem(mat); // 行列から回転を取り出す
+		auto pos = MGetTranslateElem(mat); // 行列から移動値を取り出す
+
+		// 大きさ、回転、位置をローカル行列に戻す
+		MATRIX mix = MGetIdent();
+		mix = MMult(mix, MGetScale(scl)); // 大きさ
+		mix = MMult(mix, rot); // 回転
+
+		// ここでローカル座標を行列に、そのまま戻さず、
+		// 調整したローカル座標を設定する
+		mix = MMult(mix, MGetTranslate({ pos.x, pos.y, 0.0f }));
+
+		// 合成した行列を対象フレームにセットし直して、
+		// アニメーションの移動値を無効化
+		MV1SetFrameUserLocalMatrix(transform_.modelId, playerAttachFrameNum_, mix);
+
+	}
 }

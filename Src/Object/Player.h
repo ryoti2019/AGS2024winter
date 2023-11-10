@@ -26,6 +26,8 @@ public:
 		WALK,
 		RUN,
 		ATTACK,
+		ATTACK2,
+		ATTACK3,
 		HIT
 	};
 
@@ -87,6 +89,15 @@ protected:
 	// 攻撃がヒットしたか
 	bool hit_;
 
+	// 攻撃１段階目
+	bool attack1_;
+
+	// 攻撃２段階目
+	bool attack2_;
+
+	// 攻撃３段階目
+	bool attack3_;
+
 	// アニメーションごとに変数に代入
 	int idleAnim_;
 	int walkAnim_;
@@ -100,6 +111,18 @@ protected:
 	// プレイヤーの衝突判定の座標
 	VECTOR cBodyPosUp_;
 	VECTOR cBodyPosDown_;
+
+	// 移動処理
+	void KeyboardMove(void);
+	void GamePadMove(void);
+
+	// 攻撃処理
+	void KeyboardAttack(void);
+	void GamePadAttack(void);
+
+	// プレイヤー方向にカメラを向ける処理
+	void KeyBoardCamera(void);
+	void GamePadCamera(void);
 
 	// 衝突判定
 	void Collision(void);
@@ -118,6 +141,8 @@ protected:
 	void SetWalkAnimation(void);
 	void SetRunAnimation(void);
 	void SetAttackAnimation(void);
+	void SetAttackAnimation2(void);
+	void SetAttackAnimation3(void);
 	void SetHitAnimation(void);
 
 	// 遅延回転
@@ -133,10 +158,13 @@ protected:
 	void InitAnimation(void) override;
 
 	// キーボードの操作
-	void KeybordContoroller(void);
+	void KeyboardContoroller(void);
 
 	// ゲームパッドの操作
 	void GamePadController(void);
+
+	// アニメーションのフレームの固定
+	void AnimationFrame(void);
 
 };
 

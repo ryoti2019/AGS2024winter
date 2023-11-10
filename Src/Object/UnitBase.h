@@ -84,7 +84,7 @@ protected:
 	// パラメータ設定
 	virtual void SetParam(void) = 0;
 
-	// 移動 実装して貰うように。
+	// 移動
 	virtual void Move(void);
 
 	// アニメーション

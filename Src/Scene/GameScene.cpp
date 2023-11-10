@@ -79,7 +79,7 @@ void GameScene::Update(void)
 		// ƒvƒŒƒCƒ„[‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-1);
+			enemy_->SetHP(-50);
 			enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
@@ -97,7 +97,7 @@ void GameScene::Update(void)
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-1);
+			player_->SetHP(-50);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 		}
@@ -112,7 +112,7 @@ void GameScene::Update(void)
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-1);
+			player_->SetHP(-50);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 		}

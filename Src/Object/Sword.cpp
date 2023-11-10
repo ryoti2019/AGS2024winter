@@ -106,15 +106,6 @@ void Sword::Update(void)
 	cPosDown_ = VAdd(transform_.pos, cPosDOWN);
 	cPosUp_ = VAdd(transform_.pos, cPosUP);
 
-	//// ƒ‰ƒWƒAƒ“‚©‚çs—ñ
-	//MATRIX matPos = MGetTranslate(transform_.pos);
-
-	//MV1SetMatrix(transform_.modelId, matPos);
-
-	//MV1SetPosition(followTransform_->modelId,transform_.pos);
-
-	//transform_.pos = followPos;
-
 	transform_.Update();
 
 }

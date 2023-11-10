@@ -474,6 +474,16 @@ void Enemy::UpdateTackle(void)
 
 void Enemy::UpdateHit(void)
 {
+	// プレイヤーとの距離を求める
+	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
+	pDirection_ = VNorm(vec);
+
+	if (stepAnim_ <= 50.0f)
+	{
+		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, -5.0f));
+	}
+
+
 }
 
 void Enemy::Collision(void)
@@ -576,6 +586,7 @@ void Enemy::ChangeState(STATE state)
 		SetTackleAnimation();
 		break;
 	case Enemy::STATE::HIT:
+		attackPlayerPos_ = followTransform_->pos;
 		SetHitAnimation();
 		break;
 	}
@@ -673,7 +684,7 @@ void Enemy::SetHitAnimation(void)
 	speedAnim_ = 20.0f;
 
 	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
+	stepAnim_ = 10.0f;
 
 }
 

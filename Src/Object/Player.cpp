@@ -30,13 +30,33 @@ void Player::InitAnimation(void)
 	walkAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_WALK);
 
+	// 歩くアニメーション
+	attackWalkAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_ATTACK_WALK);
+	
 	// 走るアニメーション
 	runAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_RUN);
 
+	//// 攻撃アニメーション
+	//attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+	//	ResourceManager::SRC::PLAYER_ATTACK);
+
+	//// 攻撃アニメーション
+	//attackAnim2_ = ResourceManager::GetInstance().LoadModelDuplicate(
+	//	ResourceManager::SRC::PLAYER_ATTACK2);
+
+	//// 攻撃アニメーション
+	//attackAnim3_ = ResourceManager::GetInstance().LoadModelDuplicate(
+	//	ResourceManager::SRC::PLAYER_ATTACK3);
+
 	// 攻撃アニメーション
-	attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_ATTACK);
+	attackAnim4_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_ATTACK4);
+
+	// 攻撃アニメーション
+	attackAnim5_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_ATTACK5);
 
 	// ダメージヒットアニメーション
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
@@ -109,37 +129,41 @@ void Player::Update(void)
 		break;
 	case Player::STATE::WALK:
 		break;
+	case Player::STATE::ATTACK_WALK:
+		break;
 	case Player::STATE::RUN:
 		break;
 	case Player::STATE::ATTACK:
-		// 攻撃１段階目で終わるとき
-		if (stepAnim_ >= 40.0f && stepAnim_ <= 45.0f && state_ == STATE::ATTACK && !attack2_)
+		if (stepAnim_ >= 27.0f && stepAnim_ <= 37.0f && !hit_)
 		{
-			stepAnim_ = 0.0f;
-			hit_ = false;
+			attack_ = true;
+		}
+		if (stepAnim_ >= ATTACK_END_TIME1 - 1.0f)
+		{
 			attack1_ = false;
-			ChangeState(STATE::IDLE);
 		}
 		break;
 	case Player::STATE::ATTACK2:
-		// 攻撃２段階目で終わるとき
-			if (stepAnim_ >= 60.0f && stepAnim_ <= 65.0f && state_ == STATE::ATTACK2 && !attack3_)
-			{
-				stepAnim_ = 0.0f;
-				hit_ = false;
-				attack1_ = false;
-				attack2_ = false;
-				ChangeState(STATE::IDLE);
-			}
+		if (stepAnim_ >= 51.0f && stepAnim_ <= 58.0f && !hit_)
+		{
+			attack_ = true;
+		}
+		if (stepAnim_ >= ATTACK_END_TIME2 - 1.0f)
+		{
+			attack2_ = false;
+		}
 		break;
 	case Player::STATE::ATTACK3:
+		if (stepAnim_ >= 100.0f && stepAnim_ <= 110.0f && !hit_)
+		{
+			attack_ = true;
+		}
+		break;
+	case Player::STATE::ATTACK4:
 		break;
 	case Player::STATE::HIT:
 		break;
 	}
-
-
-
 
 	// キーボードでの操作
 	if (!SceneManager::GetInstance().GetGamePad())
@@ -172,6 +196,27 @@ void Player::Draw(void)
 	// デバッグ描画
 	DrawDebug();
 
+	// HPバー
+	DrawHPBar();
+
+}
+
+void Player::DrawHPBar(void)
+{
+	// HPバー
+	int hpLength = HP_LENGTH;
+	int H;
+	int hpGauge;
+	H = hp_ * (512.0f / hpMax_) - 100;
+	int R = min(max((384 - H), 0), 0xff);
+	int G = min(max((H + 64), 0), 0xff);
+	int B = max((H - 384), 0);
+	hpGauge = hpLength * hp_ / hpMax_;
+
+	if (hp_ >= 0)
+	{
+		DrawBox(0, Application::SCREEN_SIZE_Y - 30, 500 + hpGauge, Application::SCREEN_SIZE_Y, GetColor(R, G, B), true);
+	}
 }
 
 void Player::Release(void)
@@ -298,7 +343,7 @@ void Player::KeyboardMove(void)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
 
 	// 移動量
-	float movePow = 10.0f;
+	float movePow = MOVE_POW_WALK;
 
 	// WASDでプレイヤーの位置を変える
 	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
@@ -307,7 +352,9 @@ void Player::KeyboardMove(void)
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
 
 	// スペースキーで走る
-	if (state_ != STATE::ATTACK && state_ != STATE::HIT)
+	if (state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4
+		&& state_ != STATE::HIT)
 	{
 
 		// 待機状態
@@ -319,7 +366,7 @@ void Player::KeyboardMove(void)
 		else if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
 		{
 			ChangeState(STATE::RUN);
-			movePow = 20.0f;
+			movePow = MOVE_POW_RUN;
 		}
 		// 歩く
 		else if (!AsoUtility::EqualsVZero(dir))
@@ -328,7 +375,9 @@ void Player::KeyboardMove(void)
 		}
 	}
 
-	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::HIT)
+	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4 
+		&& state_ != STATE::HIT)
 	{
 
 		// 方向を正規化
@@ -351,60 +400,68 @@ void Player::KeyboardMove(void)
 		LazyRotation(cameraAngles.y + angle);
 
 	}
+
 }
 
 void Player::KeyboardAttack(void)
 {
 
-	auto& ins = InputManager::GetInstance();
+	auto& insInput = InputManager::GetInstance();
+	auto& insScene = SceneManager::GetInstance();
 
-	//// 攻撃処理
-	//if (ins.IsTrgDown(KEY_INPUT_J) && !hit_)
-	//{
-	//	hit_ = true;
-	//	attack1_ = true;
-	//	ChangeState(STATE::ATTACK);
-	//}
-
-	//if (ins.IsTrgDown(KEY_INPUT_J) && attack1_ && stepAnim_ >= 1.0f && stepAnim_ <= 40.0f)
-	//{
-	//	attack2_ = true;
-	//}
-
-	//if (!hit_ && attack2_)
-	//{
-	//	hit_ = true;
-	//	ChangeState(STATE::ATTACK2);
-	//}
+	// 攻撃処理
 	// ボタンがクリックされたかどうかを確認
-	if (ins.IsTrgDown(KEY_INPUT_J) && !hit_)
+	if (insInput.IsNew(KEY_INPUT_J) && chargeCnt <= CHARGE_TIME && state_ != STATE::ATTACK4
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3)
 	{
-		// ボタンが押されたらアニメーションを切り替える
-		// １段階目
+		chargeCnt += insScene.GetDeltaTime();
+	}
+
+	if (insInput.IsTrgUp(KEY_INPUT_J) && chargeCnt <= CHARGE_TIME)
+	{
+		//ボタンが押されたらアニメーションを切り替える
+		//１段階目
 		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK)
 		{
-			hit_ = true;
+			attack_ = true;
 			attack1_ = true;
 			ChangeState(STATE::ATTACK);
 		}
-
-		// 次の攻撃につなげるフラグ
-		if (attack1_ && stepAnim_ >= 1.0f && stepAnim_ <= 40.0f)
+		// ２段階目
+		else if (state_ == STATE::ATTACK && !attack2_)
 		{
 			attack2_ = true;
 		}
-
-		// ２段階目
-		if (state_ == STATE::ATTACK)
+		// 3段階目
+		else if (state_ == STATE::ATTACK && attack2_)
 		{
-			hit_ = true;
-			ChangeState(STATE::ATTACK2);
+			attack3_ = true;
 		}
-		//// ３段階目
-		//if (state_ == STATE::ATTACK3)
-		//{
-		//	ChangeState(STATE::ATTACK3);
-		//}
+		else if (state_ == STATE::ATTACK2)
+		{
+			attack3_ = true;
+		}
+	}
+
+	// １段階目が終わったら遷移する
+	if (attack2_ && !attack1_ && state_ == STATE::ATTACK)
+	{
+		chargeCnt = 0.0f;
+		ChangeState(STATE::ATTACK2);
+	}
+
+	// ２段階目が終わったら遷移する
+	if (attack3_ && !attack2_ && state_ == STATE::ATTACK2)
+	{
+		chargeCnt = 0.0f;
+		ChangeState(STATE::ATTACK3);
+	}
+
+	// 溜め斬り
+	if (chargeCnt >= CHARGE_TIME)
+	{
+		chargeCnt = 0.0f;
+		ChangeState(STATE::ATTACK4);
 	}
 
 }
@@ -447,7 +504,7 @@ void Player::GamePadMove(void)
 	auto& ins = InputManager::GetInstance();
 
 	// 移動量
-	float movePow = 10.0f;
+	float movePow = MOVE_POW_WALK;
 
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
@@ -463,7 +520,9 @@ void Player::GamePadMove(void)
 	dir.z = -pad.AKeyLZ;
 
 	// Bボタンで走る
-	if (state_ != STATE::ATTACK && state_ != STATE::HIT)
+	if (state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4
+		&& state_ != STATE::HIT)
 	{
 
 		if (AsoUtility::EqualsVZero(dir))
@@ -473,7 +532,7 @@ void Player::GamePadMove(void)
 		else if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN) && !AsoUtility::EqualsVZero(dir))
 		{
 			ChangeState(STATE::RUN);
-			movePow = 20.0f;
+			movePow = MOVE_POW_RUN;
 		}
 		else if (!AsoUtility::EqualsVZero(dir))
 		{
@@ -482,7 +541,8 @@ void Player::GamePadMove(void)
 
 	}
 
-	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK)
+	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4)
 	{
 
 		// 方向を正規化
@@ -552,20 +612,26 @@ void Player::ChangeState(STATE state)
 	case Player::STATE::WALK:
 		SetWalkAnimation();
 		break;
+	case Player::STATE::ATTACK_WALK:
+		break;
 	case Player::STATE::RUN:
 		SetRunAnimation();
 		break;
 	case Player::STATE::ATTACK:
-		attack_ = true;
+		hit_ = false;
 		SetAttackAnimation();
 		break;
 	case Player::STATE::ATTACK2:
-		attack_ = true;
+		hit_ = false;
 		SetAttackAnimation2();
 		break;
 	case Player::STATE::ATTACK3:
-		attack_ = true;
+		hit_ = false;
 		SetAttackAnimation3();
+		break;
+	case Player::STATE::ATTACK4:
+		hit_ = false;
+		SetAttackAnimation4();
 		break;
 	case Player::STATE::HIT:
 		SetHitAnimation();
@@ -586,7 +652,7 @@ void Player::SetIdleAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = IDLE_ANIM_SPEED;
 
 }
 
@@ -602,7 +668,7 @@ void Player::SetWalkAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 30.0f;
+	speedAnim_ = WALK_ANIM_SPEED;
 
 }
 
@@ -618,7 +684,7 @@ void Player::SetRunAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 40.0f;
+	speedAnim_ = RUN_ANIM_SPEED;
 
 }
 
@@ -628,13 +694,13 @@ void Player::SetAttackAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim4_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 60.0f;
+	speedAnim_ = ATTACK_ANIM_SPEED;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
@@ -647,16 +713,16 @@ void Player::SetAttackAnimation2(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim4_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 60.0f;
+	speedAnim_ = ATTACK_ANIM_SPEED;
 
 	// アニメーション時間の初期化
-	stepAnim_ = 40.0f;
+	stepAnim_ = ATTACK_START_TIME2;
 
 }
 
@@ -666,16 +732,35 @@ void Player::SetAttackAnimation3(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim4_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 60.0f;
+	speedAnim_ = ATTACK_ANIM_SPEED;
 
 	// アニメーション時間の初期化
-	stepAnim_ = 60.0f;
+	stepAnim_ = ATTACK_START_TIME3;
+
+}
+
+void Player::SetAttackAnimation4(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim5_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 30.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
 
 }
 
@@ -691,7 +776,7 @@ void Player::SetHitAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 30.0f;
+	speedAnim_ = HIT_ANIM_SPEED;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
@@ -734,35 +819,18 @@ void Player::LazyRotation(float goalRot)
 	//	transform_.quaRot.y = qua.y;
 	//}
 
-
 	//auto* camera = SceneManager::GetInstance().GetCamera();
 
 	//auto cameraRotY = camera->GetRotY();
 	//transform_.quaRot = Quaternion::Slerp(transform_.quaRot, cameraRotY, 0.1f);
 
-
 	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
-	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.1f);
+	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, ROTATION_POW);
 
 }
 
 void Player::DrawDebug(void)
 {
-
-	// HPバー
-	int hpLength = 300;
-	int H;
-	int hpGauge;
-	H = hp_ * (512.0f / hpMax_) - 100;
-	int R = min(max((384 - H), 0), 0xff);
-	int G = min(max((H + 64), 0), 0xff);
-	int B = max((H - 384), 0);
-	hpGauge = hpLength * hp_ / hpMax_;
-
-	if (hp_ >= 0)
-	{
-		DrawBox(0, Application::SCREEN_SIZE_Y - 30, 500 + hpGauge, Application::SCREEN_SIZE_Y, GetColor(R, G, B), true);
-	}
 
 	auto rad = transform_.quaRot.ToEuler();
 
@@ -803,13 +871,37 @@ void Player::Animation(void)
 		// ループ再生
 		stepAnim_ = 0.0f;
 
-		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3 || state_ == STATE::HIT)
+		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
+			|| state_ == STATE::ATTACK3 || state_ == STATE::ATTACK4 
+			|| state_ == STATE::HIT)
 		{
 			stepAnim_ = 0.0f;
-			hit_ = false;
+			attack1_ = false;
+			attack2_ = false;
 			attack3_ = false;
+
+			hit_ = false;
 			ChangeState(STATE::IDLE);
+			chargeCnt = 0.0f;
 		}
+	}
+
+	// 2段階目に進まないときはリセット
+	if (state_ == STATE::ATTACK && stepAnim_ >= ATTACK_END_TIME1 && !attack2_)
+	{
+		stepAnim_ = 0.0f;
+		hit_ = false;
+		ChangeState(STATE::IDLE);
+		chargeCnt = 0.0f;
+	}
+
+	// 3段階目に進まないときはリセット
+	if (state_ == STATE::ATTACK2 && stepAnim_ >= ATTACK_END_TIME2 && !attack3_)
+	{
+		stepAnim_ = 0.0f;
+		hit_ = false;
+		ChangeState(STATE::IDLE);
+		chargeCnt = 0.0f;
 	}
 
 	// 再生するアニメーション時間の設定
@@ -827,7 +919,7 @@ void Player::AnimationFrame(void)
 	MV1ResetFrameUserLocalMatrix(transform_.modelId, playerAttachFrameNum_);
 
 	// ジャンプ攻撃時に座標を固定する
-	if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3)
+	if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3 || state_ == STATE::ATTACK4)
 	{
 
 		// 対象フレームのローカル行列(大きさ、回転、位置)を取得する
@@ -851,4 +943,5 @@ void Player::AnimationFrame(void)
 		MV1SetFrameUserLocalMatrix(transform_.modelId, playerAttachFrameNum_, mix);
 
 	}
+
 }

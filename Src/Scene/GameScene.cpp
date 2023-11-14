@@ -74,13 +74,15 @@ void GameScene::Update(void)
 	// プレイヤーの剣と敵のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
-		&& player_->GetState() == Player::STATE::ATTACK && enemy_->GetState() != Enemy::STATE::HIT)
+		&& (player_->GetState() == Player::STATE::ATTACK
+			|| player_->GetState() == Player::STATE::ATTACK2
+			|| player_->GetState() == Player::STATE::ATTACK3))
 	{
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-50);
-			enemy_->SetState(Enemy::STATE::HIT);
+			enemy_->SetHP(-1);
+			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
 		}
@@ -97,7 +99,7 @@ void GameScene::Update(void)
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-50);
+			player_->SetHP(-10);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 		}
@@ -112,7 +114,7 @@ void GameScene::Update(void)
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-50);
+			player_->SetHP(-10);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 		}

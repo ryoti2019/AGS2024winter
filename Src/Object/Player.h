@@ -16,18 +16,62 @@ public:
 	// プレイヤーの衝突判定の球体半径
 	static constexpr float COLLISION_BODY_RADIUS = 40.0f;
 
-	// 攻撃時間
-	static constexpr float ATTACK_TIME = 0.5f;
+	// 攻撃の2段階目が始まる時間
+	static constexpr float ATTACK_START_TIME2 = 40.0f;
+
+	// 攻撃の2段階目が始まる時間
+	static constexpr float ATTACK_START_TIME3 = 60.0f;
+
+	// 攻撃の1段階目が終わる時間
+	static constexpr float ATTACK_END_TIME1 = 40.0f;
+
+	// 攻撃の2段階目が終わる時間
+	static constexpr float ATTACK_END_TIME2 = 60.0f;
+
+	// 攻撃の3段階目が終わる時間
+	static constexpr float ATTACK_END_TIME3 = 40.0f;
+
+	// 移動量(歩く)
+	static constexpr float MOVE_POW_WALK = 10.0f;
+
+	// 移動量(走る)
+	static constexpr float MOVE_POW_RUN = 20.0f;
+
+	// 待機アニメーションの再生速度
+	static constexpr float IDLE_ANIM_SPEED = 20.0f;
+
+	// 歩くアニメーションの再生速度
+	static constexpr float WALK_ANIM_SPEED = 30.0f;
+
+	// 走るアニメーションの再生速度
+	static constexpr float RUN_ANIM_SPEED = 40.0f;
+
+	// 攻撃アニメーションの再生速度
+	static constexpr float ATTACK_ANIM_SPEED = 60.0f;
+
+	// 攻撃を受けた時のアニメーションの再生速度
+	static constexpr float HIT_ANIM_SPEED = 30.0f;
+
+	// 回転する強さ
+	static constexpr float ROTATION_POW = 0.1f;
+
+	// HPバーの長さ
+	static constexpr int HP_LENGTH = 300;
+
+	// ため斬りのボタンを押す秒数
+	static constexpr float CHARGE_TIME = 1.0f;
 
 	// プレイヤーの状態
 	enum class STATE
 	{
 		IDLE,
 		WALK,
+		ATTACK_WALK,
 		RUN,
 		ATTACK,
 		ATTACK2,
 		ATTACK3,
+		ATTACK4,
 		HIT
 	};
 
@@ -101,9 +145,17 @@ protected:
 	// アニメーションごとに変数に代入
 	int idleAnim_;
 	int walkAnim_;
+	int attackWalkAnim_;
 	int runAnim_;
-	int attackAnim_;
+	//int attackAnim_;
+	//int attackAnim2_;
+	//int attackAnim3_;
+	int attackAnim4_;
+	int attackAnim5_;
 	int hitAnim_;
+
+	// ため斬りのカウンタ
+	float chargeCnt;
 
 	// カプセルをアタッチするフレームの番号
 	int playerAttachFrameNum_;
@@ -143,6 +195,7 @@ protected:
 	void SetAttackAnimation(void);
 	void SetAttackAnimation2(void);
 	void SetAttackAnimation3(void);
+	void SetAttackAnimation4(void);
 	void SetHitAnimation(void);
 
 	// 遅延回転
@@ -165,6 +218,9 @@ protected:
 
 	// アニメーションのフレームの固定
 	void AnimationFrame(void);
+
+	// HPバーの描画
+	void DrawHPBar(void);
 
 };
 

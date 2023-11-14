@@ -141,7 +141,7 @@ void Enemy::Update(void)
 		UpdateTackle();
 		break;
 	case Enemy::STATE::HIT:
-		UpdateHit();
+		/*UpdateHit();*/
 		break;
 	}
 
@@ -474,6 +474,7 @@ void Enemy::UpdateTackle(void)
 
 void Enemy::UpdateHit(void)
 {
+
 	// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ğ‹‚ß‚é
 	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
 	pDirection_ = VNorm(vec);
@@ -482,7 +483,6 @@ void Enemy::UpdateHit(void)
 	{
 		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, -5.0f));
 	}
-
 
 }
 

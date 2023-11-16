@@ -114,6 +114,9 @@ protected:
 	int jumpAttackAnim_;
 	int hitAnim_;
 
+	// 最初の歩きのアニメーションのカウンタ
+	float walkCnt_;
+	
 	// 回転の終了のフラグ
 	bool rotationEnd_;
 

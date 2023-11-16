@@ -31,8 +31,8 @@ void Player::InitAnimation(void)
 		ResourceManager::SRC::PLAYER_WALK);
 
 	// 歩くアニメーション
-	attackWalkAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_ATTACK_WALK);
+	chargeWalkAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_CHARGE_WALK);
 	
 	// 走るアニメーション
 	runAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
@@ -118,6 +118,9 @@ void Player::Init(void)
 	// 攻撃３段階目
 	attack3_ = false;
 
+	// 攻撃４
+	chargeAttack_ = false;
+
 }
 
 void Player::Update(void)
@@ -129,7 +132,7 @@ void Player::Update(void)
 		break;
 	case Player::STATE::WALK:
 		break;
-	case Player::STATE::ATTACK_WALK:
+	case Player::STATE::CHARGE_WALK:
 		break;
 	case Player::STATE::RUN:
 		break;
@@ -159,7 +162,11 @@ void Player::Update(void)
 			attack_ = true;
 		}
 		break;
-	case Player::STATE::ATTACK4:
+	case Player::STATE::CHARGE_ATTACK:
+		if (stepAnim_ >= 20.0f && stepAnim_ <= 30.0f && !hit_)
+		{
+			attack_ = true;
+		}
 		break;
 	case Player::STATE::HIT:
 		break;
@@ -353,7 +360,7 @@ void Player::KeyboardMove(void)
 
 	// スペースキーで走る
 	if (state_ != STATE::ATTACK && state_ != STATE::ATTACK2
-		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4
+		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::HIT)
 	{
 
@@ -373,10 +380,14 @@ void Player::KeyboardMove(void)
 		{
 			ChangeState(STATE::WALK);
 		}
+		else if (ins.IsNew(KEY_INPUT_J) && !AsoUtility::EqualsVZero(dir))
+		{
+			movePow = MOVE_POW_CHRAGE_WALK;
+		}
 	}
 
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
-		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4 
+		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::HIT)
 	{
 
@@ -411,14 +422,16 @@ void Player::KeyboardAttack(void)
 
 	// 攻撃処理
 	// ボタンがクリックされたかどうかを確認
-	if (insInput.IsNew(KEY_INPUT_J) && chargeCnt <= CHARGE_TIME && state_ != STATE::ATTACK4
+	if (insInput.IsNew(KEY_INPUT_J) && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3)
 	{
 		chargeCnt += insScene.GetDeltaTime();
+		ChangeState(STATE::CHARGE_WALK);
 	}
 
 	if (insInput.IsTrgUp(KEY_INPUT_J) && chargeCnt <= CHARGE_TIME)
 	{
+
 		//ボタンが押されたらアニメーションを切り替える
 		//１段階目
 		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK)
@@ -460,8 +473,9 @@ void Player::KeyboardAttack(void)
 	// 溜め斬り
 	if (chargeCnt >= CHARGE_TIME)
 	{
+		chargeAttack_ = true;
 		chargeCnt = 0.0f;
-		ChangeState(STATE::ATTACK4);
+		ChangeState(STATE::CHARGE_ATTACK);
 	}
 
 }
@@ -521,7 +535,7 @@ void Player::GamePadMove(void)
 
 	// Bボタンで走る
 	if (state_ != STATE::ATTACK && state_ != STATE::ATTACK2
-		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4
+		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::HIT)
 	{
 
@@ -542,7 +556,7 @@ void Player::GamePadMove(void)
 	}
 
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
-		&& state_ != STATE::ATTACK3 && state_ != STATE::ATTACK4)
+		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK)
 	{
 
 		// 方向を正規化
@@ -612,7 +626,8 @@ void Player::ChangeState(STATE state)
 	case Player::STATE::WALK:
 		SetWalkAnimation();
 		break;
-	case Player::STATE::ATTACK_WALK:
+	case Player::STATE::CHARGE_WALK:
+		SetChargeWalkAnimation();
 		break;
 	case Player::STATE::RUN:
 		SetRunAnimation();
@@ -629,7 +644,7 @@ void Player::ChangeState(STATE state)
 		hit_ = false;
 		SetAttackAnimation3();
 		break;
-	case Player::STATE::ATTACK4:
+	case Player::STATE::CHARGE_ATTACK:
 		hit_ = false;
 		SetAttackAnimation4();
 		break;
@@ -669,6 +684,22 @@ void Player::SetWalkAnimation(void)
 
 	// アニメーション速度
 	speedAnim_ = WALK_ANIM_SPEED;
+
+}
+
+void Player::SetChargeWalkAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, chargeWalkAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = CHARGE_WALK_ANIM_SPEED;
 
 }
 
@@ -872,13 +903,14 @@ void Player::Animation(void)
 		stepAnim_ = 0.0f;
 
 		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
-			|| state_ == STATE::ATTACK3 || state_ == STATE::ATTACK4 
+			|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK 
 			|| state_ == STATE::HIT)
 		{
 			stepAnim_ = 0.0f;
 			attack1_ = false;
 			attack2_ = false;
 			attack3_ = false;
+			chargeAttack_ = false;
 
 			hit_ = false;
 			ChangeState(STATE::IDLE);
@@ -919,7 +951,7 @@ void Player::AnimationFrame(void)
 	MV1ResetFrameUserLocalMatrix(transform_.modelId, playerAttachFrameNum_);
 
 	// ジャンプ攻撃時に座標を固定する
-	if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3 || state_ == STATE::ATTACK4)
+	if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK)
 	{
 
 		// 対象フレームのローカル行列(大きさ、回転、位置)を取得する

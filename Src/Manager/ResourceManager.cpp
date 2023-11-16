@@ -66,7 +66,7 @@ void ResourceManager::Init(void)
 
 	// プレイヤーの歩くアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Walk.mv1");
-	resourcesMap_.emplace(SRC::PLAYER_ATTACK_WALK, res);
+	resourcesMap_.emplace(SRC::PLAYER_CHARGE_WALK, res);
 
 	// プレイヤーの走るアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Standard Run.mv1");

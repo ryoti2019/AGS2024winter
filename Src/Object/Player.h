@@ -34,6 +34,9 @@ public:
 	// 移動量(歩く)
 	static constexpr float MOVE_POW_WALK = 10.0f;
 
+	// 移動量(溜めながら歩く)
+	static constexpr float MOVE_POW_CHRAGE_WALK = 5.0f;
+
 	// 移動量(走る)
 	static constexpr float MOVE_POW_RUN = 20.0f;
 
@@ -42,6 +45,9 @@ public:
 
 	// 歩くアニメーションの再生速度
 	static constexpr float WALK_ANIM_SPEED = 30.0f;
+
+	// 溜めながら歩くアニメーションの再生速度
+	static constexpr float CHARGE_WALK_ANIM_SPEED = 20.0f;
 
 	// 走るアニメーションの再生速度
 	static constexpr float RUN_ANIM_SPEED = 40.0f;
@@ -66,12 +72,12 @@ public:
 	{
 		IDLE,
 		WALK,
-		ATTACK_WALK,
+		CHARGE_WALK,
 		RUN,
 		ATTACK,
 		ATTACK2,
 		ATTACK3,
-		ATTACK4,
+		CHARGE_ATTACK,
 		HIT
 	};
 
@@ -142,10 +148,13 @@ protected:
 	// 攻撃３段階目
 	bool attack3_;
 
+	// 溜め斬り
+	bool chargeAttack_;
+
 	// アニメーションごとに変数に代入
 	int idleAnim_;
 	int walkAnim_;
-	int attackWalkAnim_;
+	int chargeWalkAnim_;
 	int runAnim_;
 	//int attackAnim_;
 	//int attackAnim2_;
@@ -191,6 +200,7 @@ protected:
 	// アニメーションの初期設定
 	void SetIdleAnimation(void);
 	void SetWalkAnimation(void);
+	void SetChargeWalkAnimation(void);
 	void SetRunAnimation(void);
 	void SetAttackAnimation(void);
 	void SetAttackAnimation2(void);

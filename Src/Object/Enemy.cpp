@@ -107,6 +107,9 @@ void Enemy::Init(void)
 	// 当たったかのフラグ
 	hit_ = false;
 
+	// 最初の歩きのアニメーションのカウンタ
+	walkCnt_ = 0.0f;
+
 	// 初期状態
 	ChangeState(STATE::THINK);
 
@@ -155,6 +158,8 @@ void Enemy::Update(void)
 	Collision();
 
 	transform_.Update();
+
+	walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
 }
 
@@ -272,6 +277,11 @@ void Enemy::Think(void)
 		ChangeState(STATE::WALK);
 	}
 
+	if (walkCnt_ <= 2.0f)
+	{
+		return;
+	}
+
 	// 通常攻撃 ----------------------------------------------
 
 	// プレイヤーの方向を求める
@@ -279,7 +289,7 @@ void Enemy::Think(void)
 	length = AsoUtility::Magnitude(vec);
 
 	// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	if (length < 500.0f)
+	if (length < 400.0f)
 	{
 		ChangeState(STATE::ATTACK);
 	}

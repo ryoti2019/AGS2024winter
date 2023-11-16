@@ -76,7 +76,8 @@ void GameScene::Update(void)
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (player_->GetState() == Player::STATE::ATTACK
 			|| player_->GetState() == Player::STATE::ATTACK2
-			|| player_->GetState() == Player::STATE::ATTACK3))
+			|| player_->GetState() == Player::STATE::ATTACK3)
+			|| player_->GetState() == Player::STATE::CHARGE_ATTACK)
 	{
 		// ƒvƒŒƒCƒ„[‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
 		if (player_->GetAttack())

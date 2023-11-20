@@ -141,18 +141,6 @@ VECTOR Camera::GetAngles(void) const
 	return angle_;
 }
 
-void Camera::SetAngles(const VECTOR angles)
-{
-
-	angle_ = angles;
-
-	LazyRotation(angle_.y);
-
-	rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
-	rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
-	
-}
-
 void Camera::SetLazyAngles(const VECTOR angles)
 {
 
@@ -172,7 +160,7 @@ void Camera::SetBeforeDrawFollow(void)
 	// Qキーを押したらtrueになる
 	if (isLazy_)
 	{
-		LazyRotation2();
+		LazyRotation();
 	}
 
 	// キーボードでの操作
@@ -426,17 +414,7 @@ void Camera::GamePadController(void)
 
 }
 
-void Camera::LazyRotation(float goalRot)
-{
-	//float time = 0.0f;
-
-	//time += SceneManager::GetInstance().GetDeltaTime();
-
-	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
-	rotY_ = Quaternion::Slerp(rotY_, goal, 0.1f);
-}
-
-void Camera::LazyRotation2(void)
+void Camera::LazyRotation(void)
 {
 
 	if (isOp_)

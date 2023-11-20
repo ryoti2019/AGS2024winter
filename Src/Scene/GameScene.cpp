@@ -89,7 +89,7 @@ void GameScene::Update(void)
 		}
 	}
 
-	// プレイヤーと敵の武器のカプセル同士の当たり判定
+	// プレイヤーと敵の武器同士の当たり判定
 	if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::ATTACK
@@ -105,7 +105,7 @@ void GameScene::Update(void)
 			enemy_->SetHit(true);
 		}
 	}
-	// プレイヤーと敵のカプセル同士の当たり判定
+	// プレイヤーと敵同士の当たり判定
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::JUMP_ATTACK

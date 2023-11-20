@@ -310,7 +310,7 @@ void Enemy::Think(void)
 		pDirection_ = VNorm(vec);
 
 		// ジャンプ攻撃
-		if (length > 100.0f && length < 3000.f)
+		if (length > 300.0f && length < 3000.f)
 		{
 			ChangeState(STATE::JUMP_ATTACK);
 		}
@@ -439,9 +439,9 @@ void Enemy::UpdateJumpAttack(void)
 	float length = AsoUtility::Magnitude(vec);
 
 	// プレイヤーとの距離が10.0f未満になるまで移動
-	if (stepAnim_ <= 50.0f)
+	if (stepAnim_ <= 300.0f)
 	{
-		if (length >= 10.0f)
+		if (length >= 300.0f)
 		{
 			transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 20.0f));
 		}

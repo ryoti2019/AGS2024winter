@@ -71,8 +71,6 @@ public:
 
 	VECTOR GetAngles(void) const;
 
-	void SetAngles(const VECTOR angles);
-
 	// ƒvƒŒƒCƒ„[‚ªŒü‚¢‚Ä‚¢‚éŠp“x
 	void SetLazyAngles(const VECTOR angles);
 
@@ -88,11 +86,8 @@ public:
 
 	Quaternion GetRotY(void) const;
 
-	// ’x‰„‰ñ“]
-	void LazyRotation(float goalRot);
-
 	// ’x‰„‰ñ“]2
-	void LazyRotation2(void);
+	void LazyRotation(void);
 
 private:
 

@@ -16,20 +16,44 @@ public:
 	// プレイヤーの衝突判定の球体半径
 	static constexpr float COLLISION_BODY_RADIUS = 40.0f;
 
-	// 攻撃の2段階目が始まる時間
-	static constexpr float ATTACK_START_TIME2 = 40.0f;
-
-	// 攻撃の2段階目が始まる時間
-	static constexpr float ATTACK_START_TIME3 = 60.0f;
-
 	// 攻撃の1段階目が終わる時間
 	static constexpr float ATTACK_END_TIME1 = 40.0f;
+
+	// 攻撃の1段階目の当たり判定が始まる時間
+	static constexpr float ATTACK_COLLISION_START_TIME1 = 27.0f;
+
+	// 攻撃の1段階目の当たり判定が終わる時間
+	static constexpr float ATTACK_COLLISION_END_TIME1 = 37.0f;
+
+	// 攻撃の2段階目が始まる時間
+	static constexpr float ATTACK_START_TIME2 = 40.0f;
 
 	// 攻撃の2段階目が終わる時間
 	static constexpr float ATTACK_END_TIME2 = 60.0f;
 
+	// 攻撃の2段階目の当たり判定が始まる時間
+	static constexpr float ATTACK_COLLISION_START_TIME2 = 51.0f;
+
+	// 攻撃の2段階目の当たり判定が終わる時間
+	static constexpr float ATTACK_COLLISION_END_TIME2 = 58.0f;
+
+	// 攻撃の3段階目が始まる時間
+	static constexpr float ATTACK_START_TIME3 = 60.0f;
+
 	// 攻撃の3段階目が終わる時間
 	static constexpr float ATTACK_END_TIME3 = 40.0f;
+
+	// 攻撃の3段階目の当たり判定が始まる時間
+	static constexpr float ATTACK_COLLISION_START_TIME3 = 100.0f;
+
+	// 攻撃の3段階目の当たり判定が終わる時間
+	static constexpr float ATTACK_COLLISION_END_TIME3 = 110.0f;
+
+	// 攻撃の3段階目の当たり判定が始まる時間
+	static constexpr float CHARGE_ATTACK_COLLISION_START_TIME = 20.0f;
+
+	// 攻撃の3段階目の当たり判定が終わる時間
+	static constexpr float CHARGE_ATTACK_COLLISION_END_TIME = 30.0f;
 
 	// 移動量(歩く)
 	static constexpr float MOVE_POW_WALK = 10.0f;
@@ -55,14 +79,20 @@ public:
 	// 攻撃アニメーションの再生速度
 	static constexpr float ATTACK_ANIM_SPEED = 60.0f;
 
+	// 溜め攻撃アニメーションの再生速度
+	static constexpr float CHARGE_ATTACK_ANIM = 30.0f;
+
 	// 攻撃を受けた時のアニメーションの再生速度
 	static constexpr float HIT_ANIM_SPEED = 30.0f;
+
+	// 回避のアニメーションの再生速度
+	static constexpr float ROLL_ANIM_SPEED = 45.0f;
 
 	// 回転する強さ
 	static constexpr float ROTATION_POW = 0.1f;
 
 	// HPバーの長さ
-	static constexpr int HP_LENGTH = 300;
+	static constexpr int HP_LENGTH = 800;
 
 	// ため斬りのボタンを押す秒数
 	static constexpr float CHARGE_TIME = 1.0f;
@@ -78,7 +108,8 @@ public:
 		ATTACK2,
 		ATTACK3,
 		CHARGE_ATTACK,
-		HIT
+		HIT,
+		ROLL
 	};
 
 	// コンストラクタ
@@ -151,17 +182,29 @@ protected:
 	// 溜め斬り
 	bool chargeAttack_;
 
-	// アニメーションごとに変数に代入
+	// 待機アニメーション
 	int idleAnim_;
+
+	// 歩くアニメーション
 	int walkAnim_;
+
+	// 溜めながら歩くアニメーション
 	int chargeWalkAnim_;
+
+	// 走るアニメーション
 	int runAnim_;
-	//int attackAnim_;
-	//int attackAnim2_;
-	//int attackAnim3_;
-	int attackAnim4_;
-	int attackAnim5_;
+
+	// 攻撃アニメーション
+	int attackAnim_;
+
+	// 溜め攻撃アニメーション
+	int chargeAttackAnim_;
+
+	// ダメージヒットアニメーション
 	int hitAnim_;
+	
+	// 回避アニメーション
+	int rollAnim_;
 
 	// ため斬りのカウンタ
 	float chargeCnt;
@@ -185,6 +228,10 @@ protected:
 	void KeyBoardCamera(void);
 	void GamePadCamera(void);
 
+	// 敵をロックオンする処理
+	void KeyBoardLockOn(void);
+	void GamePadLockOn(void);
+
 	// 衝突判定
 	void Collision(void);
 
@@ -197,16 +244,35 @@ protected:
 	// アニメーション
 	void Animation(void)override;
 
-	// アニメーションの初期設定
+	// 待機アニメーションの設定
 	void SetIdleAnimation(void);
+
+	// 歩くアニメーションの設定
 	void SetWalkAnimation(void);
+
+	// 溜めながら歩くアニメーションの設定
 	void SetChargeWalkAnimation(void);
+
+	// 走るアニメーションの設定
 	void SetRunAnimation(void);
+
+	// 攻撃１段階目のアニメーションの設定
 	void SetAttackAnimation(void);
+
+	// 攻撃２段階目のアニメーションの設定
 	void SetAttackAnimation2(void);
+
+	// 攻撃３段階目のアニメーションの設定
 	void SetAttackAnimation3(void);
-	void SetAttackAnimation4(void);
+
+	// 溜め攻撃のアニメーションの設定
+	void SetChargeAttackAnimation(void);
+
+	// ダメージヒットアニメーションの設定
 	void SetHitAnimation(void);
+
+	// 回避アニメーションの設定
+	void SetRollAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

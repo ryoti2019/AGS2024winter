@@ -159,6 +159,7 @@ public:
 	// 攻撃が当たったかを設定
 	void SetHit(bool hit);
 
+
 protected:
 
 	// プレイヤーの状態
@@ -182,6 +183,9 @@ protected:
 	// 溜め斬り
 	bool chargeAttack_;
 
+	// ロックオンの前の情報
+	bool preLockOn_;
+	
 	// 待機アニメーション
 	int idleAnim_;
 

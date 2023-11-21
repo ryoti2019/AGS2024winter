@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "../Object/Common/Transform.h"
+#include "../Object/Player.h"
 #include "Camera.h"
 
 Camera::Camera(void)
@@ -94,11 +95,11 @@ void Camera::SetBeforeDrawFree(void)
 
 		// 注視点(通常重力でいうところのY値を追従対象と同じにする)
 		VECTOR localPos = rotY_.PosAxis(LOCAL_F2T_POS);
-		targetPos_ = VAdd(followTransform_->pos, localPos);
+		targetPos_ = VAdd(playerTransform_->pos, localPos);
 
 		// カメラ位置
-		localPos = rotXY_.PosAxis(LOCAL_F2C_POS);
-		pos_ = VAdd(followTransform_->pos, localPos);
+		localPos = rotXY_.PosAxis(LOCAL_P2C_POS);
+		pos_ = VAdd(playerTransform_->pos, localPos);
 
 		// カメラの上方向
 		cameraUp_ = rotXY_.GetUp();
@@ -183,10 +184,36 @@ void Camera::SetBeforeDrawFollow(void)
 
 }
 
-void Camera::SetFollow(const Transform* follow)
+//void Camera::SetFollow(const Transform* follow)
+//{
+//
+//	followTransform_ = follow;
+//
+//}
+
+void Camera::SetPlayer(const Transform* follow)
+{
+	playerTransform_ = follow;
+}
+
+void Camera::SetEnemy(const Transform* follow)
+{
+	enemyTransform_ = follow;
+}
+
+void Camera::ChangeLockOnFlag(void)
 {
 
-	followTransform_ = follow;
+	// ロックオンする
+	if (lockOn_)
+	{
+		lockOn_ = false;
+	}
+	// ロックオンを解除する
+	else
+	{
+		lockOn_ = true;
+	}
 
 }
 
@@ -217,6 +244,11 @@ Quaternion Camera::GetRotY(void) const
 	return rotY_;
 }
 
+bool Camera::GetLockOn(void)
+{
+	return lockOn_;
+}
+
 void Camera::SetDefault(void)
 {
 
@@ -232,6 +264,9 @@ void Camera::SetDefault(void)
 	// カメラはX軸に傾いているが、
 	// この傾いた状態を角度ゼロ、傾き無しとする
 	rotXY_ = Quaternion::Identity();
+
+	// ロックオン
+	lockOn_ = false;
 
 }
 
@@ -307,24 +342,53 @@ void Camera::KeybordContoroller(void)
 		isOp_ = false;
 	}
 
-	// 追従対象の位置
-	VECTOR followPos = followTransform_->pos;
+	// ロックオンしていないとき
+	if (!lockOn_)
+	{
 
-	// 追従対象から注視点までの相対座標を回転
-	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
+		// 追従対象の位置
+		VECTOR followPos = playerTransform_->pos;
 
-	// 注視点の更新
-	targetPos_ = VAdd(followPos, relativeTPos);
+		// 追従対象から注視点までの相対座標を回転
+		VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
 
-	// 追従対象からカメラまでの相対座標
-	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_F2C_POS);
+		// 注視点の更新
+		targetPos_ = VAdd(followPos, relativeTPos);
 
-	// カメラ位置の更新
-	pos_ = VAdd(followPos, relativeCPos);
+		// 追従対象からカメラまでの相対座標
+		VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
 
-	// カメラの上方向
-	//cameraUp_ = followRot.PosAxis(rotXY_.GetUp());
-	cameraUp_ = AsoUtility::DIR_U;
+		// カメラ位置の更新
+		pos_ = VAdd(followPos, relativeCPos);
+
+		// カメラの上方向
+		cameraUp_ = AsoUtility::DIR_U;
+
+	}
+	// ロックオンしているとき
+	else if (lockOn_)
+	{
+
+		// 追従対象の位置
+		VECTOR enemyPos = enemyTransform_->pos;
+		VECTOR playerPos = playerTransform_->pos;
+
+		// 追従対象から注視点までの相対座標を回転
+		VECTOR relativeTPos = rotY_.PosAxis(LOCAL_E2T_POS);
+
+		// 注視点の更新
+		targetPos_ = VAdd(enemyPos, relativeTPos);
+
+		// 追従対象からカメラまでの相対座標
+		VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_E2C_POS);
+
+		// カメラ位置の更新
+		pos_ = VAdd(playerPos, relativeCPos);
+
+		// カメラの上方向
+		cameraUp_ = AsoUtility::DIR_U;
+
+	}
 
 }
 
@@ -394,7 +458,7 @@ void Camera::GamePadController(void)
 	}
 
 	// 追従対象の位置
-	VECTOR followPos = followTransform_->pos;
+	VECTOR followPos = playerTransform_->pos;
 
 	// 追従対象から注視点までの相対座標を回転
 	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
@@ -403,7 +467,7 @@ void Camera::GamePadController(void)
 	targetPos_ = VAdd(followPos, relativeTPos);
 
 	// 追従対象からカメラまでの相対座標
-	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_F2C_POS);
+	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
 
 	// カメラ位置の更新
 	pos_ = VAdd(followPos, relativeCPos);
@@ -441,4 +505,6 @@ void Camera::LazyRotation(void)
 
 
 }
+
+
 

@@ -3,6 +3,7 @@
 #include "../Common/Quaternion.h"
 
 class Transform;
+class Player;
 
 class Camera
 {
@@ -41,11 +42,17 @@ public:
 	// C - CAMERA - カメラ位置
 	// T - TARGET - 注視点
 
-	// 追従対象からカメラの位置までの相対座標
-	static constexpr VECTOR LOCAL_F2C_POS = { 0.0f, 500.0f,-400.0f };
+	// プレイヤーからカメラの位置までの相対座標
+	static constexpr VECTOR LOCAL_P2C_POS = { 0.0f, 500.0f,-400.0f };
 
-	// 追従対象から注視点までの相対座標
-	static constexpr VECTOR LOCAL_F2T_POS = { 0.0f,0.0f,500.0f };
+	// 敵からカメラの位置までの相対座標
+	static constexpr VECTOR LOCAL_E2C_POS = { 0.0f, 500.0f,-400.0f };
+
+	// プレイヤーから注視点までの相対座標
+	static constexpr VECTOR LOCAL_P2T_POS = { 0.0f,0.0f,500.0f };
+
+	// 敵から注視点までの相対座標
+	static constexpr VECTOR LOCAL_E2T_POS = { 0.0f,0.0f,500.0f };
 
 	// カメラモード
 	enum class MODE
@@ -79,17 +86,31 @@ public:
 	void SetBeforeDrawFollow(void);
 
 	// 追従対象の設定
-	void SetFollow(const Transform* follow);
+	//void SetFollow(const Transform* follow);
+	
+	// 追従対象の設定
+	void SetPlayer(const Transform* follow);
+
+	// 追従対象の設定
+	void SetEnemy(const Transform* follow);
+
+	// ロックオンのフラグを変える
+	void ChangeLockOnFlag(void);
 
 	// カメラモードの変更
 	void ChangeMode(MODE mode);
 
 	Quaternion GetRotY(void) const;
 
-	// 遅延回転2
+	// 遅延回転
 	void LazyRotation(void);
 
+	// ロックオンの取得
+	bool GetLockOn(void);
+
 private:
+
+	bool lockOn_;
 
 	// カメラモード
 	MODE mode_;
@@ -126,7 +147,8 @@ private:
 	void SetTargetPosFollowForward(void);
 
 	// 追従対象
-	const Transform* followTransform_;
+	const Transform* playerTransform_;
+	const Transform* enemyTransform_;
 
 	// キーボードの操作
 	void KeybordContoroller(void);

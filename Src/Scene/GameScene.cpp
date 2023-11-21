@@ -48,7 +48,8 @@ void GameScene::Init(void)
 
 	//// カメラモード：追従
 	Camera* camera = SceneManager::GetInstance().GetCamera();
-	camera->SetFollow(&player_->GetTransform());
+	camera->SetPlayer(&player_->GetTransform());
+	camera->SetEnemy(&enemy_->GetTransform());
 	camera->ChangeMode(Camera::MODE::FOLLOW);
 
 }
@@ -70,6 +71,18 @@ void GameScene::Update(void)
 
 	// 剣の更新
 	sword_->Update();
+
+	Camera* camera = SceneManager::GetInstance().GetCamera();
+
+	//if (!camera->GetLockOn())
+	//{
+	//	camera->SetFollow(&player_->GetTransform());
+	//}
+
+	//if (camera->GetLockOn())
+	//{
+	//	camera->SetFollow(&enemy_->GetTransform());
+	//}
 
 	// プレイヤーの剣と敵のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,

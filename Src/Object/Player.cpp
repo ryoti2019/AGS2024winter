@@ -518,6 +518,19 @@ void Player::KeyBoardCamera(void)
 
 }
 
+void Player::KeyBoardLockOn(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// キーを押したらロックオンする
+	if (ins.IsTrgDown(KEY_INPUT_H))
+	{
+		SceneManager::GetInstance().GetCamera()->ChangeLockOnFlag();
+	}
+
+}
+
 void Player::GamePadController(void)
 {
 
@@ -709,15 +722,23 @@ void Player::GamePadCamera(void)
 
 }
 
-void Player::KeyBoardLockOn(void)
-{
-
-
-
-}
-
 void Player::GamePadLockOn(void)
 {
+
+	auto& ins = InputManager::GetInstance();
+
+	// キーを押したらロックオンする
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_TRIGGER))
+	{
+		
+	}
+
+	// キーを押したらロックオンを解除する
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_TRIGGER))
+	{
+		
+	}
+
 }
 
 void Player::ChangeState(STATE state)

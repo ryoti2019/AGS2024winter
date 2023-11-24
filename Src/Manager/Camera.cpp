@@ -94,7 +94,7 @@ void Camera::SetBeforeDrawFree(void)
 		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
 
 		// 注視点(通常重力でいうところのY値を追従対象と同じにする)
-		VECTOR localPos = rotY_.PosAxis(LOCAL_F2T_POS);
+		VECTOR localPos = rotY_.PosAxis(LOCAL_P2T_POS);
 		targetPos_ = VAdd(playerTransform_->pos, localPos);
 
 		// カメラ位置
@@ -158,6 +158,16 @@ VECTOR Camera::GetTargetPos(void) const
 void Camera::SetBeforeDrawFollow(void)
 {
 
+	VECTOR playerPos = playerTransform_->pos;
+	VECTOR enemyPos = enemyTransform_->pos;
+
+	VECTOR vec = VSub(enemyPos, playerPos);
+	float length = AsoUtility::Magnitude(vec);
+	if (length >= 2000.0f)
+	{
+		lockOn_ = false;
+	}
+
 	// Qキーを押したらtrueになる
 	if (isLazy_)
 	{
@@ -210,7 +220,7 @@ void Camera::ChangeLockOnFlag(void)
 		lockOn_ = false;
 	}
 	// ロックオンを解除する
-	else
+	else if(!lockOn_)
 	{
 		lockOn_ = true;
 	}
@@ -256,7 +266,7 @@ void Camera::SetDefault(void)
 	pos_ = DEFAULT_CAMERA_POS;
 
 	// 注視点
-	targetPos_ = VAdd(pos_, LOCAL_F2T_POS);
+	targetPos_ = VAdd(pos_, LOCAL_P2T_POS);
 
 	// カメラの上方向
 	cameraUp_ = { 0.0f, 1.0f, 0.0f };
@@ -342,6 +352,15 @@ void Camera::KeybordContoroller(void)
 		isOp_ = false;
 	}
 
+	VECTOR playerPos = playerTransform_->pos;
+	VECTOR enemyPos = enemyTransform_->pos;
+
+	VECTOR vec = VSub(enemyPos, playerPos);
+	float length = AsoUtility::Magnitude(vec);
+
+	// 正規化
+	VECTOR vNorm = VNorm(vec);
+
 	// ロックオンしていないとき
 	if (!lockOn_)
 	{
@@ -350,7 +369,7 @@ void Camera::KeybordContoroller(void)
 		VECTOR followPos = playerTransform_->pos;
 
 		// 追従対象から注視点までの相対座標を回転
-		VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
+		VECTOR relativeTPos = rotY_.PosAxis(LOCAL_P2T_POS);
 
 		// 注視点の更新
 		targetPos_ = VAdd(followPos, relativeTPos);
@@ -366,7 +385,7 @@ void Camera::KeybordContoroller(void)
 
 	}
 	// ロックオンしているとき
-	else if (lockOn_)
+	else if (lockOn_ && length <= 2000.0f)
 	{
 
 		// 追従対象の位置
@@ -383,7 +402,9 @@ void Camera::KeybordContoroller(void)
 		VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_E2C_POS);
 
 		// カメラ位置の更新
-		pos_ = VAdd(playerPos, relativeCPos);
+		vNorm = { -vNorm.x, -vNorm.y ,-vNorm.z };
+		relativeCPos = VAdd(relativeCPos, VScale(vNorm, 100.0f));
+		pos_ = VAdd(relativeCPos, playerPos);
 
 		// カメラの上方向
 		cameraUp_ = AsoUtility::DIR_U;
@@ -461,7 +482,7 @@ void Camera::GamePadController(void)
 	VECTOR followPos = playerTransform_->pos;
 
 	// 追従対象から注視点までの相対座標を回転
-	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_F2T_POS);
+	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_P2T_POS);
 
 	// 注視点の更新
 	targetPos_ = VAdd(followPos, relativeTPos);

@@ -94,6 +94,9 @@ public:
 	// HPバーの長さ
 	static constexpr int HP_LENGTH = 800;
 
+	// HPの最大値
+	static constexpr int HP_MAX = 100;
+
 	// ため斬りのボタンを押す秒数
 	static constexpr float CHARGE_TIME = 1.0f;
 

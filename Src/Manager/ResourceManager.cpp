@@ -88,6 +88,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Jump Attack.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_DASH_ATTACK, res);
 
+	// 敵の遠距離攻撃アニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Shot.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_SHOT_ATTACK, res);
+
 	// 敵のダメージヒットアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Zombie Reaction Hit.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_HIT, res);

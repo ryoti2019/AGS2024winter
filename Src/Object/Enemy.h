@@ -29,6 +29,84 @@ public:
 	// 突進の秒数
 	static constexpr float TACKLE_TIME = 4.0f;
 
+	// 最初の歩き続ける秒数
+	static constexpr float FIRST_WALK_TIME = 2.0f;
+
+	// アタック時の攻撃範囲
+	static constexpr float ATTACK_RANGE = 400.0f;
+
+	// ジャンプアタックの攻撃範囲(最低)
+	static constexpr float JUMP_ATTACK_RANGE_MIN = 400.0f;
+
+	// ジャンプアタックの攻撃範囲(最高)
+	static constexpr float JUMP_ATTACK_RANGE_MAX = 3000.0f;
+
+	// タックルの攻撃範囲(最低)
+	static constexpr float TACKLE_RANGE_MIN = 1000.0f;
+	
+	// 目的の角度までの差
+	static constexpr float GOAL_DEG = 10.0f;
+
+	// 歩くスピード
+	static constexpr float WALK_SPEED = 2.0f;
+
+	// ジャンプアタックのスピード
+	static constexpr float JUMP_ATTACK_SPEED = 20.0f;
+
+	// ジャンプアタックのスピード
+	static constexpr float TACKLE_SPEED = 30.0f;
+
+	// ダメージヒットのスピード
+	static constexpr float HIT_SPEED = -5.0f;
+
+	// 攻撃の当たり判定が始まる時間
+	static constexpr float ATTACK_COLLISION_START_TIME = 30.0f;
+
+	// 攻撃の当たり判定が終わる時間
+	static constexpr float ATTACK_COLLISION_END_TIME = 50.0f;
+
+	// ジャンプアタックの当たり判定が始まる時間
+	static constexpr float JUMP_ATTACK_COLLISION_START_TIME = 40.0f;
+
+	// ジャンプアタックの当たり判定が終わる時間
+	static constexpr float JUMP_ATTACK_COLLISION_END_TIME = 60.0f;
+
+	// ジャンプアタックが終わる時間
+	static constexpr float JUMP_ATTACK_END_TIME = 300.0f;
+
+	// ダメージヒットが終わる時間
+	static constexpr float HIT_END_TIME = 300.0f;
+
+	// 待機アニメーションの再生速度
+	static constexpr float IDLE_ANIM_SPEED = 20.0f;
+
+	// 歩くアニメーションの再生速度
+	static constexpr float WALK_ANIM_SPEED = 20.0f;
+
+	// 走るアニメーションの再生速度
+	static constexpr float RUN_ANIM_SPEED = 40.0f;
+
+	// 攻撃アニメーションの再生速度
+	static constexpr float ATTACK_ANIM_SPEED = 20.0f;
+
+	// ジャンプアタックアニメーションの再生速度
+	static constexpr float JUMP_ATTACK_ANIM_SPEED = 20.0f;
+
+	// タックルアニメーションの再生速度
+	static constexpr float TACKLE_ANIM_SPEED = 40.0f;
+
+	// ショットアニメーションの再生速度
+	static constexpr float SHOT_ANIM_SPEED = 20.0f;
+
+	// ダメージヒットアニメーションの再生速度
+	static constexpr float HIT_ANIM_SPEED = 20.0f;
+
+	// HPバーの長さ
+	static constexpr int HP_LENGTH = 300;
+
+	// HPの最大値
+	static constexpr int HP_MAX = 100;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -38,6 +116,7 @@ public:
 		ATTACK,
 		JUMP_ATTACK,
 		TACKLE,
+		SHOT,
 		HIT,
 	};
 
@@ -106,12 +185,25 @@ protected:
 	STATE state_;
 	STATE preState_;
 
-	// アニメーションごとに変数に代入
+	// 待機アニメーション
 	int idleAnim_;
+
+	// 歩くアニメーション
 	int walkAnim_;
+
+	// タックルアニメーション
 	int tackleAnim_;
+
+	// 攻撃アニメーション
 	int attackAnim_;
+
+	// ジャンプアタックのアニメーション
 	int jumpAttackAnim_;
+
+	// ショットアニメーション
+	int shotAnim_;
+
+	// ダメージヒットアニメーション
 	int hitAnim_;
 
 	// 最初の歩きのアニメーションのカウンタ
@@ -188,6 +280,9 @@ protected:
 	// タックル攻撃
 	void UpdateTackle(void);
 
+	// ショット攻撃
+	void UpdateShot(void);
+
 	// 攻撃ヒット
 	void UpdateHit(void);
 
@@ -203,12 +298,25 @@ protected:
 	// 状態遷移
 	void ChangeState(STATE state);
 
-	// アニメーションの初期設定
+	// 待機アニメーションの設定
 	void SetIdleAnimation(void);
+
+	// 歩くアニメーションの設定
 	void SetWalkAnimation(void);
+
+	// タックルのアニメーションの設定
 	void SetTackleAnimation(void);
+
+	// 攻撃アニメーションの設定
 	void SetAttackAnimation(void);
+
+	// ジャンプアタックの設定
 	void SetJumpAttackAnimation(void);
+
+	// ショットの設定
+	void SetShotAnimation(void);
+
+	// ダメージヒットヒットアニメーションの設定
 	void SetHitAnimation(void);
 
 	// 遅延回転

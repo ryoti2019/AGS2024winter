@@ -594,6 +594,7 @@ void Player::GamePadMove(void)
 		{
 			ChangeState(STATE::IDLE);
 		}
+
 	}
 
 	//ó≠ÇﬂÇ»Ç™ÇÁï‡Ç≠
@@ -1033,7 +1034,7 @@ void Player::SetParam(void)
 {
 
 	// HPÇÃç≈ëÂíl
-	hpMax_ = 100;
+	hpMax_ = HP_MAX;
 
 	// HP
 	hp_ = hpMax_;

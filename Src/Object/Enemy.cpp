@@ -41,6 +41,10 @@ void Enemy::InitAnimation(void)
 	jumpAttackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_DASH_ATTACK);
 
+	// ショットアニメーション
+	shotAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_SHOT_ATTACK);
+
 	// 攻撃を食らったときのアニメーション
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_HIT);
@@ -50,11 +54,11 @@ void Enemy::InitAnimation(void)
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 0.0f, 1000.0f };
 	transform_.quaRot = Quaternion();
-	Quaternion rotPow = Quaternion::Identity();
-	rotPow = Quaternion::Mult(
-		rotPow,
-		Quaternion::AngleAxis(AsoUtility::Deg2RadF(180), AsoUtility::AXIS_Y));
-	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
+	//Quaternion rotPow = Quaternion::Identity();
+	//rotPow = Quaternion::Mult(
+	//	rotPow,
+	//	Quaternion::AngleAxis(AsoUtility::Deg2RadF(180), AsoUtility::AXIS_Y));
+	//transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 
 	// 再生するアニメーションの番号
@@ -142,6 +146,8 @@ void Enemy::Update(void)
 		break;
 	case Enemy::STATE::TACKLE:
 		UpdateTackle();
+		break;
+	case Enemy::STATE::SHOT:
 		break;
 	case Enemy::STATE::HIT:
 		/*UpdateHit();*/
@@ -277,7 +283,7 @@ void Enemy::Think(void)
 		ChangeState(STATE::WALK);
 	}
 
-	if (walkCnt_ <= 2.0f)
+	if (walkCnt_ <= FIRST_WALK_TIME)
 	{
 		return;
 	}
@@ -289,7 +295,7 @@ void Enemy::Think(void)
 	length = AsoUtility::Magnitude(vec);
 
 	// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	if (length < 400.0f)
+	if (length < ATTACK_RANGE)
 	{
 		ChangeState(STATE::ATTACK);
 	}
@@ -310,7 +316,7 @@ void Enemy::Think(void)
 		pDirection_ = VNorm(vec);
 
 		// ジャンプ攻撃
-		if (length > 300.0f && length < 3000.f)
+		if (length > JUMP_ATTACK_RANGE_MIN && length < JUMP_ATTACK_RANGE_MAX)
 		{
 			ChangeState(STATE::JUMP_ATTACK);
 		}
@@ -336,7 +342,7 @@ void Enemy::Think(void)
 		tackleCnt_ = TACKLE_TIME;
 
 		// タックル攻撃
-		if (length > 1000.0f)
+		if (length > TACKLE_RANGE_MIN)
 		{
 			ChangeState(STATE::TACKLE);
 		}
@@ -351,6 +357,8 @@ void Enemy::Rotation(void)
 	// プレイヤーの方向を求める
 	VECTOR vec = VSub(followTransform_->pos, transform_.pos);
 
+	vec = { -vec.x,-vec.y,-vec.z };
+
 	// 正規化
 	VECTOR Vdirection = VNorm(vec);
 
@@ -360,7 +368,7 @@ void Enemy::Rotation(void)
 	// 回転
 	if (state_ == STATE::IDLE || state_ == STATE::WALK)
 	{
-		LazyRotation(angle);
+		LazyRotation(angle );
 	}
 
 }
@@ -370,6 +378,8 @@ void Enemy::AfterRotation(void)
 
 	// プレイヤーの方向を求める
 	VECTOR vec = VSub(followTransform_->pos, transform_.pos);
+
+	vec = { -vec.x,-vec.y,-vec.z };
 
 	// 正規化
 	VECTOR Vdirection = VNorm(vec);
@@ -395,7 +405,7 @@ void Enemy::AfterRotation(void)
 	float sub = goalDeg - deg;
 
 	// 差が10度未満だったらtrueにする
-	if (sub <= 10.0f && sub >= -10.0f)
+	if (sub <= GOAL_DEG && sub >= -GOAL_DEG)
 	{
 		rotationEnd_ = true;
 	}
@@ -416,7 +426,7 @@ void Enemy::UpdateWalk(void)
 	pDirection_ = VNorm(vec);
 
 	// 移動処理
-	transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 2.0f));
+	transform_.pos = VAdd(transform_.pos, VScale(pDirection_, WALK_SPEED));
 
 }
 
@@ -424,7 +434,7 @@ void Enemy::UpdateAttack(void)
 {
 
 	// 攻撃判定が入るアニメーションの秒数
-	if (stepAnim_ >= 30.0f && stepAnim_ <= 50.0f && !hit_)
+	if (stepAnim_ >= ATTACK_COLLISION_START_TIME && stepAnim_ <= ATTACK_COLLISION_END_TIME && !hit_)
 	{
 		attack_ = true;
 	}
@@ -439,16 +449,16 @@ void Enemy::UpdateJumpAttack(void)
 	float length = AsoUtility::Magnitude(vec);
 
 	// プレイヤーとの距離が10.0f未満になるまで移動
-	if (stepAnim_ <= 300.0f)
+	if (stepAnim_ <= JUMP_ATTACK_END_TIME)
 	{
-		if (length >= 300.0f)
+		if (length >= JUMP_ATTACK_RANGE_MIN)
 		{
-			transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 20.0f));
+			transform_.pos = VAdd(transform_.pos, VScale(pDirection_, JUMP_ATTACK_SPEED));
 		}
 	}
 
 	// 攻撃判定が入るアニメーションの秒数
-	if (stepAnim_ >= 40.0f && stepAnim_ <= 60.0f && !hit_)
+	if (stepAnim_ >= JUMP_ATTACK_COLLISION_START_TIME && stepAnim_ <= JUMP_ATTACK_COLLISION_END_TIME && !hit_)
 	{
 		attack_ = true;
 	}
@@ -465,7 +475,7 @@ void Enemy::UpdateTackle(void)
 	if (tackleCnt_ > 0.0f)
 	{
 		// 移動処理
-		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, 30.0f));
+		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, TACKLE_SPEED));
 	}
 
 	// 終わったらIDLEに戻す
@@ -482,6 +492,10 @@ void Enemy::UpdateTackle(void)
 
 }
 
+void Enemy::UpdateShot(void)
+{
+}
+
 void Enemy::UpdateHit(void)
 {
 
@@ -489,9 +503,9 @@ void Enemy::UpdateHit(void)
 	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
 	pDirection_ = VNorm(vec);
 
-	if (stepAnim_ <= 50.0f)
+	if (stepAnim_ <= HIT_END_TIME)
 	{
-		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, -5.0f));
+		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, -HIT_SPEED));
 	}
 
 }
@@ -595,6 +609,9 @@ void Enemy::ChangeState(STATE state)
 	case Enemy::STATE::TACKLE:
 		SetTackleAnimation();
 		break;
+	case Enemy::STATE::SHOT:
+		SetHitAnimation();
+		break;
 	case Enemy::STATE::HIT:
 		attackPlayerPos_ = followTransform_->pos;
 		SetHitAnimation();
@@ -615,7 +632,7 @@ void Enemy::SetIdleAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = IDLE_ANIM_SPEED;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
@@ -634,7 +651,7 @@ void Enemy::SetWalkAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = WALK_ANIM_SPEED;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
@@ -653,7 +670,7 @@ void Enemy::SetAttackAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = ATTACK_ANIM_SPEED;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
@@ -672,7 +689,45 @@ void Enemy::SetJumpAttackAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = JUMP_ATTACK_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Enemy::SetTackleAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, tackleAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = TACKLE_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Enemy::SetShotAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, shotAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = SHOT_ANIM_SPEED;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 0.0f;
@@ -691,29 +746,10 @@ void Enemy::SetHitAnimation(void)
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
-	speedAnim_ = 20.0f;
+	speedAnim_ = HIT_ANIM_SPEED;
 
 	// アニメーション時間の初期化
 	stepAnim_ = 10.0f;
-
-}
-
-void Enemy::SetTackleAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, tackleAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = 40.0f;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
 
 }
 
@@ -730,7 +766,7 @@ void Enemy::DrawDebug(void)
 {
 
 	// HPバー
-	int hpLength = 300;
+	int hpLength = HP_LENGTH;
 	int H;
 	int hpGauge;
 	H = hp_ * (512.0f / hpMax_) - 100;
@@ -757,7 +793,7 @@ void Enemy::SetParam(void)
 {
 
 	// HPの最大値
-	hpMax_ = 100;
+	hpMax_ = HP_MAX;
 
 	// HP
 	hp_ = hpMax_;

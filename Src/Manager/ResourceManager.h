@@ -29,7 +29,8 @@ public:
 		ENEMY_DASH_ATTACK,
 		ENEMY_SHOT_ATTACK,
 		ENEMY_HIT,
-		SWORD,
+		SHOT_MODEL,
+		SWORD_MODEL,
 	};
 
 	// 明示的にインステンスを生成する

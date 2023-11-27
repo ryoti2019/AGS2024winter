@@ -41,8 +41,8 @@ public:
 	// ジャンプアタックの攻撃範囲(最高)
 	static constexpr float JUMP_ATTACK_RANGE_MAX = 3000.0f;
 
-	// タックルの攻撃範囲(最低)
-	static constexpr float TACKLE_RANGE_MIN = 1000.0f;
+	//// タックルの攻撃範囲(最低)
+	//static constexpr float TACKLE_RANGE_MIN = 1000.0f;
 	
 	// 目的の角度までの差
 	static constexpr float GOAL_DEG = 10.0f;
@@ -177,6 +177,9 @@ public:
 	void SetHit(bool hit);
 
 protected:
+
+	// 弾
+	std::vector<ShotEnemy*> shots_;
 
 	// プレイヤーの取得
 	Player* player_;

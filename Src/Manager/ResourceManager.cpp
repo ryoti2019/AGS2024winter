@@ -96,9 +96,13 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Zombie Reaction Hit.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_HIT, res);
 
+	// ’e‚Ìƒ‚ƒfƒ‹
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Shot/shot.mv1");
+	resourcesMap_.emplace(SRC::SHOT_MODEL, res);
+
 	// Œ•‚Ìƒ‚ƒfƒ‹
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/uploads_files_4143503_sword(1).mv1");
-	resourcesMap_.emplace(SRC::SWORD, res);
+	resourcesMap_.emplace(SRC::SWORD_MODEL, res);
 
 }
 

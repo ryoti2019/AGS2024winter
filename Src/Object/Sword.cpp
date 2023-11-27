@@ -17,7 +17,7 @@ void Sword::InitAnimation(void)
 	// ƒ‚ƒfƒ‹§Œä‚ÌŠî–{î•ñ
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::SWORD));
+			ResourceManager::SRC::SWORD_MODEL));
 	float scale = 0.1f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 0.0f, 0.0f };

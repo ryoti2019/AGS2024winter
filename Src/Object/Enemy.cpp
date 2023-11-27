@@ -2,6 +2,7 @@
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
+#include "ShotEnemy.h"
 #include "Player.h"
 #include "Enemy.h"
 
@@ -148,6 +149,7 @@ void Enemy::Update(void)
 		UpdateTackle();
 		break;
 	case Enemy::STATE::SHOT:
+		UpdateShot();
 		break;
 	case Enemy::STATE::HIT:
 		/*UpdateHit();*/
@@ -167,6 +169,11 @@ void Enemy::Update(void)
 
 	walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
+	for (auto v : shots_)
+	{
+		v->Update();
+	}
+
 }
 
 void Enemy::Draw(void)
@@ -177,6 +184,11 @@ void Enemy::Draw(void)
 
 	// デバッグ描画
 	DrawDebug();
+
+	for (auto v : shots_)
+	{
+		v->Draw();
+	}
 
 }
 
@@ -316,7 +328,7 @@ void Enemy::Think(void)
 		pDirection_ = VNorm(vec);
 
 		// ジャンプ攻撃
-		if (length > JUMP_ATTACK_RANGE_MIN && length < JUMP_ATTACK_RANGE_MAX)
+		if ((length > JUMP_ATTACK_RANGE_MIN && length < JUMP_ATTACK_RANGE_MAX) || length < ATTACK_RANGE)
 		{
 			ChangeState(STATE::JUMP_ATTACK);
 		}
@@ -342,7 +354,7 @@ void Enemy::Think(void)
 		tackleCnt_ = TACKLE_TIME;
 
 		// タックル攻撃
-		if (length > TACKLE_RANGE_MIN)
+		if (length > ATTACK_RANGE)
 		{
 			ChangeState(STATE::TACKLE);
 		}
@@ -433,6 +445,8 @@ void Enemy::UpdateWalk(void)
 void Enemy::UpdateAttack(void)
 {
 
+	attack_ = false;
+
 	// 攻撃判定が入るアニメーションの秒数
 	if (stepAnim_ >= ATTACK_COLLISION_START_TIME && stepAnim_ <= ATTACK_COLLISION_END_TIME && !hit_)
 	{
@@ -447,6 +461,7 @@ void Enemy::UpdateJumpAttack(void)
 	// プレイヤーとの距離を求める
 	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
 	float length = AsoUtility::Magnitude(vec);
+	attack_ = false;
 
 	// プレイヤーとの距離が10.0f未満になるまで移動
 	if (stepAnim_ <= JUMP_ATTACK_END_TIME)
@@ -494,6 +509,17 @@ void Enemy::UpdateTackle(void)
 
 void Enemy::UpdateShot(void)
 {
+
+	auto& ins = InputManager::GetInstance();
+
+	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
+
+	if (delayShot_ <= 0.0f)
+	{
+		CreateShot();
+		delayShot_ = TIME_DELAY_SHOT;
+	}
+
 }
 
 void Enemy::UpdateHit(void)

@@ -74,6 +74,9 @@ void Enemy::InitAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 0.0f;
 
+	// 弾が死んだ数
+	deathCnt_ = 12;
+
 }
 
 void Enemy::Init(void)
@@ -134,15 +137,28 @@ void Enemy::Update(void)
 	case Enemy::STATE::THINK:
 		break;
 	case Enemy::STATE::IDLE:
+
 		UpdateIdle();
 		break;
 	case Enemy::STATE::WALK:
 		UpdateWalk();
 		break;
 	case Enemy::STATE::ATTACK:
+		if (stepAnim_ >= ATTACK_COLLISION_START_TIME
+			&& stepAnim_ <= ATTACK_COLLISION_END_TIME
+			&& !hit_)
+		{
+			attack_ = true;
+		}
 		UpdateAttack();
 		break;
 	case Enemy::STATE::JUMP_ATTACK:
+		if (stepAnim_ >= JUMP_ATTACK_COLLISION_START_TIME
+			&& stepAnim_ <= JUMP_ATTACK_COLLISION_END_TIME
+			&& !hit_)
+		{
+			attack_ = true;
+		}
 		UpdateJumpAttack();
 		break;
 	case Enemy::STATE::TACKLE:
@@ -197,6 +213,13 @@ void Enemy::Release(void)
 
 	// モデルの開放
 	MV1DeleteModel(transform_.modelId);
+
+	for (auto& s : shots_)
+	{
+		s->Release();
+		delete s;
+	}
+	shots_.clear();
 
 }
 
@@ -272,6 +295,11 @@ void Enemy::SetHit(bool hit)
 	hit_ = hit;
 }
 
+void Enemy::SetDeathCnt(int cnt)
+{
+	
+}
+
 void Enemy::Think(void)
 {
 
@@ -287,80 +315,88 @@ void Enemy::Think(void)
 	// 攻撃が当たったかどうか
 	hit_ = false;
 
-	// 移動 --------------------------------------------------
+	//// 移動 --------------------------------------------------
 
-	// 移動
-	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
-	{
-		ChangeState(STATE::WALK);
-	}
+	//// 移動
+	//if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
+	//{
+	//	ChangeState(STATE::WALK);
+	//}
 
-	if (walkCnt_ <= FIRST_WALK_TIME)
-	{
-		return;
-	}
+	//if (walkCnt_ <= FIRST_WALK_TIME)
+	//{
+	//	return;
+	//}
 
-	// 通常攻撃 ----------------------------------------------
+	//// 通常攻撃 ----------------------------------------------
 
-	// プレイヤーの方向を求める
-	vec = VSub(followTransform_->pos, transform_.pos);
-	length = AsoUtility::Magnitude(vec);
+	//// プレイヤーの方向を求める
+	//vec = VSub(followTransform_->pos, transform_.pos);
+	//length = AsoUtility::Magnitude(vec);
 
-	// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	if (length < ATTACK_RANGE)
-	{
-		ChangeState(STATE::ATTACK);
-	}
+	//// 敵とプレイヤーの距離が一定距離になったら攻撃する
+	//if (length < ATTACK_RANGE)
+	//{
+	//	ChangeState(STATE::ATTACK);
+	//}
 
-	// ジャンプ攻撃 ------------------------------------------
+	//// ジャンプ攻撃 ------------------------------------------
 
-	if (attackNumber_ == 0)
-	{
+	//if (attackNumber_ == 0)
+	//{
 
-		// プレイヤーがいた座標を代入
-		attackPlayerPos_ = followTransform_->pos;
+	//	// プレイヤーがいた座標を代入
+	//	attackPlayerPos_ = followTransform_->pos;
 
-		// プレイヤーの方向を求める
-		vec = VSub(attackPlayerPos_, transform_.pos);
-		length = AsoUtility::Magnitude(vec);
+	//	// プレイヤーの方向を求める
+	//	vec = VSub(attackPlayerPos_, transform_.pos);
+	//	length = AsoUtility::Magnitude(vec);
 
-		// 正規化
-		pDirection_ = VNorm(vec);
+	//	// 正規化
+	//	pDirection_ = VNorm(vec);
 
-		// ジャンプ攻撃
-		if ((length > JUMP_ATTACK_RANGE_MIN && length < JUMP_ATTACK_RANGE_MAX) || length < ATTACK_RANGE)
-		{
-			ChangeState(STATE::JUMP_ATTACK);
-		}
+	//	// ジャンプ攻撃
+	//	if ((length > JUMP_ATTACK_RANGE_MIN && length < JUMP_ATTACK_RANGE_MAX) || length < ATTACK_RANGE)
+	//	{
+	//		ChangeState(STATE::JUMP_ATTACK);
+	//	}
 
-	}
+	//}
 
-	// タックル攻撃 ------------------------------------------
+	//// タックル攻撃 ------------------------------------------
 
-	if (attackNumber_ == 1)
-	{
+	//if (attackNumber_ == 1)
+	//{
 
-		// プレイヤーがいた座標を代入
-		attackPlayerPos_ = followTransform_->pos;
+	//	// プレイヤーがいた座標を代入
+	//	attackPlayerPos_ = followTransform_->pos;
 
-		// プレイヤーの方向を求める
-		vec = VSub(attackPlayerPos_, transform_.pos);
-		length = AsoUtility::Magnitude(vec);
+	//	// プレイヤーの方向を求める
+	//	vec = VSub(attackPlayerPos_, transform_.pos);
+	//	length = AsoUtility::Magnitude(vec);
 
-		// 正規化
-		pDirection_ = VNorm(vec);
+	//	// 正規化
+	//	pDirection_ = VNorm(vec);
 
-		// タックルし続ける時間
-		tackleCnt_ = TACKLE_TIME;
+	//	// タックルし続ける時間
+	//	tackleCnt_ = TACKLE_TIME;
 
-		// タックル攻撃
-		if (length > ATTACK_RANGE)
-		{
-			ChangeState(STATE::TACKLE);
-		}
+	//	// タックル攻撃
+	//	if (length > ATTACK_RANGE)
+	//	{
+	//		ChangeState(STATE::TACKLE);
+	//	}
 
-	}
+	//}
 
+	// ショット攻撃-------------------------------------------
+
+	//if (attackNumber_ == 2)
+	//{
+
+		ChangeState(STATE::SHOT);
+
+	//}
 }
 
 void Enemy::Rotation(void)
@@ -378,7 +414,7 @@ void Enemy::Rotation(void)
 	float angle = atan2f(Vdirection.x, Vdirection.z);
 
 	// 回転
-	if (state_ == STATE::IDLE || state_ == STATE::WALK)
+	if (state_ == STATE::IDLE || state_ == STATE::WALK || state_ == STATE::SHOT)
 	{
 		LazyRotation(angle );
 	}
@@ -507,18 +543,20 @@ void Enemy::UpdateTackle(void)
 
 }
 
+void Enemy::UpdateCreate(void)
+{
+
+	// 弾の生成
+	CreateShot();
+
+}
+
 void Enemy::UpdateShot(void)
 {
 
 	auto& ins = InputManager::GetInstance();
 
-	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
-
-	if (delayShot_ <= 0.0f)
-	{
-		CreateShot();
-		delayShot_ = TIME_DELAY_SHOT;
-	}
+	ProcessShot();
 
 }
 
@@ -636,7 +674,7 @@ void Enemy::ChangeState(STATE state)
 		SetTackleAnimation();
 		break;
 	case Enemy::STATE::SHOT:
-		SetHitAnimation();
+		SetShotAnimation();
 		break;
 	case Enemy::STATE::HIT:
 		attackPlayerPos_ = followTransform_->pos;
@@ -704,6 +742,25 @@ void Enemy::SetAttackAnimation(void)
 }
 
 void Enemy::SetJumpAttackAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, jumpAttackAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = JUMP_ATTACK_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Enemy::SetCreateAnimation(void)
 {
 
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
@@ -900,5 +957,88 @@ void Enemy::AnimationFrame(void)
 		MV1SetFrameUserLocalMatrix(transform_.modelId, enemyPosFrameNum_, mix);
 
 	}
+
+}
+
+void Enemy::ProcessShot(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
+
+	if (delayShot_ <= 0.0f)
+	{
+		CreateShot();
+		delayShot_ = TIME_DELAY_SHOT;
+	}
+
+}
+
+void Enemy::CreateShot(void)
+{
+
+	// 弾の生成フラグ
+	bool isCreate = false;
+
+	float deg = 0.0f;	// デグリー(度数) 45度
+	float rad = 0.0f;	// ラジアン(弧度) 0.785rad
+
+	// 12個の粒子を作る(12回ループ)
+	if (deathCnt_ >= 12)
+	{
+		while (deg < 360.0f)
+		{
+
+			// 利用可能なものを探す
+			ShotEnemy* shot = GetAvailableShot();
+
+			// デグリーをラジアンに変換
+			rad = deg * DX_PI_F / 180.0f;
+
+			deg += 45;
+
+			// 角度から方向(ベクトル)を求める
+			auto qua = Quaternion::Euler({ 0.0f,0.0f,rad });
+
+			auto rPos = qua.PosAxis(LOCAL_SHOT_POS);
+
+			// 弾の位置の更新
+			VECTOR shotPos = VAdd(transform_.pos, transform_.quaRot.PosAxis(rPos));
+
+			// 弾の方向
+			auto vec = VSub(followTransform_->pos, shotPos);
+			auto dir = VNorm(vec);
+
+			shot->Create(shotPos, dir);
+		}
+		// 死んだ数をゼロにする
+		deathCnt_ = 0;
+	}
+
+}
+
+ShotEnemy* Enemy::GetAvailableShot(void)
+{
+
+	// 再利用探索
+	for (auto& v : shots_)
+	{
+		if (!v->IsAlive())
+		{
+			return v;
+		}
+	}
+
+	// なかった場合作成
+	ShotEnemy* newShot = new ShotEnemy();
+	//newShot->Create({ transform_.pos.x,
+	//	transform_.pos.y + 150 ,
+	//	transform_.pos.z },
+	//	transform_.GetForward());
+		
+	// 弾の管理配列に追加
+	shots_.push_back(newShot);
+	return newShot;
 
 }

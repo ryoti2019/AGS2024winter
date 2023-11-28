@@ -2,6 +2,7 @@
 #include "Common/Transform.h"
 #include "UnitBase.h"
 class Player;
+class ShotEnemy;
 
 class Enemy : public UnitBase
 {
@@ -19,6 +20,12 @@ public:
 
 	// エネミー武器のカプセルの上の相対座標
 	static constexpr VECTOR LOCAL_WEPON_C_UP_POS = { 0.0f,150.0f,0.0f };
+
+	// 弾の相対座標
+	static constexpr VECTOR LOCAL_SHOT_POS = { 0.0f,500.0f,0.0f };
+
+	// 
+	static constexpr VECTOR LOCAL_CENTER_POS = { 0.0f,300.0f,0.0f };
 
 	// エネミー自身の衝突判定の球体半径
 	static constexpr float COLLISION_BODY_RADIUS = 100.0f;
@@ -107,6 +114,9 @@ public:
 	// HPの最大値
 	static constexpr int HP_MAX = 100;
 
+	// 弾の発射間隔
+	static constexpr float TIME_DELAY_SHOT = 0.3f;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -116,6 +126,7 @@ public:
 		ATTACK,
 		JUMP_ATTACK,
 		TACKLE,
+		CREATE,
 		SHOT,
 		HIT,
 	};
@@ -176,13 +187,13 @@ public:
 	// 攻撃が当たったかどうかの設定
 	void SetHit(bool hit);
 
+	// 弾が死んだ数の取得
+	void SetDeathCnt(int cnt);
+
 protected:
 
 	// 弾
 	std::vector<ShotEnemy*> shots_;
-
-	// プレイヤーの取得
-	Player* player_;
 
 	// プレイヤーの状態
 	STATE state_;
@@ -202,6 +213,9 @@ protected:
 
 	// ジャンプアタックのアニメーション
 	int jumpAttackAnim_;
+
+	// 弾を作る
+	int createAnim_;
 
 	// ショットアニメーション
 	int shotAnim_;
@@ -259,6 +273,12 @@ protected:
 	// 追従対象
 	const Transform* followTransform_;
 
+	// 弾の発射間隔
+	float delayShot_;
+
+	// 弾が死んだ数
+	int deathCnt_;
+
 	// 行動の選択
 	void Think(void);
 
@@ -282,6 +302,9 @@ protected:
 
 	// タックル攻撃
 	void UpdateTackle(void);
+
+	// 弾を作る
+	void UpdateCreate(void);
 
 	// ショット攻撃
 	void UpdateShot(void);
@@ -313,8 +336,11 @@ protected:
 	// 攻撃アニメーションの設定
 	void SetAttackAnimation(void);
 
-	// ジャンプアタックの設定
+	// ジャンプアタックアニメーションの設定
 	void SetJumpAttackAnimation(void);
+
+	// 弾を作るアニメーションの設定
+	void SetCreateAnimation(void);
 
 	// ショットの設定
 	void SetShotAnimation(void);
@@ -339,6 +365,15 @@ protected:
 
 	// アニメーションのフレームの固定
 	void AnimationFrame(void);
+
+	// 操作：弾発射
+	void ProcessShot(void);
+
+	// 自機の弾を発射
+	void CreateShot(void);
+
+	// 弾が死んでいるかどうか
+	ShotEnemy* GetAvailableShot(void);
 
 };
 

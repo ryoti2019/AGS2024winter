@@ -100,4 +100,7 @@ protected:
 	// 爆発エフェクトを再生
 	void PlayBlastEffect(void);
 
+	// デバッグ描画
+	void DrawDebug(void);
+
 };

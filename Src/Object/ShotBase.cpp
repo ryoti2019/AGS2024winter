@@ -16,7 +16,7 @@ ShotBase::ShotBase(void)
 	ResourceManager& rem = ResourceManager::GetInstance();
 	transform_.modelId =
 		rem.LoadModelDuplicate(ResourceManager::SRC::SHOT_MODEL);
-	float scale = 0.2f;
+	float scale = 10.0f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = AsoUtility::VECTOR_ZERO;
 	transform_.quaRot = Quaternion();
@@ -99,6 +99,7 @@ void ShotBase::CheckAlive(void)
 	if (stepAlive_ < 0.0f)
 	{
 		ChangeState(STATE::END);
+
 	}
 
 }
@@ -112,12 +113,16 @@ void ShotBase::Draw(void)
 		break;
 	case ShotBase::STATE::SHOT:
 		MV1DrawModel(transform_.modelId);
+		// デバッグ描画
+		DrawDebug();
 		break;
 	case ShotBase::STATE::BLAST:
 		break;
 	case ShotBase::STATE::END:
 		break;
 	}
+
+
 
 }
 
@@ -225,4 +230,9 @@ void ShotBase::PlayBlastEffect(void)
 	SetRotationPlayingEffekseer3DEffect(effectBlastPlayId_, 0.0f, 0.0f, 0.0f);
 	VECTOR pos = transform_.pos;
 	SetPosPlayingEffekseer3DEffect(effectBlastPlayId_, pos.x, pos.y, pos.z);
+}
+
+void ShotBase::DrawDebug(void)
+{
+	DrawSphere3D(transform_.pos, collisionRadius_, 10, 0xff0000, 0xff0000, true);
 }

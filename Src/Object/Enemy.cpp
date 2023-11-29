@@ -74,8 +74,8 @@ void Enemy::InitAnimation(void)
 	// アニメーション速度
 	speedAnim_ = 0.0f;
 
-	// 弾が死んだ数
-	deathCnt_ = 12;
+	// 待機状態の弾の数
+	shotNum_ = 0;
 
 }
 
@@ -137,7 +137,6 @@ void Enemy::Update(void)
 	case Enemy::STATE::THINK:
 		break;
 	case Enemy::STATE::IDLE:
-
 		UpdateIdle();
 		break;
 	case Enemy::STATE::WALK:
@@ -164,11 +163,13 @@ void Enemy::Update(void)
 	case Enemy::STATE::TACKLE:
 		UpdateTackle();
 		break;
+	case Enemy::STATE::CREATE:
+		UpdateCreate();
 	case Enemy::STATE::SHOT:
 		UpdateShot();
 		break;
 	case Enemy::STATE::HIT:
-		/*UpdateHit();*/
+		//UpdateHit();
 		break;
 	}
 
@@ -297,7 +298,7 @@ void Enemy::SetHit(bool hit)
 
 void Enemy::SetDeathCnt(int cnt)
 {
-	
+	shotNum_ += cnt;
 }
 
 void Enemy::Think(void)
@@ -394,7 +395,7 @@ void Enemy::Think(void)
 	//if (attackNumber_ == 2)
 	//{
 
-		ChangeState(STATE::SHOT);
+		ChangeState(STATE::CREATE);
 
 	//}
 }
@@ -804,7 +805,7 @@ void Enemy::SetShotAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, shotAnim_);
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
@@ -967,16 +968,42 @@ void Enemy::ProcessShot(void)
 
 	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
 
+	// 弾を時間をずらして飛ばす
 	if (delayShot_ <= 0.0f)
 	{
-		CreateShot();
+		Shot();
 		delayShot_ = TIME_DELAY_SHOT;
+	}
+
+}
+
+void Enemy::Shot(void)
+{
+
+	if (shotNum_ <= 0) return;
+	// 背中にある弾から撃つ弾(待機状態の弾)選んで
+	// 発射
+	for (auto& shot : shots_)
+	{
+		if (shot->IsIdle())
+		{
+			// 弾の方向
+			auto vec = VSub(followTransform_->pos, shot->GetPos());
+			auto dir = VNorm(vec);
+
+			// 発射処理
+			shot->Shot(dir);
+			ChangeState(STATE::SHOT);
+			shotNum_--;
+			break;
+		}
 	}
 
 }
 
 void Enemy::CreateShot(void)
 {
+	if (shotNum_ > 0) return;
 
 	// 弾の生成フラグ
 	bool isCreate = false;
@@ -984,10 +1011,11 @@ void Enemy::CreateShot(void)
 	float deg = 0.0f;	// デグリー(度数) 45度
 	float rad = 0.0f;	// ラジアン(弧度) 0.785rad
 
-	// 12個の粒子を作る(12回ループ)
-	if (deathCnt_ >= 12)
-	{
-		while (deg < 360.0f)
+	//// 12個の粒子を作る(12回ループ)
+	//if (deathCnt_ >= 8)
+	//{
+		//while (deg < 360.0f)
+		while (shotNum_ < 8)
 		{
 
 			// 利用可能なものを探す
@@ -996,26 +1024,29 @@ void Enemy::CreateShot(void)
 			// デグリーをラジアンに変換
 			rad = deg * DX_PI_F / 180.0f;
 
-			deg += 45;
+			// 45度ずつ弾の位置を変える
+			deg += (360 / 8);
 
 			// 角度から方向(ベクトル)を求める
 			auto qua = Quaternion::Euler({ 0.0f,0.0f,rad });
 
+			// 相対座標
 			auto rPos = qua.PosAxis(LOCAL_SHOT_POS);
 
-			// 弾の位置の更新
-			VECTOR shotPos = VAdd(transform_.pos, transform_.quaRot.PosAxis(rPos));
+			//// 弾の位置の更新
+			//VECTOR shotPos = VAdd(transform_.pos, transform_.quaRot.PosAxis(rPos));
 
-			// 弾の方向
-			auto vec = VSub(followTransform_->pos, shotPos);
-			auto dir = VNorm(vec);
+			//// 弾の方向
+			//auto vec = VSub(followTransform_->pos, shotPos);
+			//auto dir = VNorm(vec);
 
-			shot->Create(shotPos, dir);
+			// 弾の作成
+			shot->Create(rPos,&transform_);
+
+			shotNum_++;
+
 		}
-		// 死んだ数をゼロにする
-		deathCnt_ = 0;
-	}
-
+	
 }
 
 ShotEnemy* Enemy::GetAvailableShot(void)

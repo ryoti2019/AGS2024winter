@@ -14,6 +14,7 @@ public:
 	enum class STATE
 	{
 		NONE,
+		IDLE,
 		SHOT,
 		BLAST,
 		END,
@@ -31,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="birthPos">初期座標</param>
 	/// <param name="dir">進行方向</param>
-	virtual void Create(VECTOR birthPos, VECTOR dir);
+	virtual void Create(VECTOR relPos , Transform* follow);
 
 	virtual void Update(void);
 	virtual void Draw(void);
@@ -54,6 +55,8 @@ public:
 
 	// 弾を爆発させる
 	void Blast(void);
+
+
 
 protected:
 
@@ -85,6 +88,7 @@ protected:
 	virtual void SetParam(void) = 0;
 
 	// 状態別更新処理
+	virtual void UpdateIdle(void);
 	virtual void UpdateShot(void);
 	virtual void UpdateBlast(void);
 

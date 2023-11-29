@@ -35,7 +35,7 @@ ShotBase::~ShotBase(void)
 {
 }
 
-void ShotBase::Create(VECTOR birthPos, VECTOR dir)
+void ShotBase::Create(VECTOR relPos, Transform* follow)
 {
 
 	// パラメータ設定
@@ -43,10 +43,12 @@ void ShotBase::Create(VECTOR birthPos, VECTOR dir)
 
 	// 再利用可能なようにする
 	// 指定方向に弾を飛ばす
-	dir_ = dir;
+	//dir_ = dir;
 
 	// 弾の発生位置
-	transform_.pos = birthPos;
+	relPos;
+	follow;
+	//transform_.pos = birthPos;
 
 	// 弾モデルの向き(角度)を指定方向に合わせる
 	transform_.quaRot = Quaternion::LookRotation(dir_);
@@ -58,7 +60,7 @@ void ShotBase::Create(VECTOR birthPos, VECTOR dir)
 	transform_.Update();
 
 	// 状態遷移
-	ChangeState(STATE::SHOT);
+	ChangeState(STATE::IDLE);
 
 }
 
@@ -75,6 +77,11 @@ void ShotBase::Update(void)
 	switch (state_)
 	{
 	case ShotBase::STATE::NONE:
+		break;
+	case ShotBase::STATE::IDLE:
+		MV1DrawModel(transform_.modelId);
+		// デバッグ描画
+		DrawDebug();
 		break;
 	case ShotBase::STATE::SHOT:
 		UpdateShot();
@@ -111,6 +118,11 @@ void ShotBase::Draw(void)
 	{
 	case ShotBase::STATE::NONE:
 		break;
+	case ShotBase::STATE::IDLE:
+		MV1DrawModel(transform_.modelId);
+		// デバッグ描画
+		DrawDebug();
+		break;
 	case ShotBase::STATE::SHOT:
 		MV1DrawModel(transform_.modelId);
 		// デバッグ描画
@@ -121,8 +133,6 @@ void ShotBase::Draw(void)
 	case ShotBase::STATE::END:
 		break;
 	}
-
-
 
 }
 
@@ -161,6 +171,10 @@ void ShotBase::Move(void)
 	// 移動
 	VECTOR velocity = VScale(dir_, speed_);
 	transform_.pos = VAdd(transform_.pos, velocity);
+}
+
+void ShotBase::UpdateIdle(void)
+{
 }
 
 void ShotBase::UpdateShot(void)
@@ -208,6 +222,8 @@ void ShotBase::ChangeState(STATE state)
 	switch (state)
 	{
 	case ShotBase::STATE::NONE:
+		break;
+	case ShotBase::STATE::IDLE:
 		break;
 	case ShotBase::STATE::SHOT:
 		break;

@@ -22,7 +22,7 @@ public:
 	static constexpr VECTOR LOCAL_WEPON_C_UP_POS = { 0.0f,150.0f,0.0f };
 
 	// ’e‚Ì‘Š‘ÎÀ•W
-	static constexpr VECTOR LOCAL_SHOT_POS = { 0.0f,500.0f,0.0f };
+	static constexpr VECTOR LOCAL_SHOT_POS = { 0.0f,500.0f,100.0f };
 
 	// 
 	static constexpr VECTOR LOCAL_CENTER_POS = { 0.0f,300.0f,0.0f };
@@ -276,8 +276,11 @@ protected:
 	// ’e‚Ì”­ËŠÔŠu
 	float delayShot_;
 
-	// ’e‚ª€‚ñ‚¾”
-	int deathCnt_;
+	// ‘Ò‹@‚µ‚Ä‚¢‚é‹Ê‚Ì”
+	int shotNum_;
+
+	// ’e‚ªì‚ç‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	bool isShot_;
 
 	// s“®‚Ì‘I‘ğ
 	void Think(void);
@@ -374,6 +377,9 @@ protected:
 
 	// ’e‚ª€‚ñ‚Å‚¢‚é‚©‚Ç‚¤‚©
 	ShotEnemy* GetAvailableShot(void);
+
+	// ’e‚ğ‘Å‚Â
+	void Shot(void);
 
 };
 

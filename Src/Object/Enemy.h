@@ -22,10 +22,7 @@ public:
 	static constexpr VECTOR LOCAL_WEPON_C_UP_POS = { 0.0f,150.0f,0.0f };
 
 	// 弾の相対座標
-	static constexpr VECTOR LOCAL_SHOT_POS = { 0.0f,500.0f,100.0f };
-
-	// 
-	static constexpr VECTOR LOCAL_CENTER_POS = { 0.0f,300.0f,0.0f };
+	static constexpr VECTOR LOCAL_SHOT_POS = { 0.0f,200.0f,100.0f };
 
 	// エネミー自身の衝突判定の球体半径
 	static constexpr float COLLISION_BODY_RADIUS = 100.0f;
@@ -81,6 +78,12 @@ public:
 	// ジャンプアタックが終わる時間
 	static constexpr float JUMP_ATTACK_END_TIME = 300.0f;
 
+	// ショットアタックが始まる時間
+	static constexpr float SHOT_START_TIME = 10.0f;
+
+	// ショットアタックが終わる時間
+	static constexpr float SHOT_END_TIME = 50.0f;
+
 	// ダメージヒットが終わる時間
 	static constexpr float HIT_END_TIME = 300.0f;
 
@@ -115,7 +118,7 @@ public:
 	static constexpr int HP_MAX = 100;
 
 	// 弾の発射間隔
-	static constexpr float TIME_DELAY_SHOT = 0.3f;
+	static constexpr float TIME_DELAY_SHOT = 2.0f;
 
 	// プレイヤーの状態
 	enum class STATE
@@ -235,6 +238,9 @@ protected:
 	// 攻撃のフラグ
 	bool attack_;
 
+	// 弾を発射したかどうか
+	bool isShot_;
+
 	// 攻撃が当たったかどうか
 	bool hit_;
 
@@ -278,9 +284,6 @@ protected:
 
 	// 待機している玉の数
 	int shotNum_;
-
-	// 弾が作られているかどうか
-	bool isShot_;
 
 	// 行動の選択
 	void Think(void);

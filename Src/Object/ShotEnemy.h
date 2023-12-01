@@ -40,6 +40,7 @@ protected:
 	void Move(void)override;
 
 	void UpdateIdle(void)override;
+	void UpdateShot(void)override;
 	void UpdateBlast(void)override;
 
 	// 生存チェック

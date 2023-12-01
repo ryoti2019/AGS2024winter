@@ -79,9 +79,7 @@ void ShotBase::Update(void)
 	case ShotBase::STATE::NONE:
 		break;
 	case ShotBase::STATE::IDLE:
-		MV1DrawModel(transform_.modelId);
-		// デバッグ描画
-		DrawDebug();
+		UpdateIdle();
 		break;
 	case ShotBase::STATE::SHOT:
 		UpdateShot();
@@ -250,5 +248,5 @@ void ShotBase::PlayBlastEffect(void)
 
 void ShotBase::DrawDebug(void)
 {
-	DrawSphere3D(transform_.pos, collisionRadius_, 10, 0xff0000, 0xff0000, true);
+	DrawSphere3D(transform_.pos, /*collisionRadius_*/50, 10, 0xff0000, 0xff0000, true);
 }

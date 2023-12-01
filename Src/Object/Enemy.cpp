@@ -42,6 +42,10 @@ void Enemy::InitAnimation(void)
 	jumpAttackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_DASH_ATTACK);
 
+	// 弾を生成するアニメーション
+	createAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_SHOT_CREATE);
+
 	// ショットアニメーション
 	shotAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_SHOT_ATTACK);
@@ -112,6 +116,9 @@ void Enemy::Init(void)
 	// 回転の終了のフラグ
 	rotationEnd_ = false;
 
+	// 弾を発射したかどうか
+	isShot_ = false;
+
 	// 当たったかのフラグ
 	hit_ = false;
 
@@ -165,6 +172,7 @@ void Enemy::Update(void)
 		break;
 	case Enemy::STATE::CREATE:
 		UpdateCreate();
+		break;
 	case Enemy::STATE::SHOT:
 		UpdateShot();
 		break;
@@ -555,8 +563,7 @@ void Enemy::UpdateCreate(void)
 void Enemy::UpdateShot(void)
 {
 
-	auto& ins = InputManager::GetInstance();
-
+	// 弾の発射処理
 	ProcessShot();
 
 }
@@ -674,7 +681,11 @@ void Enemy::ChangeState(STATE state)
 	case Enemy::STATE::TACKLE:
 		SetTackleAnimation();
 		break;
+	case Enemy::STATE::CREATE:
+		SetCreateAnimation();
+		break;
 	case Enemy::STATE::SHOT:
+		delayShot_ = TIME_DELAY_SHOT;
 		SetShotAnimation();
 		break;
 	case Enemy::STATE::HIT:
@@ -761,25 +772,6 @@ void Enemy::SetJumpAttackAnimation(void)
 
 }
 
-void Enemy::SetCreateAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, jumpAttackAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = JUMP_ATTACK_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
-
-}
-
 void Enemy::SetTackleAnimation(void)
 {
 
@@ -799,22 +791,41 @@ void Enemy::SetTackleAnimation(void)
 
 }
 
+void Enemy::SetCreateAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, idleAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = JUMP_ATTACK_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
 void Enemy::SetShotAnimation(void)
 {
 
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, shotAnim_);
 
 	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+	animTotalTime_ = SHOT_END_TIME;
 
 	// アニメーション速度
 	speedAnim_ = SHOT_ANIM_SPEED;
 
 	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
+	stepAnim_ = SHOT_START_TIME;
 
 }
 
@@ -893,18 +904,29 @@ void Enemy::Animation(void)
 
 	// アニメーション時間の進行
 	stepAnim_ += (speedAnim_ * deltaTime);
-	if (stepAnim_ > animTotalTime_)
+	if (state_ != STATE::SHOT || shotNum_ == 0)
 	{
-
-		// ループ再生
-		stepAnim_ = 0.0f;
-
-		if (state_ != STATE::TACKLE)
+		isShot_ = false;
+		if (stepAnim_ > animTotalTime_)
 		{
-			// 待機状態にする
-			ChangeState(STATE::IDLE);
+
+			// ループ再生
+			stepAnim_ = 0.0f;
+
+			if (state_ != STATE::TACKLE)
+			{
+				// 待機状態にする
+				ChangeState(STATE::IDLE);
+			}
+
 		}
 
+	}
+
+	if (state_ == STATE::SHOT && stepAnim_ >= SHOT_END_TIME)
+	{
+		stepAnim_ = SHOT_START_TIME;
+		isShot_ = false;
 	}
 
 	// 行動後プレイヤー方向に角度を変える
@@ -969,10 +991,18 @@ void Enemy::ProcessShot(void)
 	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// 弾を時間をずらして飛ばす
-	if (delayShot_ <= 0.0f)
+	//if (delayShot_ <= 0.0f)
+	//{
+	//	Shot();
+	//	delayShot_ = TIME_DELAY_SHOT;
+	//}
+
+	auto i = stepAnim_;
+	auto y = isShot_;
+	if (stepAnim_ >= 35.0f && !isShot_)
 	{
 		Shot();
-		delayShot_ = TIME_DELAY_SHOT;
+		isShot_ = true;
 	}
 
 }
@@ -980,22 +1010,24 @@ void Enemy::ProcessShot(void)
 void Enemy::Shot(void)
 {
 
-	if (shotNum_ <= 0) return;
+	if (shotNum_ < 0) return;
 	// 背中にある弾から撃つ弾(待機状態の弾)選んで
 	// 発射
+
 	for (auto& shot : shots_)
 	{
 		if (shot->IsIdle())
 		{
+
 			// 弾の方向
 			auto vec = VSub(followTransform_->pos, shot->GetPos());
 			auto dir = VNorm(vec);
 
 			// 発射処理
 			shot->Shot(dir);
-			ChangeState(STATE::SHOT);
 			shotNum_--;
 			break;
+
 		}
 	}
 
@@ -1003,7 +1035,9 @@ void Enemy::Shot(void)
 
 void Enemy::CreateShot(void)
 {
-	if (shotNum_ > 0) return;
+
+	// 弾が0個以上あったら入らない
+	//if (shotNum_ > 0) return;
 
 	// 弾の生成フラグ
 	bool isCreate = false;
@@ -1011,42 +1045,37 @@ void Enemy::CreateShot(void)
 	float deg = 0.0f;	// デグリー(度数) 45度
 	float rad = 0.0f;	// ラジアン(弧度) 0.785rad
 
-	//// 12個の粒子を作る(12回ループ)
-	//if (deathCnt_ >= 8)
-	//{
-		//while (deg < 360.0f)
-		while (shotNum_ < 8)
-		{
+	// 8個の弾を敵の背後に作る(8回ループ)
+	while (shotNum_ < 8)
+	{
 
-			// 利用可能なものを探す
-			ShotEnemy* shot = GetAvailableShot();
+		// 利用可能なものを探す
+		ShotEnemy* shot = GetAvailableShot();
 
-			// デグリーをラジアンに変換
-			rad = deg * DX_PI_F / 180.0f;
+		// デグリーをラジアンに変換
+		rad = deg * DX_PI_F / 180.0f;
 
-			// 45度ずつ弾の位置を変える
-			deg += (360 / 8);
+		// 45度ずつ弾の位置を変える
+		deg += (360 / 8);
 
-			// 角度から方向(ベクトル)を求める
-			auto qua = Quaternion::Euler({ 0.0f,0.0f,rad });
+		// 角度から方向(ベクトル)を求める
+		auto qua = Quaternion::Euler({ 0.0f,0.0f,rad });
 
-			// 相対座標
-			auto rPos = qua.PosAxis(LOCAL_SHOT_POS);
+		// 相対座標
+		auto rPos = qua.PosAxis(LOCAL_SHOT_POS);
 
-			//// 弾の位置の更新
-			//VECTOR shotPos = VAdd(transform_.pos, transform_.quaRot.PosAxis(rPos));
+		// 弾の作成
+		shot->Create(rPos, &transform_);
 
-			//// 弾の方向
-			//auto vec = VSub(followTransform_->pos, shotPos);
-			//auto dir = VNorm(vec);
+		shotNum_++;
 
-			// 弾の作成
-			shot->Create(rPos,&transform_);
+	}
 
-			shotNum_++;
+	if (stepAnim_ >= 100.0f)
+	{
+		ChangeState(STATE::SHOT);
+	}
 
-		}
-	
 }
 
 ShotEnemy* Enemy::GetAvailableShot(void)

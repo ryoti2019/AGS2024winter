@@ -59,7 +59,7 @@ void ShotEnemy::Create(VECTOR relPos, Transform* follow)
 	rPos_ = relPos;
 	
 	// 弾の位置の更新
-	transform_.pos = VAdd(VAdd(enemyTransform_->pos,{0.0f,200.0f,0.0f}), enemyTransform_->quaRot.PosAxis(rPos_));
+	transform_.pos = VAdd(VAdd(enemyTransform_->pos, { 0.0f,200.0f,0.0f }), enemyTransform_->quaRot.PosAxis(rPos_));
 
 	// 弾モデルの向き(角度)を指定方向に合わせる
 	transform_.quaRot = Quaternion::LookRotation(dir_);
@@ -79,29 +79,48 @@ void ShotEnemy::SetParam(void)
 {
 
 	// 弾の速度
-	speed_ = 30.0f;
+	speed_ = 150.0f;
 
 	// 生存時間
 	timeAlive_ = 5.0f;
 
 	// 衝突用球体半径
-	collisionRadius_ = 50.0f;
+	collisionRadius_ = 10.0f;
 
 }
 
 void ShotEnemy::Move(void)
 {
-	transform_.pos = VAdd(transform_.pos, VScale(dir_, 10.0f));
+	transform_.pos = VAdd(transform_.pos, VScale(dir_, speed_));
 }
 
 void ShotEnemy::UpdateIdle(void)
 {
 
 	// 弾の位置の更新
-	transform_.pos = VAdd(enemyTransform_->pos, transform_.quaRot.PosAxis(rPos_));
+	transform_.pos = VAdd(VAdd(enemyTransform_->pos, { 0.0f,200.0f,0.0f }), transform_.quaRot.PosAxis(rPos_));
 
 	// 弾の回転
 	transform_.quaRot = enemyTransform_->quaRot;
+
+}
+
+void ShotEnemy::UpdateShot(void)
+{
+
+	// 生存チェック
+	CheckAlive();
+
+	if (state_ != STATE::SHOT)
+	{
+
+		// 処理中断
+		return;
+
+	}
+
+	// 移動処理
+	Move();
 
 }
 

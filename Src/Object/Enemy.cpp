@@ -59,11 +59,6 @@ void Enemy::InitAnimation(void)
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 0.0f, 1000.0f };
 	transform_.quaRot = Quaternion();
-	//Quaternion rotPow = Quaternion::Identity();
-	//rotPow = Quaternion::Mult(
-	//	rotPow,
-	//	Quaternion::AngleAxis(AsoUtility::Deg2RadF(180), AsoUtility::AXIS_Y));
-	//transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 
 	// 再生するアニメーションの番号
@@ -309,6 +304,11 @@ void Enemy::SetDeathCnt(int cnt)
 	shotNum_ += cnt;
 }
 
+std::vector<ShotEnemy*>& Enemy::GetShots(void)
+{
+	return shots_;
+}
+
 void Enemy::Think(void)
 {
 
@@ -324,88 +324,87 @@ void Enemy::Think(void)
 	// 攻撃が当たったかどうか
 	hit_ = false;
 
-	//// 移動 --------------------------------------------------
+	// 移動 --------------------------------------------------
 
-	//// 移動
-	//if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
-	//{
-	//	ChangeState(STATE::WALK);
-	//}
+	// 移動
+	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
+	{
+		ChangeState(STATE::WALK);
+	}
 
-	//if (walkCnt_ <= FIRST_WALK_TIME)
-	//{
-	//	return;
-	//}
+	if (walkCnt_ <= FIRST_WALK_TIME)
+	{
+		return;
+	}
 
-	//// 通常攻撃 ----------------------------------------------
+	// 通常攻撃 ----------------------------------------------
 
-	//// プレイヤーの方向を求める
-	//vec = VSub(followTransform_->pos, transform_.pos);
-	//length = AsoUtility::Magnitude(vec);
+	// プレイヤーの方向を求める
+	vec = VSub(followTransform_->pos, transform_.pos);
+	length = AsoUtility::Magnitude(vec);
 
-	//// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	//if (length < ATTACK_RANGE)
-	//{
-	//	ChangeState(STATE::ATTACK);
-	//}
+	// 敵とプレイヤーの距離が一定距離になったら攻撃する
+	if (length < ATTACK_RANGE)
+	{
+		ChangeState(STATE::ATTACK);
+	}
 
-	//// ジャンプ攻撃 ------------------------------------------
+	// ジャンプ攻撃 ------------------------------------------
 
-	//if (attackNumber_ == 0)
-	//{
+	if (attackNumber_ == 0)
+	{
 
-	//	// プレイヤーがいた座標を代入
-	//	attackPlayerPos_ = followTransform_->pos;
+		// プレイヤーがいた座標を代入
+		attackPlayerPos_ = followTransform_->pos;
 
-	//	// プレイヤーの方向を求める
-	//	vec = VSub(attackPlayerPos_, transform_.pos);
-	//	length = AsoUtility::Magnitude(vec);
+		// プレイヤーの方向を求める
+		vec = VSub(attackPlayerPos_, transform_.pos);
+		length = AsoUtility::Magnitude(vec);
 
-	//	// 正規化
-	//	pDirection_ = VNorm(vec);
+		// 正規化
+		pDirection_ = VNorm(vec);
 
-	//	// ジャンプ攻撃
-	//	if ((length > JUMP_ATTACK_RANGE_MIN && length < JUMP_ATTACK_RANGE_MAX) || length < ATTACK_RANGE)
-	//	{
-	//		ChangeState(STATE::JUMP_ATTACK);
-	//	}
+		// ジャンプ攻撃
+		if ((length > JUMP_ATTACK_RANGE_MIN && length < JUMP_ATTACK_RANGE_MAX) || length < ATTACK_RANGE)
+		{
+			ChangeState(STATE::JUMP_ATTACK);
+		}
 
-	//}
+	}
 
-	//// タックル攻撃 ------------------------------------------
+	// タックル攻撃 ------------------------------------------
 
-	//if (attackNumber_ == 1)
-	//{
+	if (attackNumber_ == 1)
+	{
 
-	//	// プレイヤーがいた座標を代入
-	//	attackPlayerPos_ = followTransform_->pos;
+		// プレイヤーがいた座標を代入
+		attackPlayerPos_ = followTransform_->pos;
 
-	//	// プレイヤーの方向を求める
-	//	vec = VSub(attackPlayerPos_, transform_.pos);
-	//	length = AsoUtility::Magnitude(vec);
+		// プレイヤーの方向を求める
+		vec = VSub(attackPlayerPos_, transform_.pos);
+		length = AsoUtility::Magnitude(vec);
 
-	//	// 正規化
-	//	pDirection_ = VNorm(vec);
+		// 正規化
+		pDirection_ = VNorm(vec);
 
-	//	// タックルし続ける時間
-	//	tackleCnt_ = TACKLE_TIME;
+		// タックルし続ける時間
+		tackleCnt_ = TACKLE_TIME;
 
-	//	// タックル攻撃
-	//	if (length > ATTACK_RANGE)
-	//	{
-	//		ChangeState(STATE::TACKLE);
-	//	}
+		// タックル攻撃
+		if (length > ATTACK_RANGE)
+		{
+			ChangeState(STATE::TACKLE);
+		}
 
-	//}
+	}
 
 	// ショット攻撃-------------------------------------------
 
-	//if (attackNumber_ == 2)
-	//{
-
+	if (attackNumber_ == 2)
+	{
 		ChangeState(STATE::CREATE);
+	}
 
-	//}
 }
 
 void Enemy::Rotation(void)
@@ -566,6 +565,12 @@ void Enemy::UpdateShot(void)
 	// 弾の発射処理
 	ProcessShot();
 
+	// 攻撃フラグ
+	if (!hit_)
+	{
+		attack_ = true;
+	}
+
 }
 
 void Enemy::UpdateHit(void)
@@ -664,7 +669,7 @@ void Enemy::ChangeState(STATE state)
 		// 回転のフラグを戻す
 		rotationEnd_ = false;
 		// これからの行動を考える
-		Think();
+		//Think();
 		break;
 	case Enemy::STATE::IDLE:
 		SetIdleAnimation();
@@ -797,16 +802,16 @@ void Enemy::SetCreateAnimation(void)
 	MV1DetachAnim(transform_.modelId, animAttachNo_);
 
 	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, idleAnim_);
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, createAnim_);
 
 	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+	animTotalTime_ = SHOT_CREATE_END_TIME;
 
 	// アニメーション速度
-	speedAnim_ = JUMP_ATTACK_ANIM_SPEED;
+	speedAnim_ = SHOT_CREATE_SPEED;
 
 	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
+	stepAnim_ = SHOT_CREATE_START_TIME;
 
 }
 
@@ -991,14 +996,6 @@ void Enemy::ProcessShot(void)
 	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// 弾を時間をずらして飛ばす
-	//if (delayShot_ <= 0.0f)
-	//{
-	//	Shot();
-	//	delayShot_ = TIME_DELAY_SHOT;
-	//}
-
-	auto i = stepAnim_;
-	auto y = isShot_;
 	if (stepAnim_ >= 35.0f && !isShot_)
 	{
 		Shot();
@@ -1011,16 +1008,14 @@ void Enemy::Shot(void)
 {
 
 	if (shotNum_ < 0) return;
-	// 背中にある弾から撃つ弾(待機状態の弾)選んで
-	// 発射
-
+	// 背中にある弾から撃つ弾(待機状態の弾)選んで発射
 	for (auto& shot : shots_)
 	{
 		if (shot->IsIdle())
 		{
 
 			// 弾の方向
-			auto vec = VSub(followTransform_->pos, shot->GetPos());
+			auto vec = VSub(VAdd(followTransform_->pos,{0.0f,100.0f,0.0f}), shot->GetPos());
 			auto dir = VNorm(vec);
 
 			// 発射処理
@@ -1035,43 +1030,41 @@ void Enemy::Shot(void)
 
 void Enemy::CreateShot(void)
 {
-
-	// 弾が0個以上あったら入らない
-	//if (shotNum_ > 0) return;
-
-	// 弾の生成フラグ
-	bool isCreate = false;
-
-	float deg = 0.0f;	// デグリー(度数) 45度
-	float rad = 0.0f;	// ラジアン(弧度) 0.785rad
-
+	
 	// 8個の弾を敵の背後に作る(8回ループ)
-	while (shotNum_ < 8)
+	if (shotNum_ < 8 && delayCreate_ <= 0.0f)
 	{
 
 		// 利用可能なものを探す
 		ShotEnemy* shot = GetAvailableShot();
 
 		// デグリーをラジアンに変換
-		rad = deg * DX_PI_F / 180.0f;
+		shotCreateRad_ = shotCreateDeg_ * DX_PI_F / 180.0f;
 
 		// 45度ずつ弾の位置を変える
-		deg += (360 / 8);
+		shotCreateDeg_ += (360 / 8);
 
 		// 角度から方向(ベクトル)を求める
-		auto qua = Quaternion::Euler({ 0.0f,0.0f,rad });
+		auto qua = Quaternion::Euler({ 0.0f,0.0f,shotCreateRad_ });
 
 		// 相対座標
 		auto rPos = qua.PosAxis(LOCAL_SHOT_POS);
 
 		// 弾の作成
 		shot->Create(rPos, &transform_);
-
+		
+		// 弾を生成したら増やす
 		shotNum_++;
+
+		// 生成したらまた時間を増やす
+		delayCreate_ = TIME_DELAY_SHOT_CREATE;
 
 	}
 
-	if (stepAnim_ >= 100.0f)
+	delayCreate_ -= SceneManager::GetInstance().GetDeltaTime();
+
+	// アニメーションが終わったらショットに移行する
+	if (stepAnim_ >= SHOT_CREATE_END_TIME - 1.0f)
 	{
 		ChangeState(STATE::SHOT);
 	}

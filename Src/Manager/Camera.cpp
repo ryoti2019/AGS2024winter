@@ -263,19 +263,19 @@ void Camera::SetBeforeDrawLockOn(void)
 		pos_ = AsoUtility::Lerp(pos_, goalCameraPos, 0.1f);
 	}
 
-	rot_ = Quaternion::LookRotation(VSub(goalPos, goalCameraPos_));
+	rotXY_ = Quaternion::LookRotation(VSub(goalPos, goalCameraPos_));
 
 	auto targetPosXZ = goalPos;
 	targetPosXZ.y = 0.0f;
 	auto posXZ = goalCameraPos_;
 	posXZ.y = 0.0f;
 	auto cameraDir = VSub(targetPosXZ, posXZ);
-	rotOutX_Move_ = Quaternion::LookRotation(cameraDir);
+	rotY_ = Quaternion::LookRotation(cameraDir);
 
-	angles_ = rotOutX_Move_.ToEuler();
+	angles_ = rotY_.ToEuler();
 
 	// ÉJÉÅÉâÇÃè„ï˚å¸
-	cameraUp_ = gRot.GetUp();
+	cameraUp_ = {0.0f,1.0f,0.0f};
 
 }
 

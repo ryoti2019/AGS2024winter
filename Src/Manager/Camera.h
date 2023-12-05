@@ -54,6 +54,8 @@ public:
 	// 敵から注視点までの相対座標
 	static constexpr VECTOR LOCAL_E2T_POS = { 0.0f,0.0f,500.0f };
 
+	static constexpr VECTOR LOCAL_LOCK_ON_F2C_POS = { 0.0f,200.0f,-500.0f };
+
 	// カメラモード
 	enum class MODE
 	{
@@ -61,6 +63,7 @@ public:
 		FIXED_POINT,	// 定点カメラ
 		FREE,			// フリーモード
 		FOLLOW,			// 追従モード
+		LOCKON,			// ロックオンモード
 	};
 
 	Camera(void);
@@ -71,6 +74,7 @@ public:
 	void SetBeforeDraw(void);
 	void SetBeforeDrawFixedPoint(void);
 	void SetBeforeDrawFree(void);
+	void SetBeforeDrawLockOn(void);
 	void Draw(void);
 	void Release(void);
 
@@ -87,7 +91,7 @@ public:
 
 	// 追従対象の設定
 	//void SetFollow(const Transform* follow);
-	
+
 	// 追従対象の設定
 	void SetPlayer(const Transform* follow);
 
@@ -140,15 +144,26 @@ private:
 	// プレイヤーがカメラを動かしたときのフラグ
 	bool isOp_ = false;
 
+	// 追従対象
+	const Transform* playerTransform_;
+	const Transform* enemyTransform_;
+
+	Quaternion lockOnLook_;
+
+	// ロックオン専用コントローラ制御角
+	VECTOR lockOnAngles_;
+
+	VECTOR angles_;
+
+	bool isNearLockOnTarget_;
+
+	VECTOR goalCameraPos_;
+
 	// カメラを初期位置に戻す
 	void SetDefault(void);
 
 	// 注視点をキャラクター前方位置に設定
 	void SetTargetPosFollowForward(void);
-
-	// 追従対象
-	const Transform* playerTransform_;
-	const Transform* enemyTransform_;
 
 	// キーボードの操作
 	void KeybordContoroller(void);
@@ -157,4 +172,3 @@ private:
 	void GamePadController(void);
 
 };
-

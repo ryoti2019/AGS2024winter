@@ -57,9 +57,9 @@ void ShotEnemy::Create(VECTOR relPos, Transform* follow)
 
 	// 相対座標
 	rPos_ = relPos;
-	
+
 	// 弾の位置の更新
-	transform_.pos = VAdd(VAdd(enemyTransform_->pos, { 0.0f,200.0f,0.0f }), enemyTransform_->quaRot.PosAxis(rPos_));
+	transform_.pos = VAdd(VAdd(enemyTransform_->pos, { 0.0f,200.0f,100.0f }), enemyTransform_->quaRot.PosAxis(rPos_));
 
 	// 弾モデルの向き(角度)を指定方向に合わせる
 	transform_.quaRot = Quaternion::LookRotation(dir_);
@@ -85,7 +85,7 @@ void ShotEnemy::SetParam(void)
 	timeAlive_ = 5.0f;
 
 	// 衝突用球体半径
-	collisionRadius_ = 10.0f;
+	collisionRadius_ = 50.0f;
 
 }
 

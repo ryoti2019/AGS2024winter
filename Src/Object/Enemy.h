@@ -22,7 +22,7 @@ public:
 	static constexpr VECTOR LOCAL_WEPON_C_UP_POS = { 0.0f,150.0f,0.0f };
 
 	// 弾の相対座標
-	static constexpr VECTOR LOCAL_SHOT_POS = { 0.0f,200.0f,100.0f };
+	static constexpr VECTOR LOCAL_SHOT_POS = { 0.0f,200.0f,0.0f };
 
 	// エネミー自身の衝突判定の球体半径
 	static constexpr float COLLISION_BODY_RADIUS = 100.0f;
@@ -47,7 +47,7 @@ public:
 
 	//// タックルの攻撃範囲(最低)
 	//static constexpr float TACKLE_RANGE_MIN = 1000.0f;
-	
+
 	// 目的の角度までの差
 	static constexpr float GOAL_DEG = 10.0f;
 
@@ -78,6 +78,12 @@ public:
 	// ジャンプアタックが終わる時間
 	static constexpr float JUMP_ATTACK_END_TIME = 300.0f;
 
+	// 弾の生成が始まる時間
+	static constexpr float SHOT_CREATE_START_TIME = 10.0f;
+
+	// 弾の生成が終わる時間
+	static constexpr float SHOT_CREATE_END_TIME = 45.0f;
+
 	// ショットアタックが始まる時間
 	static constexpr float SHOT_START_TIME = 10.0f;
 
@@ -105,6 +111,9 @@ public:
 	// タックルアニメーションの再生速度
 	static constexpr float TACKLE_ANIM_SPEED = 40.0f;
 
+	// 弾生成アニメーションの再生速度
+	static constexpr float SHOT_CREATE_SPEED = 10.0f;
+
 	// ショットアニメーションの再生速度
 	static constexpr float SHOT_ANIM_SPEED = 20.0f;
 
@@ -116,6 +125,9 @@ public:
 
 	// HPの最大値
 	static constexpr int HP_MAX = 100;
+
+	// 弾の生成間隔
+	static constexpr float TIME_DELAY_SHOT_CREATE = 0.4f;
 
 	// 弾の発射間隔
 	static constexpr float TIME_DELAY_SHOT = 2.0f;
@@ -193,6 +205,9 @@ public:
 	// 弾が死んだ数の取得
 	void SetDeathCnt(int cnt);
 
+	// 弾
+	std::vector<ShotEnemy*>& GetShots(void);
+
 protected:
 
 	// 弾
@@ -228,7 +243,7 @@ protected:
 
 	// 最初の歩きのアニメーションのカウンタ
 	float walkCnt_;
-	
+
 	// 回転の終了のフラグ
 	bool rotationEnd_;
 
@@ -255,7 +270,7 @@ protected:
 
 	// 移動制限をつけるフレーム番号
 	int enemyPosFrameNum_;
-	
+
 	// カプセルをアタッチするフレームの番号
 	int enemyAttachFrameNum_;
 
@@ -279,6 +294,13 @@ protected:
 	// 追従対象
 	const Transform* followTransform_;
 
+	// 弾を生成する間隔
+	float delayCreate_;
+
+	// 弾を生成する角度
+	int shotCreateDeg_;
+	float shotCreateRad_;
+
 	// 弾の発射間隔
 	float delayShot_;
 
@@ -290,7 +312,7 @@ protected:
 
 	// 回転処理
 	void Rotation(void);
-	
+
 	// 行動後の回転処理
 	void AfterRotation(void);
 
@@ -385,4 +407,3 @@ protected:
 	void Shot(void);
 
 };
-

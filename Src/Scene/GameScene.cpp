@@ -6,6 +6,7 @@
 #include "../Object/Stage.h"
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
+#include "../Object/ShotEnemy.h"
 #include "../Object/Sword.h"
 #include "../Object/UnitBase.h"
 #include "GameScene.h"
@@ -50,7 +51,7 @@ void GameScene::Init(void)
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 	camera->SetPlayer(&player_->GetTransform());
 	camera->SetEnemy(&enemy_->GetTransform());
-	camera->ChangeMode(Camera::MODE::FOLLOW);
+	camera->ChangeMode(Camera::MODE::LOCKON);
 
 }
 
@@ -72,25 +73,13 @@ void GameScene::Update(void)
 	// 剣の更新
 	sword_->Update();
 
-	Camera* camera = SceneManager::GetInstance().GetCamera();
-
-	//if (!camera->GetLockOn())
-	//{
-	//	camera->SetFollow(&player_->GetTransform());
-	//}
-
-	//if (camera->GetLockOn())
-	//{
-	//	camera->SetFollow(&enemy_->GetTransform());
-	//}
-
 	// プレイヤーの剣と敵のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (player_->GetState() == Player::STATE::ATTACK
 			|| player_->GetState() == Player::STATE::ATTACK2
 			|| player_->GetState() == Player::STATE::ATTACK3)
-			|| player_->GetState() == Player::STATE::CHARGE_ATTACK)
+		|| player_->GetState() == Player::STATE::CHARGE_ATTACK)
 	{
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
@@ -134,11 +123,26 @@ void GameScene::Update(void)
 		}
 	}
 
+	// プレイヤーと敵の弾の当たり判定
+	for (auto s : enemy_->GetShots())
+	{
+		if (AsoUtility::IsHitSphereCapsule(s->GetPos(), s->GetCollisionRadius(),
+			player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS)
+			&& (s->GetState() == ShotEnemy::STATE::SHOT))
+		{
+			player_->SetState(Player::STATE::HIT);
+			player_->SetHP(-10);
+			enemy_->SetAttack(false);
+			enemy_->SetHit(true);
+		}
+	}
+
+
 }
 
 void GameScene::Draw(void)
 {
-	
+
 	// グリッド線の描画
 	grid_->Draw();
 

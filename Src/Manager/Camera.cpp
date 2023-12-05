@@ -44,12 +44,15 @@ void Camera::SetBeforeDraw(void)
 	case Camera::MODE::FOLLOW:
 		SetBeforeDrawFollow();
 		break;
+	case Camera::MODE::LOCKON:
+		SetBeforeDrawLockOn();
+		break;
 	}
 
 	// カメラの設定(位置と注視点による制御)
 	SetCameraPositionAndTargetAndUpVec(
-		pos_, 
-		targetPos_, 
+		pos_,
+		targetPos_,
 		cameraUp_
 	);
 
@@ -121,6 +124,82 @@ void Camera::SetBeforeDrawFree(void)
 		targetPos_ = VAdd(targetPos_, movePow);
 
 	}
+
+}
+
+void Camera::SetBeforeDrawLockOn(void)
+{
+
+	// 同期先の位置
+	VECTOR pos = playerTransform_->pos;
+
+	VECTOR localPos;
+
+	// +注視点をロックオン対象とする
+	auto goalPos = enemyTransform_->pos;
+
+	float min = 300.0f;
+	float dis = AsoUtility::Distance(goalPos, pos);
+	//if (dis < min)
+	//{
+	//	// 注視点の距離が近すぎる場合、一定の距離を保つ
+	//	auto dir = VNorm(VSub(goalPos, pos));
+	//	goalPos = VAdd(pos, VScale(dir, min));
+	//}
+	targetPos_ = AsoUtility::Lerp(targetPos_, goalPos, 0.1f);
+
+	// +キャラクターから見た注視点の方向
+	auto followToTargetDir = VSub(targetPos_, pos);
+	followToTargetDir.y = 0.0f;
+	lockOnLook_ = Quaternion::LookRotation(VNorm(followToTargetDir));
+
+	// カメラ位置
+	lockOnLook_ = lockOnLook_.Mult(Quaternion::AngleAxis(lockOnAngles_.y, AsoUtility::AXIS_Y));
+	lockOnLook_ = lockOnLook_.Mult(Quaternion::AngleAxis(-angles_.x + lockOnAngles_.x, AsoUtility::AXIS_X));
+	localPos = lockOnLook_.PosAxis(LOCAL_LOCK_ON_F2C_POS);
+	auto goalCameraPos = VAdd(pos, localPos);
+	dis = AsoUtility::Distance(goalCameraPos, targetPos_);
+	min = 500.0f;
+	isNearLockOnTarget_ = false;
+	if (dis < min)
+	{
+		float minmin = 400.0f;
+		if (dis < minmin)
+		{
+			isNearLockOnTarget_ = true;
+			//followTransform_->pos = VAdd(targetPos_,
+			//	VScale(VNorm(VSub(followTransform_->pos, targetPos_)), minmin));
+		}
+
+		// 注視点の距離が近すぎる場合、一定の距離を保つ
+		//auto dir = VNorm(VSub(goalCameraPos, targetPos_));
+		auto dir = lockOnLook_.GetBack();
+		goalCameraPos = VAdd(targetPos_, VScale(dir, min));
+
+		// どうするか
+		goalCameraPos_ = goalCameraPos;
+		pos_ = AsoUtility::Lerp(pos_, goalCameraPos, 0.05f);
+
+	}
+	else
+	{
+		goalCameraPos_ = goalCameraPos;
+		pos_ = AsoUtility::Lerp(pos_, goalCameraPos, 0.1f);
+	}
+
+	rotXY_ = Quaternion::LookRotation(VSub(goalPos, goalCameraPos_));
+
+	auto targetPosXZ = goalPos;
+	targetPosXZ.y = 0.0f;
+	auto posXZ = goalCameraPos_;
+	posXZ.y = 0.0f;
+	auto cameraDir = VSub(targetPosXZ, posXZ);
+	rotY_ = Quaternion::LookRotation(cameraDir);
+
+	angles_ = rotY_.ToEuler();
+
+	// カメラの上方向
+	cameraUp_ = { 0.0f,1.0f,0.0f };
 
 }
 
@@ -220,7 +299,7 @@ void Camera::ChangeLockOnFlag(void)
 		lockOn_ = false;
 	}
 	// ロックオンを解除する
-	else if(!lockOn_)
+	else if (!lockOn_)
 	{
 		lockOn_ = true;
 	}
@@ -526,6 +605,3 @@ void Camera::LazyRotation(void)
 
 
 }
-
-
-

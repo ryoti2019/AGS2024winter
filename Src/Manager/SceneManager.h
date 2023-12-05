@@ -14,7 +14,8 @@ public:
 	{
 		NONE,
 		TITLE,
-		GAME
+		GAME,
+		SECIALMOVE,
 	};
 	
 	// インスタンスの生成

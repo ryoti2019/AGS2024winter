@@ -669,7 +669,7 @@ void Enemy::ChangeState(STATE state)
 		// 回転のフラグを戻す
 		rotationEnd_ = false;
 		// これからの行動を考える
-		Think();
+		//Think();
 		break;
 	case Enemy::STATE::IDLE:
 		SetIdleAnimation();
@@ -1052,6 +1052,8 @@ void Enemy::CreateShot(void)
 
 		// 弾の作成
 		shot->Create(rPos, &transform_);
+		
+		// 弾を生成したら増やす
 
 		// 弾を生成したら増やす
 		shotNum_++;

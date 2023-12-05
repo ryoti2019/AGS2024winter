@@ -46,7 +46,7 @@ void SpecialMoveScene::Init(void)
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 	camera->SetPlayer(&player_->GetTransform());
 	camera->SetEnemy(&enemy_->GetTransform());
-	camera->ChangeMode(Camera::MODE::FOLLOW);
+	camera->ChangeMode(Camera::MODE::FREE);
 
 }
 

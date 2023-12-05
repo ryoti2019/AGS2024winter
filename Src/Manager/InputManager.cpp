@@ -27,18 +27,15 @@ void InputManager::Init(void)
 	// ゲームで使用したいキーを、
 	// 事前にここで登録しておいてください
 	InputManager::GetInstance().Add(KEY_INPUT_SPACE);
-	InputManager::GetInstance().Add(KEY_INPUT_N);
-	InputManager::GetInstance().Add(KEY_INPUT_Z);
-	InputManager::GetInstance().Add(KEY_INPUT_B);
+	InputManager::GetInstance().Add(KEY_INPUT_LSHIFT);
 
 	InputManager::GetInstance().Add(KEY_INPUT_W);
 	InputManager::GetInstance().Add(KEY_INPUT_A);
 	InputManager::GetInstance().Add(KEY_INPUT_S);
 	InputManager::GetInstance().Add(KEY_INPUT_D);
-	InputManager::GetInstance().Add(KEY_INPUT_J);
 	InputManager::GetInstance().Add(KEY_INPUT_Q);
-	InputManager::GetInstance().Add(KEY_INPUT_K);
 	InputManager::GetInstance().Add(KEY_INPUT_H);
+	InputManager::GetInstance().Add(KEY_INPUT_V);
 
 	InputManager::GetInstance().Add(KEY_INPUT_UP);
 	InputManager::GetInstance().Add(KEY_INPUT_DOWN);
@@ -158,14 +155,24 @@ bool InputManager::IsClickMouseRight(void) const
 	return mouseInput_ == MOUSE_INPUT_RIGHT;
 }
 
-bool InputManager::IsTrgMouseLeft(void) const
+bool InputManager::IsTrgDownMouseLeft(void) const
 {
 	return FindMouse(MOUSE_INPUT_LEFT).keyTrgDown;
 }
 
-bool InputManager::IsTrgMouseRight(void) const
+bool InputManager::IsTrgUpMouseLeft(void) const
+{
+	return FindMouse(MOUSE_INPUT_LEFT).keyTrgUp;
+}
+
+bool InputManager::IsTrgDownMouseRight(void) const
 {
 	return FindMouse(MOUSE_INPUT_RIGHT).keyTrgDown;
+}
+
+bool InputManager::IsTrgUpMouseRight(void) const
+{
+	return FindMouse(MOUSE_INPUT_RIGHT).keyTrgUp;
 }
 
 InputManager::InputManager(void)

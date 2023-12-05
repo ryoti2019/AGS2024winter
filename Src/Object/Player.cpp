@@ -118,6 +118,15 @@ void Player::Init(void)
 void Player::Update(void)
 {
 
+	// 必殺技になったら必殺技以外の処理を止める
+	if (SceneManager::GetInstance().GetSceneID() == SceneManager::SCENE_ID::SPECIALMOVE)
+	{
+		// 必殺技の更新
+  		SpecialMoveUpdate();
+		return;
+	}
+
+	// 状態の遷移
 	switch (state_)
 	{
 	case Player::STATE::IDLE:
@@ -237,6 +246,24 @@ void Player::DrawHPBar(void)
 	{
 		DrawBox(0, Application::SCREEN_SIZE_Y - 30, hpGauge, Application::SCREEN_SIZE_Y, GetColor(R, G, B), true);
 	}
+}
+
+void Player::SpecialMoveUpdate(void)
+{
+
+	//　必殺技中の状態の遷移
+	switch (specialState_)
+	{
+	case Player::SPECIAL_STATE::IDLE:
+		break;
+	}
+
+	// 待機状態にする
+	if (specialCnt_ <= 0.0f)
+	{
+		SpecialChangeState(SPECIAL_STATE::IDLE);
+	}
+
 }
 
 void Player::Release(void)
@@ -380,7 +407,7 @@ void Player::KeyboardMove(void)
 		&& state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		// 走る
-		if (ins.IsNew(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir))
+		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir))
 		{
 			ChangeState(STATE::RUN);
 			movePow = MOVE_POW_RUN;
@@ -398,13 +425,13 @@ void Player::KeyboardMove(void)
 	}
 
 	//溜めながら歩く
-	if (ins.IsNew(KEY_INPUT_J) && state_ != STATE::HIT)
+	if (ins.IsClickMouseLeft() && state_ != STATE::HIT)
 	{
 		movePow = MOVE_POW_CHRAGE_WALK;
 	}
 
 	// 回避
-	if (ins.IsTrgDown(KEY_INPUT_K) && state_ != STATE::HIT && state_ != STATE::ROLL)
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) && state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		ChangeState(STATE::ROLL);
 	}
@@ -445,14 +472,14 @@ void Player::KeyboardAttack(void)
 
 	// 攻撃処理
 	// ボタンがクリックされたかどうかを確認
-	if (insInput.IsNew(KEY_INPUT_J) && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
+	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
 	{
 		chargeCnt += insScene.GetDeltaTime();
 		ChangeState(STATE::CHARGE_WALK);
 	}
 
-	if (insInput.IsTrgUp(KEY_INPUT_J) && chargeCnt <= CHARGE_TIME && state_ != STATE::HIT)
+	if (insInput.IsTrgUpMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::HIT)
 	{
 
 		//ボタンが押されたらアニメーションを切り替える
@@ -524,7 +551,7 @@ void Player::KeyBoardLockOn(void)
 	auto& ins = InputManager::GetInstance();
 
 	// キーを押したらロックオンする
-	if (ins.IsTrgDown(KEY_INPUT_H))
+	if (ins.IsTrgDown(KEY_INPUT_V))
 	{
 		SceneManager::GetInstance().GetCamera()->ChangeLockOnFlag();
 	}
@@ -787,6 +814,20 @@ void Player::ChangeState(STATE state)
 		break;
 	}
 
+}
+
+void Player::SpecialChangeState(SPECIAL_STATE state)
+{
+	// 状態の更新
+	specialState_ = state;
+
+	// 状態遷移時の初期化処理
+	switch (specialState_)
+	{
+	case Player::SPECIAL_STATE::IDLE:
+		SetIdleAnimation();
+		break;
+	}
 }
 
 void Player::SetIdleAnimation(void)

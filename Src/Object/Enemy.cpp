@@ -134,6 +134,14 @@ void Enemy::Update(void)
 		return;
 	}
 
+	// •KE‹Z‚É‚È‚Á‚½‚ç•KE‹ZˆÈŠO‚Ìˆ—‚ğ~‚ß‚é
+	if (SceneManager::GetInstance().GetSceneID() == SceneManager::SCENE_ID::SPECIALMOVE)
+	{
+		// •KE‹Z‚ÌXV
+		//SpecialMoveUpdate();
+		return;
+	}
+
 	switch (state_)
 	{
 	case Enemy::STATE::THINK:
@@ -669,7 +677,7 @@ void Enemy::ChangeState(STATE state)
 		// ‰ñ“]‚Ìƒtƒ‰ƒO‚ğ–ß‚·
 		rotationEnd_ = false;
 		// ‚±‚ê‚©‚ç‚Ìs“®‚ğl‚¦‚é
-		//Think();
+		Think();
 		break;
 	case Enemy::STATE::IDLE:
 		SetIdleAnimation();

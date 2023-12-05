@@ -115,6 +115,11 @@ public:
 		ROLL
 	};
 
+	enum class SPECIAL_STATE
+	{
+		IDLE,
+	};
+
 	// コンストラクタ
 	Player(void);
 
@@ -167,6 +172,9 @@ protected:
 
 	// プレイヤーの状態
 	STATE state_;
+
+	// 必殺技のプレイヤーの状態
+	SPECIAL_STATE specialState_;
 
 	// 攻撃フラグ
 	bool attack_;
@@ -223,6 +231,9 @@ protected:
 	VECTOR cBodyPosUp_;
 	VECTOR cBodyPosDown_;
 
+	// 必殺技のムービーカウンタ
+	float specialCnt_;
+
 	// 移動処理
 	void KeyboardMove(void);
 	void GamePadMove(void);
@@ -247,6 +258,9 @@ protected:
 
 	// 状態遷移
 	void ChangeState(STATE state);
+
+	// 必殺技の状態遷移
+	void SpecialChangeState(SPECIAL_STATE state);
 
 	// アニメーション
 	void Animation(void)override;
@@ -304,6 +318,9 @@ protected:
 
 	// HPバーの描画
 	void DrawHPBar(void);
+
+	// 必殺技
+	void SpecialMoveUpdate(void);
 
 };
 

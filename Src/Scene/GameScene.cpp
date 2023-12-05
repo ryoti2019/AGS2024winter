@@ -51,12 +51,14 @@ void GameScene::Init(void)
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 	camera->SetPlayer(&player_->GetTransform());
 	camera->SetEnemy(&enemy_->GetTransform());
-	camera->ChangeMode(Camera::MODE::LOCKON);
+	camera->ChangeMode(Camera::MODE::FOLLOW);
 
 }
 
 void GameScene::Update(void)
 {
+
+	auto& ins = InputManager::GetInstance();
 
 	// グリッド線の更新
 	grid_->Update();
@@ -84,7 +86,7 @@ void GameScene::Update(void)
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-1);
+			enemy_->SetHP(-10);
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
@@ -136,7 +138,6 @@ void GameScene::Update(void)
 			enemy_->SetHit(true);
 		}
 	}
-
 
 }
 

@@ -15,7 +15,7 @@ public:
 		NONE,
 		TITLE,
 		GAME,
-		SECIALMOVE,
+		SPECIALMOVE,
 	};
 	
 	// インスタンスの生成

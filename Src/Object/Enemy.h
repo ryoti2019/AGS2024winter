@@ -1,7 +1,6 @@
 #pragma once
 #include "Common/Transform.h"
 #include "UnitBase.h"
-class Player;
 class ShotEnemy;
 
 class Enemy : public UnitBase

@@ -35,6 +35,7 @@ void GameScene::Init(void)
 
 	// ƒvƒŒƒCƒ„[‚Ì¶¬
 	player_ = new Player();
+	player_->SetFollow(&enemy_->GetTransform());
 	player_->Init();
 
 	// “G‚Ì¶¬

@@ -346,6 +346,11 @@ Camera::MODE Camera::GetMode(void)
 	return mode_;
 }
 
+void Camera::AddLockOnAnglesY(float rad)
+{
+	lockOnAngles_.y += rad;
+}
+
 void Camera::SetDefault(void)
 {
 

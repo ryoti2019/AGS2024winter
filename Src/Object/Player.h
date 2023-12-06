@@ -100,6 +100,9 @@ public:
 	// ため斬りのボタンを押す秒数
 	static constexpr float CHARGE_TIME = 1.0f;
 
+	// 回転完了までの時間
+	static constexpr float TIME_ROT = 0.2f;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -167,6 +170,8 @@ public:
 	// 攻撃が当たったかを設定
 	void SetHit(bool hit);
 
+	// 追従対象の設定
+	void SetFollow(const Transform* follow);
 
 protected:
 
@@ -175,6 +180,9 @@ protected:
 
 	// 必殺技のプレイヤーの状態
 	SPECIAL_STATE specialState_;
+
+	// 追従対象
+	const Transform* followTransform_;
 
 	// 攻撃フラグ
 	bool attack_;
@@ -231,6 +239,15 @@ protected:
 	VECTOR cBodyPosUp_;
 	VECTOR cBodyPosDown_;
 
+	VECTOR moveDiff_;
+	VECTOR movedPos_;
+	float speed_;
+	VECTOR movePow_;
+
+	Quaternion goalQuaRot_;
+
+	float stepRotTime_;
+
 	// 必殺技のムービーカウンタ
 	float specialCnt_;
 
@@ -249,6 +266,9 @@ protected:
 	// 敵をロックオンする処理
 	void KeyBoardLockOn(void);
 	void GamePadLockOn(void);
+	void LockOn(void);
+	void SetGoalRotate(Quaternion rot);
+	void Rotate(void);
 
 	// 衝突判定
 	void Collision(void);

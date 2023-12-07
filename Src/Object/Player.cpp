@@ -402,7 +402,20 @@ void Player::KeyboardMove(void)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
 
 	// WASDでプレイヤーの位置を変える
-	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
+	//if (camera->GetMode() == Camera::MODE::FOLLOW)
+	//{
+		if (ins.IsNew(KEY_INPUT_W))
+		{
+			dir = VAdd(dir, { 0.0f, 0.0f, 1.0f });
+		}
+	//}
+	//else if (camera->GetMode() == Camera::MODE::LOCKON)
+	//{
+	//	if (ins.IsNew(KEY_INPUT_W) && target2PlayerDis_ > enemyMinDis_)
+	//	{
+	//		dir = VAdd(dir, { 0.0f, 0.0f, 1.0f });
+	//	}
+	//}
 	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
 	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
@@ -471,11 +484,10 @@ void Player::KeyboardMove(void)
 		{
 			LockOn();
 		}
+
 		// 移動
 		moveDiff_ = VSub(movedPos_, transform_.pos);
 		transform_.pos = movedPos_;
-
-
 
 		// 方向×スピードで移動量を作って、座標に足して移動
 		//transform_.pos = VAdd(transform_.pos, movePow_);
@@ -576,18 +588,21 @@ void Player::KeyBoardLockOn(void)
 
 	auto& ins = InputManager::GetInstance();
 
+	auto camera = SceneManager::GetInstance().GetCamera();
 
-
+	// プレイヤーの方向を求める
+	auto length = AsoUtility::Distance(followTransform_->pos, transform_.pos);
 	// キーを押したらロックオンする
-	if (ins.IsTrgDown(KEY_INPUT_V))
+	if (ins.IsTrgDown(KEY_INPUT_V) && length <= 3000)
 	{
-		// プレイヤーの方向を求める
-		auto length = AsoUtility::Distance(followTransform_->pos, transform_.pos);
-		if (length <= 3000)
-		{
-			SceneManager::GetInstance().GetCamera()->ChangeLockOnFlag();
-		}
+		camera->ChangeLockOnFlag();
 	}
+
+	if (length >= 3000 && camera->GetLockOn())
+	{
+		camera->ChangeMode(Camera::MODE::FOLLOW);
+	}
+
 
 }
 
@@ -805,6 +820,8 @@ void Player::GamePadLockOn(void)
 void Player::LockOn(void)
 {
 
+	// 敵に近づき敵の周りを走り続けるとカメラがプレイヤーを追わなくなる
+
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 
 	// 現在座標を起点に移動後座標を決める
@@ -812,60 +829,71 @@ void Player::LockOn(void)
 
 	// ①カメラがロックオンの時は、自動回転を行わない
 	if (camera->GetMode() != Camera::MODE::LOCKON)
-
 	{
-
 		// 移動方向に応じた回転
 		Rotate();
-
 	}
 
 	// ②移動処理前に、ターゲットとの特別衝突判定
 	moveDiff_ = VSub(movedPos_, transform_.pos);
 
+	// ロックオンモードの時
 	if (camera->GetMode() == Camera::MODE::LOCKON)
-
 	{
 
+		// カメラの注視点
 		auto cameraTargetPos = camera->GetTargetPos();
 
 		float y = movedPos_.y;
 
+		// XZ平面の移動後座標
 		auto movedPosXZ = movedPos_;
 
+		// XZ平面のカメラの注視点
 		auto cameraTargetPosXZ = cameraTargetPos;
 
+		// XZ平面のカメラ座標
 		auto cameraPosXZ = camera->GetPos();
 
+		// 移動後座標とカメラの注視点とカメラ座標を0にする
 		movedPosXZ.y = cameraTargetPosXZ.y = cameraPosXZ.y = 0.0f;
 
+		// 注視点からのプレイヤーのベクトル
 		auto target2Player = VNorm(VSub(movedPosXZ, cameraTargetPosXZ));
 
+		// 目的の角度までの差を測る
 		SetGoalRotate(Quaternion::LookRotation(VScale(target2Player, -1.0)));
 
+		// 少しずつ回転させる
 		Rotate();
 
+		// 移動後座標と移動前座標が0以上の時
 		if (!AsoUtility::EqualsVZero(moveDiff_))
-
 		{
 
+			// 注視点と移動後座標の距離
+			target2PlayerDis_ = AsoUtility::Distance(cameraTargetPos, movedPos_);
 
-			auto dis = AsoUtility::Distance(cameraTargetPos, movedPos_);
+			// 敵との最小限の距離
+			enemyMinDis_ = 100.0f;
 
-			float minmin = 100.0f;
-
-			if (dis < minmin)
-
+			// 注視店と敵との最小限の距離が100未満の時
+			if (target2PlayerDis_ < enemyMinDis_)
 			{
 
+				// 注視点から移動後座標のベクトルをクォータニオンに
 				auto rot = Quaternion::LookRotation(target2Player);
 
+				// 右方向
 				auto r = rot.GetRight();
 
+				// 左方向
 				auto l = rot.GetLeft();
 
+				// 右方向の内積
 				auto dotR = VDot(r, target2Player);
 
+				// 左方向の内積
 				auto dotL = VDot(l, target2Player);
 
 				float deg = 2.0f;
@@ -882,6 +910,7 @@ void Player::LockOn(void)
 
 				//	Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
 
+				// 内積の大きいほうに角度を足す
 				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
 
 
@@ -901,9 +930,8 @@ void Player::LockOn(void)
 
 				//}
 
-				movedPos_ = VAdd(cameraTargetPos,
-
-					VScale(rot.GetForward(), minmin + 0.5f));
+				// 
+				movedPos_ = VAdd(cameraTargetPos,VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
 				movedPos_.y = y;
 
 			}
@@ -918,31 +946,29 @@ void Player::LockOn(void)
 	//moveDiff_ = VSub(movedPos_, transform_.pos);
 
 	//transform_.pos = movedPos_;
-	
+
 
 	// ③回転完了までの時間短縮
 
 
 }
+
 // 補足関数
 void Player::SetGoalRotate(Quaternion rot)
 
 {
 
 	// 現在設定されている回転との角度差を取る
-
 	double angleDiff = Quaternion::Angle(rot, goalQuaRot_);
 
 	// しきい値
-
 	if (angleDiff > 0.1)
-
 	{
-
+		// 回転完了の時間
 		stepRotTime_ = TIME_ROT;
-
 	}
 
+	// 目的の角度
 	goalQuaRot_ = rot;
 
 }

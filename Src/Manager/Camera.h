@@ -54,7 +54,7 @@ public:
 	// 敵から注視点までの相対座標
 	static constexpr VECTOR LOCAL_E2T_POS = { 0.0f,0.0f,500.0f };
 
-	static constexpr VECTOR LOCAL_LOCK_ON_F2C_POS = { 0.0f,500.0f,-1000.0f };
+	static constexpr VECTOR LOCAL_LOCK_ON_F2C_POS = { 0.0f,300.0f,-500.0f };
 
 
 	// カメラモード

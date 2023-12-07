@@ -164,6 +164,18 @@ void Camera::SetBeforeDrawFollow(void)
 void Camera::SetBeforeDrawLockOn(void)
 {
 
+	// キーボードでの操作
+	if (!SceneManager::GetInstance().GetGamePad())
+	{
+		KeybordContoroller();
+	}
+
+	// ゲームパッドでの操作
+	if (SceneManager::GetInstance().GetGamePad())
+	{
+		GamePadController();
+	}
+
 	// 同期先の位置
 	VECTOR playerPos = playerTransform_->pos;
 

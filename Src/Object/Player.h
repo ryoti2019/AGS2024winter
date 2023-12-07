@@ -239,14 +239,29 @@ protected:
 	VECTOR cBodyPosUp_;
 	VECTOR cBodyPosDown_;
 
+	// 移動差
 	VECTOR moveDiff_;
+
+	// 移動後座標
 	VECTOR movedPos_;
+
+	// スピード
 	float speed_;
+
+	// 移動量
 	VECTOR movePow_;
 
+	// 目的の角度
 	Quaternion goalQuaRot_;
 
+	// 回転する時間
 	float stepRotTime_;
+
+	// 注視点と移動後座標の距離
+	float target2PlayerDis_;
+
+	// 敵との最小限の距離
+	float enemyMinDis_;
 
 	// 必殺技のムービーカウンタ
 	float specialCnt_;

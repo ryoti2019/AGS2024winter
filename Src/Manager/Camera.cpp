@@ -167,14 +167,14 @@ void Camera::SetBeforeDrawLockOn(void)
 	// キーボードでの操作
 	if (!SceneManager::GetInstance().GetGamePad())
 	{
-		KeybordContoroller();
+		KeybordLockOnContoroller();
 	}
 
-	// ゲームパッドでの操作
-	if (SceneManager::GetInstance().GetGamePad())
-	{
-		GamePadController();
-	}
+	//// ゲームパッドでの操作
+	//if (SceneManager::GetInstance().GetGamePad())
+	//{
+	//	GamePadController();
+	//}
 
 	// 同期先の位置
 	VECTOR playerPos = playerTransform_->pos;
@@ -466,6 +466,84 @@ void Camera::KeybordContoroller(void)
 		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
 
 		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+
+	}
+
+	// 追従対象の位置
+	VECTOR followPos = playerTransform_->pos;
+
+	// 追従対象から注視点までの相対座標を回転
+	VECTOR relativeTPos = rotY_.PosAxis(enemyTransform_->pos);
+
+	// 注視点の更新
+	targetPos_ = VAdd(followPos, relativeTPos);
+
+	// 追従対象からカメラまでの相対座標
+	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
+
+	// カメラ位置の更新
+	pos_ = VAdd(followPos, relativeCPos);
+
+	// カメラの上方向
+	cameraUp_ = AsoUtility::DIR_U;
+
+}
+
+void Camera::KeybordLockOnContoroller(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// マウスカーソルを非表示にする
+	SetMouseDispFlag(false);
+
+	// 回転
+	//-------------------------------------
+	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+
+	// マウス回転量
+	float rotPow = 3.0f;
+
+	// マウス位置
+	Vector2 mousePos;
+
+	// 画面の中心位置
+	Vector2 center = { Application::SCREEN_SIZE_X / 2,Application::SCREEN_SIZE_Y / 2 };
+
+	// マウス位置の取得
+	GetMousePoint(&mousePos.x, &mousePos.y);
+
+	// カメラ回転の計算(マウスカーソル位置と画面の中心の差分を計算し、回転量/FPSを乗算する)
+	// これが回転量
+	float rotPowY = float(std::clamp(mousePos.x - center.x, -120, 120)) * rotPow / GetFPS();	// マウス横移動
+	float rotPowX = float(std::clamp(mousePos.y - center.y, -120, 120)) * rotPow / GetFPS();	// マウス縦移動
+
+	// カメラ位置を中心にセット
+	SetMousePoint(center.x, center.y);
+
+	if (center.x <= mousePos.x) { axisDeg.y += rotPowY; }
+	if (center.x >= mousePos.x) { axisDeg.y += rotPowY; }
+
+	if (center.y >= mousePos.y && AsoUtility::Rad2DegF(lockOnAngles_.x) >= -30.0f)
+	{
+		axisDeg.x += rotPowX;
+	}
+	if (center.y <= mousePos.y && AsoUtility::Rad2DegF(lockOnAngles_.x) <= 30.0f)
+	{
+		axisDeg.x += rotPowX;
+	}
+
+	if (!AsoUtility::EqualsVZero(axisDeg))
+	{
+
+		// カメラを回転させる
+		// X軸のカメラの移動制御
+		lockOnAngles_.x += AsoUtility::Deg2RadF(axisDeg.x);
+		lockOnAngles_.y += AsoUtility::Deg2RadF(axisDeg.y);
+
+		rotY_ = Quaternion::AngleAxis(lockOnAngles_.y, AsoUtility::AXIS_Y);
+
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(lockOnAngles_.x, AsoUtility::AXIS_X));
 
 	}
 

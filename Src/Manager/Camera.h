@@ -166,6 +166,7 @@ private:
 
 	// キーボードの操作
 	void KeybordContoroller(void);
+	void KeybordLockOnContoroller(void);
 
 	// ゲームパッドの操作
 	void GamePadController(void);

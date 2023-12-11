@@ -677,7 +677,7 @@ void Enemy::ChangeState(STATE state)
 		// 回転のフラグを戻す
 		rotationEnd_ = false;
 		// これからの行動を考える
-		//Think();
+		Think();
 		break;
 	case Enemy::STATE::IDLE:
 		SetIdleAnimation();

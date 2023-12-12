@@ -306,6 +306,9 @@ protected:
 	// ‘Ò‹@‚µ‚Ä‚¢‚é‹Ê‚Ì”
 	int shotNum_;
 
+	// “G‚ª“®‚©‚È‚¢ŠÔ
+	float noPlayTime_;
+
 	// s“®‚Ì‘I‘ğ
 	void Think(void);
 

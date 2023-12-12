@@ -855,17 +855,17 @@ void Player::LockOn(void)
 		// XZ平面のカメラ座標
 		auto cameraPosXZ = camera->GetPos();
 
-		// 移動後座標とカメラの注視点とカメラ座標を0にする
+		// 移動後座標とカメラの注視点とカメラ座標を0にすることでXZ平面座標にしている
 		movedPosXZ.y = cameraTargetPosXZ.y = cameraPosXZ.y = 0.0f;
 
 		// 注視点からのプレイヤーのベクトル
 		auto target2Player = VNorm(VSub(movedPosXZ, cameraTargetPosXZ));
 
-		// 目的の角度までの差を測る
-		SetGoalRotate(Quaternion::LookRotation(VScale(target2Player, -1.0)));
+		//// 目的の角度までの差を測る
+		//SetGoalRotate(Quaternion::LookRotation(VScale(target2Player, -1.0)));
 
-		// 少しずつ回転させる
-		Rotate();
+		//// 少しずつ回転させる
+		//Rotate();
 
 		// 移動後座標と移動前座標が0以上の時
 		if (!AsoUtility::EqualsVZero(moveDiff_))
@@ -877,64 +877,67 @@ void Player::LockOn(void)
 			// 敵との最小限の距離
 			enemyMinDis_ = 100.0f;
 
-			//// 注視店と敵との最小限の距離が100未満の時
-			//if (target2PlayerDis_ < enemyMinDis_)
-			//{
+			// 注視店と敵との最小限の距離が100未満の時
+			if (target2PlayerDis_ < enemyMinDis_)
+			{
 
-			//	// 注視点から移動後座標のベクトルをクォータニオンに
-			//	auto rot = Quaternion::LookRotation(target2Player);
+				// 注視点から移動後座標のベクトルをクォータニオンに
+				auto rot = Quaternion::LookRotation(target2Player);
 
-			//	// 右方向
-			//	auto r = rot.GetRight();
+				// 右方向
+				auto r = rot.GetRight();
 
-			//	// 左方向
-			//	auto l = rot.GetLeft();
+				// 左方向
+				auto l = rot.GetLeft();
 
-			//	// 右方向の内積
-			//	auto dotR = VDot(r, target2Player);
+				// 右方向の内積
+				auto dotR = VDot(r, target2Player);
 
-			//	// 左方向の内積
-			//	auto dotL = VDot(l, target2Player);
+				// 左方向の内積
+				auto dotL = VDot(l, target2Player);
 
-			//	float deg = 2.0f;
-
-			//	//if (dotR + 0.01f > dotL)
-
-			//	//{
-
-			//	deg *= -1.0f;
-
-			//	// キャラが右に回る
-
-			//	//rot = rot.Mult(
-
-			//	//	Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
-
-			//	// 内積の大きいほうに角度を足す
-			//	camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+				float deg = 2.0f;
 
 
-			//	//}
+				// 右か左かを選ぶ処理
+				
+				//if (dotR + 0.01f > dotL)
 
-			//	//else
+				//{
 
-			//	//{
+				deg *= -1.0f;
 
-			//	//	// キャラが左に回る
+				// キャラが右に回る
 
-			//	//	rot = rot.Mult(
+				//rot = rot.Mult(
 
-			//	//		Quaternion::AngleAxis(deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
+				//	Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
 
-			//	//	mainCamera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+				// 内積の大きいほうに角度を足す
+				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
 
-			//	//}
 
-			//	// 
-			//	movedPos_ = VAdd(cameraTargetPos,VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
-			//	movedPos_.y = y;
+				//}
 
-			//}
+				//else
+
+				//{
+
+				//	// キャラが左に回る
+
+				//	rot = rot.Mult(
+
+				//		Quaternion::AngleAxis(deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
+
+				//	mainCamera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+
+				//}
+
+				// 
+				movedPos_ = VAdd(cameraTargetPos,VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
+				movedPos_.y = y;
+
+			}
 
 		}
 

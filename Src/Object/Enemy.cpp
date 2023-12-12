@@ -120,6 +120,8 @@ void Enemy::Init(void)
 	// 最初の歩きのアニメーションのカウンタ
 	walkCnt_ = 0.0f;
 
+	noPlayTime_ = 0.0f;
+
 	// 初期状態
 	ChangeState(STATE::THINK);
 
@@ -676,6 +678,7 @@ void Enemy::ChangeState(STATE state)
 	case Enemy::STATE::THINK:
 		// 回転のフラグを戻す
 		rotationEnd_ = false;
+		noPlayTime_ = 0.0f;
 		// これからの行動を考える
 		Think();
 		break;
@@ -922,7 +925,6 @@ void Enemy::Animation(void)
 		isShot_ = false;
 		if (stepAnim_ > animTotalTime_)
 		{
-
 			// ループ再生
 			stepAnim_ = 0.0f;
 
@@ -931,9 +933,7 @@ void Enemy::Animation(void)
 				// 待機状態にする
 				ChangeState(STATE::IDLE);
 			}
-
 		}
-
 	}
 
 	if (state_ == STATE::SHOT && stepAnim_ >= SHOT_END_TIME)
@@ -946,10 +946,11 @@ void Enemy::Animation(void)
 	if (state_ == STATE::IDLE)
 	{
 		AfterRotation();
+		noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
 	}
 
 	// 行動を選択
-	if (rotationEnd_)
+	if (rotationEnd_ && noPlayTime_ <= 0.0f)
 	{
 		ChangeState(STATE::THINK);
 	}

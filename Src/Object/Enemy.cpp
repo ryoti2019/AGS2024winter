@@ -54,6 +54,9 @@ void Enemy::InitAnimation(void)
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_HIT);
 
+	// ロックオン状態に出るカーソル
+	lockOnCursor_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CURSOR).handleIds_;
+
 	// transformの初期化
 	float scale = 2.0f;
 	transform_.scl = { scale, scale, scale };

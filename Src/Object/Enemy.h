@@ -131,6 +131,9 @@ public:
 	// 弾の発射間隔
 	static constexpr float TIME_DELAY_SHOT = 2.0f;
 
+	// ロックオンカーソルの総数
+	static constexpr int LOCKON_CURSOR_NUM = 59;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -308,6 +311,9 @@ protected:
 
 	// 敵が動かない時間
 	float noPlayTime_;
+
+	// ロックオンカーソル
+	int* lockOnCursor_;
 
 	// 行動の選択
 	void Think(void);

@@ -108,6 +108,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/uploads_files_4143503_sword(1).mv1");
 	resourcesMap_.emplace(SRC::SWORD_MODEL, res);
 
+	// ロックオンカーソル
+	res = Resource(Resource::TYPE::IMGS, Application::PATH_IMAGE + "UI/enemyCursor.png",20,3,100,100);
+	resourcesMap_.emplace(SRC::CURSOR, res);
+
 }
 
 void ResourceManager::Release(void)

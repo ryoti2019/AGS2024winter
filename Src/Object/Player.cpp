@@ -900,41 +900,41 @@ void Player::LockOn(void)
 
 
 				// 右か左かを選ぶ処理
-				
-				//if (dotR + 0.01f > dotL)
 
-				//{
+				if (dotR + 0.01f > dotL)
 
-				deg *= -1.0f;
+				{
 
-				// キャラが右に回る
+					deg *= -1.0f;
 
-				//rot = rot.Mult(
+					// キャラが右に回る
 
-				//	Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
+					rot = rot.Mult(
 
-				// 内積の大きいほうに角度を足す
-				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+						Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
+
+					// 内積の大きいほうに角度を足す
+					camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
 
 
-				//}
+				}
 
-				//else
+				else
 
-				//{
+				{
 
-				//	// キャラが左に回る
+					// キャラが左に回る
 
-				//	rot = rot.Mult(
+					rot = rot.Mult(
 
-				//		Quaternion::AngleAxis(deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
+						Quaternion::AngleAxis(deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
 
-				//	mainCamera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+					camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
 
-				//}
+				}
 
-				// 
-				movedPos_ = VAdd(cameraTargetPos,VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
+
+				movedPos_ = VAdd(cameraTargetPos, VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
 				movedPos_.y = y;
 
 			}
@@ -944,11 +944,11 @@ void Player::LockOn(void)
 	}
 
 
-	//// 移動
+	// 移動
 
-	//moveDiff_ = VSub(movedPos_, transform_.pos);
+	moveDiff_ = VSub(movedPos_, transform_.pos);
 
-	//transform_.pos = movedPos_;
+	transform_.pos = movedPos_;
 
 
 	// ③回転完了までの時間短縮

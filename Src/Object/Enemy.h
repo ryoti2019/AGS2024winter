@@ -146,6 +146,8 @@ public:
 		CREATE,
 		SHOT,
 		HIT,
+		TURN_LEFT,
+		TURN_RIGHT,
 	};
 
 	// コンストラクタ
@@ -243,6 +245,12 @@ protected:
 	// ダメージヒットアニメーション
 	int hitAnim_;
 
+	// 左旋回アニメーション
+	int turnLeftAnim_;
+
+	// 右旋回アニメーション
+	int turnRightAnim_;
+
 	// 最初の歩きのアニメーションのカウンタ
 	float walkCnt_;
 
@@ -313,7 +321,15 @@ protected:
 	float noPlayTime_;
 
 	// ロックオンカーソル
-	int* lockOnCursor_;
+	int* lockOnCursorImg_;
+
+	// ロックオンカーソルの添え字を増やす
+	int lockOnCursorCnt_;
+
+	// ロックオンカーソルの添え字を増やすカウンタ
+	float lockOnCursorTime_;
+
+	VECTOR pos_;
 
 	// 行動の選択
 	void Think(void);
@@ -383,6 +399,12 @@ protected:
 
 	// ダメージヒットヒットアニメーションの設定
 	void SetHitAnimation(void);
+
+	// 左旋回アニメーションの設定
+	void SetTurnLeftAnimation(void);
+
+	// 右旋回アニメーションの設定
+	void SetTurnRightAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

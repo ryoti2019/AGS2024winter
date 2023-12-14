@@ -177,7 +177,7 @@ void Camera::SetBeforeDrawLockOn(void)
 	VECTOR localRotPos;
 
 	// +注視点をロックオン対象とする
-	auto goalPos = enemyTransform_->pos;
+	auto goalPos = VAdd(enemyTransform_->pos, { 0.0f,200.0f,0.0f });
 
 	// 敵とプレイヤーの距離をとる
 	float dis = AsoUtility::Distance(goalPos, playerPos);
@@ -434,22 +434,22 @@ void Camera::KeybordContoroller(void)
 
 	// カメラ回転の計算(マウスカーソル位置と画面の中心の差分を計算し、回転量/FPSを乗算する)
 	// これが回転量
-	float rotPowY = float(std::clamp(mousePos.x - center.x, -120, 120)) * rotPow / GetFPS();	// マウス横移動
-	float rotPowX = float(std::clamp(mousePos.y - center.y, -120, 120)) * rotPow / GetFPS();	// マウス縦移動
+	rotPowY_ = float(std::clamp(mousePos.x - center.x, -120, 120)) * rotPow / GetFPS();	// マウス横移動
+	rotPowX_ = float(std::clamp(mousePos.y - center.y, -120, 120)) * rotPow / GetFPS();	// マウス縦移動
 
 	// カメラ位置を中心にセット
 	SetMousePoint(center.x, center.y);
 
-	if (center.x <= mousePos.x) { axisDeg.y += rotPowY; }
-	if (center.x >= mousePos.x) { axisDeg.y += rotPowY; }
+	if (center.x <= mousePos.x) { axisDeg.y += rotPowY_; }
+	if (center.x >= mousePos.x) { axisDeg.y += rotPowY_; }
 
 	if (center.y >= mousePos.y && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
 	{
-		axisDeg.x += rotPowX;
+		axisDeg.x += rotPowX_;
 	}
 	if (center.y <= mousePos.y && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
 	{
-		axisDeg.x += rotPowX;
+		axisDeg.x += rotPowX_;
 	}
 
 	if (!AsoUtility::EqualsVZero(axisDeg))
@@ -518,22 +518,22 @@ void Camera::KeybordLockOnContoroller(void)
 
 	// カメラ回転の計算(マウスカーソル位置と画面の中心の差分を計算し、回転量/FPSを乗算する)
 	// これが回転量
-	float rotPowY = float(std::clamp(mousePos.x - center.x, -120, 120)) * rotPow / GetFPS();	// マウス横移動
-	float rotPowX = float(std::clamp(mousePos.y - center.y, -120, 120)) * rotPow / GetFPS();	// マウス縦移動
+	rotPowY_ = float(std::clamp(mousePos.x - center.x, -120, 120)) * rotPow / GetFPS();	// マウス横移動
+	rotPowX_ = float(std::clamp(mousePos.y - center.y, -120, 120)) * rotPow / GetFPS();	// マウス縦移動
 
 	// カメラ位置を中心にセット
 	SetMousePoint(center.x, center.y);
 
-	if (center.x <= mousePos.x) { axisDeg.y += rotPowY; }
-	if (center.x >= mousePos.x) { axisDeg.y += rotPowY; }
+	if (center.x <= mousePos.x) { axisDeg.y += rotPowY_; }
+	if (center.x >= mousePos.x) { axisDeg.y += rotPowY_; }
 
-	if (center.y >= mousePos.y)
+	if (center.y >= mousePos.y && AsoUtility::Rad2DegF(lockOnAngles_.x) >= -20.0f)
 	{
-		axisDeg.x += rotPowX;
+		axisDeg.x += rotPowX_;
 	}
-	if (center.y <= mousePos.y)
+	if (center.y <= mousePos.y && AsoUtility::Rad2DegF(lockOnAngles_.x) <= 10.0f)
 	{
-		axisDeg.x += rotPowX;
+		axisDeg.x += rotPowX_;
 	}
 
 	if (!AsoUtility::EqualsVZero(axisDeg))
@@ -647,7 +647,8 @@ void Camera::LazyRotation(void)
 
 	// プレイヤーが向いている方向にカメラを回転させる
 	// 二つのクォータニオンの角度差
-	if (Quaternion::Angle(rotY_, lazyGoalRotY_) > abs(2.0f))
+	// 回転中にマウス操作が発生したら回転をやめる
+	if (Quaternion::Angle(rotY_, lazyGoalRotY_) > abs(2.0f) && abs(rotPowY_) >= 5.0f && abs(rotPowX_) >= 5.0f)
 	{
 		rotY_ = Quaternion::Slerp(rotY_, lazyGoalRotY_, 0.1f);
 		angle_.y = rotY_.ToEuler().y;

@@ -1,7 +1,9 @@
+#include <DxLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
+#include "../Manager/Camera.h"
 #include "ShotEnemy.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -54,8 +56,16 @@ void Enemy::InitAnimation(void)
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_HIT);
 
+	// 左旋回のアニメーション
+	turnLeftAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_TURN_LEFT);
+
+	// 右旋回のアニメーション
+	turnRightAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_TURN_RIGHT);
+
 	// ロックオン状態に出るカーソル
-	lockOnCursor_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CURSOR).handleIds_;
+	lockOnCursorImg_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CURSOR).handleIds_;
 
 	// transformの初期化
 	float scale = 2.0f;
@@ -125,6 +135,10 @@ void Enemy::Init(void)
 
 	noPlayTime_ = 0.0f;
 
+	lockOnCursorCnt_ = 0;
+
+	lockOnCursorTime_ = 0.0f;
+
 	// 初期状態
 	ChangeState(STATE::THINK);
 
@@ -187,6 +201,10 @@ void Enemy::Update(void)
 	case Enemy::STATE::HIT:
 		//UpdateHit();
 		break;
+	case Enemy::STATE::TURN_LEFT:
+		break;
+	case Enemy::STATE::TURN_RIGHT:
+		break;
 	}
 
 	// アニメーション処理
@@ -221,6 +239,31 @@ void Enemy::Draw(void)
 	for (auto v : shots_)
 	{
 		v->Draw();
+	}
+
+	Camera* camera = SceneManager::GetInstance().GetCamera();
+
+	if (camera->GetMode() == Camera::MODE::LOCKON)
+	{
+		if (lockOnCursorTime_ <= 0.0f)
+		{
+			lockOnCursorCnt_ += 1;
+		}
+
+		lockOnCursorTime_ -= SceneManager::GetInstance().GetDeltaTime();
+
+		// ロックオンカーソルのビルボード
+		DrawBillboard3D(VAdd(transform_.pos, { 0.0f,500.0f + pos_.y,0.0f }), 0.5, 0.5, 256, 0.0f, lockOnCursorImg_[lockOnCursorCnt_], true);
+
+		if (lockOnCursorCnt_ >= 58)
+		{
+			lockOnCursorCnt_ = 0;
+		}
+	}
+	else
+	{
+		lockOnCursorCnt_ = 0;
+		lockOnCursorTime_ = 0.0f;
 	}
 
 }
@@ -435,7 +478,7 @@ void Enemy::Rotation(void)
 	float angle = atan2f(Vdirection.x, Vdirection.z);
 
 	// 回転
-	if (state_ == STATE::IDLE || state_ == STATE::WALK || state_ == STATE::SHOT)
+	if (/*state_ == STATE::IDLE || state_ == STATE::WALK || state_ == STATE::SHOT || */ state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT)
 	{
 		LazyRotation(angle);
 	}
@@ -711,6 +754,12 @@ void Enemy::ChangeState(STATE state)
 		attackPlayerPos_ = followTransform_->pos;
 		SetHitAnimation();
 		break;
+	case Enemy::STATE::TURN_LEFT:
+		SetTurnLeftAnimation();
+		break;
+	case Enemy::STATE::TURN_RIGHT:
+		SetTurnRightAnimation();
+		break;
 	}
 
 }
@@ -867,12 +916,69 @@ void Enemy::SetHitAnimation(void)
 
 }
 
+void Enemy::SetTurnLeftAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, turnLeftAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = HIT_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Enemy::SetTurnRightAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, turnRightAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = HIT_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
 void Enemy::LazyRotation(float goalRot)
 {
 
 	// 目的の角度まで回転させる
 	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
-	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
+	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.1f);
+
+	float a;
+	VECTOR b;
+
+	goal.ToAngleAxis(&a, &b);
+
+	auto goalDeg = AsoUtility::Rad2DegF(a);
+	goalDeg = AsoUtility::DegIn360(a);
+	auto rad = transform_.quaRot.ToEuler();
+	auto deg = AsoUtility::Rad2DegF(rad.y);
+
+	if (goalDeg <= deg)
+	{
+		ChangeState(STATE::TURN_LEFT);
+	}
+	else if (goalDeg >= deg)
+	{
+		ChangeState(STATE::TURN_RIGHT);
+	}
 
 }
 
@@ -946,7 +1052,7 @@ void Enemy::Animation(void)
 	}
 
 	// 行動後プレイヤー方向に角度を変える
-	if (state_ == STATE::IDLE)
+	if (state_ == STATE::IDLE || state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT)
 	{
 		AfterRotation();
 		noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
@@ -981,7 +1087,7 @@ void Enemy::AnimationFrame(void)
 
 		auto scl = MGetSize(mat); // 行列から大きさを取り出す
 		auto rot = MGetRotElem(mat); // 行列から回転を取り出す
-		auto pos = MGetTranslateElem(mat); // 行列から移動値を取り出す
+		pos_ = MGetTranslateElem(mat); // 行列から移動値を取り出す
 
 		// 大きさ、回転、位置をローカル行列に戻す
 		MATRIX mix = MGetIdent();
@@ -990,7 +1096,7 @@ void Enemy::AnimationFrame(void)
 
 		// ここでローカル座標を行列に、そのまま戻さず、
 		// 調整したローカル座標を設定する
-		mix = MMult(mix, MGetTranslate({ 0.0f, pos.y, 0.0f }));
+		mix = MMult(mix, MGetTranslate({ 0.0f, pos_.y, 0.0f }));
 
 		// 合成した行列を対象フレームにセットし直して、
 		// アニメーションの移動値を無効化

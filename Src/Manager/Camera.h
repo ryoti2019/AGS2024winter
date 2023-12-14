@@ -154,6 +154,12 @@ private:
 
 	VECTOR goalCameraPos_;
 
+	// マウスの横移動
+	float rotPowY_;
+
+	// マウスの縦移動
+	float rotPowX_;
+
 	// カメラを初期位置に戻す
 	void SetDefault(void);
 

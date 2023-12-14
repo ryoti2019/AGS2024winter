@@ -86,7 +86,7 @@ public:
 	static constexpr float HIT_ANIM_SPEED = 30.0f;
 
 	// 回避のアニメーションの再生速度
-	static constexpr float ROLL_ANIM_SPEED = 45.0f;
+	static constexpr float ROLL_ANIM_SPEED = 50.0f;
 
 	// 回転する強さ
 	static constexpr float ROTATION_POW = 0.1f;

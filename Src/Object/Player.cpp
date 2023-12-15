@@ -114,6 +114,8 @@ void Player::Init(void)
 	// 攻撃４
 	chargeAttack_ = false;
 
+	moveDir_ = { 0.0f,0.0f,0.0f };
+
 }
 
 void Player::Update(void)
@@ -181,6 +183,10 @@ void Player::Update(void)
 	case Player::STATE::HIT:
 		break;
 	case Player::STATE::ROLL:
+		if (stepAnim_ >= 45.0f)
+		{
+			speed_ = 0.0f;
+		}
 		break;
 	}
 
@@ -390,8 +396,6 @@ void Player::KeyboardMove(void)
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
 
-	VECTOR moveDir = AsoUtility::VECTOR_ZERO;
-
 	// WASDでプレイヤーの位置を変える
 	//if (camera->GetMode() == Camera::MODE::FOLLOW)
 	//{
@@ -444,15 +448,11 @@ void Player::KeyboardMove(void)
 	}
 
 	// 回避
-	if (ins.IsTrgDown(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT && state_ != STATE::ROLL)
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir) &&
+		state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
+
 		ChangeState(STATE::ROLL);
-
-		// 向き
-		//dir = transform_.GetForward();
-
-		// 方向を正規化
-		// dir = VNorm(dir);
 
 		// 方向を正規化
 		dir = VNorm(dir);
@@ -462,10 +462,11 @@ void Player::KeyboardMove(void)
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
 
 		// 回転行列を使用して、ベクトルを回転させる
-		moveDir = VTransform(dir, mat);
+		moveDir_ = VTransform(dir, mat);
 
 		// 移動量
 		speed_ = MOVE_POW_RUN;
+
 	}
 
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
@@ -481,16 +482,13 @@ void Player::KeyboardMove(void)
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
 
 		// 回転行列を使用して、ベクトルを回転させる
-		moveDir = VTransform(dir, mat);
+		moveDir_ = VTransform(dir, mat);
 
 		// ロックオン時は相手に近づくのに制限をつける
 		if (camera->GetMode() == Camera::MODE::LOCKON)
 		{
 			LockOn();
 		}
-
-		// 方向×スピードで移動量を作って、座標に足して移動
-		//transform_.pos = VAdd(transform_.pos, movePow_);
 
 		// 方向を角度に変換する(XZ平面 Y軸)
 		float angle = atan2f(dir.x, dir.z);
@@ -501,14 +499,10 @@ void Player::KeyboardMove(void)
 	}
 
 	// 移動量
-	movePow_ = VScale(moveDir, speed_);
+	movePow_ = VScale(moveDir_, speed_);
 
 	// 現在座標を起点に移動後座標を決める
 	movedPos_ = VAdd(transform_.pos, movePow_);
-
-	// 移動
-	moveDiff_ = VSub(movedPos_, transform_.pos);
-	transform_.pos = movedPos_;
 
 	// カメラの注視点
 	auto cameraTargetPos = followTransform_->pos;

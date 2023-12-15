@@ -255,7 +255,10 @@ protected:
 	float walkCnt_;
 
 	// 回転の終了のフラグ
-	bool rotationEnd_;
+	bool isRotation_;
+
+	// 行動の終了フラグ
+	bool isAction_;
 
 	// 攻撃の番号
 	int attackNumber_;

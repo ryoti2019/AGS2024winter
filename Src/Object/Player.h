@@ -248,6 +248,9 @@ protected:
 	// スピード
 	float speed_;
 
+	// 移動方向
+	VECTOR moveDir_;
+
 	// 移動量
 	VECTOR movePow_;
 

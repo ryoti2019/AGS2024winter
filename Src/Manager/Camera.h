@@ -51,6 +51,8 @@ public:
 	// プレイヤーから注視点までの相対座標
 	static constexpr VECTOR LOCAL_P2T_POS = { 0.0f,0.0f,500.0f };
 
+	static constexpr VECTOR LOCAL_POS = { 0.0f,300.0f,-500.0f };
+
 	// 敵から注視点までの相対座標
 	static constexpr VECTOR LOCAL_E2T_POS = { 0.0f,0.0f,500.0f };
 

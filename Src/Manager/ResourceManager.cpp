@@ -25,7 +25,7 @@ void ResourceManager::Init(void)
 	Resource res;
 
 	// タイトルロゴ
-	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Vanquish A Monster.png");
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Title/Vanquish A Monster.png");
 	resourcesMap_.emplace(SRC::TITLE_LOGO, res);
 
 	// テスト用のステージ
@@ -35,6 +35,14 @@ void ResourceManager::Init(void)
 	// テスト1用のステージ
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/TestStage1.mv1");
 	resourcesMap_.emplace(SRC::TEST_STAGE1, res);
+
+	// テスト2用のステージ
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/GameObject.mv1");
+	resourcesMap_.emplace(SRC::TEST_STAGE2, res);
+
+	// テスト2用のステージ
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/Map.mv1");
+	resourcesMap_.emplace(SRC::TEST_STAGE3, res);
 
 	// プレイヤーの待機アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Idle.mv1");
@@ -100,6 +108,14 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Zombie Reaction Hit.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_HIT, res);
 
+	// 敵の左旋回アニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Left Turn 45.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_TURN_LEFT, res);
+
+	// 敵の右旋回アニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Right Turn 45.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_TURN_RIGHT, res);
+
 	// 弾のモデル
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Shot/shot.mv1");
 	resourcesMap_.emplace(SRC::SHOT_MODEL, res);
@@ -107,6 +123,10 @@ void ResourceManager::Init(void)
 	// 剣のモデル
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/uploads_files_4143503_sword(1).mv1");
 	resourcesMap_.emplace(SRC::SWORD_MODEL, res);
+
+	// ロックオンカーソル
+	res = Resource(Resource::TYPE::IMGS, Application::PATH_IMAGE + "UI/enemyCursor.png",20,3,100,100);
+	resourcesMap_.emplace(SRC::CURSOR, res);
 
 }
 

@@ -131,6 +131,9 @@ public:
 	// 弾の発射間隔
 	static constexpr float TIME_DELAY_SHOT = 2.0f;
 
+	// ロックオンカーソルの総数
+	static constexpr int LOCKON_CURSOR_NUM = 59;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -143,6 +146,8 @@ public:
 		CREATE,
 		SHOT,
 		HIT,
+		TURN_LEFT,
+		TURN_RIGHT,
 	};
 
 	// コンストラクタ
@@ -240,11 +245,20 @@ protected:
 	// ダメージヒットアニメーション
 	int hitAnim_;
 
+	// 左旋回アニメーション
+	int turnLeftAnim_;
+
+	// 右旋回アニメーション
+	int turnRightAnim_;
+
 	// 最初の歩きのアニメーションのカウンタ
 	float walkCnt_;
 
 	// 回転の終了のフラグ
-	bool rotationEnd_;
+	bool isRotation_;
+
+	// 行動の終了フラグ
+	bool isAction_;
 
 	// 攻撃の番号
 	int attackNumber_;
@@ -305,6 +319,20 @@ protected:
 
 	// 待機している玉の数
 	int shotNum_;
+
+	// 敵が動かない時間
+	float noPlayTime_;
+
+	// ロックオンカーソル
+	int* lockOnCursorImg_;
+
+	// ロックオンカーソルの添え字を増やす
+	int lockOnCursorCnt_;
+
+	// ロックオンカーソルの添え字を増やすカウンタ
+	float lockOnCursorTime_;
+
+	VECTOR pos_;
 
 	// 行動の選択
 	void Think(void);
@@ -374,6 +402,12 @@ protected:
 
 	// ダメージヒットヒットアニメーションの設定
 	void SetHitAnimation(void);
+
+	// 左旋回アニメーションの設定
+	void SetTurnLeftAnimation(void);
+
+	// 右旋回アニメーションの設定
+	void SetTurnRightAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

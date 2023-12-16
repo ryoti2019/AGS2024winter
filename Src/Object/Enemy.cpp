@@ -1,7 +1,9 @@
+#include <DxLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
+#include "../Manager/Camera.h"
 #include "ShotEnemy.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -54,11 +56,21 @@ void Enemy::InitAnimation(void)
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_HIT);
 
+	// 左旋回のアニメーション
+	turnLeftAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_TURN_LEFT);
+
+	// 右旋回のアニメーション
+	turnRightAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_TURN_RIGHT);
+
+	// ロックオン状態に出るカーソル
+	lockOnCursorImg_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CURSOR).handleIds_;
+
 	// transformの初期化
 	float scale = 2.0f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 0.0f, 1000.0f };
-	transform_.quaRot = Quaternion();
 	transform_.Update();
 
 	// 再生するアニメーションの番号
@@ -109,7 +121,10 @@ void Enemy::Init(void)
 	tackleAttack_ = false;
 
 	// 回転の終了のフラグ
-	rotationEnd_ = false;
+	isRotation_ = false;
+
+	// 行動終了のフラグ
+	isAction_ = false;
 
 	// 弾を発射したかどうか
 	isShot_ = false;
@@ -120,6 +135,12 @@ void Enemy::Init(void)
 	// 最初の歩きのアニメーションのカウンタ
 	walkCnt_ = 0.0f;
 
+	noPlayTime_ = 0.0f;
+
+	lockOnCursorCnt_ = 0;
+
+	lockOnCursorTime_ = 0.0f;
+
 	// 初期状態
 	ChangeState(STATE::THINK);
 
@@ -129,7 +150,7 @@ void Enemy::Update(void)
 {
 
 	// 回転しきっていなかったら処理しない
-	if (rotationEnd_)
+	if (isRotation_)
 	{
 		return;
 	}
@@ -182,6 +203,10 @@ void Enemy::Update(void)
 	case Enemy::STATE::HIT:
 		//UpdateHit();
 		break;
+	case Enemy::STATE::TURN_LEFT:
+		break;
+	case Enemy::STATE::TURN_RIGHT:
+		break;
 	}
 
 	// アニメーション処理
@@ -216,6 +241,31 @@ void Enemy::Draw(void)
 	for (auto v : shots_)
 	{
 		v->Draw();
+	}
+
+	Camera* camera = SceneManager::GetInstance().GetCamera();
+
+	if (camera->GetMode() == Camera::MODE::LOCKON)
+	{
+		if (lockOnCursorTime_ <= 0.0f)
+		{
+			lockOnCursorCnt_ += 1;
+		}
+
+		lockOnCursorTime_ -= SceneManager::GetInstance().GetDeltaTime();
+
+		// ロックオンカーソルのビルボード
+		DrawBillboard3D(VAdd(transform_.pos, { 0.0f,500.0f + pos_.y,0.0f }), 0.5, 0.5, 256, 0.0f, lockOnCursorImg_[lockOnCursorCnt_], true);
+
+		if (lockOnCursorCnt_ >= 58)
+		{
+			lockOnCursorCnt_ = 0;
+		}
+	}
+	else
+	{
+		lockOnCursorCnt_ = 0;
+		lockOnCursorTime_ = 0.0f;
 	}
 
 }
@@ -421,7 +471,7 @@ void Enemy::Rotation(void)
 	// プレイヤーの方向を求める
 	VECTOR vec = VSub(followTransform_->pos, transform_.pos);
 
-	vec = { -vec.x,-vec.y,-vec.z };
+	vec = { -vec.x,vec.y,-vec.z };
 
 	// 正規化
 	VECTOR Vdirection = VNorm(vec);
@@ -430,7 +480,7 @@ void Enemy::Rotation(void)
 	float angle = atan2f(Vdirection.x, Vdirection.z);
 
 	// 回転
-	if (state_ == STATE::IDLE || state_ == STATE::WALK || state_ == STATE::SHOT)
+	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK && state_ != STATE::TACKLE && state_ != STATE::IDLE)
 	{
 		LazyRotation(angle);
 	}
@@ -454,25 +504,15 @@ void Enemy::AfterRotation(void)
 	auto goal = Quaternion::Euler(0.0f, angle, 0.0f);
 	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
 
-	// クォータニオンからラジアン
-	VECTOR rad = transform_.quaRot.ToEuler();
 
-	// ラジアンからデグリー
-	float deg = AsoUtility::Rad2DegF(rad.y);
-	deg = AsoUtility::DegIn360(deg);
 
 	// ラジアンからデグリー
 	float goalDeg = AsoUtility::Rad2DegF(angle);
 	goalDeg = AsoUtility::DegIn360(goalDeg);
 
-	// 目的の角度と自分の角度の差を測る
-	float sub = goalDeg - deg;
 
-	// 差が10度未満だったらtrueにする
-	if (sub <= GOAL_DEG && sub >= -GOAL_DEG)
-	{
-		rotationEnd_ = true;
-	}
+
+
 
 }
 
@@ -675,9 +715,10 @@ void Enemy::ChangeState(STATE state)
 	{
 	case Enemy::STATE::THINK:
 		// 回転のフラグを戻す
-		rotationEnd_ = false;
+		isRotation_ = false;
+		noPlayTime_ = 0.0f;
 		// これからの行動を考える
-		//Think();
+		Think();
 		break;
 	case Enemy::STATE::IDLE:
 		SetIdleAnimation();
@@ -704,6 +745,12 @@ void Enemy::ChangeState(STATE state)
 	case Enemy::STATE::HIT:
 		attackPlayerPos_ = followTransform_->pos;
 		SetHitAnimation();
+		break;
+	case Enemy::STATE::TURN_LEFT:
+		SetTurnLeftAnimation();
+		break;
+	case Enemy::STATE::TURN_RIGHT:
+		SetTurnRightAnimation();
 		break;
 	}
 
@@ -861,6 +908,44 @@ void Enemy::SetHitAnimation(void)
 
 }
 
+void Enemy::SetTurnLeftAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, turnLeftAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = HIT_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Enemy::SetTurnRightAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, turnRightAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = HIT_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
 void Enemy::LazyRotation(float goalRot)
 {
 
@@ -868,6 +953,33 @@ void Enemy::LazyRotation(float goalRot)
 	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
 	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
 
+	float a;
+	VECTOR b;
+
+	goal.ToAngleAxis(&a, &b);
+
+	// ラジアンからデグリー
+	float goalDeg = AsoUtility::Rad2DegF(goalRot);
+	goalDeg = AsoUtility::DegIn360(goalDeg);
+
+	auto rad = transform_.quaRot.ToEuler();
+	auto deg = AsoUtility::Rad2DegF(rad.y);
+
+	deg = AsoUtility::DegIn360(deg);
+
+	// 目的の角度と自分の角度の差を測る
+	float sub = goalDeg - deg;
+
+	sub = abs(sub);
+
+	// 差が10度未満だったらtrueにする
+	if (state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT)
+	{
+		if (sub <= GOAL_DEG && sub >= -GOAL_DEG)
+		{
+			isRotation_ = true;
+		}
+	}
 }
 
 void Enemy::DrawDebug(void)
@@ -922,7 +1034,6 @@ void Enemy::Animation(void)
 		isShot_ = false;
 		if (stepAnim_ > animTotalTime_)
 		{
-
 			// ループ再生
 			stepAnim_ = 0.0f;
 
@@ -930,10 +1041,9 @@ void Enemy::Animation(void)
 			{
 				// 待機状態にする
 				ChangeState(STATE::IDLE);
+				isAction_ = true;
 			}
-
 		}
-
 	}
 
 	if (state_ == STATE::SHOT && stepAnim_ >= SHOT_END_TIME)
@@ -942,14 +1052,60 @@ void Enemy::Animation(void)
 		isShot_ = false;
 	}
 
+	float goalDeg = 0.0f;
+
 	// 行動後プレイヤー方向に角度を変える
-	if (state_ == STATE::IDLE)
+	if ((state_ == STATE::IDLE || state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT) && isAction_)
 	{
-		AfterRotation();
+		isAction_ = false;
+
+		// プレイヤーの方向を求める
+		VECTOR vec = VSub(followTransform_->pos, transform_.pos);
+
+		vec = { -vec.x,-vec.y,-vec.z };
+
+		// 正規化
+		VECTOR Vdirection = VNorm(vec);
+
+		// 方向を角度に変換する(XZ平面 Y軸)
+		float angle = atan2f(Vdirection.x, Vdirection.z);
+
+		auto goal = Quaternion::Euler(0.0f, angle, 0.0f);
+		transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
+
+		// クォータニオンからラジアン
+		VECTOR rad = transform_.quaRot.ToEuler();
+
+		// ラジアンからデグリー
+		float deg = AsoUtility::Rad2DegF(rad.y);
+		deg = AsoUtility::DegIn360(deg);
+
+		// ラジアンからデグリー
+		float goalDeg = AsoUtility::Rad2DegF(angle);
+		goalDeg = AsoUtility::DegIn360(goalDeg);
+
+		// 目的の角度に近い方向に旋回
+		if (goalDeg <= deg)
+		{
+			ChangeState(STATE::TURN_LEFT);
+		}
+		else if (goalDeg >= deg)
+		{
+			ChangeState(STATE::TURN_RIGHT);
+		}
+
+	}
+
+	// 旋回方向に回転する
+	if (state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT)
+	{
+		// 回転処理
+		Rotation();
+		noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
 	}
 
 	// 行動を選択
-	if (rotationEnd_)
+	if (isRotation_)
 	{
 		ChangeState(STATE::THINK);
 	}
@@ -977,7 +1133,7 @@ void Enemy::AnimationFrame(void)
 
 		auto scl = MGetSize(mat); // 行列から大きさを取り出す
 		auto rot = MGetRotElem(mat); // 行列から回転を取り出す
-		auto pos = MGetTranslateElem(mat); // 行列から移動値を取り出す
+		pos_ = MGetTranslateElem(mat); // 行列から移動値を取り出す
 
 		// 大きさ、回転、位置をローカル行列に戻す
 		MATRIX mix = MGetIdent();
@@ -986,7 +1142,7 @@ void Enemy::AnimationFrame(void)
 
 		// ここでローカル座標を行列に、そのまま戻さず、
 		// 調整したローカル座標を設定する
-		mix = MMult(mix, MGetTranslate({ 0.0f, pos.y, 0.0f }));
+		mix = MMult(mix, MGetTranslate({ 0.0f, pos_.y, 0.0f }));
 
 		// 合成した行列を対象フレームにセットし直して、
 		// アニメーションの移動値を無効化
@@ -1060,8 +1216,6 @@ void Enemy::CreateShot(void)
 
 		// 弾の作成
 		shot->Create(rPos, &transform_);
-		
-		// 弾を生成したら増やす
 
 		// 弾を生成したら増やす
 		shotNum_++;

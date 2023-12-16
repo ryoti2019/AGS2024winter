@@ -51,6 +51,8 @@ public:
 	// プレイヤーから注視点までの相対座標
 	static constexpr VECTOR LOCAL_P2T_POS = { 0.0f,0.0f,500.0f };
 
+	static constexpr VECTOR LOCAL_POS = { 0.0f,300.0f,-500.0f };
+
 	// 敵から注視点までの相対座標
 	static constexpr VECTOR LOCAL_E2T_POS = { 0.0f,0.0f,500.0f };
 
@@ -154,6 +156,12 @@ private:
 
 	VECTOR goalCameraPos_;
 
+	// マウスの横移動
+	float rotPowY_;
+
+	// マウスの縦移動
+	float rotPowX_;
+
 	// カメラを初期位置に戻す
 	void SetDefault(void);
 
@@ -166,6 +174,7 @@ private:
 
 	// キーボードの操作
 	void KeybordContoroller(void);
+	void KeybordLockOnContoroller(void);
 
 	// ゲームパッドの操作
 	void GamePadController(void);

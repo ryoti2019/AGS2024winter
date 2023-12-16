@@ -21,11 +21,11 @@ void Stage::Init(void)
 	// ÉÇÉfÉãêßå‰ÇÃäÓñ{èÓïÒ
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::TEST_STAGE1));
+			ResourceManager::SRC::TEST_STAGE3));
 
-	float scale = 1.0f;
+	float scale = 3.0f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = { 0.0f, 0.0f, 0.0f };
+	transform_.pos = { -1500.0f, 0.0f, 11000.0f };
 	transform_.quaRot = Quaternion::Euler(
 		0.0f,
 		AsoUtility::Deg2RadF(0.0f),

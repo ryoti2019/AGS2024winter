@@ -114,6 +114,8 @@ void Player::Init(void)
 	// 攻撃４
 	chargeAttack_ = false;
 
+	moveDir_ = { 0.0f,0.0f,0.0f };
+
 }
 
 void Player::Update(void)
@@ -181,17 +183,10 @@ void Player::Update(void)
 	case Player::STATE::HIT:
 		break;
 	case Player::STATE::ROLL:
-		// 向き
-		auto dir = transform_.GetForward();
-
-		// 方向を正規化
-		dir = VNorm(dir);
-
-		// 移動量
-		auto movePow = 10.0f;
-
-		// 方向×スピードで移動量を作って、座標に足して移動
-		transform_.pos = VAdd(transform_.pos, VScale(dir, movePow));
+		if (stepAnim_ >= 45.0f)
+		{
+			speed_ = 0.0f;
+		}
 		break;
 	}
 
@@ -404,10 +399,10 @@ void Player::KeyboardMove(void)
 	// WASDでプレイヤーの位置を変える
 	//if (camera->GetMode() == Camera::MODE::FOLLOW)
 	//{
-		if (ins.IsNew(KEY_INPUT_W))
-		{
-			dir = VAdd(dir, { 0.0f, 0.0f, 1.0f });
-		}
+	if (ins.IsNew(KEY_INPUT_W))
+	{
+		dir = VAdd(dir, { 0.0f, 0.0f, 1.0f });
+	}
 	//}
 	//else if (camera->GetMode() == Camera::MODE::LOCKON)
 	//{
@@ -453,9 +448,25 @@ void Player::KeyboardMove(void)
 	}
 
 	// 回避
-	if (ins.IsTrgDown(KEY_INPUT_SPACE) && state_ != STATE::HIT && state_ != STATE::ROLL)
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir) &&
+		state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
+
 		ChangeState(STATE::ROLL);
+
+		// 方向を正規化
+		dir = VNorm(dir);
+
+		// Y軸の行列
+		MATRIX mat = MGetIdent();
+		mat = MMult(mat, MGetRotY(cameraAngles.y));
+
+		// 回転行列を使用して、ベクトルを回転させる
+		moveDir_ = VTransform(dir, mat);
+
+		// 移動量
+		speed_ = MOVE_POW_RUN;
+
 	}
 
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
@@ -471,26 +482,13 @@ void Player::KeyboardMove(void)
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
 
 		// 回転行列を使用して、ベクトルを回転させる
-		VECTOR moveDir = VTransform(dir, mat);
-
-		// 移動量
-		movePow_ = VScale(moveDir, speed_);
-
-		// 現在座標を起点に移動後座標を決める
-		movedPos_ = VAdd(transform_.pos, movePow_);
+		moveDir_ = VTransform(dir, mat);
 
 		// ロックオン時は相手に近づくのに制限をつける
 		if (camera->GetMode() == Camera::MODE::LOCKON)
 		{
 			LockOn();
 		}
-
-		// 移動
-		moveDiff_ = VSub(movedPos_, transform_.pos);
-		transform_.pos = movedPos_;
-
-		// 方向×スピードで移動量を作って、座標に足して移動
-		//transform_.pos = VAdd(transform_.pos, movePow_);
 
 		// 方向を角度に変換する(XZ平面 Y軸)
 		float angle = atan2f(dir.x, dir.z);
@@ -499,6 +497,61 @@ void Player::KeyboardMove(void)
 		LazyRotation(cameraAngles.y + angle);
 
 	}
+
+	// 移動量
+	movePow_ = VScale(moveDir_, speed_);
+
+	// 現在座標を起点に移動後座標を決める
+	movedPos_ = VAdd(transform_.pos, movePow_);
+
+	// カメラの注視点
+	auto cameraTargetPos = followTransform_->pos;
+
+	float y = movedPos_.y;
+
+	// XZ平面の移動後座標
+	auto movedPosXZ = movedPos_;
+
+	// XZ平面のカメラの注視点
+	auto cameraTargetPosXZ = cameraTargetPos;
+
+	// XZ平面のカメラ座標
+	auto cameraPosXZ = camera->GetPos();
+
+	// 移動後座標とカメラの注視点とカメラ座標を0にすることでXZ平面座標にしている
+	movedPosXZ.y = cameraTargetPosXZ.y = cameraPosXZ.y = 0.0f;
+
+	// 注視点からのプレイヤーのベクトル
+	auto target2Player = VNorm(VSub(movedPosXZ, cameraTargetPosXZ));
+
+	// 移動後座標と移動前座標が0以上の時
+	if (!AsoUtility::EqualsVZero(moveDiff_))
+	{
+
+		// 注視点と移動後座標の距離
+		target2PlayerDis_ = AsoUtility::Distance(cameraTargetPos, movedPos_);
+
+		// 敵との最小限の距離
+		enemyMinDis_ = 100.0f;
+
+		// 注視点と敵との最小限の距離が100未満の時
+		if (target2PlayerDis_ < enemyMinDis_)
+		{
+
+			// 注視点から移動後座標のベクトルをクォータニオンに
+			auto rot = Quaternion::LookRotation(target2Player);
+
+			// 移動後座標を更新
+			movedPos_ = VAdd(cameraTargetPos, VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
+			movedPos_.y = y;
+
+		}
+
+	}
+
+	//  移動
+	moveDiff_ = VSub(movedPos_, transform_.pos);
+	transform_.pos = movedPos_;
 
 }
 
@@ -834,111 +887,114 @@ void Player::LockOn(void)
 		Rotate();
 	}
 
-	// ②移動処理前に、ターゲットとの特別衝突判定
-	moveDiff_ = VSub(movedPos_, transform_.pos);
+	//// ②移動処理前に、ターゲットとの特別衝突判定
+	//moveDiff_ = VSub(movedPos_, transform_.pos);
 
-	// ロックオンモードの時
-	if (camera->GetMode() == Camera::MODE::LOCKON)
-	{
+	//// ロックオンモードの時
+	//if (camera->GetMode() == Camera::MODE::LOCKON)
+	//{
 
-		// カメラの注視点
-		auto cameraTargetPos = camera->GetTargetPos();
+	//	// カメラの注視点
+	//	auto cameraTargetPos = camera->GetTargetPos();
 
-		float y = movedPos_.y;
+	//	float y = movedPos_.y;
 
-		// XZ平面の移動後座標
-		auto movedPosXZ = movedPos_;
+	//	// XZ平面の移動後座標
+	//	auto movedPosXZ = movedPos_;
 
-		// XZ平面のカメラの注視点
-		auto cameraTargetPosXZ = cameraTargetPos;
+	//	// XZ平面のカメラの注視点
+	//	auto cameraTargetPosXZ = cameraTargetPos;
 
-		// XZ平面のカメラ座標
-		auto cameraPosXZ = camera->GetPos();
+	//	// XZ平面のカメラ座標
+	//	auto cameraPosXZ = camera->GetPos();
 
-		// 移動後座標とカメラの注視点とカメラ座標を0にする
-		movedPosXZ.y = cameraTargetPosXZ.y = cameraPosXZ.y = 0.0f;
+	//	// 移動後座標とカメラの注視点とカメラ座標を0にすることでXZ平面座標にしている
+	//	movedPosXZ.y = cameraTargetPosXZ.y = cameraPosXZ.y = 0.0f;
 
-		// 注視点からのプレイヤーのベクトル
-		auto target2Player = VNorm(VSub(movedPosXZ, cameraTargetPosXZ));
+	//	// 注視点からのプレイヤーのベクトル
+	//	auto target2Player = VNorm(VSub(movedPosXZ, cameraTargetPosXZ));
 
-		// 目的の角度までの差を測る
-		SetGoalRotate(Quaternion::LookRotation(VScale(target2Player, -1.0)));
+	//	//// 目的の角度までの差を測る
+	//	//SetGoalRotate(Quaternion::LookRotation(VScale(target2Player, -1.0)));
 
-		// 少しずつ回転させる
-		Rotate();
+	//	//// 少しずつ回転させる
+	//	//Rotate();
 
-		// 移動後座標と移動前座標が0以上の時
-		if (!AsoUtility::EqualsVZero(moveDiff_))
-		{
+	//	// 移動後座標と移動前座標が0以上の時
+	//	if (!AsoUtility::EqualsVZero(moveDiff_))
+	//	{
 
-			// 注視点と移動後座標の距離
-			target2PlayerDis_ = AsoUtility::Distance(cameraTargetPos, movedPos_);
+	//		// 注視点と移動後座標の距離
+	//		target2PlayerDis_ = AsoUtility::Distance(cameraTargetPos, movedPos_);
 
-			// 敵との最小限の距離
-			enemyMinDis_ = 100.0f;
+	//		// 敵との最小限の距離
+	//		enemyMinDis_ = 100.0f;
 
-			// 注視店と敵との最小限の距離が100未満の時
-			if (target2PlayerDis_ < enemyMinDis_)
-			{
+	//		// 注視点と敵との最小限の距離が100未満の時
+	//		if (target2PlayerDis_ < enemyMinDis_)
+	//		{
 
-				// 注視点から移動後座標のベクトルをクォータニオンに
-				auto rot = Quaternion::LookRotation(target2Player);
+	//			// 注視点から移動後座標のベクトルをクォータニオンに
+	//			auto rot = Quaternion::LookRotation(target2Player);
 
-				// 右方向
-				auto r = rot.GetRight();
+	////			// 右方向
+	////			auto r = rot.GetRight();
 
-				// 左方向
-				auto l = rot.GetLeft();
+	////			// 左方向
+	////			auto l = rot.GetLeft();
 
-				// 右方向の内積
-				auto dotR = VDot(r, target2Player);
+	////			// 右方向の内積
+	////			auto dotR = VDot(r, target2Player);
 
-				// 左方向の内積
-				auto dotL = VDot(l, target2Player);
+	////			// 左方向の内積
+	////			auto dotL = VDot(l, target2Player);
 
-				float deg = 2.0f;
-
-				//if (dotR + 0.01f > dotL)
-
-				//{
-
-				deg *= -1.0f;
-
-				// キャラが右に回る
-
-				//rot = rot.Mult(
-
-				//	Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
-
-				// 内積の大きいほうに角度を足す
-				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+	////			float deg = 2.0f;
 
 
-				//}
+	////			// 右か左かを選ぶ処理
 
-				//else
+	////			if (dotR + 0.01f > dotL)
 
-				//{
+	////			{
 
-				//	// キャラが左に回る
+	////				deg *= -1.0f;
 
-				//	rot = rot.Mult(
+	////				// キャラが右に回る
 
-				//		Quaternion::AngleAxis(deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
+	////				rot = rot.Mult(
 
-				//	mainCamera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+	////					Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
 
-				//}
+	////				// 内積の大きいほうに角度を足す
+	////				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
 
-				// 
-				movedPos_ = VAdd(cameraTargetPos,VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
-				movedPos_.y = y;
 
-			}
+	////			}
 
-		}
+	////			else
 
-	}
+	////			{
+
+	////				// キャラが左に回る
+
+	////				rot = rot.Mult(
+
+	////					Quaternion::AngleAxis(deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
+
+	////				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
+
+	////			}
+
+
+	//			movedPos_ = VAdd(cameraTargetPos, VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
+	//			movedPos_.y = y;
+
+	//		}
+
+	//	}
+
+	//}
 
 
 	//// 移動
@@ -955,7 +1011,6 @@ void Player::LockOn(void)
 
 // 補足関数
 void Player::SetGoalRotate(Quaternion rot)
-
 {
 
 	// 現在設定されている回転との角度差を取る

@@ -114,8 +114,6 @@ void Player::Init(void)
 	// 攻撃４
 	chargeAttack_ = false;
 
-	moveDir_ = { 0.0f,0.0f,0.0f };
-
 }
 
 void Player::Update(void)
@@ -396,21 +394,11 @@ void Player::KeyboardMove(void)
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
 
+	VECTOR moveDir = AsoUtility::VECTOR_ZERO;
+
 	// WASDでプレイヤーの位置を変える
-	//if (camera->GetMode() == Camera::MODE::FOLLOW)
-	//{
-	if (ins.IsNew(KEY_INPUT_W))
-	{
-		dir = VAdd(dir, { 0.0f, 0.0f, 1.0f });
-	}
-	//}
-	//else if (camera->GetMode() == Camera::MODE::LOCKON)
-	//{
-	//	if (ins.IsNew(KEY_INPUT_W) && target2PlayerDis_ > enemyMinDis_)
-	//	{
-	//		dir = VAdd(dir, { 0.0f, 0.0f, 1.0f });
-	//	}
-	//}
+	
+	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
 	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
 	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }
 	if (ins.IsNew(KEY_INPUT_D)) { dir = VAdd(dir, { 1.0f, 0.0f, 0.0f }); }
@@ -462,10 +450,16 @@ void Player::KeyboardMove(void)
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
 
 		// 回転行列を使用して、ベクトルを回転させる
-		moveDir_ = VTransform(dir, mat);
+		moveDir = VTransform(dir, mat);
 
 		// 移動量
 		speed_ = MOVE_POW_RUN;
+
+		// 方向を角度に変換する(XZ平面 Y軸)
+		float angle = atan2f(dir.x, dir.z);
+
+		// カメラの角度を基準とし、方向分の角度を加える
+		LazyRotation(cameraAngles.y + angle);
 
 	}
 
@@ -482,7 +476,7 @@ void Player::KeyboardMove(void)
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
 
 		// 回転行列を使用して、ベクトルを回転させる
-		moveDir_ = VTransform(dir, mat);
+		moveDir = VTransform(dir, mat);
 
 		// ロックオン時は相手に近づくのに制限をつける
 		if (camera->GetMode() == Camera::MODE::LOCKON)
@@ -498,11 +492,15 @@ void Player::KeyboardMove(void)
 
 	}
 
-	// 移動量
-	movePow_ = VScale(moveDir_, speed_);
+	if (state_ != STATE::HIT && state_ != STATE::ATTACK && state_ != STATE::ATTACK2 &&
+		state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK)
+	{
+		// 移動量
+		movePow_ = VScale(moveDir, speed_);
 
-	// 現在座標を起点に移動後座標を決める
-	movedPos_ = VAdd(transform_.pos, movePow_);
+		// 現在座標を起点に移動後座標を決める
+		movedPos_ = VAdd(transform_.pos, movePow_);
+	}
 
 	// カメラの注視点
 	auto cameraTargetPos = followTransform_->pos;
@@ -1318,10 +1316,16 @@ void Player::LazyRotation(float goalRot)
 
 	//auto cameraRotY = camera->GetRotY();
 	//transform_.quaRot = Quaternion::Slerp(transform_.quaRot, cameraRotY, 0.1f);
-
-	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
-	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, ROTATION_POW);
-
+	if (state_ == STATE::ROLL)
+	{
+		auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
+		transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 1.0);
+	}
+	else
+	{
+		auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
+		transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, ROTATION_POW);
+	}
 }
 
 void Player::DrawDebug(void)

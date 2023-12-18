@@ -99,7 +99,7 @@ void GameScene::Update(void)
 		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::ATTACK
 			|| enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE))
+			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL)
 	{
 		// “G‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
 		if (enemy_->GetAttack())
@@ -114,7 +114,7 @@ void GameScene::Update(void)
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE))
+			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL)
 	{
 		// “G‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
 		if (enemy_->GetAttack())
@@ -131,7 +131,7 @@ void GameScene::Update(void)
 	{
 		if (AsoUtility::IsHitSphereCapsule(s->GetPos(), s->GetCollisionRadius(),
 			player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS)
-			&& (s->GetState() == ShotEnemy::STATE::SHOT))
+			&& (s->GetState() == ShotEnemy::STATE::SHOT) && player_->GetState() != Player::STATE::ROLL)
 		{
 			player_->SetState(Player::STATE::HIT);
 			player_->SetHP(-10);

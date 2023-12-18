@@ -131,6 +131,9 @@ public:
 	// 弾の発射間隔
 	static constexpr float TIME_DELAY_SHOT = 2.0f;
 
+	// 敵のクールタイム
+	static constexpr float COOL_TIME = 5.0f;
+
 	// ロックオンカーソルの総数
 	static constexpr int LOCKON_CURSOR_NUM = 59;
 
@@ -322,6 +325,9 @@ protected:
 
 	// 敵が動かない時間
 	float noPlayTime_;
+
+	// 敵を動かないようにするフラグ
+	bool isNoPlay_;
 
 	// ロックオンカーソル
 	int* lockOnCursorImg_;

@@ -120,6 +120,9 @@ void Enemy::Init(void)
 	// タックルアタックのフラグ
 	tackleAttack_ = false;
 
+	// 回転の開始
+	startRotation_ = false;
+
 	// 回転の終了のフラグ
 	isRotation_ = false;
 
@@ -149,8 +152,11 @@ void Enemy::Init(void)
 void Enemy::Update(void)
 {
 
+	// アニメーション処理
+	Animation();
+
 	// 回転しきっていなかったら処理しない
-	if (isRotation_)
+	if (startRotation_)
 	{
 		return;
 	}
@@ -209,8 +215,8 @@ void Enemy::Update(void)
 		break;
 	}
 
-	// アニメーション処理
-	Animation();
+	//// アニメーション処理
+	//Animation();
 
 	// 回転処理
 	Rotation();
@@ -480,7 +486,7 @@ void Enemy::Rotation(void)
 	float angle = atan2f(Vdirection.x, Vdirection.z);
 
 	// 回転
-	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK && state_ != STATE::TACKLE && state_ != STATE::IDLE)
+	if (state_ != STATE::IDLE && state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK && state_ != STATE::TACKLE)
 	{
 		LazyRotation(angle);
 	}
@@ -716,7 +722,7 @@ void Enemy::ChangeState(STATE state)
 	case Enemy::STATE::THINK:
 		// 回転のフラグを戻す
 		isRotation_ = false;
-		noPlayTime_ = 0.0f;
+		startRotation_ = false;
 		// これからの行動を考える
 		Think();
 		break;
@@ -1023,6 +1029,14 @@ void Enemy::SetParam(void)
 void Enemy::Animation(void)
 {
 
+	//// 敵が行動し終わった後にクールタイムを作る
+	//noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
+
+	//if (noPlayTime_ >= 0.0f)
+	//{
+	//	return;
+	//}
+
 	// アニメーション再生
 	// 経過時間の取得
 	float deltaTime = SceneManager::GetInstance().GetDeltaTime();
@@ -1039,9 +1053,18 @@ void Enemy::Animation(void)
 
 			if (state_ != STATE::TACKLE)
 			{
+
 				// 待機状態にする
 				ChangeState(STATE::IDLE);
+
+				// アニメーションが終わったらtrueにする
 				isAction_ = true;
+
+				//// クールタイムをリセットする
+				//noPlayTime_ = 3.0f;
+
+				startRotation_ = true;
+
 			}
 		}
 	}
@@ -1057,12 +1080,13 @@ void Enemy::Animation(void)
 	// 行動後プレイヤー方向に角度を変える
 	if ((state_ == STATE::IDLE || state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT) && isAction_)
 	{
+		// 毎回入らないようにアニメーションの再生時間が終わったらfalseにする
 		isAction_ = false;
 
 		// プレイヤーの方向を求める
 		VECTOR vec = VSub(followTransform_->pos, transform_.pos);
 
-		vec = { -vec.x,-vec.y,-vec.z };
+		vec = { -vec.x,vec.y,-vec.z };
 
 		// 正規化
 		VECTOR Vdirection = VNorm(vec);
@@ -1101,7 +1125,6 @@ void Enemy::Animation(void)
 	{
 		// 回転処理
 		Rotation();
-		noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
 	}
 
 	// 行動を選択

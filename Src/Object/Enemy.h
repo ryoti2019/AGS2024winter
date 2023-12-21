@@ -254,6 +254,9 @@ protected:
 	// 最初の歩きのアニメーションのカウンタ
 	float walkCnt_;
 
+	// 回転の開始フラグ
+	bool startRotation_;
+
 	// 回転の終了のフラグ
 	bool isRotation_;
 

@@ -129,6 +129,8 @@ void Enemy::Init(void)
 	// 行動終了のフラグ
 	isAction_ = false;
 
+	isNoPlay_ = false;
+
 	// 弾を発射したかどうか
 	isShot_ = false;
 
@@ -152,11 +154,16 @@ void Enemy::Init(void)
 void Enemy::Update(void)
 {
 
-	// アニメーション処理
+	//// 回転しきっていなかったら処理しない
+	//if (isRotation_)
+	//{
+	//	return;
+	//}
+
+		// アニメーション処理
 	Animation();
 
-	// 回転しきっていなかったら処理しない
-	if (startRotation_)
+	if (noPlayTime_ > 0.0f)
 	{
 		return;
 	}
@@ -214,9 +221,6 @@ void Enemy::Update(void)
 	case Enemy::STATE::TURN_RIGHT:
 		break;
 	}
-
-	//// アニメーション処理
-	//Animation();
 
 	// 回転処理
 	Rotation();
@@ -722,7 +726,6 @@ void Enemy::ChangeState(STATE state)
 	case Enemy::STATE::THINK:
 		// 回転のフラグを戻す
 		isRotation_ = false;
-		startRotation_ = false;
 		// これからの行動を考える
 		Think();
 		break;
@@ -957,12 +960,7 @@ void Enemy::LazyRotation(float goalRot)
 
 	// 目的の角度まで回転させる
 	auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
-	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
-
-	float a;
-	VECTOR b;
-
-	goal.ToAngleAxis(&a, &b);
+	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.05f);
 
 	// ラジアンからデグリー
 	float goalDeg = AsoUtility::Rad2DegF(goalRot);
@@ -1029,13 +1027,11 @@ void Enemy::SetParam(void)
 void Enemy::Animation(void)
 {
 
-	//// 敵が行動し終わった後にクールタイムを作る
-	//noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
-
-	//if (noPlayTime_ >= 0.0f)
-	//{
-	//	return;
-	//}
+	// 行動後に動かない時間を作る
+	if (isAction_)
+	{
+		noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
+	}
 
 	// アニメーション再生
 	// 経過時間の取得
@@ -1066,7 +1062,18 @@ void Enemy::Animation(void)
 				startRotation_ = true;
 
 			}
+			if (isNoPlay_ && state_ == STATE::IDLE)
+			{
+				noPlayTime_ = COOL_TIME;
+				isNoPlay_ = false;
+			}
 		}
+	}
+	// 再生するアニメーション時間の設定
+	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+	if (noPlayTime_ >= 0.0f)
+	{
+		return;
 	}
 
 	if (state_ == STATE::SHOT && stepAnim_ >= SHOT_END_TIME)
@@ -1076,7 +1083,6 @@ void Enemy::Animation(void)
 	}
 
 	float goalDeg = 0.0f;
-
 	// 行動後プレイヤー方向に角度を変える
 	if ((state_ == STATE::IDLE || state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT) && isAction_)
 	{
@@ -1120,21 +1126,14 @@ void Enemy::Animation(void)
 
 	}
 
-	// 旋回方向に回転する
-	if (state_ == STATE::TURN_LEFT || state_ == STATE::TURN_RIGHT)
-	{
-		// 回転処理
-		Rotation();
-	}
-
 	// 行動を選択
 	if (isRotation_)
 	{
 		ChangeState(STATE::THINK);
+		isNoPlay_ = true;
 	}
 
-	// 再生するアニメーション時間の設定
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
+
 
 	// アニメーションの固定
 	AnimationFrame();

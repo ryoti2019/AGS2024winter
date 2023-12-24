@@ -53,3 +53,8 @@ void Stage::Draw(void)
 void Stage::Release(void)
 {
 }
+
+int Stage::GetModelId(void)
+{
+	return transform_.modelId;
+}

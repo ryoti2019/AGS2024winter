@@ -159,6 +159,9 @@ void Camera::SetBeforeDrawFollow(void)
 		GamePadController();
 	}
 
+	// ステージの衝突判定
+	CollisionStage();
+
 }
 
 void Camera::SetBeforeDrawLockOn(void)
@@ -248,6 +251,9 @@ void Camera::SetBeforeDrawLockOn(void)
 
 	// カメラの上方向
 	cameraUp_ = { 0.0f,1.0f,0.0f };
+
+	// ステージの衝突判定
+	CollisionStage();
 
 }
 
@@ -359,6 +365,11 @@ void Camera::AddLockOnAnglesY(float rad)
 	lockOnAngles_.y += rad;
 }
 
+void Camera::SetStageID(const int modelId)
+{
+	stageId_ = modelId;
+}
+
 void Camera::SetDefault(void)
 {
 
@@ -403,7 +414,7 @@ void Camera::SetTargetPosFollowForward(void)
 
 	// カメラの移動
 	localRotPos = VTransform(localCameraPos, mat);
-	pos_ = VAdd(followPos, localRotPos);
+	movedPos_ = VAdd(followPos, localRotPos);
 
 }
 
@@ -524,13 +535,23 @@ void Camera::KeybordContoroller(void)
 		VECTOR relativeTPos = rotY_.PosAxis(LOCAL_P2T_POS);
 
 		// 注視点の更新
-		//targetPos_ = VAdd(followPos, relativeTPos);
+		targetPos_ = VAdd(followPos, relativeTPos);
 
-		// 追従対象からカメラまでの相対座標
-		VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
+		VECTOR relativeCPos = AsoUtility::VECTOR_ZERO;
+
+		if (!pHit_)
+		{
+			// 追従対象からカメラまでの相対座標
+			relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
+		}
+		else
+		{
+			// 追従対象からカメラまでの相対座標	
+			relativeCPos = rotXY_.PosAxis({ 0.0f,200.0f,0.0f });
+		}
 
 		// カメラ位置の更新
-		//pos_ = VAdd(followPos, relativeCPos);
+		pos_ = VAdd(followPos, relativeCPos);
 
 		// カメラ座標をゆっくり移動させる
 		pos_ = AsoUtility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
@@ -692,6 +713,69 @@ void Camera::GamePadController(void)
 	// カメラの上方向
 	//cameraUp_ = followRot.PosAxis(rotXY_.GetUp());
 	cameraUp_ = AsoUtility::DIR_U;
+
+}
+
+void Camera::CollisionStage(void)
+{
+
+	// 球体との衝突判定
+	auto hits = MV1CollCheck_Sphere(
+		stageId_, -1, pos_, 20.0f);
+
+	if (hits.HitNum > 0)
+	{
+		pHit_ = true;
+	}
+	else
+	{
+		pHit_ = false;
+	}
+
+	//// 衝突した複数のポリゴンと衝突回避するまで、
+	//// プレイヤーの位置を移動させる
+	//for (int i = 0; i < hits.HitNum; i++)
+	//{
+
+	//	auto hit = hits.Dim[i];
+
+	//	// 地面と異なり、衝突回避位置が不明なため、何度か移動させる
+	//	// この時、移動させる方向は、移動前座標に向いた方向であったり、
+	//	// 衝突したポリゴンの法線方向だったりする
+	//	for (int tryCnt = 0; tryCnt < 10; tryCnt++)
+	//	{
+
+	//		// 再度、モデル全体と衝突検出するには、効率が悪過ぎるので、
+	//		// 最初の衝突判定で検出した衝突ポリゴン1枚と衝突判定を取る
+	//		int pHit = HitCheck_Capsule_Triangle(
+	//			pos_, pos_, 10.0f,
+	//			hit.Position[0], hit.Position[1], hit.Position[2]);
+
+	//		if (pHit)
+	//		{
+
+	//			pHit_ = true;
+
+	//			// 法線の方向にちょっとだけ移動させる
+	//			movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 10.0f));
+
+	//			// カプセルも一緒に移動させる
+	//			pos_ = movedPos_;
+
+	//		}
+	//		else
+	//		{
+	//			pHit_ = false;
+	//		}
+
+	//		break;
+
+	//	}
+
+	//}
+
+	// 検出した地面ポリゴン情報の後始末
+	MV1CollResultPolyDimTerminate(hits);
 
 }
 

@@ -114,10 +114,18 @@ public:
 
 	Camera::MODE GetMode(void);
 
+	//	ロックオン中のY軸の角度を足す
 	void AddLockOnAnglesY(float rad);
+
+	// ステージのモデルIDを設定
+	void SetStageID(const int modelId);
 
 private:
 
+	// ステージのID
+	int stageId_;
+
+	// ロックオンのフラグ
 	bool lockOn_;
 
 	// カメラモード
@@ -125,6 +133,9 @@ private:
 
 	// カメラの位置
 	VECTOR pos_;
+
+	// 移動後座標
+	VECTOR movedPos_;
 
 	// カメラの注視点
 	VECTOR targetPos_;
@@ -162,6 +173,12 @@ private:
 	// マウスの縦移動
 	float rotPowX_;
 
+	// 追従対象からカメラまでの相対座標	
+	VECTOR relativeCPos_;
+
+	// ポリゴンと当たっているか
+	bool pHit_;
+
 	// カメラを初期位置に戻す
 	void SetDefault(void);
 
@@ -178,6 +195,9 @@ private:
 
 	// ゲームパッドの操作
 	void GamePadController(void);
+
+	// ステージとの当たり判定
+	void CollisionStage(void);
 
 };
 

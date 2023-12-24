@@ -35,12 +35,15 @@ void GameScene::Init(void)
 
 	// プレイヤーの生成
 	player_ = new Player();
+	player_->SetStageID(stage_->GetModelId());
 	player_->Init();
+
 
 	// 敵の生成
 	enemy_ = new Enemy();
 	player_->SetFollow(&enemy_->GetTransform());
 	enemy_->SetFollow(&player_->GetTransform());
+	enemy_->SetStageID(stage_->GetModelId());
 	enemy_->Init();
 
 	// 剣の生成
@@ -52,6 +55,7 @@ void GameScene::Init(void)
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 	camera->SetPlayer(&player_->GetTransform());
 	camera->SetEnemy(&enemy_->GetTransform());
+	camera->SetStageID(stage_->GetModelId());
 	camera->ChangeMode(Camera::MODE::FOLLOW);
 
 }
@@ -76,13 +80,70 @@ void GameScene::Update(void)
 	// 剣の更新
 	sword_->Update();
 
+	CollisionEnemyAndPlayer();
+
+
+
+}
+
+void GameScene::Draw(void)
+{
+
+	// グリッド線の描画
+	grid_->Draw();
+
+	// ステージの描画
+	stage_->Draw();
+
+	// プレイヤーの描画
+	player_->Draw();
+
+	// 敵の描画
+	enemy_->Draw();
+
+	// 剣の描画
+	sword_->Draw();
+
+	// デバッグ描画
+	DrawDebug();
+
+}
+
+void GameScene::Release(void)
+{
+
+	// グリッド線の解放
+	grid_->Release();
+	delete grid_;
+
+	// ステージの開放
+	stage_->Release();
+	delete stage_;
+
+	// プレイヤーの解放
+	player_->Release();
+	delete player_;
+
+	// 敵の開放
+	enemy_->Release();
+	delete enemy_;
+
+	// 剣の開放
+	sword_->Release();
+	delete sword_;
+
+}
+
+void GameScene::CollisionEnemyAndPlayer()
+{
+
 	// プレイヤーの剣と敵のカプセル同士の当たり判定
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (player_->GetState() == Player::STATE::ATTACK
 			|| player_->GetState() == Player::STATE::ATTACK2
-			|| player_->GetState() == Player::STATE::ATTACK3)
-		|| player_->GetState() == Player::STATE::CHARGE_ATTACK)
+			|| player_->GetState() == Player::STATE::ATTACK3
+			|| player_->GetState() == Player::STATE::CHARGE_ATTACK))
 	{
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
@@ -139,54 +200,6 @@ void GameScene::Update(void)
 			enemy_->SetHit(true);
 		}
 	}
-
-}
-
-void GameScene::Draw(void)
-{
-
-	// グリッド線の描画
-	grid_->Draw();
-
-	// ステージの描画
-	stage_->Draw();
-
-	// プレイヤーの描画
-	player_->Draw();
-
-	// 敵の描画
-	enemy_->Draw();
-
-	// 剣の描画
-	sword_->Draw();
-
-	// デバッグ描画
-	DrawDebug();
-
-}
-
-void GameScene::Release(void)
-{
-
-	// グリッド線の解放
-	grid_->Release();
-	delete grid_;
-
-	// ステージの開放
-	stage_->Release();
-	delete stage_;
-
-	// プレイヤーの解放
-	player_->Release();
-	delete player_;
-
-	// 敵の開放
-	enemy_->Release();
-	delete enemy_;
-
-	// 剣の開放
-	sword_->Release();
-	delete sword_;
 
 }
 

@@ -9,7 +9,7 @@ class Enemy : public UnitBase
 public:
 
 	// エネミー自身のカプセルの下の相対座標
-	static constexpr VECTOR LOCAL_BODY_C_DOWN_POS = { 0.0f,50.0f,0.0f };
+	static constexpr VECTOR LOCAL_BODY_C_DOWN_POS = { 0.0f,0.0f,0.0f };
 
 	// エネミー自身のカプセルの上の相対座標
 	static constexpr VECTOR LOCAL_BODY_C_UP_POS = { 0.0f,-100.0f,-50.0f };
@@ -215,14 +215,20 @@ public:
 	// 弾
 	std::vector<ShotEnemy*>& GetShots(void);
 
+	// ステージのモデルIDを設定
+	void SetStageID(const int modelId);
+
 protected:
 
 	// 弾
 	std::vector<ShotEnemy*> shots_;
 
-	// プレイヤーの状態
+	// 状態
 	STATE state_;
 	STATE preState_;
+
+	// ステージモデルID
+	int stageId_;
 
 	// 待機アニメーション
 	int idleAnim_;
@@ -341,7 +347,14 @@ protected:
 	// ロックオンカーソルの添え字を増やすカウンタ
 	float lockOnCursorTime_;
 
+	// ロックオンカーソルのY座標を制御する座標
 	VECTOR pos_;
+
+	// 移動後座標
+	VECTOR movedPos_;
+
+	// 移動量
+	VECTOR movePow_;
 
 	// 行動の選択
 	void Think(void);
@@ -378,6 +391,9 @@ protected:
 
 	// 衝突判定
 	void Collision(void);
+
+	// ステージとの衝突判定
+	void CollisionStage(void);
 
 	// 敵自身の衝突判定
 	void EnemyBodyCollision(void);

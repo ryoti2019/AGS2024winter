@@ -377,6 +377,11 @@ std::vector<ShotEnemy*>& Enemy::GetShots(void)
 	return shots_;
 }
 
+void Enemy::SetStageID(const int modelId)
+{
+	stageId_ = modelId;
+}
+
 void Enemy::Think(void)
 {
 
@@ -468,10 +473,10 @@ void Enemy::Think(void)
 
 	// ショット攻撃-------------------------------------------
 
-	if (attackNumber_ == 2)
-	{
-		ChangeState(STATE::CREATE);
-	}
+	//if (attackNumber_ == 2)
+	//{
+	//	ChangeState(STATE::CREATE);
+	//}
 
 }
 
@@ -539,8 +544,14 @@ void Enemy::UpdateWalk(void)
 	// 正規化
 	pDirection_ = VNorm(vec);
 
+	// 移動量
+	movePow_ = VScale(pDirection_, WALK_SPEED);
+
+	// 現在座標を起点に移動後座標を決める
+	movedPos_ = VAdd(transform_.pos, movePow_);
+
 	// 移動処理
-	transform_.pos = VAdd(transform_.pos, VScale(pDirection_, WALK_SPEED));
+	transform_.pos = movedPos_;
 
 }
 
@@ -565,12 +576,19 @@ void Enemy::UpdateJumpAttack(void)
 	float length = AsoUtility::Magnitude(vec);
 	attack_ = false;
 
+	// 移動量
+	movePow_ = VScale(pDirection_, JUMP_ATTACK_SPEED);
+
+	// 現在座標を起点に移動後座標を決める
+	movedPos_ = VAdd(transform_.pos, movePow_);
+
 	// プレイヤーとの距離が10.0f未満になるまで移動
 	if (stepAnim_ <= JUMP_ATTACK_END_TIME)
 	{
 		if (length >= JUMP_ATTACK_RANGE_MIN)
 		{
-			transform_.pos = VAdd(transform_.pos, VScale(pDirection_, JUMP_ATTACK_SPEED));
+			// 現在座標を起点に移動後座標を決める
+			movedPos_ = VAdd(transform_.pos, movePow_);
 		}
 	}
 
@@ -590,9 +608,16 @@ void Enemy::UpdateTackle(void)
 
 	// タックルし続ける間は座標を動かす
 	if (tackleCnt_ > 0.0f)
+	
 	{
+		// 移動量
+		movePow_ = VScale(pDirection_, TACKLE_SPEED);
+
+		// 現在座標を起点に移動後座標を決める
+		movedPos_ = VAdd(transform_.pos, movePow_);
+
 		// 移動処理
-		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, TACKLE_SPEED));
+		transform_.pos = movedPos_;
 	}
 
 	// 終わったらIDLEに戻す
@@ -654,7 +679,62 @@ void Enemy::Collision(void)
 	// 敵の武器の当たり判定
 	WeponCollision();
 
+	// ステージとの衝突判定
+	CollisionStage();
+
 	transform_.Update();
+
+}
+
+void Enemy::CollisionStage(void)
+{
+
+	// カプセルとの衝突判定
+	auto hits = MV1CollCheck_Capsule(
+		stageId_, -1,
+		cBodyPosUp_, cBodyPosDown_, COLLISION_BODY_RADIUS);
+
+	// 衝突した複数のポリゴンと衝突回避するまで、
+	// プレイヤーの位置を移動させる
+	for (int i = 0; i < hits.HitNum; i++)
+	{
+
+		auto hit = hits.Dim[i];
+
+		// 地面と異なり、衝突回避位置が不明なため、何度か移動させる
+		// この時、移動させる方向は、移動前座標に向いた方向であったり、
+		// 衝突したポリゴンの法線方向だったりする
+		for (int tryCnt = 0; tryCnt < 10; tryCnt++)
+		{
+
+			// 再度、モデル全体と衝突検出するには、効率が悪過ぎるので、
+			// 最初の衝突判定で検出した衝突ポリゴン1枚と衝突判定を取る
+			int pHit = HitCheck_Capsule_Triangle(
+				cBodyPosUp_, cBodyPosDown_, COLLISION_BODY_RADIUS,
+				hit.Position[0], hit.Position[1], hit.Position[2]);
+
+			if (pHit)
+			{
+
+				// 法線の方向にちょっとだけ移動させる
+				movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 1.0f));
+
+				// カプセルも一緒に移動させる
+				transform_.pos.x = movedPos_.x;
+				transform_.pos.z = movedPos_.z;
+				transform_.Update();
+				continue;
+
+			}
+
+			break;
+
+		}
+
+	}
+
+	// 検出した地面ポリゴン情報の後始末
+	MV1CollResultPolyDimTerminate(hits);
 
 }
 
@@ -716,6 +796,9 @@ void Enemy::WeponCollision(void)
 
 void Enemy::ChangeState(STATE state)
 {
+
+	// 前の状態を保持する
+	preState_ = state_;
 
 	// 状態の更新
 	state_ = state;
@@ -1062,7 +1145,7 @@ void Enemy::Animation(void)
 				startRotation_ = true;
 
 			}
-			if (isNoPlay_ && state_ == STATE::IDLE)
+			if (isNoPlay_ && state_ == STATE::IDLE && preState_ != STATE::WALK)
 			{
 				noPlayTime_ = COOL_TIME;
 				isNoPlay_ = false;

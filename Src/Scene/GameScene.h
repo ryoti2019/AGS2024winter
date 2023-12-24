@@ -40,6 +40,9 @@ private:
 	// 剣
 	Sword* sword_;
 
+	// プレイヤーと敵同士の当たり判定
+	void CollisionEnemyAndPlayer();
+
 	// デバッグ描画
 	void DrawDebug(void);
 

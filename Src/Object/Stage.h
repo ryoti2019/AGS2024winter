@@ -18,8 +18,10 @@ public:
 	void Draw(void);
 	void Release(void);
 
-	//// モデルIDのゲッター
-	//int GetModelId(void);
+	// モデルIDのゲッター
+	int GetModelId(void);
+
+
 
 private:
 

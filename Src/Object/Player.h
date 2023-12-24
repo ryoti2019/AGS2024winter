@@ -1,6 +1,7 @@
 #pragma once
 #include "Common/Transform.h"
 #include "UnitBase.h"
+class Stage;
 
 class Player : public UnitBase
 {
@@ -173,6 +174,9 @@ public:
 	// 追従対象の設定
 	void SetFollow(const Transform* follow);
 
+	// ステージのモデルIDを設定
+	void SetStageID(const int modelId);
+
 protected:
 
 	// プレイヤーの状態
@@ -183,6 +187,9 @@ protected:
 
 	// 追従対象
 	const Transform* followTransform_;
+
+	// ステージのID
+	int stageId_;
 
 	// 攻撃フラグ
 	bool attack_;
@@ -239,6 +246,9 @@ protected:
 	VECTOR cBodyPosUp_;
 	VECTOR cBodyPosDown_;
 
+	// 移動方向
+	VECTOR moveDir_;
+
 	// 移動差
 	VECTOR moveDiff_;
 
@@ -288,8 +298,11 @@ protected:
 	// 衝突判定
 	void Collision(void);
 
-	// 敵自身の衝突判定
+	// 自身の衝突判定
 	void PlayerBodyCollision(void);
+
+	// ステージとの当たり判定
+	void CollisionStage(void);
 
 	// 状態遷移
 	void ChangeState(STATE state);

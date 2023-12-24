@@ -4,6 +4,7 @@
 #include "../Application.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
+#include "Stage.h"
 #include "Enemy.h"
 #include "Player.h"
 
@@ -113,6 +114,9 @@ void Player::Init(void)
 
 	// 攻撃４
 	chargeAttack_ = false;
+
+	// 移動方向
+	moveDir_ = AsoUtility::VECTOR_ZERO;
 
 }
 
@@ -328,11 +332,19 @@ void Player::SetFollow(const Transform* follow)
 	followTransform_ = follow;
 }
 
+void Player::SetStageID(const int modelId)
+{
+	stageId_ = modelId;
+}
+
 void Player::Collision(void)
 {
 
 	// 敵自身の当たり判定
 	PlayerBodyCollision();
+
+	// ステージの当たり判定
+	CollisionStage();
 
 }
 
@@ -360,6 +372,58 @@ void Player::PlayerBodyCollision(void)
 	// プレイヤーの位置の更新
 	cBodyPosDown_ = VAdd(pos, cPosDOWN);
 	cBodyPosUp_ = VAdd(pos, cPosUP);
+
+}
+
+void Player::CollisionStage(void)
+{
+
+	// カプセルとの衝突判定
+	auto hits = MV1CollCheck_Capsule(
+		stageId_, -1,
+		cBodyPosUp_, cBodyPosDown_, COLLISION_BODY_RADIUS);
+
+	// 衝突した複数のポリゴンと衝突回避するまで、
+	// プレイヤーの位置を移動させる
+	for (int i = 0; i < hits.HitNum; i++)
+	{
+
+		auto hit = hits.Dim[i];
+
+		// 地面と異なり、衝突回避位置が不明なため、何度か移動させる
+		// この時、移動させる方向は、移動前座標に向いた方向であったり、
+		// 衝突したポリゴンの法線方向だったりする
+		for (int tryCnt = 0; tryCnt < 10; tryCnt++)
+		{
+
+			// 再度、モデル全体と衝突検出するには、効率が悪過ぎるので、
+			// 最初の衝突判定で検出した衝突ポリゴン1枚と衝突判定を取る
+			int pHit = HitCheck_Capsule_Triangle(
+				cBodyPosUp_, cBodyPosDown_, COLLISION_BODY_RADIUS,
+				hit.Position[0], hit.Position[1], hit.Position[2]);
+
+			if (pHit)
+			{
+
+				// 法線の方向にちょっとだけ移動させる
+				movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 1.0f));
+
+				// カプセルも一緒に移動させる
+				transform_.pos.x = movedPos_.x;
+				transform_.pos.z = movedPos_.z;
+				transform_.Update();
+				continue;
+
+			}
+
+			break;
+
+		}
+
+	}
+
+	// 検出した地面ポリゴン情報の後始末
+	MV1CollResultPolyDimTerminate(hits);
 
 }
 
@@ -393,8 +457,6 @@ void Player::KeyboardMove(void)
 
 	// 方向(direction)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
-
-	VECTOR moveDir = AsoUtility::VECTOR_ZERO;
 
 	// WASDでプレイヤーの位置を変える
 	
@@ -430,9 +492,25 @@ void Player::KeyboardMove(void)
 	}
 
 	//溜めながら歩く
-	if (ins.IsClickMouseLeft() && state_ != STATE::HIT)
+	if (ins.IsClickMouseLeft() && !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT)
 	{
+
+		// 方向を正規化
+		dir = VNorm(dir);
+
+		// Y軸の行列
+		MATRIX mat = MGetIdent();
+		mat = MMult(mat, MGetRotY(cameraAngles.y));
+
+		// 回転行列を使用して、ベクトルを回転させる
+		moveDir_ = VTransform(dir, mat);
+
+		// 移動量
 		speed_ = MOVE_POW_CHRAGE_WALK;
+
+		// 方向を角度に変換する(XZ平面 Y軸)
+		float angle = atan2f(dir.x, dir.z);
+
 	}
 
 	// 回避
@@ -450,7 +528,7 @@ void Player::KeyboardMove(void)
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
 
 		// 回転行列を使用して、ベクトルを回転させる
-		moveDir = VTransform(dir, mat);
+		moveDir_ = VTransform(dir, mat);
 
 		// 移動量
 		speed_ = MOVE_POW_RUN;
@@ -476,7 +554,7 @@ void Player::KeyboardMove(void)
 		mat = MMult(mat, MGetRotY(cameraAngles.y));
 
 		// 回転行列を使用して、ベクトルを回転させる
-		moveDir = VTransform(dir, mat);
+		moveDir_ = VTransform(dir, mat);
 
 		// ロックオン時は相手に近づくのに制限をつける
 		if (camera->GetMode() == Camera::MODE::LOCKON)
@@ -496,7 +574,7 @@ void Player::KeyboardMove(void)
 		state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK)
 	{
 		// 移動量
-		movePow_ = VScale(moveDir, speed_);
+		movePow_ = VScale(moveDir_, speed_);
 
 		// 現在座標を起点に移動後座標を決める
 		movedPos_ = VAdd(transform_.pos, movePow_);
@@ -547,7 +625,7 @@ void Player::KeyboardMove(void)
 
 	}
 
-	//  移動
+	// 敵と衝突していたら座標を戻す
 	moveDiff_ = VSub(movedPos_, transform_.pos);
 	transform_.pos = movedPos_;
 

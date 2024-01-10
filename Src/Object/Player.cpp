@@ -210,6 +210,8 @@ void Player::Update(void)
 	// Õ“Ë”»’è
 	Collision();
 
+	transform_.pos.y = 0.0f;
+
 	transform_.Update();
 
 }
@@ -409,8 +411,7 @@ void Player::CollisionStage(void)
 				movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 1.0f));
 
 				// ƒJƒvƒZƒ‹‚àˆê‚ÉˆÚ“®‚³‚¹‚é
-				transform_.pos.x = movedPos_.x;
-				transform_.pos.z = movedPos_.z;
+				transform_.pos = movedPos_;
 				transform_.Update();
 				continue;
 

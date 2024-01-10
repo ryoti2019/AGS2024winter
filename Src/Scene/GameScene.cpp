@@ -138,12 +138,27 @@ void GameScene::CollisionEnemyAndPlayer()
 {
 
 	// ƒvƒŒƒCƒ„[‚ÌŒ•‚Æ“G‚ÌƒJƒvƒZƒ‹“¯Žm‚Ì“–‚½‚è”»’è
+	// ŽãUŒ‚
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (player_->GetState() == Player::STATE::ATTACK
 			|| player_->GetState() == Player::STATE::ATTACK2
-			|| player_->GetState() == Player::STATE::ATTACK3
-			|| player_->GetState() == Player::STATE::CHARGE_ATTACK))
+			|| player_->GetState() == Player::STATE::ATTACK3))
+	{
+		// ƒvƒŒƒCƒ„[‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
+		if (player_->GetAttack())
+		{
+			enemy_->SetHP(-5);
+			//enemy_->SetState(Enemy::STATE::HIT);
+			player_->SetAttack(false);
+			player_->SetHit(true);
+		}
+	}
+
+	// —­‚ßUŒ‚
+	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
+		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
+		&& player_->GetState() == Player::STATE::CHARGE_ATTACK)
 	{
 		// ƒvƒŒƒCƒ„[‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
 		if (player_->GetAttack())

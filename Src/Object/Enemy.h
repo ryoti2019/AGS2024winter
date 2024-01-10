@@ -36,10 +36,10 @@ public:
 	static constexpr float FIRST_WALK_TIME = 2.0f;
 
 	// アタック時の攻撃範囲
-	static constexpr float ATTACK_RANGE = 400.0f;
+	static constexpr float ATTACK_RANGE = 200.0f;
 
 	// ジャンプアタックの攻撃範囲(最低)
-	static constexpr float JUMP_ATTACK_RANGE_MIN = 400.0f;
+	static constexpr float JUMP_ATTACK_RANGE_MIN = 200.0f;
 
 	// ジャンプアタックの攻撃範囲(最高)
 	static constexpr float JUMP_ATTACK_RANGE_MAX = 3000.0f;
@@ -75,7 +75,7 @@ public:
 	static constexpr float JUMP_ATTACK_COLLISION_END_TIME = 60.0f;
 
 	// ジャンプアタックが終わる時間
-	static constexpr float JUMP_ATTACK_END_TIME = 300.0f;
+	static constexpr float JUMP_ATTACK_END_TIME = 200.0f;
 
 	// 弾の生成が始まる時間
 	static constexpr float SHOT_CREATE_START_TIME = 10.0f;
@@ -132,7 +132,7 @@ public:
 	static constexpr float TIME_DELAY_SHOT = 2.0f;
 
 	// 敵のクールタイム
-	static constexpr float COOL_TIME = 5.0f;
+	static constexpr float COOL_TIME = 1.0f;
 
 	// ロックオンカーソルの総数
 	static constexpr int LOCKON_CURSOR_NUM = 59;

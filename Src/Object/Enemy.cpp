@@ -228,6 +228,8 @@ void Enemy::Update(void)
 	// 衝突判定用
 	Collision();
 
+	transform_.pos.y = 0.0f;
+
 	transform_.Update();
 
 	walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
@@ -399,7 +401,6 @@ void Enemy::Think(void)
 
 	// 移動 --------------------------------------------------
 
-	// 移動
 	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
 	{
 		ChangeState(STATE::WALK);
@@ -412,7 +413,7 @@ void Enemy::Think(void)
 
 	// 通常攻撃 ----------------------------------------------
 
-	// プレイヤーの方向を求める
+// プレイヤーの方向を求める
 	vec = VSub(followTransform_->pos, transform_.pos);
 	length = AsoUtility::Magnitude(vec);
 
@@ -420,6 +421,7 @@ void Enemy::Think(void)
 	if (length < ATTACK_RANGE)
 	{
 		ChangeState(STATE::ATTACK);
+		return;
 	}
 
 	// ジャンプ攻撃 ------------------------------------------
@@ -442,41 +444,21 @@ void Enemy::Think(void)
 		{
 			ChangeState(STATE::JUMP_ATTACK);
 		}
-
 	}
 
 	// タックル攻撃 ------------------------------------------
 
 	if (attackNumber_ == 1)
 	{
-
-		// プレイヤーがいた座標を代入
-		attackPlayerPos_ = followTransform_->pos;
-
-		// プレイヤーの方向を求める
-		vec = VSub(attackPlayerPos_, transform_.pos);
-		length = AsoUtility::Magnitude(vec);
-
-		// 正規化
-		pDirection_ = VNorm(vec);
-
-		// タックルし続ける時間
-		tackleCnt_ = TACKLE_TIME;
-
-		// タックル攻撃
-		if (length > ATTACK_RANGE)
-		{
-			ChangeState(STATE::TACKLE);
-		}
-
+		ChangeState(STATE::TACKLE);
 	}
 
 	// ショット攻撃-------------------------------------------
 
-	//if (attackNumber_ == 2)
-	//{
-	//	ChangeState(STATE::CREATE);
-	//}
+	if (attackNumber_ == 2)
+	{
+		ChangeState(STATE::CREATE);
+	}
 
 }
 
@@ -519,15 +501,9 @@ void Enemy::AfterRotation(void)
 	auto goal = Quaternion::Euler(0.0f, angle, 0.0f);
 	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
 
-
-
 	// ラジアンからデグリー
 	float goalDeg = AsoUtility::Rad2DegF(angle);
 	goalDeg = AsoUtility::DegIn360(goalDeg);
-
-
-
-
 
 }
 
@@ -579,16 +555,18 @@ void Enemy::UpdateJumpAttack(void)
 	// 移動量
 	movePow_ = VScale(pDirection_, JUMP_ATTACK_SPEED);
 
-	// 現在座標を起点に移動後座標を決める
-	movedPos_ = VAdd(transform_.pos, movePow_);
-
 	// プレイヤーとの距離が10.0f未満になるまで移動
 	if (stepAnim_ <= JUMP_ATTACK_END_TIME)
 	{
 		if (length >= JUMP_ATTACK_RANGE_MIN)
 		{
+
 			// 現在座標を起点に移動後座標を決める
 			movedPos_ = VAdd(transform_.pos, movePow_);
+
+			// 移動処理
+			transform_.pos = movedPos_;
+
 		}
 	}
 
@@ -608,7 +586,6 @@ void Enemy::UpdateTackle(void)
 
 	// タックルし続ける間は座標を動かす
 	if (tackleCnt_ > 0.0f)
-	
 	{
 		// 移動量
 		movePow_ = VScale(pDirection_, TACKLE_SPEED);
@@ -720,8 +697,7 @@ void Enemy::CollisionStage(void)
 				movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 1.0f));
 
 				// カプセルも一緒に移動させる
-				transform_.pos.x = movedPos_.x;
-				transform_.pos.z = movedPos_.z;
+				transform_.pos = movedPos_;
 				transform_.Update();
 				continue;
 
@@ -1152,6 +1128,7 @@ void Enemy::Animation(void)
 			}
 		}
 	}
+
 	// 再生するアニメーション時間の設定
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 	if (noPlayTime_ >= 0.0f)
@@ -1215,8 +1192,6 @@ void Enemy::Animation(void)
 		ChangeState(STATE::THINK);
 		isNoPlay_ = true;
 	}
-
-
 
 	// アニメーションの固定
 	AnimationFrame();

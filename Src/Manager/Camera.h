@@ -179,6 +179,9 @@ private:
 	// ポリゴンと当たっているか
 	bool pHit_;
 
+	// マウスを一定時間効かなくするカウンタ
+	float mouseCnt_;
+
 	// カメラを初期位置に戻す
 	void SetDefault(void);
 

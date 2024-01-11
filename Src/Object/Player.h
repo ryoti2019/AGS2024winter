@@ -116,6 +116,7 @@ public:
 		ATTACK3,
 		CHARGE_ATTACK,
 		HIT,
+		DEATH,
 		ROLL
 	};
 
@@ -233,6 +234,9 @@ protected:
 	// ダメージヒットアニメーション
 	int hitAnim_;
 	
+	// 死亡アニメーション
+	int deathAnim_;
+
 	// 回避アニメーション
 	int rollAnim_;
 
@@ -339,6 +343,9 @@ protected:
 
 	// ダメージヒットアニメーションの設定
 	void SetHitAnimation(void);
+
+	// 死亡アニメーションの設定
+	void SetDeathAnimation(void);
 
 	// 回避アニメーションの設定
 	void SetRollAnimation(void);

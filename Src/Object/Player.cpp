@@ -22,7 +22,7 @@ void Player::InitAnimation(void)
 	// モデル制御の基本情報
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::PLAYER_IDLE));
+			ResourceManager::SRC::PLAYER_MODEL));
 
 	// 待機アニメーション
 	idleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
@@ -51,6 +51,10 @@ void Player::InitAnimation(void)
 	// ダメージヒットアニメーション
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_HIT);
+
+	// 死亡アニメーション
+	deathAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_DEATH);
 
 	// 回避アニメーション
 	rollAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
@@ -184,6 +188,8 @@ void Player::Update(void)
 		break;
 	case Player::STATE::HIT:
 		break;
+	case Player::STATE::DEATH:
+		break;
 	case Player::STATE::ROLL:
 		if (stepAnim_ >= 45.0f)
 		{
@@ -192,16 +198,21 @@ void Player::Update(void)
 		break;
 	}
 
-	// キーボードでの操作
-	if (!SceneManager::GetInstance().GetGamePad())
+	// HPが0になったら操作できないようにする
+	if (hp_ > 0)
 	{
-		KeyboardContoroller();
-	}
 
-	// ゲームパッドでの操作
-	if (SceneManager::GetInstance().GetGamePad())
-	{
-		GamePadController();
+		// キーボードでの操作
+		if (!SceneManager::GetInstance().GetGamePad())
+		{
+			KeyboardContoroller();
+		}
+
+		// ゲームパッドでの操作
+		if (SceneManager::GetInstance().GetGamePad())
+		{
+			GamePadController();
+		}
 	}
 
 	// アニメーション処理
@@ -1156,6 +1167,9 @@ void Player::ChangeState(STATE state)
 	case Player::STATE::HIT:
 		SetHitAnimation();
 		break;
+	case Player::STATE::DEATH:
+		SetDeathAnimation();
+		break;
 	case Player::STATE::ROLL:
 		SetRollAnimation();
 		break;
@@ -1336,6 +1350,25 @@ void Player::SetHitAnimation(void)
 
 }
 
+void Player::SetDeathAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, deathAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
 void Player::SetRollAnimation(void)
 {
 
@@ -1444,24 +1477,28 @@ void Player::Animation(void)
 
 	// アニメーション時間の進行
 	stepAnim_ += (speedAnim_ * deltaTime);
-	if (stepAnim_ > animTotalTime_)
+
+	if (hp_ > 0)
 	{
-		// ループ再生
-		stepAnim_ = 0.0f;
-
-		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
-			|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK 
-			|| state_ == STATE::HIT || state_ == STATE::ROLL)
+		if (stepAnim_ > animTotalTime_)
 		{
+			// ループ再生
 			stepAnim_ = 0.0f;
-			attack1_ = false;
-			attack2_ = false;
-			attack3_ = false;
-			chargeAttack_ = false;
 
-			hit_ = false;
-			ChangeState(STATE::IDLE);
-			chargeCnt = 0.0f;
+			if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
+				|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK
+				|| state_ == STATE::HIT || state_ == STATE::ROLL)
+			{
+				stepAnim_ = 0.0f;
+				attack1_ = false;
+				attack2_ = false;
+				attack3_ = false;
+				chargeAttack_ = false;
+
+				hit_ = false;
+				ChangeState(STATE::IDLE);
+				chargeCnt = 0.0f;
+			}
 		}
 	}
 

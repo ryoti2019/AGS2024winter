@@ -56,6 +56,10 @@ void Enemy::InitAnimation(void)
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_HIT);
 
+	// 死亡アニメーション
+	deathAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::ENEMY_DEATH);
+
 	// 左旋回のアニメーション
 	turnLeftAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::ENEMY_TURN_LEFT);
@@ -103,10 +107,10 @@ void Enemy::Init(void)
 	SetIdleAnimation();
 
 	// カプセルをアタッチするフレームの番号を検索
-	enemyAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:Spine2");
+	enemyAttachFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Spine2");
 
 	// 武器をアタッチするフレームの番号を検索
-	weponAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:LeftHand");
+	weponAttachFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:LeftHand");
 
 	// フレーム番号をフレーム名で取得する
 	enemyPosFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Hips");
@@ -163,7 +167,7 @@ void Enemy::Update(void)
 		// アニメーション処理
 	Animation();
 
-	if (noPlayTime_ > 0.0f)
+	if (noPlayTime_ > 0.0f || hp_ <= 0)
 	{
 		return;
 	}
@@ -215,6 +219,8 @@ void Enemy::Update(void)
 		break;
 	case Enemy::STATE::HIT:
 		//UpdateHit();
+		break;
+	case Enemy::STATE::DEATH:
 		break;
 	case Enemy::STATE::TURN_LEFT:
 		break;
@@ -801,6 +807,7 @@ void Enemy::ChangeState(STATE state)
 		SetJumpAttackAnimation();
 		break;
 	case Enemy::STATE::TACKLE:
+		tackleCnt_ = 4.0f;
 		SetTackleAnimation();
 		break;
 	case Enemy::STATE::CREATE:
@@ -813,6 +820,9 @@ void Enemy::ChangeState(STATE state)
 	case Enemy::STATE::HIT:
 		attackPlayerPos_ = followTransform_->pos;
 		SetHitAnimation();
+		break;
+	case Enemy::STATE::DEATH:
+		SetDeathAnimation();
 		break;
 	case Enemy::STATE::TURN_LEFT:
 		SetTurnLeftAnimation();
@@ -973,6 +983,25 @@ void Enemy::SetHitAnimation(void)
 
 	// アニメーション時間の初期化
 	stepAnim_ = 10.0f;
+
+}
+
+void Enemy::SetDeathAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, deathAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 15.0f;
 
 }
 

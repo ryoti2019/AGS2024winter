@@ -333,6 +333,8 @@ void Camera::ChangeMode(MODE mode)
 	switch (mode_)
 	{
 	case Camera::MODE::FIXED_POINT:
+		pos_ = { 0.0f,0.0f,-500.0f };
+		targetPos_ = { 0.0f,0.0f,0.0f };
 		break;
 	case Camera::MODE::FREE:
 		break;

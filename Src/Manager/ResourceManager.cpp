@@ -44,6 +44,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/Map.mv1");
 	resourcesMap_.emplace(SRC::TEST_STAGE3, res);
 
+	// プレイヤーのモデル
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_MODEL, res);
+
 	// プレイヤーの待機アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Idle.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_IDLE, res);
@@ -76,6 +80,14 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Stand To Roll.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ROLL, res);
 
+	// プレイヤーの死亡アニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Death.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_DEATH, res);
+
+	// プレイヤーのゲームオーバーシーンのアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sad Idle.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_GAMEOVER, res);
+
 	// 敵の待機アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Breathing Idle.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_IDLE, res);
@@ -107,6 +119,10 @@ void ResourceManager::Init(void)
 	// 敵のダメージヒットアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Zombie Reaction Hit.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_HIT, res);
+
+	// 敵の死亡アニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Dying.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_DEATH, res);
 
 	// 敵の左旋回アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Left Turn 45.mv1");

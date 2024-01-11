@@ -4,6 +4,8 @@
 #include "../Scene/TitleScene.h"
 #include "../Scene/GameScene.h"
 #include"../Scene/SpecialMoveScene.h"
+#include "../Scene/GameClearScene.h"
+#include "../Scene/GameOverScene.h"
 #include "ResourceManager.h"
 #include "Camera.h"
 #include "SceneManager.h"
@@ -233,6 +235,12 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 		break;
 	case SCENE_ID::SPECIALMOVE:
 		scene_ = new SpecialMoveScene();
+		break;
+	case SCENE_ID::GAMECLEAR:
+		scene_ = new GameClearScene();
+		break;
+	case SCENE_ID::GAMEOVER:
+		scene_ = new GameOverScene();
 		break;
 	}
 

@@ -41,11 +41,11 @@ private:
 	// ゲームオーバーのアニメーション
 	int gameOverAnim_;
 
-	// タイトルロゴ
-	int imgTitleLogo_;
+	// ゲームオーバーの画像
+	int imgGameOver_;
 
-	// タイトルロゴの点滅用のカウンタ
-	int logoBlinkCnt_;
+	// 点滅用のカウンタ
+	int BlinkCnt_;
 
 	// ロゴ描画
 	void DrawLogo(void);

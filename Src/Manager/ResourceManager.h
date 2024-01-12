@@ -12,6 +12,8 @@ public:
 	enum class SRC
 	{
 		TITLE_LOGO,
+		GAMECLEAR,
+		GAMEOVER,
 		TEST_STAGE,
 		TEST_STAGE1,
 		TEST_STAGE2,
@@ -42,6 +44,8 @@ public:
 		CURSOR,
 		SHOT_MODEL,
 		SWORD_MODEL,
+		FIREWORKS_EFFECT,
+		CHARGE_EFFECT,
 	};
 
 	// 明示的にインステンスを生成する

@@ -48,7 +48,7 @@ void TitleScene::Update(void)
 	}
 
 	// 点滅カウンタを加算する
-	logoBlinkCnt_++;
+	BlinkCnt_++;
 
 }
 
@@ -81,7 +81,7 @@ void TitleScene::DrawLogo(void)
 	int width = GetDrawStringWidth(msg.c_str(), len);
 
 	// 点滅させる
-	if ((logoBlinkCnt_ / 30) % 2)
+	if ((BlinkCnt_ / 30) % 2)
 	{
 		DrawFormatString(cx - (width / 2), 500, 0x000000, msg.c_str());
 	}

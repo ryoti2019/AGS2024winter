@@ -104,6 +104,9 @@ public:
 	// 回転完了までの時間
 	static constexpr float TIME_ROT = 0.2f;
 
+	// 溜めのエフェクトの相対座標
+	static constexpr VECTOR LOCAL_CHRAGE_POS = { 0.0f,100.0f,0.0f };
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -280,6 +283,11 @@ protected:
 	// 必殺技のムービーカウンタ
 	float specialCnt_;
 
+	// エフェクト
+	int effectChargeResId_;
+	int effectChargePlayId_;
+	VECTOR effectChargePos_;
+
 	// 移動処理
 	void KeyboardMove(void);
 	void GamePadMove(void);
@@ -376,6 +384,15 @@ protected:
 
 	// 必殺技
 	void SpecialMoveUpdate(void);
+
+	// エフェクトの初期化
+	void InitEffect(void);
+
+	// エフェクト再生
+	void PlayEffect(void);
+
+	// エフェクト位置
+	void SyncEffect(void);
 
 };
 

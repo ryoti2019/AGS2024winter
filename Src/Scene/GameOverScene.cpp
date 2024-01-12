@@ -10,7 +10,7 @@
 
 GameOverScene::GameOverScene(void)
 {
-	imgTitleLogo_ = -1;
+	imgGameOver_ = -1;
 }
 
 GameOverScene::~GameOverScene(void)
@@ -19,6 +19,7 @@ GameOverScene::~GameOverScene(void)
 
 void GameOverScene::InitAnimation(void)
 {
+
 	// モデル制御の基本情報
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
@@ -31,7 +32,7 @@ void GameOverScene::InitAnimation(void)
 	// transformの初期化
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = { 0.0f, 0.0f, 0.0f };
+	transform_.pos = { 0.0f, -150.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
 	transform_.Update();
@@ -100,7 +101,7 @@ void GameOverScene::Init(void)
 	SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FIXED_POINT);
 
 	// タイトルロゴ
-	imgTitleLogo_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TITLE_LOGO).handleId_;
+	imgGameOver_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAMEOVER).handleId_;
 
 }
 
@@ -109,8 +110,6 @@ void GameOverScene::Update(void)
 
 	// アニメーション処理
 	Animation();
-
-	transform_.pos = { 0.0f,0.0f,0.0f };
 
 	// シーン遷移
 	InputManager& ins = InputManager::GetInstance();
@@ -129,7 +128,7 @@ void GameOverScene::Update(void)
 	}
 
 	// 点滅カウンタを加算する
-	logoBlinkCnt_++;
+	BlinkCnt_++;
 
 	transform_.Update();
 
@@ -138,17 +137,22 @@ void GameOverScene::Update(void)
 void GameOverScene::Draw(void)
 {
 
-	// ロードされた３Ｄモデルを画面に描画
-	MV1DrawModel(transform_.modelId);
-
 	// ロゴ描画
 	DrawLogo();
+
+	// ロードされた３Ｄモデルを画面に描画
+	MV1DrawModel(transform_.modelId);
 
 }
 
 void GameOverScene::Release(void)
 {
-	DeleteGraph(imgTitleLogo_);
+
+	DeleteGraph(imgGameOver_);
+
+	// モデルの開放
+	MV1DeleteModel(transform_.modelId);
+
 }
 
 void GameOverScene::DrawLogo(void)
@@ -157,16 +161,19 @@ void GameOverScene::DrawLogo(void)
 	int cx = Application::SCREEN_SIZE_X / 2;
 	int cy = Application::SCREEN_SIZE_Y / 2;
 
+	// ゲームオーバー
+	DrawRotaGraph(cx, cy, 1.0, 0.0, imgGameOver_, true);
+
 	// Pushメッセージ
-	std::string msg = "Space";
+	std::string msg = "Push Space";
 	SetFontSize(40);
 	int len = (int)strlen(msg.c_str());
 	int width = GetDrawStringWidth(msg.c_str(), len);
 
 	// 点滅させる
-	if ((logoBlinkCnt_ / 30) % 2)
+	if ((BlinkCnt_ / 30) % 2)
 	{
-		DrawFormatString(cx - (width / 2), 500, 0x000000, msg.c_str());
+		DrawFormatString(cx - (width / 2), 500, 0xffffff, msg.c_str());
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);

@@ -1,3 +1,4 @@
+#include <EffekseerForDXLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
@@ -92,6 +93,9 @@ void Player::Init(void)
 	// アニメーションの初期設定
 	InitAnimation();
 
+	// エフェクトの初期設定
+	InitEffect();
+
 	// プレイヤーのパラメーター
 	SetParam();
 
@@ -143,6 +147,7 @@ void Player::Update(void)
 	case Player::STATE::WALK:
 		break;
 	case Player::STATE::CHARGE_WALK:
+		SyncEffect();
 		break;
 	case Player::STATE::RUN:
 		break;
@@ -274,6 +279,55 @@ void Player::SpecialMoveUpdate(void)
 	{
 		SpecialChangeState(SPECIAL_STATE::IDLE);
 	}
+
+}
+
+void Player::InitEffect(void)
+{
+
+	// 花火のエフェクト
+	effectChargeResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGE_EFFECT).handleId_;
+
+}
+
+void Player::PlayEffect(void)
+{
+
+	// エフェクト再生
+	effectChargePlayId_ = PlayEffekseer3DEffect(effectChargeResId_);
+
+	float SCALE = 20.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectChargePlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	SyncEffect();
+
+}
+
+void Player::SyncEffect(void)
+{
+
+
+	// 追従対象(プレイヤー機)の位置
+	VECTOR followPos = transform_.pos;
+
+	// 追従対象の向き
+	Quaternion followRot = transform_.quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectLPos = followRot.PosAxis(LOCAL_CHRAGE_POS);
+
+	// エフェクトの位置の更新
+	effectChargePos_ = VAdd(followPos, effectLPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectChargePlayId_, effectChargePos_.x, effectChargePos_.y, effectChargePos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectChargePlayId_, rot.x, rot.y, rot.z);
+
+	transform_.Update();
 
 }
 
@@ -483,20 +537,20 @@ void Player::KeyboardMove(void)
 		&& state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		// 走る
-		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir))
+		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::RUN);
 			speed_ = MOVE_POW_RUN;
 		}
 		// 歩く
-		else if (!AsoUtility::EqualsVZero(dir))
+		else if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::WALK);
 			// 移動量
 			speed_ = MOVE_POW_WALK;
 		}
 		// 待機状態
-		else if (AsoUtility::EqualsVZero(dir))
+		else if (AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
@@ -649,15 +703,6 @@ void Player::KeyboardAttack(void)
 	auto& insInput = InputManager::GetInstance();
 	auto& insScene = SceneManager::GetInstance();
 
-	// 攻撃処理
-	// ボタンがクリックされたかどうかを確認
-	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
-	{
-		chargeCnt += insScene.GetDeltaTime();
-		ChangeState(STATE::CHARGE_WALK);
-	}
-
 	if (insInput.IsTrgUpMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::HIT)
 	{
 
@@ -683,6 +728,20 @@ void Player::KeyboardAttack(void)
 		{
 			attack3_ = true;
 		}
+	}
+
+	// 攻撃処理
+	// ボタンがクリックされたかどうかを確認
+	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
+	{
+		ChangeState(STATE::CHARGE_WALK);
+	}
+
+	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
+	{
+		chargeCnt += insScene.GetDeltaTime();
 	}
 
 	// １段階目が終わったら遷移する
@@ -1129,6 +1188,7 @@ void Player::Rotate(void)
 
 void Player::ChangeState(STATE state)
 {
+	if (state_ == state) return;
 
 	// 状態の更新
 	state_ = state;
@@ -1144,6 +1204,7 @@ void Player::ChangeState(STATE state)
 		break;
 	case Player::STATE::CHARGE_WALK:
 		SetChargeWalkAnimation();
+		PlayEffect();
 		break;
 	case Player::STATE::RUN:
 		SetRunAnimation();

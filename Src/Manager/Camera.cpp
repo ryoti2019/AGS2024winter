@@ -1,3 +1,4 @@
+#include <EffekseerForDXLib.h>
 #include "../Utility/AsoUtility.h"
 #include "InputManager.h"
 #include "SceneManager.h" 
@@ -56,6 +57,9 @@ void Camera::SetBeforeDraw(void)
 		targetPos_,
 		cameraUp_
 	);
+
+	// DXライブラリのカメラとEffekseerのカメラを同期する。
+	Effekseer_Sync3DSetting();
 
 }
 

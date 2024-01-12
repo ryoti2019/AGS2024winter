@@ -25,8 +25,16 @@ void ResourceManager::Init(void)
 	Resource res;
 
 	// タイトルロゴ
-	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Title/Vanquish A Monster.png");
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Scene/Vanquish A Monster.png");
 	resourcesMap_.emplace(SRC::TITLE_LOGO, res);
+
+	// ゲームクリア
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Scene/GameClearImage.png");
+	resourcesMap_.emplace(SRC::GAMECLEAR, res);
+
+	// ゲームオーバー
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Scene/GameOverImage.png");
+	resourcesMap_.emplace(SRC::GAMEOVER, res);
 
 	// テスト用のステージ
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/TestStage.mv1");
@@ -83,6 +91,10 @@ void ResourceManager::Init(void)
 	// プレイヤーの死亡アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Death.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_DEATH, res);
+
+	// プレイヤーのゲームクリアシーンのアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Swing Dancing.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_GAMECLEAR, res);
 
 	// プレイヤーのゲームオーバーシーンのアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sad Idle.mv1");
@@ -143,6 +155,14 @@ void ResourceManager::Init(void)
 	// ロックオンカーソル
 	res = Resource(Resource::TYPE::IMGS, Application::PATH_IMAGE + "UI/enemyCursor.png",20,3,100,100);
 	resourcesMap_.emplace(SRC::CURSOR, res);
+
+	// 花火のエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Scene/Fireworks.efkefc");
+	resourcesMap_.emplace(SRC::FIREWORKS_EFFECT, res);
+
+	// プレイヤーの溜めのエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Player/Charge.efkefc");
+	resourcesMap_.emplace(SRC::CHARGE_EFFECT, res);
 
 }
 

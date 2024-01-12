@@ -240,7 +240,7 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-100);
+			player_->SetHP(-10);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 		}
@@ -256,7 +256,7 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-100);
+			player_->SetHP(-10);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 		}
@@ -271,7 +271,7 @@ void GameScene::CollisionEnemyAndPlayer()
 			&& player_->GetHP() > 0)
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-100);
+			player_->SetHP(-10);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 		}

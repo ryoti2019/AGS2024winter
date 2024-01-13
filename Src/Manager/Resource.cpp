@@ -75,7 +75,7 @@ void Resource::Load(void)
 
 	case Resource::TYPE::EFFEKSEER:
 
-		handleId_ = LoadEffekseerEffect(path_.c_str());
+ 		handleId_ = LoadEffekseerEffect(path_.c_str());
 		break;
 
 	}

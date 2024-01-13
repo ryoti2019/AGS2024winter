@@ -40,6 +40,21 @@ private:
 	// 剣
 	Sword* sword_;
 
+	// ヒットストップ
+	int hitStopCnt_;
+
+	// スロー
+	int slowCnt_;
+
+	// 次のシーンに移るまでの時間
+	float sceneCnt_;
+
+	// 敵が死んだときのフラグ
+	bool enemyDeath_;
+
+	// プレイヤーが死んだときのフラグ
+	bool playerDeath_;
+
 	// プレイヤーと敵同士の当たり判定
 	void CollisionEnemyAndPlayer();
 

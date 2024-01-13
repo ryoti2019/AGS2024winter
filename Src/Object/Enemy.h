@@ -149,6 +149,7 @@ public:
 		CREATE,
 		SHOT,
 		HIT,
+		DEATH,
 		TURN_LEFT,
 		TURN_RIGHT,
 	};
@@ -253,6 +254,9 @@ protected:
 
 	// ダメージヒットアニメーション
 	int hitAnim_;
+
+	// 死亡アニメーション
+	int deathAnim_;
 
 	// 左旋回アニメーション
 	int turnLeftAnim_;
@@ -427,6 +431,9 @@ protected:
 
 	// ダメージヒットヒットアニメーションの設定
 	void SetHitAnimation(void);
+
+	// 死亡アニメーションの設定
+	void SetDeathAnimation(void);
 
 	// 左旋回アニメーションの設定
 	void SetTurnLeftAnimation(void);

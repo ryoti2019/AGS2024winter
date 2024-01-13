@@ -22,8 +22,8 @@ private:
 	// タイトルロゴ
 	int imgTitleLogo_;
 
-	// タイトルロゴの点滅用のカウンタ
-	int logoBlinkCnt_;
+	// 点滅用のカウンタ
+	int BlinkCnt_;
 	
 	// ロゴ描画
 	void DrawLogo(void);

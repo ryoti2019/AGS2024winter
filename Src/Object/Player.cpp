@@ -1,3 +1,4 @@
+#include <EffekseerForDXLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
@@ -22,7 +23,7 @@ void Player::InitAnimation(void)
 	// モデル制御の基本情報
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::PLAYER_IDLE));
+			ResourceManager::SRC::PLAYER_MODEL));
 
 	// 待機アニメーション
 	idleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
@@ -51,6 +52,10 @@ void Player::InitAnimation(void)
 	// ダメージヒットアニメーション
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_HIT);
+
+	// 死亡アニメーション
+	deathAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_DEATH);
 
 	// 回避アニメーション
 	rollAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
@@ -87,6 +92,9 @@ void Player::Init(void)
 
 	// アニメーションの初期設定
 	InitAnimation();
+
+	// エフェクトの初期設定
+	InitEffect();
 
 	// プレイヤーのパラメーター
 	SetParam();
@@ -139,6 +147,7 @@ void Player::Update(void)
 	case Player::STATE::WALK:
 		break;
 	case Player::STATE::CHARGE_WALK:
+		SyncEffect();
 		break;
 	case Player::STATE::RUN:
 		break;
@@ -184,6 +193,8 @@ void Player::Update(void)
 		break;
 	case Player::STATE::HIT:
 		break;
+	case Player::STATE::DEATH:
+		break;
 	case Player::STATE::ROLL:
 		if (stepAnim_ >= 45.0f)
 		{
@@ -192,16 +203,21 @@ void Player::Update(void)
 		break;
 	}
 
-	// キーボードでの操作
-	if (!SceneManager::GetInstance().GetGamePad())
+	// HPが0になったら操作できないようにする
+	if (hp_ > 0)
 	{
-		KeyboardContoroller();
-	}
 
-	// ゲームパッドでの操作
-	if (SceneManager::GetInstance().GetGamePad())
-	{
-		GamePadController();
+		// キーボードでの操作
+		if (!SceneManager::GetInstance().GetGamePad())
+		{
+			KeyboardContoroller();
+		}
+
+		// ゲームパッドでの操作
+		if (SceneManager::GetInstance().GetGamePad())
+		{
+			GamePadController();
+		}
 	}
 
 	// アニメーション処理
@@ -263,6 +279,55 @@ void Player::SpecialMoveUpdate(void)
 	{
 		SpecialChangeState(SPECIAL_STATE::IDLE);
 	}
+
+}
+
+void Player::InitEffect(void)
+{
+
+	// 花火のエフェクト
+	effectChargeResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGE_EFFECT).handleId_;
+
+}
+
+void Player::PlayEffect(void)
+{
+
+	// エフェクト再生
+	effectChargePlayId_ = PlayEffekseer3DEffect(effectChargeResId_);
+
+	float SCALE = 20.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectChargePlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	SyncEffect();
+
+}
+
+void Player::SyncEffect(void)
+{
+
+
+	// 追従対象(プレイヤー機)の位置
+	VECTOR followPos = transform_.pos;
+
+	// 追従対象の向き
+	Quaternion followRot = transform_.quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectLPos = followRot.PosAxis(LOCAL_CHRAGE_POS);
+
+	// エフェクトの位置の更新
+	effectChargePos_ = VAdd(followPos, effectLPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectChargePlayId_, effectChargePos_.x, effectChargePos_.y, effectChargePos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectChargePlayId_, rot.x, rot.y, rot.z);
+
+	transform_.Update();
 
 }
 
@@ -472,20 +537,20 @@ void Player::KeyboardMove(void)
 		&& state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		// 走る
-		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir))
+		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::RUN);
 			speed_ = MOVE_POW_RUN;
 		}
 		// 歩く
-		else if (!AsoUtility::EqualsVZero(dir))
+		else if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::WALK);
 			// 移動量
 			speed_ = MOVE_POW_WALK;
 		}
 		// 待機状態
-		else if (AsoUtility::EqualsVZero(dir))
+		else if (AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
@@ -638,15 +703,6 @@ void Player::KeyboardAttack(void)
 	auto& insInput = InputManager::GetInstance();
 	auto& insScene = SceneManager::GetInstance();
 
-	// 攻撃処理
-	// ボタンがクリックされたかどうかを確認
-	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
-	{
-		chargeCnt += insScene.GetDeltaTime();
-		ChangeState(STATE::CHARGE_WALK);
-	}
-
 	if (insInput.IsTrgUpMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::HIT)
 	{
 
@@ -672,6 +728,20 @@ void Player::KeyboardAttack(void)
 		{
 			attack3_ = true;
 		}
+	}
+
+	// 攻撃処理
+	// ボタンがクリックされたかどうかを確認
+	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
+	{
+		ChangeState(STATE::CHARGE_WALK);
+	}
+
+	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
+	{
+		chargeCnt += insScene.GetDeltaTime();
 	}
 
 	// １段階目が終わったら遷移する
@@ -1118,6 +1188,7 @@ void Player::Rotate(void)
 
 void Player::ChangeState(STATE state)
 {
+	if (state_ == state) return;
 
 	// 状態の更新
 	state_ = state;
@@ -1133,6 +1204,7 @@ void Player::ChangeState(STATE state)
 		break;
 	case Player::STATE::CHARGE_WALK:
 		SetChargeWalkAnimation();
+		PlayEffect();
 		break;
 	case Player::STATE::RUN:
 		SetRunAnimation();
@@ -1155,6 +1227,9 @@ void Player::ChangeState(STATE state)
 		break;
 	case Player::STATE::HIT:
 		SetHitAnimation();
+		break;
+	case Player::STATE::DEATH:
+		SetDeathAnimation();
 		break;
 	case Player::STATE::ROLL:
 		SetRollAnimation();
@@ -1336,6 +1411,25 @@ void Player::SetHitAnimation(void)
 
 }
 
+void Player::SetDeathAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, deathAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = 20.0f;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
 void Player::SetRollAnimation(void)
 {
 
@@ -1444,24 +1538,28 @@ void Player::Animation(void)
 
 	// アニメーション時間の進行
 	stepAnim_ += (speedAnim_ * deltaTime);
-	if (stepAnim_ > animTotalTime_)
+
+	if (hp_ > 0)
 	{
-		// ループ再生
-		stepAnim_ = 0.0f;
-
-		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
-			|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK 
-			|| state_ == STATE::HIT || state_ == STATE::ROLL)
+		if (stepAnim_ > animTotalTime_)
 		{
+			// ループ再生
 			stepAnim_ = 0.0f;
-			attack1_ = false;
-			attack2_ = false;
-			attack3_ = false;
-			chargeAttack_ = false;
 
-			hit_ = false;
-			ChangeState(STATE::IDLE);
-			chargeCnt = 0.0f;
+			if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
+				|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK
+				|| state_ == STATE::HIT || state_ == STATE::ROLL)
+			{
+				stepAnim_ = 0.0f;
+				attack1_ = false;
+				attack2_ = false;
+				attack3_ = false;
+				chargeAttack_ = false;
+
+				hit_ = false;
+				ChangeState(STATE::IDLE);
+				chargeCnt = 0.0f;
+			}
 		}
 	}
 

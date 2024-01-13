@@ -58,12 +58,32 @@ void GameScene::Init(void)
 	camera->SetStageID(stage_->GetModelId());
 	camera->ChangeMode(Camera::MODE::FOLLOW);
 
+	// 敵が死んだ時のフラグ
+	enemyDeath_ = false;
+
 }
 
 void GameScene::Update(void)
 {
 
 	auto& ins = InputManager::GetInstance();
+
+	// ヒットストップで処理中断
+	if (hitStopCnt_ > 0)
+	{
+		hitStopCnt_--;
+		return;
+	}
+
+	// スロー
+	if (slowCnt_ > 0)
+	{
+		slowCnt_--;
+		if (slowCnt_ % 5 != 0)
+		{
+			return;
+		}
+	}
 
 	// グリッド線の更新
 	grid_->Update();
@@ -80,9 +100,45 @@ void GameScene::Update(void)
 	// 剣の更新
 	sword_->Update();
 
+	// 当たり判定
 	CollisionEnemyAndPlayer();
 
+	// ヒットストップを入れる
+	if (enemy_->GetHP() <= 0 && !enemyDeath_)
+	{
+		slowCnt_ = 60;
+		enemyDeath_ = true;
+		enemy_->SetState(Enemy::STATE::DEATH);
+	}
+	
+	if (player_->GetHP() <= 0 && !playerDeath_)
+	{
+		slowCnt_ = 60;
+		playerDeath_ = true;
+		player_->SetState(Player::STATE::DEATH);
+	}
 
+	// 死んだらシーン移行するためにカウンタを増やす
+	if (enemy_->GetHP() <= 0)
+	{
+		sceneCnt_ += SceneManager::GetInstance().GetDeltaTime();
+	}
+
+	if (player_->GetHP() <= 0)
+	{
+		sceneCnt_ += SceneManager::GetInstance().GetDeltaTime();
+	}
+
+	// シーン遷移
+	if (enemy_->GetHP() <= 0 && sceneCnt_ >= 5.0f)
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAMECLEAR);
+	}
+
+	if (player_->GetHP() <= 0 && sceneCnt_ >= 5.0f)
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAMEOVER);
+	}
 
 }
 
@@ -152,6 +208,7 @@ void GameScene::CollisionEnemyAndPlayer()
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
+			hitStopCnt_ = 5;
 		}
 	}
 
@@ -167,6 +224,7 @@ void GameScene::CollisionEnemyAndPlayer()
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
+			hitStopCnt_ = 5;
 		}
 	}
 
@@ -175,7 +233,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::ATTACK
 			|| enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL)
+			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL
+		&& player_->GetHP() > 0)
 	{
 		// 敵の攻撃がすでに当たっていたら入らない
 		if (enemy_->GetAttack())
@@ -190,7 +249,8 @@ void GameScene::CollisionEnemyAndPlayer()
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL)
+			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL
+		&& player_->GetHP() > 0)
 	{
 		// 敵の攻撃がすでに当たっていたら入らない
 		if (enemy_->GetAttack())
@@ -207,7 +267,8 @@ void GameScene::CollisionEnemyAndPlayer()
 	{
 		if (AsoUtility::IsHitSphereCapsule(s->GetPos(), s->GetCollisionRadius(),
 			player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS)
-			&& (s->GetState() == ShotEnemy::STATE::SHOT) && player_->GetState() != Player::STATE::ROLL)
+			&& (s->GetState() == ShotEnemy::STATE::SHOT) && player_->GetState() != Player::STATE::ROLL
+			&& player_->GetHP() > 0)
 		{
 			player_->SetState(Player::STATE::HIT);
 			player_->SetHP(-10);

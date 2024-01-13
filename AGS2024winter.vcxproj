@@ -39,6 +39,8 @@
     <ClCompile Include="Src\Object\Stage.cpp" />
     <ClCompile Include="Src\Object\Sword.cpp" />
     <ClCompile Include="Src\Object\UnitBase.cpp" />
+    <ClCompile Include="Src\Scene\GameClearScene.cpp" />
+    <ClCompile Include="Src\Scene\GameOverScene.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
     <ClCompile Include="Src\Scene\SpecialMoveScene.cpp" />
@@ -66,6 +68,8 @@
     <ClInclude Include="Src\Object\Stage.h" />
     <ClInclude Include="Src\Object\Sword.h" />
     <ClInclude Include="Src\Object\UnitBase.h" />
+    <ClInclude Include="Src\Scene\GameClearScene.h" />
+    <ClInclude Include="Src\Scene\GameOverScene.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Scene\SceneBase.h" />
     <ClInclude Include="Src\Scene\SpecialMoveScene.h" />

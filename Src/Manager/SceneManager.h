@@ -16,6 +16,8 @@ public:
 		TITLE,
 		GAME,
 		SPECIALMOVE,
+		GAMECLEAR,
+		GAMEOVER,
 	};
 	
 	// インスタンスの生成

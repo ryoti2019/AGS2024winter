@@ -46,6 +46,10 @@ public:
 		SWORD_MODEL,
 		FIREWORKS_EFFECT,
 		CHARGE_EFFECT,
+		CHARGE_MUSIC,
+		SLASH_MUSIC1,
+		SLASH_MUSIC2,
+		SLASH_MUSIC3,
 	};
 
 	// 明示的にインステンスを生成する

@@ -96,6 +96,9 @@ void Player::Init(void)
 	// エフェクトの初期設定
 	InitEffect();
 
+	// 音の初期設定
+	InitMusic();
+
 	// プレイヤーのパラメーター
 	SetParam();
 
@@ -152,6 +155,8 @@ void Player::Update(void)
 	case Player::STATE::RUN:
 		break;
 	case Player::STATE::ATTACK:
+		// 風を切る音の再生
+		SlashMusic();
 		if (stepAnim_ >= ATTACK_COLLISION_START_TIME1
 			&& stepAnim_ <= ATTACK_COLLISION_END_TIME1
 			&& !hit_)
@@ -161,9 +166,12 @@ void Player::Update(void)
 		if (stepAnim_ >= ATTACK_END_TIME1 - 1.0f)
 		{
 			attack1_ = false;
+			isMusicSlash_ = true;
 		}
 		break;
 	case Player::STATE::ATTACK2:
+		// 風を切る音の再生
+		SlashMusic();
 		if (stepAnim_ >= ATTACK_COLLISION_START_TIME2
 			&& stepAnim_ <= ATTACK_COLLISION_END_TIME2
 			&& !hit_)
@@ -173,9 +181,12 @@ void Player::Update(void)
 		if (stepAnim_ >= ATTACK_END_TIME2 - 1.0f)
 		{
 			attack2_ = false;
+			isMusicSlash_ = true;
 		}
 		break;
 	case Player::STATE::ATTACK3:
+		// 風を切る音の再生
+		SlashMusic();
 		if (stepAnim_ >= ATTACK_COLLISION_START_TIME3
 			&& stepAnim_ <= ATTACK_COLLISION_END_TIME3
 			&& !hit_)
@@ -285,7 +296,7 @@ void Player::SpecialMoveUpdate(void)
 void Player::InitEffect(void)
 {
 
-	// 花火のエフェクト
+	// 溜めのエフェクト
 	effectChargeResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGE_EFFECT).handleId_;
 
 }
@@ -296,7 +307,7 @@ void Player::PlayEffect(void)
 	// エフェクト再生
 	effectChargePlayId_ = PlayEffekseer3DEffect(effectChargeResId_);
 
-	float SCALE = 20.0f;
+	float SCALE = 100.0f;
 	// 大きさ
 	SetScalePlayingEffekseer3DEffect(effectChargePlayId_, SCALE, SCALE, SCALE);
 
@@ -328,6 +339,89 @@ void Player::SyncEffect(void)
 	SetRotationPlayingEffekseer3DEffect(effectChargePlayId_, rot.x, rot.y, rot.z);
 
 	transform_.Update();
+
+}
+
+void Player::InitMusic(void)
+{
+
+	// 溜める音
+	musicChargeId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGE_MUSIC).handleId_;
+
+	// 風を切る音
+	musicSlash1Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC1).handleId_;
+
+	// 風を切る音
+	musicSlash2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC2).handleId_;
+
+	// 風を切る音
+	musicSlash3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC3).handleId_;
+
+	// 風を切る音のフラグ
+	isMusicSlash_ = true;
+
+}
+
+void Player::SlashMusic(void)
+{
+
+	int number = GetRand(2);
+	if (stepAnim_ >= ATTACK_COLLISION_START_TIME1 && isMusicSlash_ && state_ == STATE::ATTACK)
+	{
+		if (number == 0)
+		{
+			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 1)
+		{
+			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 2)
+		{
+			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+	}
+
+	if (stepAnim_ >= ATTACK_COLLISION_START_TIME2 && isMusicSlash_ && state_ == STATE::ATTACK2)
+	{
+		if (number == 0)
+		{
+			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 1)
+		{
+			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 2)
+		{
+			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+	}
+
+	if (stepAnim_ >= ATTACK_COLLISION_START_TIME3 && isMusicSlash_ && state_ == STATE::ATTACK3)
+	{
+		if (number == 0)
+		{
+			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 1)
+		{
+			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 2)
+		{
+			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+	}
 
 }
 
@@ -558,7 +652,7 @@ void Player::KeyboardMove(void)
 	}
 
 	//溜めながら歩く
-	if (ins.IsClickMouseLeft() && !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT)
+	if (ins.IsClickMouseLeft() && !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 
 		// 方向を正規化
@@ -703,14 +797,21 @@ void Player::KeyboardAttack(void)
 	auto& insInput = InputManager::GetInstance();
 	auto& insScene = SceneManager::GetInstance();
 
-	if (insInput.IsTrgUpMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::HIT)
+	// 攻撃処理
+	// ボタンがクリックされたかどうかを確認
+	if (chargeCnt_ >= 0.1 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT && state_ != STATE::ROLL)
+	{
+		ChangeState(STATE::CHARGE_WALK);
+	}
+
+	if (insInput.IsTrgUpMouseLeft() && chargeCnt_ <= CHARGE_TIME && state_ != STATE::HIT)
 	{
 
 		//ボタンが押されたらアニメーションを切り替える
 		//１段階目
-		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK)
+		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK || state_ == STATE::CHARGE_WALK)
 		{
-			attack_ = true;
 			attack1_ = true;
 			ChangeState(STATE::ATTACK);
 		}
@@ -730,39 +831,31 @@ void Player::KeyboardAttack(void)
 		}
 	}
 
-	// 攻撃処理
-	// ボタンがクリックされたかどうかを確認
-	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
+	if (insInput.IsClickMouseLeft() && chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
 	{
-		ChangeState(STATE::CHARGE_WALK);
-	}
-
-	if (insInput.IsClickMouseLeft() && chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
-	{
-		chargeCnt += insScene.GetDeltaTime();
+		chargeCnt_ += insScene.GetDeltaTime();
 	}
 
 	// １段階目が終わったら遷移する
 	if (attack2_ && !attack1_ && state_ == STATE::ATTACK)
 	{
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 		ChangeState(STATE::ATTACK2);
 	}
 
 	// ２段階目が終わったら遷移する
 	if (attack3_ && !attack2_ && state_ == STATE::ATTACK2)
 	{
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 		ChangeState(STATE::ATTACK3);
 	}
 
 	// 溜め斬り
-	if (chargeCnt >= CHARGE_TIME)
+	if (chargeCnt_ >= CHARGE_TIME)
 	{
 		chargeAttack_ = true;
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 		ChangeState(STATE::CHARGE_ATTACK);
 	}
 
@@ -923,23 +1016,22 @@ void Player::GamePadAttack(void)
 	// 攻撃処理
 	// ボタンがクリックされたかどうかを確認
 	if (insInput.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
-		&& chargeCnt <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
+		&& chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2
 		&& state_ != STATE::ATTACK3 && state_ != STATE::HIT)
 	{
-		chargeCnt += insScene.GetDeltaTime();
+		chargeCnt_ += insScene.GetDeltaTime();
 		ChangeState(STATE::CHARGE_WALK);
 	}
 
 	if (insInput.IsPadBtnTrgUp(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
-		&& chargeCnt <= CHARGE_TIME && state_ != STATE::HIT)
+		&& chargeCnt_ <= CHARGE_TIME && state_ != STATE::HIT)
 	{
 
 		//ボタンが押されたらアニメーションを切り替える
 		//１段階目
 		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK)
 		{
-			attack_ = true;
 			attack1_ = true;
 			ChangeState(STATE::ATTACK);
 		}
@@ -962,22 +1054,22 @@ void Player::GamePadAttack(void)
 	// １段階目が終わったら遷移する
 	if (attack2_ && !attack1_ && state_ == STATE::ATTACK)
 	{
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 		ChangeState(STATE::ATTACK2);
 	}
 
 	// ２段階目が終わったら遷移する
 	if (attack3_ && !attack2_ && state_ == STATE::ATTACK2)
 	{
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 		ChangeState(STATE::ATTACK3);
 	}
 
 	// 溜め斬り
-	if (chargeCnt >= CHARGE_TIME)
+	if (chargeCnt_ >= CHARGE_TIME)
 	{
 		chargeAttack_ = true;
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 		ChangeState(STATE::CHARGE_ATTACK);
 	}
 
@@ -1197,43 +1289,69 @@ void Player::ChangeState(STATE state)
 	switch (state_)
 	{
 	case Player::STATE::IDLE:
+		// アニメーションの設定
 		SetIdleAnimation();
 		break;
 	case Player::STATE::WALK:
+		// アニメーションの設定
 		SetWalkAnimation();
 		break;
 	case Player::STATE::CHARGE_WALK:
+		// アニメーションの設定
 		SetChargeWalkAnimation();
+
+		// エフェクトの再生
 		PlayEffect();
+
+		// 溜める音の再生
+		PlaySoundMem(musicChargeId_,DX_PLAYTYPE_BACK);
 		break;
 	case Player::STATE::RUN:
+		// アニメーションの設定
 		SetRunAnimation();
 		break;
 	case Player::STATE::ATTACK:
 		hit_ = false;
+		// アニメーションの設定
 		SetAttackAnimation();
+
+		// エフェクトを止める
+		StopEffekseer3DEffect(effectChargePlayId_);
 		break;
 	case Player::STATE::ATTACK2:
 		hit_ = false;
+		// アニメーションの設定
 		SetAttackAnimation2();
 		break;
 	case Player::STATE::ATTACK3:
 		hit_ = false;
+		// アニメーションの設定
 		SetAttackAnimation3();
 		break;
 	case Player::STATE::CHARGE_ATTACK:
 		hit_ = false;
+		// アニメーションの設定
 		SetChargeAttackAnimation();
 		break;
 	case Player::STATE::HIT:
+		// アニメーションの設定
 		SetHitAnimation();
+		// エフェクトを止める
+		StopEffekseer3DEffect(effectChargePlayId_);
 		break;
 	case Player::STATE::DEATH:
+		// アニメーションの設定
 		SetDeathAnimation();
 		break;
 	case Player::STATE::ROLL:
+		// アニメーションの設定
 		SetRollAnimation();
 		break;
+	}
+
+	if (state_ != STATE::CHARGE_WALK)
+	{
+		StopSoundMem(musicChargeId_);
 	}
 
 }
@@ -1555,10 +1673,10 @@ void Player::Animation(void)
 				attack2_ = false;
 				attack3_ = false;
 				chargeAttack_ = false;
-
+				isMusicSlash_ = true;
 				hit_ = false;
 				ChangeState(STATE::IDLE);
-				chargeCnt = 0.0f;
+				chargeCnt_ = 0.0f;
 			}
 		}
 	}
@@ -1569,7 +1687,7 @@ void Player::Animation(void)
 		stepAnim_ = 0.0f;
 		hit_ = false;
 		ChangeState(STATE::IDLE);
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 	}
 
 	// 3段階目に進まないときはリセット
@@ -1578,7 +1696,7 @@ void Player::Animation(void)
 		stepAnim_ = 0.0f;
 		hit_ = false;
 		ChangeState(STATE::IDLE);
-		chargeCnt = 0.0f;
+		chargeCnt_ = 0.0f;
 	}
 
 	// 再生するアニメーション時間の設定

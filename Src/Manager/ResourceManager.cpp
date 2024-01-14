@@ -156,6 +156,8 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::IMGS, Application::PATH_IMAGE + "UI/enemyCursor.png",20,3,100,100);
 	resourcesMap_.emplace(SRC::CURSOR, res);
 
+	// エフェクト------------------------------------------------
+
 	// 花火のエフェクト
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Scene/Fireworks.efkefc");
 	resourcesMap_.emplace(SRC::FIREWORKS_EFFECT, res);
@@ -163,6 +165,24 @@ void ResourceManager::Init(void)
 	// プレイヤーの溜めのエフェクト
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Player/Charge.efkefc");
 	resourcesMap_.emplace(SRC::CHARGE_EFFECT, res);
+
+	// サウンド--------------------------------------------------
+
+	// 溜める音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/Charge.mp3");
+	resourcesMap_.emplace(SRC::CHARGE_MUSIC, res);
+
+	// 風を切る音１
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slash1.mp3");
+	resourcesMap_.emplace(SRC::SLASH_MUSIC1, res);
+
+	// 風を切る音２
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slash2.mp3");
+	resourcesMap_.emplace(SRC::SLASH_MUSIC2, res);
+
+	// 風を切る音３
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slash3.mp3");
+	resourcesMap_.emplace(SRC::SLASH_MUSIC3, res);
 
 }
 

@@ -21,7 +21,7 @@ public:
 	static constexpr float ATTACK_END_TIME1 = 40.0f;
 
 	// 攻撃の1段階目の当たり判定が始まる時間
-	static constexpr float ATTACK_COLLISION_START_TIME1 = 27.0f;
+	static constexpr float ATTACK_COLLISION_START_TIME1 = 30.0f;
 
 	// 攻撃の1段階目の当たり判定が終わる時間
 	static constexpr float ATTACK_COLLISION_END_TIME1 = 37.0f;
@@ -50,10 +50,10 @@ public:
 	// 攻撃の3段階目の当たり判定が終わる時間
 	static constexpr float ATTACK_COLLISION_END_TIME3 = 110.0f;
 
-	// 攻撃の3段階目の当たり判定が始まる時間
+	// 溜め攻撃の当たり判定が始まる時間
 	static constexpr float CHARGE_ATTACK_COLLISION_START_TIME = 20.0f;
 
-	// 攻撃の3段階目の当たり判定が終わる時間
+	// 溜めの攻撃の当たり判定が終わる時間
 	static constexpr float CHARGE_ATTACK_COLLISION_END_TIME = 30.0f;
 
 	// 移動量(歩く)
@@ -105,7 +105,7 @@ public:
 	static constexpr float TIME_ROT = 0.2f;
 
 	// 溜めのエフェクトの相対座標
-	static constexpr VECTOR LOCAL_CHRAGE_POS = { 0.0f,100.0f,0.0f };
+	static constexpr VECTOR LOCAL_CHRAGE_POS = { 0.0f,0.0f,0.0f };
 
 	// プレイヤーの状態
 	enum class STATE
@@ -244,7 +244,7 @@ protected:
 	int rollAnim_;
 
 	// ため斬りのカウンタ
-	float chargeCnt;
+	float chargeCnt_;
 
 	// カプセルをアタッチするフレームの番号
 	int playerAttachFrameNum_;
@@ -287,6 +287,22 @@ protected:
 	int effectChargeResId_;
 	int effectChargePlayId_;
 	VECTOR effectChargePos_;
+
+	// サウンド
+	// 溜める音
+	int musicChargeId_;
+
+	// 風を切る音１
+	int musicSlash1Id_;
+
+	// 風を切る音２
+	int musicSlash2Id_;
+
+	// 風を切る音３
+	int musicSlash3Id_;
+
+	// 風を切る音のフラグ
+	bool isMusicSlash_;
 
 	// 移動処理
 	void KeyboardMove(void);
@@ -393,6 +409,12 @@ protected:
 
 	// エフェクト位置
 	void SyncEffect(void);
+
+	// 音の初期化
+	void InitMusic(void);
+
+	// 風を切る音
+	void SlashMusic(void);
 
 };
 

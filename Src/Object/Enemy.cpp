@@ -401,7 +401,7 @@ void Enemy::Think(void)
 
 	// 攻撃の選択
 	attackNumber_ = GetRand(2);
-
+	
 	// 攻撃が当たったかどうか
 	hit_ = false;
 
@@ -419,7 +419,7 @@ void Enemy::Think(void)
 
 	// 通常攻撃 ----------------------------------------------
 
-// プレイヤーの方向を求める
+	// プレイヤーの方向を求める
 	vec = VSub(followTransform_->pos, transform_.pos);
 	length = AsoUtility::Magnitude(vec);
 
@@ -456,6 +456,15 @@ void Enemy::Think(void)
 
 	if (attackNumber_ == 1)
 	{
+		// プレイヤーがいた座標を代入
+		attackPlayerPos_ = followTransform_->pos;
+
+		// プレイヤーの方向を求める
+		vec = VSub(attackPlayerPos_, transform_.pos);
+		length = AsoUtility::Magnitude(vec);
+
+		// 正規化
+		pDirection_ = VNorm(vec);
 		ChangeState(STATE::TACKLE);
 	}
 

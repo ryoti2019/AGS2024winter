@@ -87,6 +87,40 @@ void Player::InitAnimation(void)
 
 }
 
+void Player::InitEffect(void)
+{
+
+	// 溜めのエフェクト
+	effectChargeResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGE_EFFECT).handleId_;
+
+}
+
+void Player::InitMusic(void)
+{
+
+	// 溜める音
+	musicChargeId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_CHARGE_MUSIC).handleId_;
+
+	// 風を切る音
+	musicSlash1Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC1).handleId_;
+
+	// 風を切る音
+	musicSlash2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC2).handleId_;
+
+	// 風を切る音
+	musicSlash3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC3).handleId_;
+
+	// 風を切る音のフラグ
+	isMusicSlash_ = true;
+
+	// 足音
+	musicFootStepsId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_FOOTSTEPS_MUSIC).handleId_;
+
+	// 足音のカウンタ
+	musicFootStepsCnt_ = 0.0f;
+
+}
+
 void Player::Init(void)
 {
 
@@ -148,11 +182,37 @@ void Player::Update(void)
 	case Player::STATE::IDLE:
 		break;
 	case Player::STATE::WALK:
+
+		// 足音のカウンタリセット
+		if (musicFootStepsCnt_ >= 10.0f)
+		{
+			musicFootStepsCnt_ = 0.0f;
+		}
+
+		// 再生速度の設定
+		SetFrequencySoundMem(35000, musicFootStepsId_);
+
+		// 足音
+		FootStepsMusic();
+
 		break;
 	case Player::STATE::CHARGE_WALK:
-		SyncEffect();
+		ChargeSyncEffect();
 		break;
 	case Player::STATE::RUN:
+
+		// 足音のカウンタリセット
+		if (musicFootStepsCnt_ >= 7.0f)
+		{
+			musicFootStepsCnt_ = 0.0f;
+		}
+
+		// 再生速度の設定
+		SetFrequencySoundMem(50000, musicFootStepsId_);
+
+		// 足音
+		FootStepsMusic();
+
 		break;
 	case Player::STATE::ATTACK:
 		// 風を切る音の再生
@@ -293,15 +353,7 @@ void Player::SpecialMoveUpdate(void)
 
 }
 
-void Player::InitEffect(void)
-{
-
-	// 溜めのエフェクト
-	effectChargeResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGE_EFFECT).handleId_;
-
-}
-
-void Player::PlayEffect(void)
+void Player::ChargePlayEffect(void)
 {
 
 	// エフェクト再生
@@ -312,15 +364,14 @@ void Player::PlayEffect(void)
 	SetScalePlayingEffekseer3DEffect(effectChargePlayId_, SCALE, SCALE, SCALE);
 
 	// 位置
-	SyncEffect();
+	ChargeSyncEffect();
 
 }
 
-void Player::SyncEffect(void)
+void Player::ChargeSyncEffect(void)
 {
 
-
-	// 追従対象(プレイヤー機)の位置
+	// 追従対象の位置
 	VECTOR followPos = transform_.pos;
 
 	// 追従対象の向き
@@ -339,26 +390,6 @@ void Player::SyncEffect(void)
 	SetRotationPlayingEffekseer3DEffect(effectChargePlayId_, rot.x, rot.y, rot.z);
 
 	transform_.Update();
-
-}
-
-void Player::InitMusic(void)
-{
-
-	// 溜める音
-	musicChargeId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGE_MUSIC).handleId_;
-
-	// 風を切る音
-	musicSlash1Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC1).handleId_;
-
-	// 風を切る音
-	musicSlash2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC2).handleId_;
-
-	// 風を切る音
-	musicSlash3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC3).handleId_;
-
-	// 風を切る音のフラグ
-	isMusicSlash_ = true;
 
 }
 
@@ -422,6 +453,18 @@ void Player::SlashMusic(void)
 			isMusicSlash_ = false;
 		}
 	}
+
+}
+
+void Player::FootStepsMusic(void)
+{
+
+	if (musicFootStepsCnt_ <= 0.0f)
+	{
+		PlaySoundMem(musicFootStepsId_, DX_PLAYTYPE_BACK);
+	}
+
+	musicFootStepsCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
 }
 
@@ -1291,6 +1334,10 @@ void Player::ChangeState(STATE state)
 	case Player::STATE::IDLE:
 		// アニメーションの設定
 		SetIdleAnimation();
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::WALK:
 		// アニメーションの設定
@@ -1301,7 +1348,7 @@ void Player::ChangeState(STATE state)
 		SetChargeWalkAnimation();
 
 		// エフェクトの再生
-		PlayEffect();
+		ChargePlayEffect();
 
 		// 溜める音の再生
 		PlaySoundMem(musicChargeId_,DX_PLAYTYPE_BACK);
@@ -1317,35 +1364,63 @@ void Player::ChangeState(STATE state)
 
 		// エフェクトを止める
 		StopEffekseer3DEffect(effectChargePlayId_);
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::ATTACK2:
 		hit_ = false;
 		// アニメーションの設定
 		SetAttackAnimation2();
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::ATTACK3:
 		hit_ = false;
 		// アニメーションの設定
 		SetAttackAnimation3();
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::CHARGE_ATTACK:
 		hit_ = false;
 		// アニメーションの設定
 		SetChargeAttackAnimation();
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::HIT:
 		// アニメーションの設定
 		SetHitAnimation();
 		// エフェクトを止める
 		StopEffekseer3DEffect(effectChargePlayId_);
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::DEATH:
 		// アニメーションの設定
 		SetDeathAnimation();
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::ROLL:
 		// アニメーションの設定
 		SetRollAnimation();
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	}
 

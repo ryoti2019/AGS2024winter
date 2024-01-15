@@ -284,6 +284,7 @@ protected:
 	float specialCnt_;
 
 	// エフェクト
+	// 溜めるエフェクト
 	int effectChargeResId_;
 	int effectChargePlayId_;
 	VECTOR effectChargePos_;
@@ -303,6 +304,12 @@ protected:
 
 	// 風を切る音のフラグ
 	bool isMusicSlash_;
+
+	// 足音
+	int musicFootStepsId_;
+
+	// 足音のカウンタ
+	float musicFootStepsCnt_;
 
 	// 移動処理
 	void KeyboardMove(void);
@@ -405,16 +412,21 @@ protected:
 	void InitEffect(void);
 
 	// エフェクト再生
-	void PlayEffect(void);
+	// 溜めるエフェクト
+	void ChargePlayEffect(void);
 
 	// エフェクト位置
-	void SyncEffect(void);
+	// 溜めるエフェクト
+	void ChargeSyncEffect(void);
 
 	// 音の初期化
 	void InitMusic(void);
 
 	// 風を切る音
 	void SlashMusic(void);
+
+	// 足音
+	void FootStepsMusic(void);
 
 };
 

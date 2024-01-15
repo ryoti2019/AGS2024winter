@@ -155,6 +155,14 @@ void Enemy::Init(void)
 
 }
 
+void Enemy::InitEffect(void)
+{
+
+	// 溜めのエフェクト
+	effectShotResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SHOT_EFFECT).handleId_;
+
+}
+
 void Enemy::Update(void)
 {
 
@@ -1308,6 +1316,14 @@ void Enemy::Shot(void)
 		}
 	}
 
+}
+
+void Enemy::ShotPlayEffect(void)
+{
+}
+
+void Enemy::ShotSyncEffect(void)
+{
 }
 
 void Enemy::CreateShot(void)

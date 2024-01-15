@@ -1,3 +1,5 @@
+#include <EffekseerForDXLib.h>
+#include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
@@ -60,6 +62,12 @@ void GameScene::Init(void)
 
 	// 敵が死んだ時のフラグ
 	enemyDeath_ = false;
+
+	// エフェクトの初期設定
+	InitEffect();
+
+	// 音の初期設定
+	InitMusic();
 
 }
 
@@ -199,7 +207,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (player_->GetState() == Player::STATE::ATTACK
 			|| player_->GetState() == Player::STATE::ATTACK2
-			|| player_->GetState() == Player::STATE::ATTACK3))
+			|| player_->GetState() == Player::STATE::ATTACK3)
+		&& enemy_->GetHP() > 0)
 	{
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
@@ -209,13 +218,19 @@ void GameScene::CollisionEnemyAndPlayer()
 			player_->SetAttack(false);
 			player_->SetHit(true);
 			hitStopCnt_ = 5;
+			// プレイヤーの攻撃が当たった時のエフェクト
+			ImpactPlayEffect();
+
+			// プレイヤーの攻撃が当たった時の音
+			ImpactMusic();
 		}
 	}
 
 	// 溜め攻撃
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
-		&& player_->GetState() == Player::STATE::CHARGE_ATTACK)
+		&& player_->GetState() == Player::STATE::CHARGE_ATTACK
+		&& enemy_->GetHP() > 0)
 	{
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
@@ -225,6 +240,11 @@ void GameScene::CollisionEnemyAndPlayer()
 			player_->SetAttack(false);
 			player_->SetHit(true);
 			hitStopCnt_ = 5;
+			// プレイヤーの攻撃が当たった時のエフェクト
+			ImpactPlayEffect();
+
+			// プレイヤーの攻撃が当たった時の音
+			ImpactMusic();
 		}
 	}
 
@@ -292,5 +312,86 @@ void GameScene::DrawDebug(void)
 
 	// 注視点
 	DrawSphere3D(camera->GetTargetPos(), 20, 1, 0xffffff, 0xffffff, true);
+
+}
+
+void GameScene::InitEffect(void)
+{
+
+	// プレイヤーの攻撃が当たった時のエフェクト
+	effectImpactResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_EFFECT).handleId_;
+
+}
+
+void GameScene::ImpactPlayEffect(void)
+{
+
+	// エフェクト再生
+	effectImpactPlayId_ = PlayEffekseer3DEffect(effectImpactResId_);
+
+	float SCALE = 300.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectImpactPlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	ImpactSyncEffect();
+
+}
+
+void GameScene::ImpactSyncEffect(void)
+{
+
+	// 追従対象の位置
+	VECTOR followPos = enemy_->GetTransform().pos;
+
+	// 追従対象の向き
+	Quaternion followRot = enemy_->GetTransform().quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectLPos = followRot.PosAxis(LOCAL_CHRAGE_POS);
+
+	// エフェクトの位置の更新
+	effectImpactPos_ = VAdd(followPos, effectLPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectImpactPlayId_, effectImpactPos_.x, effectImpactPos_.y, effectImpactPos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectImpactPlayId_, rot.x, rot.y, rot.z);
+
+	enemy_->Update();
+
+}
+
+void GameScene::InitMusic(void)
+{
+
+	// プレイヤーの攻撃が当たった時の音１
+	musicImpactId1_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_MUSIC1).handleId_;
+
+	// プレイヤーの攻撃が当たった時の音２
+	musicImpactId2_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_MUSIC2).handleId_;
+
+	// プレイヤーの攻撃が当たった時の音３
+	musicImpactId3_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_MUSIC3).handleId_;
+
+}
+
+void GameScene::ImpactMusic(void)
+{
+
+	int number = GetRand(2);
+	if (number == 0)
+	{
+		PlaySoundMem(musicImpactId1_, DX_PLAYTYPE_BACK);
+	}
+	else if (number == 1)
+	{
+		PlaySoundMem(musicImpactId2_, DX_PLAYTYPE_BACK);
+	}
+	else if (number == 2)
+	{
+		PlaySoundMem(musicImpactId3_, DX_PLAYTYPE_BACK);
+	}
 
 }

@@ -360,6 +360,12 @@ protected:
 	// 移動量
 	VECTOR movePow_;
 
+	// エフェクト
+	// 弾のエフェクト
+	int effectShotResId_;
+	int effectShotPlayId_;
+	VECTOR effectShotPos_;
+
 	// 行動の選択
 	void Think(void);
 
@@ -470,5 +476,16 @@ protected:
 
 	// 弾を打つ
 	void Shot(void);
+
+	// エフェクトの初期化
+	void InitEffect(void);
+
+	// エフェクト再生
+	// 弾のエフェクト
+	void ShotPlayEffect(void);
+
+	// エフェクト位置
+	// 弾のエフェクト
+	void ShotSyncEffect(void);
 
 };

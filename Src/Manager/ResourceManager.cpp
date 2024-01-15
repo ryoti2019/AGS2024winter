@@ -166,11 +166,19 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Player/Charge.efkefc");
 	resourcesMap_.emplace(SRC::CHARGE_EFFECT, res);
 
+	// プレイヤーの攻撃が当たった時のエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Player/Impact.efkefc");
+	resourcesMap_.emplace(SRC::PLAYER_IMPACT_EFFECT, res);
+
+	// 弾のエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Shot.efkefc");
+	resourcesMap_.emplace(SRC::SHOT_EFFECT, res);
+
 	// サウンド--------------------------------------------------
 
 	// 溜める音
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/Charge.mp3");
-	resourcesMap_.emplace(SRC::CHARGE_MUSIC, res);
+	resourcesMap_.emplace(SRC::PLAYER_CHARGE_MUSIC, res);
 
 	// 風を切る音１
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slash1.mp3");
@@ -183,6 +191,22 @@ void ResourceManager::Init(void)
 	// 風を切る音３
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slash3.mp3");
 	resourcesMap_.emplace(SRC::SLASH_MUSIC3, res);
+
+	// プレイヤーの攻撃が当たった時の音１
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/impact1.mp3");
+	resourcesMap_.emplace(SRC::PLAYER_IMPACT_MUSIC1, res);
+
+	// プレイヤーの攻撃が当たった時の音２
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/impact2.mp3");
+	resourcesMap_.emplace(SRC::PLAYER_IMPACT_MUSIC2, res);
+
+	// プレイヤーの攻撃が当たった時の音３
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/impact3.mp3");
+	resourcesMap_.emplace(SRC::PLAYER_IMPACT_MUSIC3, res);
+
+	// プレイヤーの足音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/footSteps.mp3");
+	resourcesMap_.emplace(SRC::PLAYER_FOOTSTEPS_MUSIC, res);
 
 }
 

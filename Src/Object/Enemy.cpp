@@ -1,4 +1,5 @@
 #include <DxLib.h>
+#include <EffekseerForDXLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Utility/AsoUtility.h"
@@ -100,6 +101,12 @@ void Enemy::Init(void)
 	// アニメーションの初期設定
 	InitAnimation();
 
+	// エフェクトの初期設定
+	InitEffect();
+
+	// 音の初期設定
+	InitMusic();
+
 	// プレイヤーのパラメーター
 	SetParam();
 
@@ -158,8 +165,123 @@ void Enemy::Init(void)
 void Enemy::InitEffect(void)
 {
 
-	// 溜めのエフェクト
-	effectShotResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SHOT_EFFECT).handleId_;
+	// 弾を作る時のエフェクト
+	effectTackleResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TACKLE_EFFECT).handleId_;
+
+	// ジャンプアタックのエフェクト
+	effectJumpAttackResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::JUMPATTACK_EFFECT).handleId_;
+
+	// ジャンプアタックエフェクトのカウンタ
+	isEffectJumpAttack_ = true;
+
+}
+
+void Enemy::TacklePlayEffect(void)
+{
+
+	// エフェクト再生
+	effectTacklePlayId_ = PlayEffekseer3DEffect(effectTackleResId_);
+
+	float SCALE = 100.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectTacklePlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	TackleSyncEffect();
+
+}
+
+void Enemy::JumpAttackPlayEffect(void)
+{
+
+	// エフェクト再生
+	effectJumpAttackPlayId_ = PlayEffekseer3DEffect(effectJumpAttackResId_);
+
+	float SCALE = 30.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectJumpAttackPlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	JumpAttackSyncEffect();
+
+}
+
+void Enemy::TackleSyncEffect(void)
+{
+
+	// 追従対象の位置
+	VECTOR followPos = transform_.pos;
+
+	// 追従対象の向き
+	Quaternion followRot = transform_.quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectLPos = followRot.PosAxis({ 0.0f,0.0f,0.0f });
+
+	// エフェクトの位置の更新
+	effectTacklePos_ = VAdd(followPos, effectLPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectTacklePlayId_, effectTacklePos_.x, effectTacklePos_.y, effectTacklePos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectTacklePlayId_, rot.x, rot.y, rot.z);
+
+	transform_.Update();
+
+}
+
+void Enemy::JumpAttackSyncEffect(void)
+{
+
+	// 追従対象の位置
+	VECTOR followPos = transform_.pos;
+
+	// 追従対象の向き
+	Quaternion followRot = transform_.quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectLPos = followRot.PosAxis({ 0.0f,0.0f,0.0f });
+
+	// エフェクトの位置の更新
+	effectJumpAttackPos_ = VAdd(followPos, effectLPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectJumpAttackPlayId_, effectJumpAttackPos_.x, effectJumpAttackPos_.y, effectJumpAttackPos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectJumpAttackPlayId_, rot.x, rot.y, rot.z);
+
+	transform_.Update();
+
+}
+
+void Enemy::InitMusic(void)
+{
+
+	// 溜める音
+	musicTackleId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TACKLE_MUSIC).handleId_;
+
+	// 足音
+	musicFootStepsId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_FOOTSTEPS_MUSIC).handleId_;
+
+	// ジャンプアタックの音
+	musicJumpAttackId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::JUMPATTACK_MUSIC).handleId_;
+
+	// 地響きの音
+	musicEarthQuakeId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::EARTHQUAKE_MUSIC).handleId_;
+
+}
+
+void Enemy::FootStepsMusic(void)
+{
+
+	if (musicFootStepsCnt_ <= 0.0f)
+	{
+		PlaySoundMem(musicFootStepsId_, DX_PLAYTYPE_BACK);
+	}
+
+	musicFootStepsCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
 }
 
@@ -194,9 +316,18 @@ void Enemy::Update(void)
 		break;
 	case Enemy::STATE::IDLE:
 		UpdateIdle();
+
+		StopSoundMem(musicFootStepsId_);
+		StopSoundMem(musicEarthQuakeId_);
 		break;
 	case Enemy::STATE::WALK:
 		UpdateWalk();
+
+		// 再生速度の設定
+		SetFrequencySoundMem(30000, musicFootStepsId_);
+
+		// 足音
+		FootStepsMusic();
 		break;
 	case Enemy::STATE::ATTACK:
 		if (stepAnim_ >= ATTACK_COLLISION_START_TIME
@@ -215,9 +346,38 @@ void Enemy::Update(void)
 			attack_ = true;
 		}
 		UpdateJumpAttack();
+
+		if (stepAnim_ >= 40.0f && isEffectJumpAttack_)
+		{
+			// ジャンプアタックのエフェクト
+			JumpAttackPlayEffect();
+			isEffectJumpAttack_ = false;
+			PlaySoundMem(musicJumpAttackId_,DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicEarthQuakeId_, DX_PLAYTYPE_BACK);
+		}
+
+		// エフェクトの位置
+		JumpAttackSyncEffect();
+
 		break;
 	case Enemy::STATE::TACKLE:
 		UpdateTackle();
+
+		// エフェクトの位置
+		TackleSyncEffect();
+
+		// 足音のカウンタリセット
+		if (musicFootStepsCnt_ >= 2.2f)
+		{
+			musicFootStepsCnt_ = 0.0f;
+		}
+
+		// 再生速度の設定
+		SetFrequencySoundMem(120000, musicFootStepsId_);
+
+		// 足音
+		FootStepsMusic();
+
 		break;
 	case Enemy::STATE::CREATE:
 		UpdateCreate();
@@ -231,8 +391,18 @@ void Enemy::Update(void)
 	case Enemy::STATE::DEATH:
 		break;
 	case Enemy::STATE::TURN_LEFT:
+		// 再生速度の設定
+		SetFrequencySoundMem(10000, musicFootStepsId_);
+
+		// 足音
+		FootStepsMusic();
 		break;
 	case Enemy::STATE::TURN_RIGHT:
+		// 再生速度の設定
+		SetFrequencySoundMem(10000, musicFootStepsId_);
+
+		// 足音
+		FootStepsMusic();
 		break;
 	}
 
@@ -263,6 +433,22 @@ void Enemy::Draw(void)
 
 	// デバッグ描画
 	DrawDebug();
+
+	// HPバー
+	int hpLength = HP_LENGTH;
+	int H;
+	int hpGauge;
+	H = hp_ * (512.0f / hpMax_) - 100;
+	int R = min(max((384 - H), 0), 0xff);
+	int G = min(max((H + 64), 0), 0xff);
+	int B = max((H - 384), 0);
+	hpGauge = hpLength * hp_ / hpMax_;
+
+	// HPの描画
+	if (hp_ >= 0)
+	{
+		DrawBox(700, 0, 700 + hpGauge, 30, GetColor(R, G, B), true);
+	}
 
 	for (auto v : shots_)
 	{
@@ -409,6 +595,7 @@ void Enemy::Think(void)
 
 	// 攻撃の選択
 	attackNumber_ = GetRand(2);
+	//attackNumber_ = 0;
 	
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -578,18 +765,21 @@ void Enemy::UpdateJumpAttack(void)
 	// 移動量
 	movePow_ = VScale(pDirection_, JUMP_ATTACK_SPEED);
 
-	// プレイヤーとの距離が10.0f未満になるまで移動
-	if (stepAnim_ <= JUMP_ATTACK_END_TIME)
+	if (stepAnim_ >= 20.0f && stepAnim_ <= 80.0f)
 	{
-		if (length >= JUMP_ATTACK_RANGE_MIN)
+		// プレイヤーとの距離が10.0f未満になるまで移動
+		if (stepAnim_ <= JUMP_ATTACK_END_TIME)
 		{
+			if (length >= JUMP_ATTACK_RANGE_MIN)
+			{
 
-			// 現在座標を起点に移動後座標を決める
-			movedPos_ = VAdd(transform_.pos, movePow_);
+				// 現在座標を起点に移動後座標を決める
+				movedPos_ = VAdd(transform_.pos, movePow_);
 
-			// 移動処理
-			transform_.pos = movedPos_;
+				// 移動処理
+				transform_.pos = movedPos_;
 
+			}
 		}
 	}
 
@@ -813,33 +1003,70 @@ void Enemy::ChangeState(STATE state)
 		break;
 	case Enemy::STATE::IDLE:
 		SetIdleAnimation();
+
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+
+		isEffectJumpAttack_ = true;
 		break;
 	case Enemy::STATE::WALK:
 		SetWalkAnimation();
 		break;
 	case Enemy::STATE::ATTACK:
 		SetAttackAnimation();
+
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Enemy::STATE::JUMP_ATTACK:
 		SetJumpAttackAnimation();
+
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Enemy::STATE::TACKLE:
 		tackleCnt_ = 4.0f;
 		SetTackleAnimation();
+
+		// エフェクトの再生
+		TacklePlayEffect();
+
+		// 音の再生
+		PlaySoundMem(musicTackleId_, DX_PLAYTYPE_BACK);
 		break;
 	case Enemy::STATE::CREATE:
 		SetCreateAnimation();
+
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+
 		break;
 	case Enemy::STATE::SHOT:
 		delayShot_ = TIME_DELAY_SHOT;
 		SetShotAnimation();
+
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Enemy::STATE::HIT:
 		attackPlayerPos_ = followTransform_->pos;
 		SetHitAnimation();
+
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Enemy::STATE::DEATH:
 		SetDeathAnimation();
+
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Enemy::STATE::TURN_LEFT:
 		SetTurnLeftAnimation();
@@ -1094,22 +1321,6 @@ void Enemy::LazyRotation(float goalRot)
 void Enemy::DrawDebug(void)
 {
 
-	// HPバー
-	int hpLength = HP_LENGTH;
-	int H;
-	int hpGauge;
-	H = hp_ * (512.0f / hpMax_) - 100;
-	int R = min(max((384 - H), 0), 0xff);
-	int G = min(max((H + 64), 0), 0xff);
-	int B = max((H - 384), 0);
-	hpGauge = hpLength * hp_ / hpMax_;
-
-	// HPの描画
-	if (hp_ >= 0)
-	{
-		DrawBox(700, 0, 700 + hpGauge, 30, GetColor(R, G, B), true);
-	}
-
 	// エネミー自身の衝突判定のカプセルの描画
 	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
 
@@ -1318,13 +1529,6 @@ void Enemy::Shot(void)
 
 }
 
-void Enemy::ShotPlayEffect(void)
-{
-}
-
-void Enemy::ShotSyncEffect(void)
-{
-}
 
 void Enemy::CreateShot(void)
 {

@@ -44,6 +44,9 @@ public:
 	// À•W‚Ìİ’è
 	void SetPos(VECTOR pos);
 
+	// ‰ñ“]‚Ìæ“¾
+	Quaternion GetQuaRot(void) const;
+
 	// ’e‚Ì‘¬“x
 	float GetSpeed(void) const;
 

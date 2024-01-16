@@ -19,7 +19,7 @@ void Sword::InitAnimation(void)
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::SWORD_MODEL));
 	float scale = 0.1f;
-	transform_.scl = { scale, scale, scale };
+	transform_.scl = { 0.1, scale, 0.1 };
 	transform_.pos = { 0.0f, 0.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
@@ -37,6 +37,8 @@ void Sword::InitAnimation(void)
 
 	cPosUp_ = { 0.0f,0.0f,0.0f };
 	cPosDown_ = { 0.0f,0.0f,0.0f };
+
+	Update();
 
 }
 
@@ -121,7 +123,7 @@ void Sword::Draw(void)
 
 	// “–‚½‚è”»’è‚Ì•`‰æ
 	//DrawCapsule3D(VAdd(transform_.pos, cPosDown_), VAdd(transform_.pos, cPosUp_), 10, 10, 0xff0000, 0xff0000, false);
-	DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
+	//DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 }
 

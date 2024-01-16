@@ -174,6 +174,18 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Shot.efkefc");
 	resourcesMap_.emplace(SRC::SHOT_EFFECT, res);
 
+	// 敵の弾を作るときのエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Charge.efkefc");
+	resourcesMap_.emplace(SRC::CREATE_EFFECT, res);
+
+	// タックルのエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Tackle.efkefc");
+	resourcesMap_.emplace(SRC::TACKLE_EFFECT, res);
+
+	// ジャンプアタックのエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/JumpAttack.efkefc");
+	resourcesMap_.emplace(SRC::JUMPATTACK_EFFECT, res);
+
 	// サウンド--------------------------------------------------
 
 	// 溜める音
@@ -207,6 +219,30 @@ void ResourceManager::Init(void)
 	// プレイヤーの足音
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/footSteps.mp3");
 	resourcesMap_.emplace(SRC::PLAYER_FOOTSTEPS_MUSIC, res);
+
+	// 弾を作るときの音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/Create.mp3");
+	resourcesMap_.emplace(SRC::CREATE_MUSIC, res);
+
+	// 弾を発射するときの音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/Shot.mp3");
+	resourcesMap_.emplace(SRC::SHOT_MUSIC, res);
+
+	// タックルの音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/Tackle.mp3");
+	resourcesMap_.emplace(SRC::TACKLE_MUSIC, res);
+
+	// 敵の足音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/footSteps.mp3");
+	resourcesMap_.emplace(SRC::ENEMY_FOOTSTEPS_MUSIC, res);
+
+	// ジャンプアタックの音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/JumpAttack.mp3");
+	resourcesMap_.emplace(SRC::JUMPATTACK_MUSIC, res);
+
+	// 地響きの音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/earthQuake.mp3");
+	resourcesMap_.emplace(SRC::EARTHQUAKE_MUSIC, res);
 
 }
 

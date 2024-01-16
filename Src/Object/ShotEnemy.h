@@ -55,5 +55,32 @@ protected:
 	// 相対座標
 	VECTOR rPos_;
 
+	// エフェクト
+	// 弾のエフェクト
+	int effectShotResId_;
+	int effectShotPlayId_;
+	VECTOR effectShotPos_;
+
+	// サウンド
+	// 弾を作る音
+	int musicCreateId_;
+
+	// 弾を発射するときの音
+	int musicShotId_;
+
+	// エフェクトの初期化
+	void InitEffect(void);
+
+	// エフェクト再生
+	// 弾のエフェクト
+	void ShotPlayEffect(void);
+
+	// エフェクト位置
+	// 弾のエフェクト
+	void ShotSyncEffect(void);
+
+	// 音の初期化
+	void InitMusic(void);
+
 };
 

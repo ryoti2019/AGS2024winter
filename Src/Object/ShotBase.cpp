@@ -117,14 +117,14 @@ void ShotBase::Draw(void)
 	case ShotBase::STATE::NONE:
 		break;
 	case ShotBase::STATE::IDLE:
-		MV1DrawModel(transform_.modelId);
+		//MV1DrawModel(transform_.modelId);
 		// デバッグ描画
-		DrawDebug();
+		//DrawDebug();
 		break;
 	case ShotBase::STATE::SHOT:
-		MV1DrawModel(transform_.modelId);
+		//MV1DrawModel(transform_.modelId);
 		// デバッグ描画
-		DrawDebug();
+		//DrawDebug();
 		break;
 	case ShotBase::STATE::BLAST:
 		break;
@@ -147,6 +147,11 @@ VECTOR ShotBase::GetPos(void) const
 void ShotBase::SetPos(VECTOR pos)
 {
 	transform_.pos = pos;
+}
+
+Quaternion ShotBase::GetQuaRot(void) const
+{
+	return transform_.quaRot;
 }
 
 float ShotBase::GetSpeed(void) const

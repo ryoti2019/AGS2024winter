@@ -54,7 +54,7 @@ public:
 	static constexpr float WALK_SPEED = 2.0f;
 
 	// ジャンプアタックのスピード
-	static constexpr float JUMP_ATTACK_SPEED = 20.0f;
+	static constexpr float JUMP_ATTACK_SPEED = 40.0f;
 
 	// ジャンプアタックのスピード
 	static constexpr float TACKLE_SPEED = 30.0f;
@@ -361,10 +361,33 @@ protected:
 	VECTOR movePow_;
 
 	// エフェクト
-	// 弾のエフェクト
-	int effectShotResId_;
-	int effectShotPlayId_;
-	VECTOR effectShotPos_;
+
+	// タックルのエフェクト
+	int effectTackleResId_;
+	int effectTacklePlayId_;
+	VECTOR effectTacklePos_;
+
+	// ジャンプアタックのエフェクト
+	int effectJumpAttackResId_;
+	int effectJumpAttackPlayId_;
+	VECTOR effectJumpAttackPos_;
+	bool isEffectJumpAttack_;
+
+	// サウンド
+	// タックルの音
+	int musicTackleId_;
+
+	// 足音
+	int musicFootStepsId_;
+
+	// 足音のカウンタ
+	float musicFootStepsCnt_;
+
+	// ジャンプアタックの音
+	int musicJumpAttackId_;
+
+	// 地響きの音
+	int musicEarthQuakeId_;
 
 	// 行動の選択
 	void Think(void);
@@ -481,11 +504,17 @@ protected:
 	void InitEffect(void);
 
 	// エフェクト再生
-	// 弾のエフェクト
-	void ShotPlayEffect(void);
+	void TacklePlayEffect(void);
+	void JumpAttackPlayEffect(void);
 
 	// エフェクト位置
-	// 弾のエフェクト
-	void ShotSyncEffect(void);
+	void TackleSyncEffect(void);
+	void JumpAttackSyncEffect(void);
+
+	// 音の初期化
+	void InitMusic(void);
+
+	// 足音
+	void FootStepsMusic(void);
 
 };

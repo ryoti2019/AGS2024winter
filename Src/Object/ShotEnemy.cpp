@@ -1,5 +1,7 @@
 #include <EffekseerForDXLib.h>
+#include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
+#include "../Utility/AsoUtility.h"
 #include "ShotEnemy.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -8,10 +10,36 @@
 
 ShotEnemy::ShotEnemy()
 {
+
+	// エフェクトの初期設定
+	InitEffect();
+
+	// 音の初期設定
+	InitMusic();
+
 }
 
 ShotEnemy::~ShotEnemy(void)
 {
+}
+
+void ShotEnemy::InitEffect(void)
+{
+
+	// 溜めのエフェクト
+	effectShotResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SHOT_EFFECT).handleId_;
+
+}
+
+void ShotEnemy::InitMusic(void)
+{
+
+	// 弾を作る音
+	musicCreateId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CREATE_MUSIC).handleId_;
+
+	// 弾を発射する音
+	musicShotId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SHOT_MUSIC).handleId_;
+
 }
 
 ShotEnemy::STATE ShotEnemy::GetState(void)
@@ -42,6 +70,8 @@ bool ShotEnemy::IsIdle(void)
 void ShotEnemy::Shot(VECTOR dir)
 {
 	dir_ = dir;
+	StopSoundMem(musicCreateId_);
+	PlaySoundMem(musicShotId_, DX_PLAYTYPE_BACK);
 	ChangeState(STATE::SHOT);
 }
 
@@ -67,8 +97,14 @@ void ShotEnemy::Create(VECTOR relPos, Transform* follow)
 	// 生存フラグ、時間の初期化
 	stepAlive_ = timeAlive_;
 
+	// 弾のエフェクトの再生
+	ShotPlayEffect();
+
 	// モデル制御の基本情報更新
 	transform_.Update();
+
+	// 弾を作る音
+	PlaySoundMem(musicCreateId_, DX_PLAYTYPE_BACK);
 
 	// 状態遷移
 	ChangeState(STATE::IDLE);
@@ -103,6 +139,9 @@ void ShotEnemy::UpdateIdle(void)
 	// 弾の回転
 	transform_.quaRot = enemyTransform_->quaRot;
 
+	// エフェクトの位置
+	ShotSyncEffect();
+
 }
 
 void ShotEnemy::UpdateShot(void)
@@ -121,6 +160,9 @@ void ShotEnemy::UpdateShot(void)
 
 	// 移動処理
 	Move();
+
+	// エフェクトの位置
+	ShotSyncEffect();
 
 }
 
@@ -145,7 +187,53 @@ void ShotEnemy::CheckAlive(void)
 	stepAlive_ -= SceneManager::GetInstance().GetDeltaTime();
 	if (stepAlive_ < 0.0f)
 	{
+		StopEffekseer3DEffect(effectShotPlayId_);
 		ChangeState(STATE::END);
 	}
+
+}
+
+void ShotEnemy::ShotPlayEffect(void)
+{
+
+	// エフェクト再生
+	effectShotPlayId_ = PlayEffekseer3DEffect(effectShotResId_);
+
+	float SCALE = 100.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectShotPlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	ShotSyncEffect();
+
+}
+
+void ShotEnemy::ShotSyncEffect(void)
+{
+
+	// 追従対象の位置
+	VECTOR followPos = transform_.pos;
+
+	// 追従対象の向き
+	Quaternion followRot = transform_.quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	float degY = AsoUtility::Rad2DegF(rot.y);
+	degY = degY + 180.0f;
+
+	float radY = AsoUtility::Deg2RadF(degY);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectLPos = followRot.PosAxis({ 0.0f,0.0f,0.0f });
+
+	// エフェクトの位置の更新
+	effectShotPos_ = VAdd(followPos, effectLPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectShotPlayId_, effectShotPos_.x, effectShotPos_.y, effectShotPos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectShotPlayId_, rot.x, radY, rot.z);
+
+	transform_.Update();
 
 }

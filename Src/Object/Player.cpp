@@ -192,8 +192,11 @@ void Player::Update(void)
 		// 再生速度の設定
 		SetFrequencySoundMem(35000, musicFootStepsId_);
 
-		// 足音
-		FootStepsMusic();
+		if (state_ != STATE::CHARGE_WALK)
+		{
+			// 足音
+			FootStepsMusic();
+		}
 
 		break;
 	case Player::STATE::CHARGE_WALK:
@@ -210,9 +213,11 @@ void Player::Update(void)
 		// 再生速度の設定
 		SetFrequencySoundMem(50000, musicFootStepsId_);
 
-		// 足音
-		FootStepsMusic();
-
+		if (state_ != STATE::CHARGE_WALK)
+		{
+			// 足音
+			FootStepsMusic();
+		}
 		break;
 	case Player::STATE::ATTACK:
 		// 風を切る音の再生
@@ -255,6 +260,8 @@ void Player::Update(void)
 		}
 		break;
 	case Player::STATE::CHARGE_ATTACK:
+		// 風を切る音の再生
+		SlashMusic();
 		if (stepAnim_ >= CHARGE_ATTACK_COLLISION_START_TIME
 			&& stepAnim_ <= CHARGE_ATTACK_COLLISION_END_TIME
 			&& !hit_)
@@ -310,7 +317,7 @@ void Player::Draw(void)
 	UnitBase::Draw();
 
 	// デバッグ描画
-	DrawDebug();
+	//DrawDebug();
 
 	// HPバー
 	DrawHPBar();
@@ -454,6 +461,24 @@ void Player::SlashMusic(void)
 		}
 	}
 
+	if (stepAnim_ >= CHARGE_ATTACK_COLLISION_START_TIME && isMusicSlash_ && state_ == STATE::CHARGE_ATTACK)
+	{
+		if (number == 0)
+		{
+			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 1)
+		{
+			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+		else if (number == 2)
+		{
+			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			isMusicSlash_ = false;
+		}
+	}
 }
 
 void Player::FootStepsMusic(void)
@@ -1332,12 +1357,14 @@ void Player::ChangeState(STATE state)
 	switch (state_)
 	{
 	case Player::STATE::IDLE:
+
 		// アニメーションの設定
 		SetIdleAnimation();
 
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
+
 		break;
 	case Player::STATE::WALK:
 		// アニメーションの設定
@@ -1352,6 +1379,11 @@ void Player::ChangeState(STATE state)
 
 		// 溜める音の再生
 		PlaySoundMem(musicChargeId_,DX_PLAYTYPE_BACK);
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+
 		break;
 	case Player::STATE::RUN:
 		// アニメーションの設定

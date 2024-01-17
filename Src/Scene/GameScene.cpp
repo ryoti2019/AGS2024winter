@@ -159,11 +159,11 @@ void GameScene::Draw(void)
 	// ƒXƒe[ƒW‚Ì•`‰æ
 	stage_->Draw();
 
-	// ƒvƒŒƒCƒ„[‚Ì•`‰æ
-	player_->Draw();
-
 	// “G‚Ì•`‰æ
 	enemy_->Draw();
+
+	// ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	player_->Draw();
 
 	// Œ•‚Ì•`‰æ
 	sword_->Draw();
@@ -252,8 +252,7 @@ void GameScene::CollisionEnemyAndPlayer()
 	if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::ATTACK
-			|| enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL
+			|| enemy_->GetState() == Enemy::STATE::TACKLE) && !player_->GetIsInvincible()
 		&& player_->GetHP() > 0)
 	{
 		// “G‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
@@ -269,7 +268,7 @@ void GameScene::CollisionEnemyAndPlayer()
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
 		&& (enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL
+			|| enemy_->GetState() == Enemy::STATE::TACKLE) && !player_->GetIsInvincible()
 		&& player_->GetHP() > 0)
 	{
 		// “G‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
@@ -287,8 +286,29 @@ void GameScene::CollisionEnemyAndPlayer()
 	{
 		if (AsoUtility::IsHitSphereCapsule(s->GetPos(), s->GetCollisionRadius(),
 			player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS)
-			&& (s->GetState() == ShotEnemy::STATE::SHOT) && player_->GetState() != Player::STATE::ROLL
+			&& (s->GetState() == ShotEnemy::STATE::SHOT) && !player_->GetIsInvincible()
 			&& player_->GetHP() > 0)
+		{
+			player_->SetState(Player::STATE::HIT);
+			player_->SetHP(-10);
+			enemy_->SetAttack(false);
+			enemy_->SetHit(true);
+		}
+	}
+
+	// ƒGƒlƒ~[‚©‚çƒvƒŒƒCƒ„[‚Ü‚Å‚ÌƒxƒNƒgƒ‹
+	VECTOR diff = VSub(player_->GetTransform().pos, enemy_->GetTransform().pos);
+
+	// XZ‹——£
+	float distance = diff.x * diff.x + diff.z * diff.z;
+
+	// ’®Šo
+	if (distance <= 1000 * 1000 && enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
+		&& enemy_->GetStepAnim() >= 45.0f && enemy_->GetStepAnim() <= 80.0f
+		&& player_->GetHP() > 0)
+	{
+		// “G‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
+		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
 			player_->SetHP(-10);

@@ -169,10 +169,10 @@ public:
 	// プレイヤーのHPの設定
 	void SetHP(int hp);
 
-	// 攻撃が当たったかを取得
+	// 攻撃が当たったかどうかを取得
 	bool GetHit(void);
 
-	// 攻撃が当たったかを設定
+	// 攻撃が当たったかどうかを設定
 	void SetHit(bool hit);
 
 	// 追従対象の設定
@@ -180,6 +180,9 @@ public:
 
 	// ステージのモデルIDを設定
 	void SetStageID(const int modelId);
+
+	// 回避中の無敵かどうかを取得
+	bool GetIsInvincible(void);
 
 protected:
 
@@ -283,6 +286,9 @@ protected:
 	// 必殺技のムービーカウンタ
 	float specialCnt_;
 
+	// 回避中の無敵のフラグ
+	bool isInvincible_;
+
 	// エフェクト
 	// 溜めるエフェクト
 	int effectChargeResId_;
@@ -310,6 +316,18 @@ protected:
 
 	// 足音のカウンタ
 	float musicFootStepsCnt_;
+
+	// 攻撃音１
+	int musicSlashVoice1Id_;
+
+	// 攻撃音２
+	int musicSlashVoice2Id_;
+
+	// 攻撃音３
+	int musicSlashVoice3Id_;
+
+	// 溜め攻撃音
+	int musicChargeSlashVoiceId_;
 
 	// 移動処理
 	void KeyboardMove(void);

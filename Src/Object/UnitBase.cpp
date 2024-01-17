@@ -51,6 +51,11 @@ const Transform& UnitBase::GetTransform(void) const
 	return transform_;
 }
 
+float UnitBase::GetStepAnim(void)
+{
+	return stepAnim_;
+}
+
 void UnitBase::SetParam(void)
 {
 }

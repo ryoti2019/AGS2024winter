@@ -47,7 +47,7 @@ void Player::InitAnimation(void)
 
 	// 溜め攻撃アニメーション
 	chargeAttackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_CHARGE_ATTACK);
+		ResourceManager::SRC::PLAYER_CHARGEATTACK);
 
 	// ダメージヒットアニメーション
 	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
@@ -119,6 +119,15 @@ void Player::InitMusic(void)
 	// 足音のカウンタ
 	musicFootStepsCnt_ = 0.0f;
 
+	// プレイヤーの攻撃音１
+	musicSlashVoice1Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC1).handleId_;
+
+	// プレイヤーの攻撃音２
+	musicSlashVoice2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC2).handleId_;
+
+	// プレイヤーの攻撃音３
+	musicSlashVoice3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC3).handleId_;
+
 }
 
 void Player::Init(void)
@@ -162,6 +171,9 @@ void Player::Init(void)
 
 	// 移動方向
 	moveDir_ = AsoUtility::VECTOR_ZERO;
+
+	// 回避中の無敵かどうか
+	isInvincible_ = false;
 
 }
 
@@ -278,6 +290,16 @@ void Player::Update(void)
 		{
 			speed_ = 0.0f;
 		}
+
+		if (stepAnim_ >= 20.0f && stepAnim_ <= 50.0f)
+		{
+			isInvincible_ = true;
+		}
+		else
+		{
+			isInvincible_ = false;
+		}
+
 		break;
 	}
 
@@ -409,16 +431,19 @@ void Player::SlashMusic(void)
 		if (number == 0)
 		{
 			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice1Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 1)
 		{
 			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 2)
 		{
 			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 	}
@@ -428,16 +453,19 @@ void Player::SlashMusic(void)
 		if (number == 0)
 		{
 			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice1Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 1)
 		{
 			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 2)
 		{
 			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 	}
@@ -447,16 +475,19 @@ void Player::SlashMusic(void)
 		if (number == 0)
 		{
 			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice1Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 1)
 		{
 			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 2)
 		{
 			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 	}
@@ -466,16 +497,19 @@ void Player::SlashMusic(void)
 		if (number == 0)
 		{
 			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice1Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 1)
 		{
 			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 2)
 		{
 			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 	}
@@ -564,6 +598,11 @@ void Player::SetFollow(const Transform* follow)
 void Player::SetStageID(const int modelId)
 {
 	stageId_ = modelId;
+}
+
+bool Player::GetIsInvincible(void)
+{
+	return isInvincible_;
 }
 
 void Player::Collision(void)
@@ -687,7 +726,6 @@ void Player::KeyboardMove(void)
 	VECTOR dir = AsoUtility::VECTOR_ZERO;
 
 	// WASDでプレイヤーの位置を変える
-	
 	if (ins.IsNew(KEY_INPUT_W)) { dir = VAdd(dir, { 0.0f, 0.0f, 1.0f }); }
 	if (ins.IsNew(KEY_INPUT_A)) { dir = VAdd(dir, { -1.0f, 0.0f, 0.0f }); }
 	if (ins.IsNew(KEY_INPUT_S)) { dir = VAdd(dir, { 0.0f, 0.0f, -1.0f }); }

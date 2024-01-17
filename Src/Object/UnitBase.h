@@ -32,6 +32,9 @@ public:
 	// プレイヤーのTransformの取得
 	const Transform& GetTransform(void) const;
 
+	// 再生中のアニメーション時間
+	float GetStepAnim(void);
+
 protected:
 
 	//アニメーション

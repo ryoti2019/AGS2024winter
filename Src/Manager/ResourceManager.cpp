@@ -66,7 +66,7 @@ void ResourceManager::Init(void)
 
 	// プレイヤーの溜め攻撃のアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Charge Slash.mv1");
-	resourcesMap_.emplace(SRC::PLAYER_CHARGE_ATTACK, res);
+	resourcesMap_.emplace(SRC::PLAYER_CHARGEATTACK, res);
 
 	// プレイヤーの歩くアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Running.mv1");
@@ -243,6 +243,22 @@ void ResourceManager::Init(void)
 	// 地響きの音
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/earthQuake.mp3");
 	resourcesMap_.emplace(SRC::EARTHQUAKE_MUSIC, res);
+
+	// プレイヤーの攻撃音１
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice1.mp3");
+	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC1, res);
+
+	// プレイヤーの攻撃音２
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice2.mp3");
+	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC2, res);
+
+	// プレイヤーの攻撃音３
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice3.mp3");
+	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC3, res);
+
+	// プレイヤーの溜め攻撃音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/chargeSlash.mp3");
+	resourcesMap_.emplace(SRC::CHARGEATTACK_VOICE_MUSIC, res);
 
 }
 

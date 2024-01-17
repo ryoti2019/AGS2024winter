@@ -72,7 +72,7 @@ public:
 	static constexpr float JUMP_ATTACK_COLLISION_START_TIME = 40.0f;
 
 	// ジャンプアタックの当たり判定が終わる時間
-	static constexpr float JUMP_ATTACK_COLLISION_END_TIME = 60.0f;
+	static constexpr float JUMP_ATTACK_COLLISION_END_TIME = 80.0f;
 
 	// ジャンプアタックが終わる時間
 	static constexpr float JUMP_ATTACK_END_TIME = 200.0f;
@@ -219,6 +219,9 @@ public:
 	// ステージのモデルIDを設定
 	void SetStageID(const int modelId);
 
+	// ジャンプアタックするときに保存するプレイヤーの位置
+	VECTOR GetAttackPlayerPos(void);
+
 protected:
 
 	// 弾
@@ -362,6 +365,11 @@ protected:
 
 	// エフェクト
 
+	// 弾を作るエフェクト
+	int effectCreateResId_;
+	int effectCreatePlayId_;
+	VECTOR effectCreatePos_;
+
 	// タックルのエフェクト
 	int effectTackleResId_;
 	int effectTacklePlayId_;
@@ -374,6 +382,9 @@ protected:
 	bool isEffectJumpAttack_;
 
 	// サウンド
+	// 弾を作る音
+	int musicCreateId_;
+
 	// タックルの音
 	int musicTackleId_;
 
@@ -504,10 +515,12 @@ protected:
 	void InitEffect(void);
 
 	// エフェクト再生
+	void CreatePlayEffect(void);
 	void TacklePlayEffect(void);
 	void JumpAttackPlayEffect(void);
 
 	// エフェクト位置
+	void CreateSyncEffect(void);
 	void TackleSyncEffect(void);
 	void JumpAttackSyncEffect(void);
 

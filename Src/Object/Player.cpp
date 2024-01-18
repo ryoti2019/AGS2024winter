@@ -191,6 +191,8 @@ void Player::Init(void)
 	// 回避中の無敵かどうか
 	isInvincible_ = false;
 
+	staminaCnt_ = 0.0f;
+
 }
 
 void Player::Update(void)
@@ -246,6 +248,13 @@ void Player::Update(void)
 			// 足音
 			FootStepsMusic();
 		}
+
+		if (staminaCnt_ >= 0.1f)
+		{
+			stamina_ -= 1.0f;
+			staminaCnt_ = 0.0f;
+		}
+
 		break;
 	case Player::STATE::ATTACK:
 		// 風を切る音の再生
@@ -328,6 +337,14 @@ void Player::Update(void)
 		break;
 	}
 
+	staminaCnt_ += SceneManager::GetInstance().GetDeltaTime();
+
+	if ((state_ == STATE::IDLE || state_ == STATE::WALK) && staminaCnt_ >= 0.1f && stamina_ < staminaMax_)
+	{
+		stamina_ += 0.3f;
+		staminaCnt_ = 0.0f;
+	}
+
 	// HPが0になったら操作できないようにする
 	if (hp_ > 0)
 	{
@@ -387,6 +404,22 @@ void Player::DrawHPBar(void)
 	{
 		DrawBox(0, Application::SCREEN_SIZE_Y - 30, hpGauge, Application::SCREEN_SIZE_Y, GetColor(R, G, B), true);
 	}
+
+	// HPバー
+	int staminaLength = HP_LENGTH;
+	int S;
+	int staminaGauge;
+	S = stamina_ * (512.0f / staminaMax_) - 100;
+	R = min(max((384 - S), 0), 0xff);
+	G = min(max((S + 64), 0), 0xff);
+	B = max((S - 384), 0);
+	staminaGauge = staminaLength * stamina_ / staminaMax_;
+
+	if (stamina_ >= 0)
+	{
+		DrawBox(0, Application::SCREEN_SIZE_Y - 80, staminaGauge, Application::SCREEN_SIZE_Y - 50, GetColor(R, G, B), true);
+	}
+
 }
 
 void Player::SpecialMoveUpdate(void)
@@ -607,6 +640,11 @@ VECTOR Player::GetCPosUP(void)
 	return cBodyPosUp_;
 }
 
+void Player::SetPos(VECTOR pos)
+{
+	transform_.pos = VAdd(transform_.pos, pos);
+}
+
 bool Player::GetAttack(void)
 {
 	return attack_;
@@ -784,7 +822,8 @@ void Player::KeyboardMove(void)
 		&& state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		// 走る
-		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
+		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir)
+			&& state_ != STATE::CHARGE_WALK && stamina_ >= 10.0f)
 		{
 			ChangeState(STATE::RUN);
 			speed_ = MOVE_POW_RUN;
@@ -828,7 +867,7 @@ void Player::KeyboardMove(void)
 
 	// 回避
 	if (ins.IsTrgDown(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir) &&
-		state_ != STATE::HIT && state_ != STATE::ROLL)
+		state_ != STATE::HIT && state_ != STATE::ROLL && stamina_ >= 10.0f)
 	{
 
 		chargeCnt_ = 0.0f;
@@ -847,7 +886,7 @@ void Player::KeyboardMove(void)
 		moveDir_ = VTransform(dir, mat);
 
 		// 移動量
-		speed_ = MOVE_POW_RUN;
+		speed_ = MOVE_POW_ROLL;
 
 		// 方向を角度に変換する(XZ平面 Y軸)
 		float angle = atan2f(dir.x, dir.z);
@@ -1106,7 +1145,8 @@ void Player::GamePadMove(void)
 	{
 
 		// 走る
-		if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN) && !AsoUtility::EqualsVZero(dir))
+		if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN)
+			&& !AsoUtility::EqualsVZero(dir) && stamina_ >= 0.1f)
 		{
 			ChangeState(STATE::RUN);
 			movePow = MOVE_POW_RUN;
@@ -1133,7 +1173,7 @@ void Player::GamePadMove(void)
 
 	// 回避
 	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN)
-		&& state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && stamina_ >= 10.0f)
 	{
 		ChangeState(STATE::ROLL);
 	}
@@ -1544,6 +1584,10 @@ void Player::ChangeState(STATE state)
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
+
+		// スタミナを減らす
+		stamina_ -= 10.0f;
+
 		break;
 	}
 
@@ -1842,6 +1886,12 @@ void Player::SetParam(void)
 
 	// HP
 	hp_ = hpMax_;
+
+	// スタミナの最大値
+	staminaMax_ = STAMINA_MAX;
+
+	// スタミナ
+	stamina_ = staminaMax_;
 
 }
 

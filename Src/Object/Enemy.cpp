@@ -729,8 +729,8 @@ void Enemy::Think(void)
 	float length = 0.0f;
 
 	// UŒ‚‚Ì‘I‘ð
-	//attackNumber_ = GetRand(3);
-	attackNumber_ = 3;
+	attackNumber_ = GetRand(3);
+	//attackNumber_ = 1;
 	
 	// UŒ‚‚ª“–‚½‚Á‚½‚©‚Ç‚¤‚©
 	hit_ = false;
@@ -1665,7 +1665,7 @@ void Enemy::ProcessShot(void)
 	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// ’e‚ðŽžŠÔ‚ð‚¸‚ç‚µ‚Ä”ò‚Î‚·
-	if (stepAnim_ >= 1.0f && !isShot_)
+	if (stepAnim_ >= 0.1f && !isShot_)
 	{
 		Shot();
 		isShot_ = true;

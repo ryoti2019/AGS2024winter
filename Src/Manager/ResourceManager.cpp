@@ -202,6 +202,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Ring.efkefc");
 	resourcesMap_.emplace(SRC::JUMPATTACK_RANGE_EFFECT, res);
 
+	// ジャンプアタックの攻撃範囲内に吸い込むエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Tornade.efkefc");
+	resourcesMap_.emplace(SRC::JUMPATTACK_TORNADE_EFFECT, res);
+
 	// サウンド--------------------------------------------------
 
 	// 溜める音
@@ -319,6 +323,11 @@ void ResourceManager::Init(void)
 	// 敵のダメージヒットボイス３
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/hitVoice3.mp3");
 	resourcesMap_.emplace(SRC::ENEMY_HIT_VOICE_MUSIC3, res);
+
+	// タイトルシーンの音楽
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Scene/Title.mp3");
+	resourcesMap_.emplace(SRC::TITLE_MUSIC, res);
+
 
 }
 

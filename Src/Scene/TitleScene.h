@@ -22,6 +22,9 @@ private:
 	// タイトルロゴ
 	int imgTitleLogo_;
 
+	// タイトルシーンの音楽
+	int musicTitle_;
+
 	// 点滅用のカウンタ
 	int BlinkCnt_;
 	

@@ -40,6 +40,9 @@ private:
 	// 剣
 	Sword* sword_;
 
+	// プレイヤーの回避用の座標
+	VECTOR rollPos_;
+
 	// ヒットストップ
 	int hitStopCnt_;
 
@@ -65,6 +68,12 @@ private:
 	int effectEnemyImpactResId_;
 	int effectEnemyImpactPlayId_;
 	VECTOR effectEnemyImpactPos_;
+
+	// ジャンプアタックの吸い込むエフェクト
+	int effectEnemyTornadeResId_;
+	int effectEnemyTornadePlayId_;
+	VECTOR effectEnemyTornadePos_;
+	bool isEffectTornade_;
 
 	// 音
 	// プレイヤーの攻撃が当たった時の音１
@@ -106,11 +115,17 @@ private:
 	// 敵の攻撃が当たった時のエフェクト
 	void EnemyImpactPlayEffect(void);
 
+	// ジャンプアタックの吸い込むエフェクト
+	void EnemyTornadePlayEffect(void);
+
 	// プレイヤーの攻撃が当たった時のエフェクト
 	void PlayerImpactSyncEffect(void);
 
 	// 敵の攻撃が当たった時のエフェクト
 	void EnemyImpactSyncEffect(void);
+
+	// ジャンプアタックの吸い込むエフェクト
+	void EnemyTornadeSyncEffect(void);
 
 	// 音の初期化
 	void InitMusic(void);

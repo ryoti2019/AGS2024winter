@@ -26,6 +26,12 @@ void TitleScene::Init(void)
 	// タイトルロゴ
 	imgTitleLogo_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TITLE_LOGO).handleId_;
 
+	// タイトルシーンの音楽
+	musicTitle_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TITLE_MUSIC).handleId_;
+
+	// タイトルシーンの音楽の再生
+	PlaySoundMem(musicTitle_, DX_PLAYTYPE_LOOP);
+
 }
 
 void TitleScene::Update(void)
@@ -63,6 +69,8 @@ void TitleScene::Draw(void)
 void TitleScene::Release(void)
 {
 	DeleteGraph(imgTitleLogo_);
+
+	StopSoundMem(musicTitle_);
 }
 
 void TitleScene::DrawLogo(void)

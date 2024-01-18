@@ -72,7 +72,7 @@ public:
 	static constexpr float JUMP_ATTACK_COLLISION_START_TIME = 40.0f;
 
 	// ジャンプアタックの当たり判定が終わる時間
-	static constexpr float JUMP_ATTACK_COLLISION_END_TIME = 80.0f;
+	static constexpr float JUMP_ATTACK_COLLISION_END_TIME = 70.0f;
 
 	// ジャンプアタックが終わる時間
 	static constexpr float JUMP_ATTACK_END_TIME = 200.0f;
@@ -81,7 +81,7 @@ public:
 	static constexpr float SHOT_CREATE_START_TIME = 10.0f;
 
 	// 弾の生成が終わる時間
-	static constexpr float SHOT_CREATE_END_TIME = 60.0f;
+	static constexpr float SHOT_CREATE_END_TIME = 20.0f;
 
 	// ショットアタックが始まる時間
 	static constexpr float SHOT_START_TIME = 10.0f;
@@ -126,7 +126,7 @@ public:
 	static constexpr int HP_MAX = 100;
 
 	// 弾の生成間隔
-	static constexpr float TIME_DELAY_SHOT_CREATE = 0.4f;
+	static constexpr float TIME_DELAY_SHOT_CREATE = 0.1f;
 
 	// 弾の発射間隔
 	static constexpr float TIME_DELAY_SHOT = 2.0f;

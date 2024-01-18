@@ -65,6 +65,9 @@ public:
 	// 移動量(走る)
 	static constexpr float MOVE_POW_RUN = 20.0f;
 
+	// 移動量(回避)
+	static constexpr float MOVE_POW_ROLL = 30.0f;
+
 	// 待機アニメーションの再生速度
 	static constexpr float IDLE_ANIM_SPEED = 20.0f;
 
@@ -112,6 +115,9 @@ public:
 
 	// 回避の無敵が終わる時間
 	static constexpr float ROLL_INVINCIBLE_END_TIME = 50.0f;
+
+	// スタミナの最大値
+	static constexpr float STAMINA_MAX = 100.0f;
 
 	// プレイヤーの状態
 	enum class STATE
@@ -163,6 +169,9 @@ public:
 	// 衝突判定の上の座標の取得
 	VECTOR GetCPosUP(void);
 
+	// プレイヤーの座標を設定
+	void SetPos(VECTOR pos);
+	
 	// 攻撃フラグの取得
 	bool GetAttack(void);
 
@@ -294,6 +303,15 @@ protected:
 
 	// 回避中の無敵のフラグ
 	bool isInvincible_;
+
+	// スタミナの最大値
+	float staminaMax_;
+
+	// スタミナ
+	float stamina_;
+
+	// スタミナのカウンタ
+	float staminaCnt_;
 
 	// エフェクト
 	// 溜めるエフェクト

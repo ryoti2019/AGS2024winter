@@ -62,6 +62,9 @@ void GameScene::Init(void)
 	// 敵が死んだ時のフラグ
 	enemyDeath_ = false;
 
+	// プレイヤーの回避用の座標
+	rollPos_ = AsoUtility::VECTOR_ZERO;
+
 	// エフェクトの初期設定
 	InitEffect();
 
@@ -109,6 +112,35 @@ void GameScene::Update(void)
 
 	// 当たり判定
 	CollisionEnemyAndPlayer();
+
+	// プレイヤーを攻撃範囲に引き寄せる
+	if (enemy_->GetStepAnim() <= 50.0f && enemy_->GetState() == Enemy::STATE::JUMP_ATTACK)
+	{
+		if (player_->GetState() != Player::STATE::ROLL)
+		{
+			VECTOR vec = VSub(enemy_->GetAttackPlayerPos(), player_->GetTransform().pos);
+			vec = VNorm(vec);
+			rollPos_ = VScale(vec, 15.0f);
+			player_->SetPos(rollPos_);
+		}
+
+		EnemyTornadeSyncEffect();
+
+	}
+
+	// 回避用の座標を初期化
+	if (enemy_->GetState() != Enemy::STATE::JUMP_ATTACK)
+	{
+		rollPos_ = AsoUtility::VECTOR_ZERO;
+		isEffectTornade_ = true;
+	}
+
+	// ジャンプアタックの吸い込むエフェクトの再生
+	if (isEffectTornade_ && enemy_->GetState() == Enemy::STATE::JUMP_ATTACK)
+	{
+		EnemyTornadePlayEffect();
+		isEffectTornade_ = false;
+	}
 
 	// ヒットストップを入れる
 	if (enemy_->GetHP() <= 0 && !enemyDeath_)
@@ -374,6 +406,12 @@ void GameScene::InitEffect(void)
 	// 敵の攻撃が当たった時のエフェクト
 	effectEnemyImpactResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_IMPACT_EFFECT).handleId_;
 
+	// ジャンプアタックの吸い込むエフェクト
+	effectEnemyTornadeResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::JUMPATTACK_TORNADE_EFFECT).handleId_;
+
+	// ジャンプアタックの吸い込むエフェクトのフラグ
+	isEffectTornade_ = true;
+
 }
 
 void GameScene::PlayerImpactPlayEffect(void)
@@ -406,6 +444,21 @@ void GameScene::EnemyImpactPlayEffect(void)
 
 }
 
+void GameScene::EnemyTornadePlayEffect(void)
+{
+
+	// エフェクト再生
+	effectEnemyTornadePlayId_ = PlayEffekseer3DEffect(effectEnemyTornadeResId_);
+
+	float SCALE = 100.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectEnemyTornadePlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	EnemyTornadeSyncEffect();
+
+}
+
 void GameScene::PlayerImpactSyncEffect(void)
 {
 
@@ -418,10 +471,10 @@ void GameScene::PlayerImpactSyncEffect(void)
 	VECTOR rot = Quaternion::ToEuler(followRot);
 
 	// 追従対象から自機までの相対座標
-	VECTOR effectLPos = followRot.PosAxis({0.0f,200.0f,0.0f});
+	VECTOR effectPos = followRot.PosAxis({0.0f,200.0f,0.0f});
 
 	// エフェクトの位置の更新
-	effectPlayerImpactPos_ = VAdd(followPos, effectLPos);
+	effectPlayerImpactPos_ = VAdd(followPos, effectPos);
 
 	// 位置の設定
 	SetPosPlayingEffekseer3DEffect(effectPlayerImpactPlayId_, effectPlayerImpactPos_.x, effectPlayerImpactPos_.y, effectPlayerImpactPos_.z);
@@ -443,16 +496,39 @@ void GameScene::EnemyImpactSyncEffect(void)
 	VECTOR rot = Quaternion::ToEuler(followRot);
 
 	// 追従対象から自機までの相対座標
-	VECTOR effectLPos = followRot.PosAxis({0.0f,100.0f,0.0f});
+	VECTOR effectPos = followRot.PosAxis({0.0f,100.0f,0.0f});
 
 	// エフェクトの位置の更新
-	effectEnemyImpactPos_ = VAdd(followPos, effectLPos);
+	effectEnemyImpactPos_ = VAdd(followPos, effectPos);
 
 	// 位置の設定
 	SetPosPlayingEffekseer3DEffect(effectEnemyImpactPlayId_, effectEnemyImpactPos_.x, effectEnemyImpactPos_.y, effectEnemyImpactPos_.z);
 	SetRotationPlayingEffekseer3DEffect(effectEnemyImpactPlayId_, rot.x, rot.y, rot.z);
 
 	player_->Update();
+
+}
+
+void GameScene::EnemyTornadeSyncEffect(void)
+{
+
+	// 追従対象の位置
+	VECTOR followPos = enemy_->GetAttackPlayerPos();
+
+	// 追従対象の向き
+	Quaternion followRot = enemy_->GetTransform().quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectPos = followRot.PosAxis({ 0.0f,100.0f,0.0f });
+
+	// エフェクトの位置の更新
+	effectEnemyTornadePos_ = VAdd(followPos, effectPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectEnemyTornadePlayId_, effectEnemyTornadePos_.x, effectEnemyTornadePos_.y, effectEnemyTornadePos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectEnemyTornadePlayId_, rot.x, rot.y, rot.z);
 
 }
 

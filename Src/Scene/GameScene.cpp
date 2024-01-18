@@ -24,8 +24,8 @@ GameScene::~GameScene(void)
 void GameScene::Init(void)
 {
 
-	//// カメラモード：フリーカメラ
-	//SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FREE);
+	// カメラモード：フリーカメラ
+	//SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FIXED_POINT);
 
 	// グリッド線の生成
 	grid_ = new Grid();
@@ -39,7 +39,6 @@ void GameScene::Init(void)
 	player_ = new Player();
 	player_->SetStageID(stage_->GetModelId());
 	player_->Init();
-
 
 	// 敵の生成
 	enemy_ = new Enemy();
@@ -94,7 +93,7 @@ void GameScene::Update(void)
 	}
 
 	// グリッド線の更新
-	grid_->Update();
+	//grid_->Update();
 
 	// ステージの更新
 	stage_->Update();
@@ -154,7 +153,7 @@ void GameScene::Draw(void)
 {
 
 	// グリッド線の描画
-	grid_->Draw();
+	//grid_->Draw();
 
 	// ステージの描画
 	stage_->Draw();
@@ -169,7 +168,7 @@ void GameScene::Draw(void)
 	sword_->Draw();
 
 	// デバッグ描画
-	DrawDebug();
+	//DrawDebug();
 
 }
 
@@ -213,16 +212,20 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-5);
+			enemy_->SetHP(-3);
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
 			hitStopCnt_ = 5;
 			// プレイヤーの攻撃が当たった時のエフェクト
-			ImpactPlayEffect();
+			PlayerImpactPlayEffect();
 
 			// プレイヤーの攻撃が当たった時の音
 			ImpactMusic();
+
+			// 敵のダメージヒット音
+			EnemyHitMusic();
+
 		}
 	}
 
@@ -241,10 +244,14 @@ void GameScene::CollisionEnemyAndPlayer()
 			player_->SetHit(true);
 			hitStopCnt_ = 5;
 			// プレイヤーの攻撃が当たった時のエフェクト
-			ImpactPlayEffect();
+			PlayerImpactPlayEffect();
 
 			// プレイヤーの攻撃が当たった時の音
 			ImpactMusic();
+
+			// 敵のダメージヒット音
+			EnemyHitMusic();
+
 		}
 	}
 
@@ -259,16 +266,21 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-10);
+			player_->SetHP(-15);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
+
+			// 敵の攻撃が当たった時のエフェクト
+			EnemyImpactPlayEffect();
+
+			// ダメージヒット音の再生
+			PlayerHitMusic();
 		}
 	}
 	// プレイヤーと敵同士の当たり判定
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
-		&& (enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE) && !player_->GetIsInvincible()
+		&& (enemy_->GetState() == Enemy::STATE::TACKLE) && !player_->GetIsInvincible()
 		&& player_->GetHP() > 0)
 	{
 		// 敵の攻撃がすでに当たっていたら入らない
@@ -278,6 +290,12 @@ void GameScene::CollisionEnemyAndPlayer()
 			player_->SetHP(-10);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
+
+			// 敵の攻撃が当たった時のエフェクト
+			EnemyImpactPlayEffect();
+
+			// ダメージヒット音の再生
+			PlayerHitMusic();
 		}
 	}
 
@@ -290,9 +308,15 @@ void GameScene::CollisionEnemyAndPlayer()
 			&& player_->GetHP() > 0)
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-10);
+			player_->SetHP(-3);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
+
+			// 敵の攻撃が当たった時のエフェクト
+			EnemyImpactPlayEffect();
+
+			// ダメージヒット音の再生
+			PlayerHitMusic();
 		}
 	}
 
@@ -302,7 +326,7 @@ void GameScene::CollisionEnemyAndPlayer()
 	// XZ距離
 	float distance = diff.x * diff.x + diff.z * diff.z;
 
-	// 聴覚
+	// ジャンプアタック
 	if (distance <= 1000 * 1000 && enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
 		&& enemy_->GetStepAnim() >= 45.0f && enemy_->GetStepAnim() <= 80.0f
 		&& player_->GetHP() > 0)
@@ -311,9 +335,15 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-10);
+			player_->SetHP(-20);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
+
+			// 敵の攻撃が当たった時のエフェクト
+			EnemyImpactPlayEffect();
+
+			// ダメージヒット音の再生
+			PlayerHitMusic();
 		}
 	}
 
@@ -339,26 +369,44 @@ void GameScene::InitEffect(void)
 {
 
 	// プレイヤーの攻撃が当たった時のエフェクト
-	effectImpactResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_EFFECT).handleId_;
+	effectPlayerImpactResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_EFFECT).handleId_;
+
+	// 敵の攻撃が当たった時のエフェクト
+	effectEnemyImpactResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_IMPACT_EFFECT).handleId_;
 
 }
 
-void GameScene::ImpactPlayEffect(void)
+void GameScene::PlayerImpactPlayEffect(void)
 {
 
 	// エフェクト再生
-	effectImpactPlayId_ = PlayEffekseer3DEffect(effectImpactResId_);
+	effectPlayerImpactPlayId_ = PlayEffekseer3DEffect(effectPlayerImpactResId_);
 
 	float SCALE = 300.0f;
 	// 大きさ
-	SetScalePlayingEffekseer3DEffect(effectImpactPlayId_, SCALE, SCALE, SCALE);
+	SetScalePlayingEffekseer3DEffect(effectPlayerImpactPlayId_, SCALE, SCALE, SCALE);
 
 	// 位置
-	ImpactSyncEffect();
+	PlayerImpactSyncEffect();
 
 }
 
-void GameScene::ImpactSyncEffect(void)
+void GameScene::EnemyImpactPlayEffect(void)
+{
+
+	// エフェクト再生
+	effectEnemyImpactPlayId_ = PlayEffekseer3DEffect(effectEnemyImpactResId_);
+
+	float SCALE = 100.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectEnemyImpactPlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	EnemyImpactSyncEffect();
+
+}
+
+void GameScene::PlayerImpactSyncEffect(void)
 {
 
 	// 追従対象の位置
@@ -370,16 +418,41 @@ void GameScene::ImpactSyncEffect(void)
 	VECTOR rot = Quaternion::ToEuler(followRot);
 
 	// 追従対象から自機までの相対座標
-	VECTOR effectLPos = followRot.PosAxis(LOCAL_CHRAGE_POS);
+	VECTOR effectLPos = followRot.PosAxis({0.0f,200.0f,0.0f});
 
 	// エフェクトの位置の更新
-	effectImpactPos_ = VAdd(followPos, effectLPos);
+	effectPlayerImpactPos_ = VAdd(followPos, effectLPos);
 
 	// 位置の設定
-	SetPosPlayingEffekseer3DEffect(effectImpactPlayId_, effectImpactPos_.x, effectImpactPos_.y, effectImpactPos_.z);
-	SetRotationPlayingEffekseer3DEffect(effectImpactPlayId_, rot.x, rot.y, rot.z);
+	SetPosPlayingEffekseer3DEffect(effectPlayerImpactPlayId_, effectPlayerImpactPos_.x, effectPlayerImpactPos_.y, effectPlayerImpactPos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectPlayerImpactPlayId_, rot.x, rot.y, rot.z);
 
 	enemy_->Update();
+
+}
+
+void GameScene::EnemyImpactSyncEffect(void)
+{
+
+	// 追従対象の位置
+	VECTOR followPos = player_->GetTransform().pos;
+
+	// 追従対象の向き
+	Quaternion followRot = player_->GetTransform().quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectLPos = followRot.PosAxis({0.0f,100.0f,0.0f});
+
+	// エフェクトの位置の更新
+	effectEnemyImpactPos_ = VAdd(followPos, effectLPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectEnemyImpactPlayId_, effectEnemyImpactPos_.x, effectEnemyImpactPos_.y, effectEnemyImpactPos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectEnemyImpactPlayId_, rot.x, rot.y, rot.z);
+
+	player_->Update();
 
 }
 
@@ -394,6 +467,21 @@ void GameScene::InitMusic(void)
 
 	// プレイヤーの攻撃が当たった時の音３
 	musicImpactId3_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_MUSIC3).handleId_;
+
+	// プレイヤーのダメージヒットボイス１
+	musicPlayerHitVoice1_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_HIT_VOICE_MUSIC1).handleId_;
+
+	// プレイヤーのダメージヒットボイス２
+	musicPlayerHitVoice2_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_HIT_VOICE_MUSIC2).handleId_;
+
+	// 敵のダメージヒットボイス１
+	musicEnemyHitVoice1_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HIT_VOICE_MUSIC1).handleId_;
+
+	// 敵のダメージヒットボイス２
+	musicEnemyHitVoice2_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HIT_VOICE_MUSIC2).handleId_;
+
+	// 敵のダメージヒットボイス３
+	musicEnemyHitVoice3_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HIT_VOICE_MUSIC3).handleId_;
 
 }
 
@@ -412,6 +500,43 @@ void GameScene::ImpactMusic(void)
 	else if (number == 2)
 	{
 		PlaySoundMem(musicImpactId3_, DX_PLAYTYPE_BACK);
+	}
+
+}
+
+void GameScene::PlayerHitMusic(void)
+{
+
+	int number = GetRand(1);
+	if (player_->GetState() == Player::STATE::HIT)
+	{
+		if (number == 0)
+		{
+			PlaySoundMem(musicPlayerHitVoice1_, DX_PLAYTYPE_BACK);
+		}
+		else if (number == 1)
+		{
+			PlaySoundMem(musicPlayerHitVoice2_, DX_PLAYTYPE_BACK);
+		}
+	}
+
+}
+
+void GameScene::EnemyHitMusic(void)
+{
+
+	int number = GetRand(2);
+	if (number == 0)
+	{
+		PlaySoundMem(musicEnemyHitVoice1_, DX_PLAYTYPE_BACK);
+	}
+	else if (number == 1)
+	{
+		PlaySoundMem(musicEnemyHitVoice2_, DX_PLAYTYPE_BACK);
+	}
+	else if (number == 1)
+	{
+		PlaySoundMem(musicEnemyHitVoice3_, DX_PLAYTYPE_BACK);
 	}
 
 }

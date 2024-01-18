@@ -23,6 +23,13 @@ ShotEnemy::~ShotEnemy(void)
 {
 }
 
+void ShotEnemy::Release(void)
+{
+
+	StopEffekseer3DEffect(effectShotPlayId_);
+
+}
+
 void ShotEnemy::InitEffect(void)
 {
 

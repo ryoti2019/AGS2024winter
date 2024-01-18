@@ -177,6 +177,9 @@ void Enemy::InitEffect(void)
 	// ジャンプアタックエフェクトのカウンタ
 	isEffectJumpAttack_ = true;
 
+	// ジャンプアタックの攻撃範囲のエフェクト
+	effectJumpAttackRangeResId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::JUMPATTACK_RANGE_EFFECT).handleId_;
+
 }
 
 void Enemy::CreatePlayEffect(void)
@@ -221,6 +224,21 @@ void Enemy::JumpAttackPlayEffect(void)
 
 	// 位置
 	JumpAttackSyncEffect();
+
+}
+
+void Enemy::JumpAttackRangePlayEffect(void)
+{
+
+	// エフェクト再生
+	effectJumpAttackRangePlayId_ = PlayEffekseer3DEffect(effectJumpAttackRangeResId_);
+
+	float SCALE = 200.0f;
+	// 大きさ
+	SetScalePlayingEffekseer3DEffect(effectJumpAttackRangePlayId_, SCALE, SCALE, SCALE);
+
+	// 位置
+	JumpAttackRangeSyncEffect();
 
 }
 
@@ -299,6 +317,31 @@ void Enemy::JumpAttackSyncEffect(void)
 
 }
 
+void Enemy::JumpAttackRangeSyncEffect(void)
+{
+
+	// 追従対象の位置
+	VECTOR followPos = attackPlayerPos_;
+
+	// 追従対象の向き
+	Quaternion followRot = transform_.quaRot;
+
+	VECTOR rot = Quaternion::ToEuler(followRot);
+
+	// 追従対象から自機までの相対座標
+	VECTOR effectPos = followRot.PosAxis({ 0.0f,10.0f,0.0f });
+
+	// エフェクトの位置の更新
+	effectJumpAttackRangePos_ = VAdd(followPos, effectPos);
+
+	// 位置の設定
+	SetPosPlayingEffekseer3DEffect(effectJumpAttackRangePlayId_, effectJumpAttackRangePos_.x, effectJumpAttackRangePos_.y, effectJumpAttackRangePos_.z);
+	SetRotationPlayingEffekseer3DEffect(effectJumpAttackRangePlayId_, rot.x, rot.y, rot.z);
+
+	transform_.Update();
+
+}
+
 void Enemy::InitMusic(void)
 {
 
@@ -317,6 +360,18 @@ void Enemy::InitMusic(void)
 	// 地響きの音
 	musicEarthQuakeId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::EARTHQUAKE_MUSIC).handleId_;
 
+	// 攻撃のボイス１
+	musicAttackVoice1Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_ATTACK_VOICE_MUSIC1).handleId_;
+
+	// 攻撃のボイス２
+	musicAttackVoice2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_ATTACK_VOICE_MUSIC2).handleId_;
+
+	// 攻撃のボイス３
+	musicAttackVoice3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_ATTACK_VOICE_MUSIC3).handleId_;
+
+	// 攻撃のボイスのフラグ
+	isMusicAttackVoice_ = true;
+
 }
 
 void Enemy::FootStepsMusic(void)
@@ -328,6 +383,26 @@ void Enemy::FootStepsMusic(void)
 	}
 
 	musicFootStepsCnt_ += SceneManager::GetInstance().GetDeltaTime();
+
+}
+
+void Enemy::AttackMusic(void)
+{
+
+	int number = GetRand(2);
+
+	if (number == 0)
+	{
+		PlaySoundMem(musicAttackVoice1Id_, DX_PLAYTYPE_BACK);
+	}
+	else if (number == 1)
+	{
+		PlaySoundMem(musicAttackVoice2Id_, DX_PLAYTYPE_BACK);
+	}
+	else if (number == 2)
+	{
+		PlaySoundMem(musicAttackVoice3Id_, DX_PLAYTYPE_BACK);
+	}
 
 }
 
@@ -404,6 +479,7 @@ void Enemy::Update(void)
 
 		// エフェクトの位置
 		JumpAttackSyncEffect();
+		JumpAttackRangeSyncEffect();
 
 		break;
 	case Enemy::STATE::TACKLE:
@@ -544,6 +620,11 @@ void Enemy::Release(void)
 	}
 	shots_.clear();
 
+	StopEffekseer3DEffect(effectCreatePlayId_);
+	StopEffekseer3DEffect(effectJumpAttackRangePlayId_);
+	StopEffekseer3DEffect(effectJumpAttackPlayId_);
+	StopEffekseer3DEffect(effectTacklePlayId_);
+
 }
 
 const Transform& Enemy::GetTransform(void) const
@@ -648,8 +729,8 @@ void Enemy::Think(void)
 	float length = 0.0f;
 
 	// 攻撃の選択
-	//attackNumber_ = GetRand(2);
-	attackNumber_ = 0;
+	//attackNumber_ = GetRand(3);
+	attackNumber_ = 3;
 	
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -673,15 +754,14 @@ void Enemy::Think(void)
 	length = AsoUtility::Magnitude(vec);
 
 	// 敵とプレイヤーの距離が一定距離になったら攻撃する
-	if (length < ATTACK_RANGE)
+	if (attackNumber_ == 0 && length < ATTACK_RANGE)
 	{
 		ChangeState(STATE::ATTACK);
-		return;
 	}
 
 	// ジャンプ攻撃 ------------------------------------------
 
-	if (attackNumber_ == 0)
+	if (attackNumber_ == 1)
 	{
 
 		// プレイヤーがいた座標を代入
@@ -703,7 +783,7 @@ void Enemy::Think(void)
 
 	// タックル攻撃 ------------------------------------------
 
-	if (attackNumber_ == 1)
+	if (attackNumber_ == 2)
 	{
 		// プレイヤーがいた座標を代入
 		attackPlayerPos_ = followTransform_->pos;
@@ -719,7 +799,7 @@ void Enemy::Think(void)
 
 	// ショット攻撃-------------------------------------------
 
-	if (attackNumber_ == 2)
+	if (attackNumber_ == 3)
 	{
 		ChangeState(STATE::CREATE);
 	}
@@ -1072,14 +1152,24 @@ void Enemy::ChangeState(STATE state)
 
 		// 音を止める
 		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
+
+		// 音の再生
+		AttackMusic();
+
 		break;
 	case Enemy::STATE::JUMP_ATTACK:
 		SetJumpAttackAnimation();
 
+		// エフェクトの再生
+		JumpAttackRangePlayEffect();
+
 		// 音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
+
+		// 音の再生
+		AttackMusic();
+
 		break;
 	case Enemy::STATE::TACKLE:
 		tackleCnt_ = 4.0f;
@@ -1090,6 +1180,10 @@ void Enemy::ChangeState(STATE state)
 
 		// 音の再生
 		PlaySoundMem(musicTackleId_, DX_PLAYTYPE_BACK);
+
+		// 音の再生
+		AttackMusic();
+
 		break;
 	case Enemy::STATE::CREATE:
 		SetCreateAnimation();
@@ -1104,6 +1198,9 @@ void Enemy::ChangeState(STATE state)
 		// 音の再生
 		PlaySoundMem(musicCreateId_, DX_PLAYTYPE_BACK);
 
+		// 音の再生
+		AttackMusic();
+
 		break;
 	case Enemy::STATE::SHOT:
 		delayShot_ = TIME_DELAY_SHOT;
@@ -1113,6 +1210,9 @@ void Enemy::ChangeState(STATE state)
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
 		StopSoundMem(musicCreateId_);
+
+		// 音の再生
+		AttackMusic();
 
 		break;
 	case Enemy::STATE::HIT:
@@ -1383,17 +1483,18 @@ void Enemy::LazyRotation(float goalRot)
 void Enemy::DrawDebug(void)
 {
 
-	// エネミー自身の衝突判定のカプセルの描画
-	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
+	//// エネミー自身の衝突判定のカプセルの描画
+	//DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
 
-	// エネミー武器の衝突判定のカプセルの描画
-	DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
+	//// エネミー武器の衝突判定のカプセルの描画
+	//DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
 
-	// ジャンプアタックの球体の描画
-	if (state_ == STATE::JUMP_ATTACK)
-	{
-		DrawCone3D(VAdd(attackPlayerPos_, { 0.0f,0.0f,0.0f }), VAdd(attackPlayerPos_, { 0.0f,10.0f,0.0f }), 1000, 10, 0xff0000, 0xff0000, true);
-	}
+	//// ジャンプアタックの球体の描画
+	//if (state_ == STATE::JUMP_ATTACK)
+	//{
+	//	DrawCone3D(VAdd(attackPlayerPos_, { 0.0f,0.0f,0.0f }), VAdd(attackPlayerPos_, { 0.0f,10.0f,0.0f }), 1000, 10, 0x0000ff, 0x0000ff, true);
+	//}
+
 }
 
 void Enemy::SetParam(void)
@@ -1564,7 +1665,7 @@ void Enemy::ProcessShot(void)
 	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// 弾を時間をずらして飛ばす
-	if (stepAnim_ >= 35.0f && !isShot_)
+	if (stepAnim_ >= 1.0f && !isShot_)
 	{
 		Shot();
 		isShot_ = true;
@@ -1589,6 +1690,8 @@ void Enemy::Shot(void)
 			// 発射処理
 			shot->Shot(dir);
 			shotNum_--;
+
+			AttackMusic();
 			break;
 
 		}
@@ -1601,7 +1704,7 @@ void Enemy::CreateShot(void)
 {
 
 	// 8個の弾を敵の背後に作る(8回ループ)
-	if (shotNum_ < 8 && delayCreate_ <= 0.0f)
+	if (shotNum_ < 10 && delayCreate_ <= 0.0f)
 	{
 
 		// 利用可能なものを探す
@@ -1611,7 +1714,7 @@ void Enemy::CreateShot(void)
 		shotCreateRad_ = shotCreateDeg_ * DX_PI_F / 180.0f;
 
 		// 45度ずつ弾の位置を変える
-		shotCreateDeg_ += (360 / 8);
+		shotCreateDeg_ += (360 / 10);
 
 		// 角度から方向(ベクトル)を求める
 		auto qua = Quaternion::Euler({ 0.0f,0.0f,shotCreateRad_ });

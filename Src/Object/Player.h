@@ -107,6 +107,12 @@ public:
 	// 溜めのエフェクトの相対座標
 	static constexpr VECTOR LOCAL_CHRAGE_POS = { 0.0f,0.0f,0.0f };
 
+	// 回避の無敵が始まる時間
+	static constexpr float ROLL_INVINCIBLE_START_TIME = 20.0f;
+
+	// 回避の無敵が終わる時間
+	static constexpr float ROLL_INVINCIBLE_END_TIME = 50.0f;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -317,17 +323,29 @@ protected:
 	// 足音のカウンタ
 	float musicFootStepsCnt_;
 
-	// 攻撃音１
+	// 攻撃ボイス１
 	int musicSlashVoice1Id_;
 
-	// 攻撃音２
+	// 攻撃ボイス２
 	int musicSlashVoice2Id_;
 
-	// 攻撃音３
+	// 攻撃ボイス３
 	int musicSlashVoice3Id_;
 
-	// 溜め攻撃音
+	// 溜め攻撃ボイス
 	int musicChargeSlashVoiceId_;
+
+	// 回避音
+	int musicRollId_;
+
+	// 回避ボイス１
+	int musicRollVoice1Id_;
+
+	// 回避ボイス２
+	int musicRollVoice2Id_;
+
+	// 回避ボイスのフラグ
+	bool isMusicRoll_;
 
 	// 移動処理
 	void KeyboardMove(void);
@@ -445,6 +463,9 @@ protected:
 
 	// 足音
 	void FootStepsMusic(void);
+
+	// 回避音
+	void RollMusic(void);
 
 };
 

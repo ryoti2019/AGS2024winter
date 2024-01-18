@@ -13,6 +13,8 @@ public:
 	// デストラクタ
 	~ShotEnemy(void);
 
+	void Release(void) override;
+
 	ShotEnemy::STATE GetState(void);
 
 	void SetState(ShotEnemy::STATE state);

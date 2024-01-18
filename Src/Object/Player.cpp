@@ -119,14 +119,30 @@ void Player::InitMusic(void)
 	// 足音のカウンタ
 	musicFootStepsCnt_ = 0.0f;
 
-	// プレイヤーの攻撃音１
+	// プレイヤーの攻撃ボイス１
 	musicSlashVoice1Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC1).handleId_;
 
-	// プレイヤーの攻撃音２
+	// プレイヤーの攻撃ボイス２
 	musicSlashVoice2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC2).handleId_;
 
-	// プレイヤーの攻撃音３
+	// プレイヤーの攻撃ボイス３
 	musicSlashVoice3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC3).handleId_;
+
+	// プレイヤーの溜め攻撃ボイス
+	musicChargeSlashVoiceId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGEATTACK_VOICE_MUSIC).handleId_;
+
+	// 回避音
+	musicRollId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ROLL_MUSIC).handleId_;
+	ChangeVolumeSoundMem(255 * 70 / 100, musicRollId_);
+
+	// 回避ボイス１
+	musicRollVoice1Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ROLL_VOICE_MUSIC1).handleId_;
+
+	// 回避ボイス２
+	musicRollVoice2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ROLL_VOICE_MUSIC2).handleId_;
+
+	// 回避音のフラグ
+	isMusicRoll_ = true;
 
 }
 
@@ -286,12 +302,21 @@ void Player::Update(void)
 	case Player::STATE::DEATH:
 		break;
 	case Player::STATE::ROLL:
+		if (stepAnim_ >= 5.0f && stepAnim_ <= 45.0f)
+		{
+			// 移動量
+			movePow_ = VScale(moveDir_, speed_);
+
+			// 現在座標を起点に移動後座標を決める
+			movedPos_ = VAdd(transform_.pos, movePow_);
+		}
+
 		if (stepAnim_ >= 45.0f)
 		{
 			speed_ = 0.0f;
 		}
 
-		if (stepAnim_ >= 20.0f && stepAnim_ <= 50.0f)
+		if (stepAnim_ >= ROLL_INVINCIBLE_START_TIME && stepAnim_ <= ROLL_INVINCIBLE_END_TIME)
 		{
 			isInvincible_ = true;
 		}
@@ -497,19 +522,19 @@ void Player::SlashMusic(void)
 		if (number == 0)
 		{
 			PlaySoundMem(musicSlash1Id_, DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicSlashVoice1Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicChargeSlashVoiceId_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 1)
 		{
 			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicChargeSlashVoiceId_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 		else if (number == 2)
 		{
 			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicChargeSlashVoiceId_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 	}
@@ -524,6 +549,28 @@ void Player::FootStepsMusic(void)
 	}
 
 	musicFootStepsCnt_ += SceneManager::GetInstance().GetDeltaTime();
+
+}
+
+void Player::RollMusic(void)
+{
+
+	int number = GetRand(1);
+	if (stepAnim_ >= ROLL_INVINCIBLE_START_TIME && isMusicRoll_ && state_ == STATE::ROLL)
+	{
+		if (number == 0)
+		{
+			PlaySoundMem(musicRollId_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicRollVoice1Id_, DX_PLAYTYPE_BACK);
+			isMusicRoll_ = false;
+		}
+		else if (number == 1)
+		{
+			PlaySoundMem(musicRollId_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicRollVoice2Id_, DX_PLAYTYPE_BACK);
+			isMusicRoll_ = false;
+		}
+	}
 
 }
 
@@ -674,7 +721,7 @@ void Player::CollisionStage(void)
 			{
 
 				// 法線の方向にちょっとだけ移動させる
-				movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 1.0f));
+				movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 1.2f));
 
 				// カプセルも一緒に移動させる
 				transform_.pos = movedPos_;
@@ -784,6 +831,9 @@ void Player::KeyboardMove(void)
 		state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 
+		chargeCnt_ = 0.0f;
+		StopEffekseer3DEffect(effectChargePlayId_);
+
 		ChangeState(STATE::ROLL);
 
 		// 方向を正規化
@@ -837,7 +887,7 @@ void Player::KeyboardMove(void)
 	}
 
 	if (state_ != STATE::HIT && state_ != STATE::ATTACK && state_ != STATE::ATTACK2 &&
-		state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK)
+		state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::ROLL)
 	{
 		// 移動量
 		movePow_ = VScale(moveDir_, speed_);
@@ -938,7 +988,7 @@ void Player::KeyboardAttack(void)
 	}
 
 	if (insInput.IsClickMouseLeft() && chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT)
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		chargeCnt_ += insScene.GetDeltaTime();
 	}
@@ -947,6 +997,7 @@ void Player::KeyboardAttack(void)
 	if (attack2_ && !attack1_ && state_ == STATE::ATTACK)
 	{
 		chargeCnt_ = 0.0f;
+		StopEffekseer3DEffect(effectChargePlayId_);
 		ChangeState(STATE::ATTACK2);
 	}
 
@@ -954,6 +1005,7 @@ void Player::KeyboardAttack(void)
 	if (attack3_ && !attack2_ && state_ == STATE::ATTACK2)
 	{
 		chargeCnt_ = 0.0f;
+		StopEffekseer3DEffect(effectChargePlayId_);
 		ChangeState(STATE::ATTACK3);
 	}
 
@@ -962,6 +1014,7 @@ void Player::KeyboardAttack(void)
 	{
 		chargeAttack_ = true;
 		chargeCnt_ = 0.0f;
+		StopEffekseer3DEffect(effectChargePlayId_);
 		ChangeState(STATE::CHARGE_ATTACK);
 	}
 
@@ -1819,6 +1872,7 @@ void Player::Animation(void)
 				attack3_ = false;
 				chargeAttack_ = false;
 				isMusicSlash_ = true;
+				isMusicRoll_ = true;
 				hit_ = false;
 				ChangeState(STATE::IDLE);
 				chargeCnt_ = 0.0f;

@@ -81,13 +81,13 @@ public:
 	static constexpr float SHOT_CREATE_START_TIME = 10.0f;
 
 	// 弾の生成が終わる時間
-	static constexpr float SHOT_CREATE_END_TIME = 45.0f;
+	static constexpr float SHOT_CREATE_END_TIME = 60.0f;
 
 	// ショットアタックが始まる時間
 	static constexpr float SHOT_START_TIME = 10.0f;
 
 	// ショットアタックが終わる時間
-	static constexpr float SHOT_END_TIME = 50.0f;
+	static constexpr float SHOT_END_TIME = 20.0f;
 
 	// ダメージヒットが終わる時間
 	static constexpr float HIT_END_TIME = 300.0f;
@@ -381,6 +381,11 @@ protected:
 	VECTOR effectJumpAttackPos_;
 	bool isEffectJumpAttack_;
 
+	// ジャンプアタックの攻撃範囲のエフェクト
+	int effectJumpAttackRangeResId_;
+	int effectJumpAttackRangePlayId_;
+	VECTOR effectJumpAttackRangePos_;
+
 	// サウンド
 	// 弾を作る音
 	int musicCreateId_;
@@ -399,6 +404,18 @@ protected:
 
 	// 地響きの音
 	int musicEarthQuakeId_;
+
+	// 攻撃のボイス１
+	int musicAttackVoice1Id_;
+
+	// 攻撃のボイス２
+	int musicAttackVoice2Id_;
+
+	// 攻撃のボイス３
+	int musicAttackVoice3Id_;
+
+	// 攻撃のボイスのフラグ
+	bool isMusicAttackVoice_;
 
 	// 行動の選択
 	void Think(void);
@@ -518,16 +535,21 @@ protected:
 	void CreatePlayEffect(void);
 	void TacklePlayEffect(void);
 	void JumpAttackPlayEffect(void);
+	void JumpAttackRangePlayEffect(void);
 
 	// エフェクト位置
 	void CreateSyncEffect(void);
 	void TackleSyncEffect(void);
 	void JumpAttackSyncEffect(void);
+	void JumpAttackRangeSyncEffect(void);
 
 	// 音の初期化
 	void InitMusic(void);
 
 	// 足音
 	void FootStepsMusic(void);
+
+	// 攻撃するボイス
+	void AttackMusic(void);
 
 };

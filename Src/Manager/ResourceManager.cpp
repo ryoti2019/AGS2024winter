@@ -48,9 +48,13 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/GameObject.mv1");
 	resourcesMap_.emplace(SRC::TEST_STAGE2, res);
 
-	// テスト2用のステージ
+	// テスト3用のステージ
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/Map.mv1");
 	resourcesMap_.emplace(SRC::TEST_STAGE3, res);
+
+	// テスト4用のステージ
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/Gladiator Low Poly Arena.mv1");
+	resourcesMap_.emplace(SRC::TEST_STAGE4, res);
 
 	// プレイヤーのモデル
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield.mv1");
@@ -152,6 +156,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/uploads_files_4143503_sword(1).mv1");
 	resourcesMap_.emplace(SRC::SWORD_MODEL, res);
 
+	// 剣のモデル1
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Sword/sword.mv1");
+	resourcesMap_.emplace(SRC::SWORD_MODEL1, res);
+
 	// ロックオンカーソル
 	res = Resource(Resource::TYPE::IMGS, Application::PATH_IMAGE + "UI/enemyCursor.png",20,3,100,100);
 	resourcesMap_.emplace(SRC::CURSOR, res);
@@ -170,6 +178,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Player/Impact.efkefc");
 	resourcesMap_.emplace(SRC::PLAYER_IMPACT_EFFECT, res);
 
+	// 敵の攻撃が当たった時のエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Impact.efkefc");
+	resourcesMap_.emplace(SRC::ENEMY_IMPACT_EFFECT, res);
+
 	// 弾のエフェクト
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Shot.efkefc");
 	resourcesMap_.emplace(SRC::SHOT_EFFECT, res);
@@ -185,6 +197,10 @@ void ResourceManager::Init(void)
 	// ジャンプアタックのエフェクト
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/JumpAttack.efkefc");
 	resourcesMap_.emplace(SRC::JUMPATTACK_EFFECT, res);
+
+	// ジャンプアタックの攻撃範囲のエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Ring.efkefc");
+	resourcesMap_.emplace(SRC::JUMPATTACK_RANGE_EFFECT, res);
 
 	// サウンド--------------------------------------------------
 
@@ -244,21 +260,65 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/earthQuake.mp3");
 	resourcesMap_.emplace(SRC::EARTHQUAKE_MUSIC, res);
 
-	// プレイヤーの攻撃音１
+	// プレイヤーの攻撃ボイス１
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice1.mp3");
 	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC1, res);
 
-	// プレイヤーの攻撃音２
+	// プレイヤーの攻撃ボイス２
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice2.mp3");
 	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC2, res);
 
-	// プレイヤーの攻撃音３
+	// プレイヤーの攻撃音ボイス３
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice3.mp3");
 	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC3, res);
 
-	// プレイヤーの溜め攻撃音
+	// プレイヤーの溜め攻撃ボイス
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/chargeSlash.mp3");
 	resourcesMap_.emplace(SRC::CHARGEATTACK_VOICE_MUSIC, res);
+
+	// 回避音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/roll.mp3");
+	resourcesMap_.emplace(SRC::ROLL_MUSIC, res);
+
+	// 回避ボイス１
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/rollVoice1.mp3");
+	resourcesMap_.emplace(SRC::ROLL_VOICE_MUSIC1, res);
+
+	// 回避ボイス２
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/rollVoice2.mp3");
+	resourcesMap_.emplace(SRC::ROLL_VOICE_MUSIC2, res);
+
+	// プレイヤーのダメージヒットボイス１
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/hitVoice1.mp3");
+	resourcesMap_.emplace(SRC::PLAYER_HIT_VOICE_MUSIC1, res);
+
+	// プレイヤーのダメージヒットボイス２
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/hitVoice2.mp3");
+	resourcesMap_.emplace(SRC::PLAYER_HIT_VOICE_MUSIC2, res);
+
+	// 敵の攻撃ボイス１
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/attackVoice1.mp3");
+	resourcesMap_.emplace(SRC::ENEMY_ATTACK_VOICE_MUSIC1, res);
+
+	// 敵の攻撃ボイス２
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/attackVoice2.mp3");
+	resourcesMap_.emplace(SRC::ENEMY_ATTACK_VOICE_MUSIC2, res);
+
+	// 敵の攻撃ボイス３
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/attackVoice3.wav");
+	resourcesMap_.emplace(SRC::ENEMY_ATTACK_VOICE_MUSIC3, res);
+
+	// 敵のダメージヒットボイス１
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/hitVoice1.mp3");
+	resourcesMap_.emplace(SRC::ENEMY_HIT_VOICE_MUSIC1, res);
+
+	// 敵のダメージヒットボイス２
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/hitVoice2.mp3");
+	resourcesMap_.emplace(SRC::ENEMY_HIT_VOICE_MUSIC2, res);
+
+	// 敵のダメージヒットボイス３
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/hitVoice3.mp3");
+	resourcesMap_.emplace(SRC::ENEMY_HIT_VOICE_MUSIC3, res);
 
 }
 

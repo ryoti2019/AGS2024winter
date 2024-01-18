@@ -12,9 +12,6 @@ class GameScene : public SceneBase
 
 public:
 
-	// プレイヤーの攻撃が当たった時のエフェクトの相対座標
-	static constexpr VECTOR LOCAL_CHRAGE_POS = { 0.0f,200.0f,0.0f };
-
 	// コンストラクタ
 	GameScene(void);
 
@@ -59,10 +56,15 @@ private:
 	bool playerDeath_;
 
 	// エフェクト
-	// 攻撃が当たった時のエフェクト
-	int effectImpactResId_;
-	int effectImpactPlayId_;
-	VECTOR effectImpactPos_;
+	// プレイヤーの攻撃が当たった時のエフェクト
+	int effectPlayerImpactResId_;
+	int effectPlayerImpactPlayId_;
+	VECTOR effectPlayerImpactPos_;
+
+	// 敵の攻撃が当たった時のエフェクト
+	int effectEnemyImpactResId_;
+	int effectEnemyImpactPlayId_;
+	VECTOR effectEnemyImpactPos_;
 
 	// 音
 	// プレイヤーの攻撃が当たった時の音１
@@ -74,7 +76,22 @@ private:
 	// プレイヤーの攻撃が当たった時の音３
 	int musicImpactId3_;
 
-	// プレイヤーと敵同士の当たり判定
+	// プレイヤーのダメージヒットボイス１
+	int musicPlayerHitVoice1_;
+
+	// プレイヤーのダメージヒットボイス２
+	int musicPlayerHitVoice2_;
+
+	// 敵のダメージヒットのボイス１
+	int musicEnemyHitVoice1_;
+
+	// 敵のダメージヒットのボイス２
+	int musicEnemyHitVoice2_;
+
+	// 敵のダメージヒットのボイス３
+	int musicEnemyHitVoice3_;
+
+	// 敵のプレイヤーと敵同士の当たり判定
 	void CollisionEnemyAndPlayer();
 
 	// デバッグ描画
@@ -83,16 +100,28 @@ private:
 	// エフェクトの初期化
 	void InitEffect(void);
 
-	// 攻撃が当たった時のエフェクト
-	void ImpactPlayEffect(void);
+	// プレイヤーの攻撃が当たった時のエフェクト
+	void PlayerImpactPlayEffect(void);
 
-	// 攻撃が当たった時のエフェクト
-	void ImpactSyncEffect(void);
+	// 敵の攻撃が当たった時のエフェクト
+	void EnemyImpactPlayEffect(void);
+
+	// プレイヤーの攻撃が当たった時のエフェクト
+	void PlayerImpactSyncEffect(void);
+
+	// 敵の攻撃が当たった時のエフェクト
+	void EnemyImpactSyncEffect(void);
 
 	// 音の初期化
 	void InitMusic(void);
 
 	// プレイヤーの攻撃が当たった時の音
 	void ImpactMusic(void);
+
+	// プレイヤーダメージヒット音
+	void PlayerHitMusic(void);
+
+	// 敵のダメージヒット音
+	void EnemyHitMusic(void);
 
 };

@@ -7,7 +7,7 @@ class Sword
 public:
 
 	// プレイヤーの右手から剣までの相対座標
-	static constexpr VECTOR LOCAL_SWORD_POS = { 60.0f,0.0f,0.0f };
+	static constexpr VECTOR LOCAL_SWORD_POS = { 125.0f,10.0f,00.0f };
 
 	// カプセルの上の相対座標
 	static constexpr VECTOR LOCAL_C_DOWN_POS = { -50.0f,5.0f,0.0f };

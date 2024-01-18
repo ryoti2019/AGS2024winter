@@ -17,16 +17,16 @@ void Sword::InitAnimation(void)
 	// ÉÇÉfÉãêßå‰ÇÃäÓñ{èÓïÒ
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::SWORD_MODEL));
-	float scale = 0.1f;
-	transform_.scl = { 0.1, scale, 0.1 };
+			ResourceManager::SRC::SWORD_MODEL1));
+	float scale = 0.15f;
+	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 0.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
 	rotPow = Quaternion::Mult(
 		rotPow,
-		Quaternion::AngleAxis(AsoUtility::Deg2RadF(-90), AsoUtility::AXIS_Z));
-	rotPow = rotPow.Mult(Quaternion::AngleAxis(AsoUtility::Deg2RadF(90), AsoUtility::AXIS_X));
+		Quaternion::AngleAxis(AsoUtility::Deg2RadF(-270), AsoUtility::AXIS_Z));
+	rotPow = rotPow.Mult(Quaternion::AngleAxis(AsoUtility::Deg2RadF(0), AsoUtility::AXIS_X));
 	//VECTOR localRot = { AsoUtility::Deg2RadF(90),AsoUtility::Deg2RadF(0), AsoUtility::Deg2RadF(60) };
 	//transform_.quaRotLocal = Quaternion::Euler(localRot);
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);

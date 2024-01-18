@@ -328,7 +328,7 @@ void Camera::ChangeMode(MODE mode)
 {
 
 	// カメラの初期設定
-	//SetDefault();
+	SetDefault();
 
 	// カメラモードの変更
 	mode_ = mode;

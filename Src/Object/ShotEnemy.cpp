@@ -192,7 +192,7 @@ void ShotEnemy::CheckAlive(void)
 
 	// ¶‘¶ŠÔ‚ğŒ¸‚ç‚·
 	stepAlive_ -= SceneManager::GetInstance().GetDeltaTime();
-	if (stepAlive_ < 0.0f)
+	if (stepAlive_ <= 0.0f)
 	{
 		StopEffekseer3DEffect(effectShotPlayId_);
 		ChangeState(STATE::END);

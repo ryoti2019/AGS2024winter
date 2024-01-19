@@ -2,6 +2,7 @@
 #include <EffekseerForDXLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
+#include "../Application.h"
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
@@ -113,6 +114,9 @@ void Enemy::Init(void)
 	// 待機アニメーション
 	SetIdleAnimation();
 
+	// HPバーの画像
+	imgHPBar_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HP_BAR).handleId_;
+
 	// カプセルをアタッチするフレームの番号を検索
 	enemyAttachFrameNum_ = MV1SearchFrame(transform_.modelId, "mixamorig:Spine2");
 
@@ -156,6 +160,8 @@ void Enemy::Init(void)
 	lockOnCursorCnt_ = 0;
 
 	lockOnCursorTime_ = 0.0f;
+
+	shotCnt_ = 0.0f;
 
 	// 初期状態
 	ChangeState(STATE::THINK);
@@ -569,16 +575,31 @@ void Enemy::Draw(void)
 	int B = max((H - 384), 0);
 	hpGauge = hpLength * hp_ / hpMax_;
 
+	int x = Application::SCREEN_SIZE_X / 2;
+
 	// HPの描画
 	if (hp_ >= 0)
 	{
-		DrawBox(700, 0, 700 + hpGauge, 30, GetColor(R, G, B), true);
+		DrawBox(x - 390, 500, x - 390 + hpGauge, 520, GetColor(R, G, B), true);
 	}
+
+	// HPバーの描画
+	DrawExtendGraph(x - 400, 500, x + 400, 520, imgHPBar_, true);
 
 	for (auto v : shots_)
 	{
 		v->Draw();
 	}
+
+	// 敵の名前の表示
+	std::string msg = "冥界の王ハデス";
+	SetFontSize(30);
+	int len = (int)strlen(msg.c_str());
+	int width = GetDrawStringWidth(msg.c_str(), len);
+	DrawFormatString(x - 400, 470, 0xffffff, msg.c_str());
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetFontSize(16);
 
 	Camera* camera = SceneManager::GetInstance().GetCamera();
 
@@ -1523,13 +1544,21 @@ void Enemy::Animation(void)
 
 	// アニメーション時間の進行
 	stepAnim_ += (speedAnim_ * deltaTime);
-	if (state_ != STATE::SHOT || shotNum_ == 0)
+
+	// ショットの全体の時間のカウンタ
+	if (state_ == STATE::SHOT)
+	{
+		shotCnt_ += SceneManager::GetInstance().GetDeltaTime();
+	}
+
+	if (state_ != STATE::SHOT || (shotNum_ == 0 && shotCnt_ >= SHOT_ATTACK_TIME))
 	{
 		isShot_ = false;
 		if (stepAnim_ > animTotalTime_)
 		{
 			// ループ再生
 			stepAnim_ = 0.0f;
+			shotCnt_ = 0.0f;
 
 			if (state_ != STATE::TACKLE)
 			{
@@ -1665,7 +1694,7 @@ void Enemy::ProcessShot(void)
 	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// 弾を時間をずらして飛ばす
-	if (stepAnim_ >= 0.1f && !isShot_)
+	if (stepAnim_ >= 35.0f && !isShot_)
 	{
 		Shot();
 		isShot_ = true;
@@ -1698,7 +1727,6 @@ void Enemy::Shot(void)
 	}
 
 }
-
 
 void Enemy::CreateShot(void)
 {

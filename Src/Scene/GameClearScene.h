@@ -23,6 +23,12 @@ private:
 	// モデル制御の基本情報
 	Transform transform_;
 
+	// ゲームシーンの音楽
+	int musicGameClearId_;
+
+	// 決定音
+	int musicDecisionId_;
+
 	// アニメーションのアタッチ番号
 	int animAttachNo_;
 
@@ -73,5 +79,8 @@ private:
 
 	// エフェクト位置
 	void SyncEffect(void);
+
+	// 音の初期化
+	void InitMusic(void);
 
 };

@@ -60,6 +60,22 @@ void GameClearScene::InitEffect(void)
 
 }
 
+void GameClearScene::InitMusic(void)
+{
+
+	// ゲームシーンの音楽
+	musicGameClearId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAME_CLEAR_MUSIC).handleId_;
+
+	ChangeVolumeSoundMem(255 * 80 / 100, musicGameClearId_);
+
+	// ゲームシーンの音楽の再生
+	PlaySoundMem(musicGameClearId_, DX_PLAYTYPE_LOOP);
+
+	// 決定音
+	musicDecisionId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::DECISION_MUSIC).handleId_;
+
+}
+
 void GameClearScene::Init(void)
 {
 
@@ -68,6 +84,9 @@ void GameClearScene::Init(void)
 
 	// エフェクトの初期設定
 	InitEffect();
+
+	// 音の初期設定
+	InitMusic();
 
 	// アニメーションの設定
 	SetAnimation();
@@ -93,6 +112,7 @@ void GameClearScene::Update(void)
 	InputManager& ins = InputManager::GetInstance();
 	if (ins.IsTrgDown(KEY_INPUT_SPACE))
 	{
+		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 
@@ -101,6 +121,7 @@ void GameClearScene::Update(void)
 
 	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
 	{
+		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 		SceneManager::GetInstance().SetGamePad(true);
 	}
@@ -134,6 +155,8 @@ void GameClearScene::Release(void)
 	MV1DeleteModel(transform_.modelId);
 
 	StopEffekseer3DEffect(effectFireWorksPlayId_);
+
+	StopSoundMem(musicGameClearId_);
 
 }
 

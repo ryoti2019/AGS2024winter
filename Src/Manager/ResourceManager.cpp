@@ -36,6 +36,14 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Scene/GameOverImage.png");
 	resourcesMap_.emplace(SRC::GAMEOVER, res);
 
+	// プレイヤーのHPバーのイメージ
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "UI/playerHPBar.png");
+	resourcesMap_.emplace(SRC::PLAYER_HP_BAR, res);
+
+	// 敵のHPバーのイメージ
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "UI/enemyHPBar.png");
+	resourcesMap_.emplace(SRC::ENEMY_HP_BAR, res);
+
 	// テスト用のステージ
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Stage/TestStage.mv1");
 	resourcesMap_.emplace(SRC::TEST_STAGE, res);
@@ -97,7 +105,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_DEATH, res);
 
 	// プレイヤーのゲームクリアシーンのアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Swing Dancing.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/win.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_GAMECLEAR, res);
 
 	// プレイヤーのゲームオーバーシーンのアニメーション
@@ -328,6 +336,21 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Scene/Title.mp3");
 	resourcesMap_.emplace(SRC::TITLE_MUSIC, res);
 
+	// ゲームシーンの音楽
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Scene/Game.mp3");
+	resourcesMap_.emplace(SRC::GAME_MUSIC, res);
+
+	// ゲームクリアシーンの音楽
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Scene/GameClear.mp3");
+	resourcesMap_.emplace(SRC::GAME_CLEAR_MUSIC, res);
+
+	// ゲームオーバーシーンの音楽
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Scene/GameOver.mp3");
+	resourcesMap_.emplace(SRC::GAME_OVER_MUSIC, res);
+
+	// 決定音の音
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "UI/decision.mp3");
+	resourcesMap_.emplace(SRC::DECISION_MUSIC, res);
 
 }
 

@@ -65,6 +65,9 @@ void GameScene::Init(void)
 	// プレイヤーの回避用の座標
 	rollPos_ = AsoUtility::VECTOR_ZERO;
 
+	// HPバーの画像
+	imgPlayerHPBar_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_HP_BAR).handleId_;
+
 	// エフェクトの初期設定
 	InitEffect();
 
@@ -190,17 +193,19 @@ void GameScene::Draw(void)
 	// ステージの描画
 	stage_->Draw();
 
-	// 敵の描画
-	enemy_->Draw();
-
 	// プレイヤーの描画
 	player_->Draw();
 
 	// 剣の描画
 	sword_->Draw();
 
+	// 敵の描画
+	enemy_->Draw();
+
 	// デバッグ描画
 	//DrawDebug();
+
+	DrawHPBar();
 
 }
 
@@ -226,6 +231,8 @@ void GameScene::Release(void)
 	// 剣の開放
 	sword_->Release();
 	delete sword_;
+
+	StopSoundMem(musicGameId_);
 
 }
 
@@ -559,6 +566,14 @@ void GameScene::InitMusic(void)
 	// 敵のダメージヒットボイス３
 	musicEnemyHitVoice3_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HIT_VOICE_MUSIC3).handleId_;
 
+	// ゲームシーンの音楽
+	musicGameId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAME_MUSIC).handleId_;
+
+	ChangeVolumeSoundMem(255 * 80 / 100, musicGameId_);
+
+	// ゲームシーンの音楽の再生
+	PlaySoundMem(musicGameId_, DX_PLAYTYPE_LOOP);
+
 }
 
 void GameScene::ImpactMusic(void)
@@ -614,5 +629,42 @@ void GameScene::EnemyHitMusic(void)
 	{
 		PlaySoundMem(musicEnemyHitVoice3_, DX_PLAYTYPE_BACK);
 	}
+
+}
+
+void GameScene::DrawHPBar(void)
+{
+
+	// HPバー
+	int hpLength = player_->HP_LENGTH;
+	int H;
+	int hpGauge;
+	H = player_->GetHP() * (512.0f / player_->HP_MAX) - 100;
+	int R = min(max((384 - H), 0), 0xff);
+	int G = min(max((H + 64), 0), 0xff);
+	int B = max((H - 384), 0);
+	hpGauge = hpLength * player_->GetHP() / player_->HP_MAX;
+
+	if (player_->GetHP() >= 0)
+	{
+		DrawBox(40, 20, 40 + hpGauge, 40, GetColor(R, G, B), true);
+	}
+
+	// HPバーの描画
+	DrawExtendGraph(40, 20, 400, 40, imgPlayerHPBar_, true);
+
+	// スタミナバー
+	int staminaLength = player_->HP_LENGTH;
+	int S;
+	int staminaGauge;
+	staminaGauge = staminaLength * player_->GetStamina() / player_->STAMINA_MAX;
+
+	if (player_->GetStamina() >= 0)
+	{
+		DrawBox(40, 50, 40 + staminaGauge, 70, 0xffff00, true);
+	}
+
+	// スタミナバーの描画
+	DrawExtendGraph(40, 50, 400, 70, imgPlayerHPBar_, true);
 
 }

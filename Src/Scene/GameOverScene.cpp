@@ -88,8 +88,27 @@ void GameOverScene::SetAnimation(void)
 
 }
 
+void GameOverScene::InitMusic(void)
+{
+
+	// ゲームシーンの音楽
+	musicGameOverId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAME_OVER_MUSIC).handleId_;
+
+	ChangeVolumeSoundMem(255 * 80 / 100, musicGameOverId_);
+
+	// ゲームシーンの音楽の再生
+	PlaySoundMem(musicGameOverId_, DX_PLAYTYPE_LOOP);
+
+	// 決定音
+	musicDecisionId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::DECISION_MUSIC).handleId_;
+
+}
+
 void GameOverScene::Init(void)
 {
+
+	// 音の初期設定
+	InitMusic();
 
 	// アニメーションの初期設定
 	InitAnimation();
@@ -115,6 +134,7 @@ void GameOverScene::Update(void)
 	InputManager& ins = InputManager::GetInstance();
 	if (ins.IsTrgDown(KEY_INPUT_SPACE))
 	{
+		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 
@@ -123,6 +143,7 @@ void GameOverScene::Update(void)
 
 	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
 	{
+		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 		SceneManager::GetInstance().SetGamePad(true);
 	}
@@ -152,6 +173,9 @@ void GameOverScene::Release(void)
 
 	// モデルの開放
 	MV1DeleteModel(transform_.modelId);
+
+	StopSoundMem(musicGameOverId_);
+
 
 }
 

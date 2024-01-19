@@ -23,6 +23,12 @@ private:
 	// モデル制御の基本情報
 	Transform transform_;
 
+	// ゲームオーバーシーンの音楽
+	int musicGameOverId_;
+
+	// 決定音
+	int musicDecisionId_;
+
 	// アニメーションのアタッチ番号
 	int animAttachNo_;
 
@@ -58,6 +64,9 @@ private:
 
 	// アニメーションの設定
 	void SetAnimation(void);
+
+	// 音の初期化
+	void InitMusic(void);
 
 };
 

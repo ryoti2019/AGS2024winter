@@ -96,7 +96,7 @@ public:
 	static constexpr float ROTATION_POW = 0.1f;
 
 	// HPバーの長さ
-	static constexpr int HP_LENGTH = 800;
+	static constexpr int HP_LENGTH = 360;
 
 	// HPの最大値
 	static constexpr int HP_MAX = 100;
@@ -183,6 +183,9 @@ public:
 
 	// プレイヤーのHPの設定
 	void SetHP(int hp);
+
+	// プレイヤーのスタミナ取得
+	float GetStamina(void);
 
 	// 攻撃が当たったかどうかを取得
 	bool GetHit(void);
@@ -455,9 +458,6 @@ protected:
 
 	// アニメーションのフレームの固定
 	void AnimationFrame(void);
-
-	// HPバーの描画
-	void DrawHPBar(void);
 
 	// 必殺技
 	void SpecialMoveUpdate(void);

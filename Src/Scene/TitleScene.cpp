@@ -26,11 +26,25 @@ void TitleScene::Init(void)
 	// タイトルロゴ
 	imgTitleLogo_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TITLE_LOGO).handleId_;
 
+	// 音の初期化
+	InitMusic();
+
+}
+
+void TitleScene::InitMusic(void)
+{
+
 	// タイトルシーンの音楽
-	musicTitle_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TITLE_MUSIC).handleId_;
+	musicTitleId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TITLE_MUSIC).handleId_;
+
+	ChangeVolumeSoundMem(255 * 80 / 100, musicTitleId_);
 
 	// タイトルシーンの音楽の再生
-	PlaySoundMem(musicTitle_, DX_PLAYTYPE_LOOP);
+	PlaySoundMem(musicTitleId_, DX_PLAYTYPE_LOOP);
+
+	// 決定音
+	musicDecisionId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::DECISION_MUSIC).handleId_;
+
 
 }
 
@@ -41,6 +55,7 @@ void TitleScene::Update(void)
 	InputManager& ins = InputManager::GetInstance();
 	if (ins.IsTrgDown(KEY_INPUT_SPACE))
 	{
+		PlaySoundMem(musicDecisionId_,DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 	}
 
@@ -49,6 +64,7 @@ void TitleScene::Update(void)
 
 	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
 	{
+		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 		SceneManager::GetInstance().SetGamePad(true);
 	}
@@ -70,7 +86,7 @@ void TitleScene::Release(void)
 {
 	DeleteGraph(imgTitleLogo_);
 
-	StopSoundMem(musicTitle_);
+	StopSoundMem(musicTitleId_);
 }
 
 void TitleScene::DrawLogo(void)
@@ -83,8 +99,10 @@ void TitleScene::DrawLogo(void)
 	DrawRotaGraph(cx, cy - 100, 0.4, 0.0, imgTitleLogo_, true);
 
 	// Pushメッセージ
+	ChangeFont("BIZ UD明朝 medium");
 	std::string msg = "Push Space";
 	SetFontSize(40);
+
 	int len = (int)strlen(msg.c_str());
 	int width = GetDrawStringWidth(msg.c_str(), len);
 

@@ -14,6 +14,8 @@ public:
 		TITLE_LOGO,
 		GAMECLEAR,
 		GAMEOVER,
+		PLAYER_HP_BAR,
+		ENEMY_HP_BAR,
 		TEST_STAGE,
 		TEST_STAGE1,
 		TEST_STAGE2,
@@ -89,6 +91,7 @@ public:
 		GAME_MUSIC,
 		GAME_CLEAR_MUSIC,
 		GAME_OVER_MUSIC,
+		DECISION_MUSIC,
 	};
 
 	// 明示的にインステンスを生成する

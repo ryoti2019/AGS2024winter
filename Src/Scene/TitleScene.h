@@ -23,12 +23,18 @@ private:
 	int imgTitleLogo_;
 
 	// タイトルシーンの音楽
-	int musicTitle_;
+	int musicTitleId_;
+
+	// 決定音
+	int musicDecisionId_;
 
 	// 点滅用のカウンタ
 	int BlinkCnt_;
 	
 	// ロゴ描画
 	void DrawLogo(void);
+
+	// 音の初期化
+	void InitMusic(void);
 
 };

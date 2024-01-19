@@ -81,13 +81,13 @@ public:
 	static constexpr float SHOT_CREATE_START_TIME = 10.0f;
 
 	// 弾の生成が終わる時間
-	static constexpr float SHOT_CREATE_END_TIME = 20.0f;
+	static constexpr float SHOT_CREATE_END_TIME = 30.0f;
 
 	// ショットアタックが始まる時間
-	static constexpr float SHOT_START_TIME = 10.0f;
+	static constexpr float SHOT_START_TIME = 20.0f;
 
 	// ショットアタックが終わる時間
-	static constexpr float SHOT_END_TIME = 20.0f;
+	static constexpr float SHOT_END_TIME = 40.0f;
 
 	// ダメージヒットが終わる時間
 	static constexpr float HIT_END_TIME = 300.0f;
@@ -114,13 +114,13 @@ public:
 	static constexpr float SHOT_CREATE_SPEED = 10.0f;
 
 	// ショットアニメーションの再生速度
-	static constexpr float SHOT_ANIM_SPEED = 20.0f;
+	static constexpr float SHOT_ANIM_SPEED = 30.0f;
 
 	// ダメージヒットアニメーションの再生速度
 	static constexpr float HIT_ANIM_SPEED = 20.0f;
 
 	// HPバーの長さ
-	static constexpr int HP_LENGTH = 300;
+	static constexpr int HP_LENGTH = 780;
 
 	// HPの最大値
 	static constexpr int HP_MAX = 100;
@@ -136,6 +136,9 @@ public:
 
 	// ロックオンカーソルの総数
 	static constexpr int LOCKON_CURSOR_NUM = 59;
+
+	// ショット攻撃の全体の時間
+	static constexpr float SHOT_ATTACK_TIME = 7.0f;
 
 	// プレイヤーの状態
 	enum class STATE
@@ -230,6 +233,9 @@ protected:
 	// 状態
 	STATE state_;
 	STATE preState_;
+
+	// HPバーの画像
+	int imgHPBar_;
 
 	// ステージモデルID
 	int stageId_;
@@ -335,6 +341,9 @@ protected:
 
 	// 弾の発射間隔
 	float delayShot_;
+
+	// 弾を発射する全体のカウンタ
+	float shotCnt_;
 
 	// 待機している玉の数
 	int shotNum_;

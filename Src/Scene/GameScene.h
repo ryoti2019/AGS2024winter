@@ -43,6 +43,9 @@ private:
 	// プレイヤーの回避用の座標
 	VECTOR rollPos_;
 
+	// HPバーの画像
+	int imgPlayerHPBar_;
+
 	// ヒットストップ
 	int hitStopCnt_;
 
@@ -76,6 +79,10 @@ private:
 	bool isEffectTornade_;
 
 	// 音
+	
+	// ゲームシーンの音楽
+	int musicGameId_;
+
 	// プレイヤーの攻撃が当たった時の音１
 	int musicImpactId1_;
 
@@ -138,5 +145,8 @@ private:
 
 	// 敵のダメージヒット音
 	void EnemyHitMusic(void);
+
+	// HPバーの描画
+	void DrawHPBar(void);
 
 };

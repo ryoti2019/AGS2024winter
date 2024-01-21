@@ -202,6 +202,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Tackle.efkefc");
 	resourcesMap_.emplace(SRC::TACKLE_EFFECT, res);
 
+	// タックルの攻撃範囲のエフェクト
+	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/Box.efkefc");
+	resourcesMap_.emplace(SRC::TACKLE_RANGE_EFFECT, res);
+
 	// ジャンプアタックのエフェクト
 	res = Resource(Resource::TYPE::EFFEKSEER, Application::PATH_EFFECT + "Enemy/JumpAttack.efkefc");
 	resourcesMap_.emplace(SRC::JUMPATTACK_EFFECT, res);

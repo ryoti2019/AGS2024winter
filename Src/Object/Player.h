@@ -66,7 +66,7 @@ public:
 	static constexpr float MOVE_POW_RUN = 20.0f;
 
 	// 移動量(回避)
-	static constexpr float MOVE_POW_ROLL = 30.0f;
+	static constexpr float MOVE_POW_ROLL = 20.0f;
 
 	// 待機アニメーションの再生速度
 	static constexpr float IDLE_ANIM_SPEED = 20.0f;
@@ -199,9 +199,6 @@ public:
 	// ステージのモデルIDを設定
 	void SetStageID(const int modelId);
 
-	// 回避中の無敵かどうかを取得
-	bool GetIsInvincible(void);
-
 protected:
 
 	// プレイヤーの状態
@@ -303,9 +300,6 @@ protected:
 
 	// 必殺技のムービーカウンタ
 	float specialCnt_;
-
-	// 回避中の無敵のフラグ
-	bool isInvincible_;
 
 	// スタミナの最大値
 	float staminaMax_;

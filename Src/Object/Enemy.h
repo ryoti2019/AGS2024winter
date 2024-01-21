@@ -48,7 +48,7 @@ public:
 	//static constexpr float TACKLE_RANGE_MIN = 1000.0f;
 
 	// 目的の角度までの差
-	static constexpr float GOAL_DEG = 10.0f;
+	static constexpr float GOAL_DEG = 1.0f;
 
 	// 歩くスピード
 	static constexpr float WALK_SPEED = 2.0f;
@@ -132,7 +132,7 @@ public:
 	static constexpr float TIME_DELAY_SHOT = 2.0f;
 
 	// 敵のクールタイム
-	static constexpr float COOL_TIME = 1.0f;
+	static constexpr float COOL_TIME = 3.0f;
 
 	// ロックオンカーソルの総数
 	static constexpr int LOCKON_CURSOR_NUM = 59;
@@ -225,6 +225,9 @@ public:
 	// ジャンプアタックするときに保存するプレイヤーの位置
 	VECTOR GetAttackPlayerPos(void);
 
+	// タックル中かどうか
+	bool GetIsTackle(void);
+
 protected:
 
 	// 弾
@@ -301,7 +304,10 @@ protected:
 	bool jumpAttack_;
 
 	// タックルの攻撃フラグ
-	bool tackleAttack_;
+	bool isTackle_;
+
+	// 突進するまでの時間
+	float beforeTackleCnt_;
 
 	// 突進し続ける秒数
 	float tackleCnt_;
@@ -383,6 +389,11 @@ protected:
 	int effectTackleResId_;
 	int effectTacklePlayId_;
 	VECTOR effectTacklePos_;
+
+	// タックルの攻撃範囲のエフェクト
+	int effectTackleRangeResId_;
+	int effectTackleRangePlayId_;
+	VECTOR effectTackleRangePos_;
 
 	// ジャンプアタックのエフェクト
 	int effectJumpAttackResId_;
@@ -543,12 +554,14 @@ protected:
 	// エフェクト再生
 	void CreatePlayEffect(void);
 	void TacklePlayEffect(void);
+	void TackleRangePlayEffect(void);
 	void JumpAttackPlayEffect(void);
 	void JumpAttackRangePlayEffect(void);
 
 	// エフェクト位置
 	void CreateSyncEffect(void);
 	void TackleSyncEffect(void);
+	void TackleRangeSyncEffect(void);
 	void JumpAttackSyncEffect(void);
 	void JumpAttackRangeSyncEffect(void);
 

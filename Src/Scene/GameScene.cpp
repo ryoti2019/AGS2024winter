@@ -294,11 +294,10 @@ void GameScene::CollisionEnemyAndPlayer()
 		}
 	}
 
-	// プレイヤーと敵の武器同士の当たり判定
+	// プレイヤーと敵の武器同士の当たり判定(通常攻撃）
 	if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
-		&& (enemy_->GetState() == Enemy::STATE::ATTACK
-			|| enemy_->GetState() == Enemy::STATE::TACKLE) && !player_->GetIsInvincible()
+		&& enemy_->GetState() == Enemy::STATE::ATTACK && player_->GetState() != Player::STATE::ROLL
 		&& player_->GetHP() > 0)
 	{
 		// 敵の攻撃がすでに当たっていたら入らない
@@ -316,10 +315,32 @@ void GameScene::CollisionEnemyAndPlayer()
 			PlayerHitMusic();
 		}
 	}
+	// プレイヤーと敵同士の当たり判定(タックル)
+	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
+		enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
+		&& enemy_->GetState() == Enemy::STATE::TACKLE && enemy_->GetIsTackle()
+		&& player_->GetState() != Player::STATE::ROLL
+		&& player_->GetHP() > 0)
+	{
+		// 敵の攻撃がすでに当たっていたら入らない
+		if (enemy_->GetAttack())
+		{
+			player_->SetState(Player::STATE::HIT);
+			player_->SetHP(-10);
+			enemy_->SetAttack(false);
+			enemy_->SetHit(true);
+
+			// 敵の攻撃が当たった時のエフェクト
+			EnemyImpactPlayEffect();
+
+			// ダメージヒット音の再生
+			PlayerHitMusic();
+		}
+	}
 	// プレイヤーと敵同士の当たり判定
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
-		&& (enemy_->GetState() == Enemy::STATE::TACKLE) && !player_->GetIsInvincible()
+		&& (enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL
 		&& player_->GetHP() > 0)
 	{
 		// 敵の攻撃がすでに当たっていたら入らない
@@ -343,7 +364,7 @@ void GameScene::CollisionEnemyAndPlayer()
 	{
 		if (AsoUtility::IsHitSphereCapsule(s->GetPos(), s->GetCollisionRadius(),
 			player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS)
-			&& (s->GetState() == ShotEnemy::STATE::SHOT) && !player_->GetIsInvincible()
+			&& (s->GetState() == ShotEnemy::STATE::SHOT) && player_->GetState() != Player::STATE::ROLL
 			&& player_->GetHP() > 0)
 		{
 			player_->SetState(Player::STATE::HIT);
@@ -367,8 +388,8 @@ void GameScene::CollisionEnemyAndPlayer()
 
 	// ジャンプアタック
 	if (distance <= 1000 * 1000 && enemy_->GetState() == Enemy::STATE::JUMP_ATTACK
-		&& enemy_->GetStepAnim() >= 45.0f && enemy_->GetStepAnim() <= 80.0f
-		&& player_->GetHP() > 0)
+		&& enemy_->GetStepAnim() >= 45.0f && enemy_->GetStepAnim() <= 60.0f
+		&& player_->GetHP() > 0 && player_->GetState() != Player::STATE::ROLL)
 	{
 		// 敵の攻撃がすでに当たっていたら入らない
 		if (enemy_->GetAttack())

@@ -188,9 +188,6 @@ void Player::Init(void)
 	// ˆÚ“®•ûŒü
 	moveDir_ = AsoUtility::VECTOR_ZERO;
 
-	// ‰ñ”ð’†‚Ì–³“G‚©‚Ç‚¤‚©
-	isInvincible_ = false;
-
 	staminaCnt_ = 0.0f;
 
 }
@@ -323,15 +320,6 @@ void Player::Update(void)
 		if (stepAnim_ >= 45.0f)
 		{
 			speed_ = 0.0f;
-		}
-
-		if (stepAnim_ >= ROLL_INVINCIBLE_START_TIME && stepAnim_ <= ROLL_INVINCIBLE_END_TIME)
-		{
-			isInvincible_ = true;
-		}
-		else
-		{
-			isInvincible_ = false;
 		}
 
 		break;
@@ -651,11 +639,6 @@ void Player::SetFollow(const Transform* follow)
 void Player::SetStageID(const int modelId)
 {
 	stageId_ = modelId;
-}
-
-bool Player::GetIsInvincible(void)
-{
-	return isInvincible_;
 }
 
 void Player::Collision(void)

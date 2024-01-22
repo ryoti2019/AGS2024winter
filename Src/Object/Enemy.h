@@ -48,7 +48,7 @@ public:
 	//static constexpr float TACKLE_RANGE_MIN = 1000.0f;
 
 	// 目的の角度までの差
-	static constexpr float GOAL_DEG = 1.0f;
+	static constexpr float GOAL_DEG = 5.0f;
 
 	// 歩くスピード
 	static constexpr float WALK_SPEED = 2.0f;

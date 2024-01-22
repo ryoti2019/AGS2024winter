@@ -119,14 +119,11 @@ void GameScene::Update(void)
 	// プレイヤーを攻撃範囲に引き寄せる
 	if (enemy_->GetStepAnim() <= 50.0f && enemy_->GetState() == Enemy::STATE::JUMP_ATTACK)
 	{
-		if (player_->GetState() != Player::STATE::ROLL)
-		{
-			VECTOR vec = VSub(enemy_->GetAttackPlayerPos(), player_->GetTransform().pos);
-			vec = VNorm(vec);
-			rollPos_ = VScale(vec, 15.0f);
-			player_->SetPos(rollPos_);
-		}
 
+		VECTOR vec = VSub(enemy_->GetAttackPlayerPos(), player_->GetTransform().pos);
+		vec = VNorm(vec);
+		rollPos_ = VScale(vec, 15.0f);
+		player_->SetPos(rollPos_);
 		EnemyTornadeSyncEffect();
 
 	}
@@ -340,7 +337,8 @@ void GameScene::CollisionEnemyAndPlayer()
 	// プレイヤーと敵同士の当たり判定
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
-		&& (enemy_->GetState() == Enemy::STATE::TACKLE) && player_->GetState() != Player::STATE::ROLL
+		&& (enemy_->GetState() == Enemy::STATE::TACKLE)&& enemy_->GetIsTackle() 
+		&& player_->GetState() != Player::STATE::ROLL
 		&& player_->GetHP() > 0)
 	{
 		// 敵の攻撃がすでに当たっていたら入らない

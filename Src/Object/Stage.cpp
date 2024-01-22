@@ -35,11 +35,11 @@ void Stage::Init(void)
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, -160.0f, 0.0f };
 
-	transform_.quaRot = Quaternion::Euler(
-		0.0f,
-		AsoUtility::Deg2RadF(0.0f),
-		0.0f
-	);
+	//transform_.quaRot = Quaternion::Euler(
+	//	0.0f,
+	//	AsoUtility::Deg2RadF(0.0f),
+	//	0.0f
+	//);
 	transform_.quaRotLocal = Quaternion();
 	transform_.Update();
 

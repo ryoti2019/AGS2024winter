@@ -795,7 +795,7 @@ void Player::KeyboardMove(void)
 	}
 
 	//—­‚ß‚È‚ª‚ç•à‚­
-	if (ins.IsClickMouseLeft() && !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT && state_ != STATE::ROLL)
+	if (ins.IsClickMouseLeft() && state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 
 		// •ûŒü‚ğ³‹K‰»

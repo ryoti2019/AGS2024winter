@@ -850,6 +850,8 @@ void Enemy::Think(void)
 	if (attackNumber_ == 2)
 	{
 
+		isTackle_ = false;
+
 		// プレイヤーがいた座標を代入
 		attackPlayerPos_ = followTransform_->pos;
 
@@ -1630,8 +1632,6 @@ void Enemy::Animation(void)
 				//noPlayTime_ = 3.0f;
 
 				startRotation_ = true;
-
-				isTackle_ = false;
 
 			}
 			if (isNoPlay_ && state_ == STATE::IDLE && preState_ != STATE::WALK)

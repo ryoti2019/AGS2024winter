@@ -102,7 +102,7 @@ public:
 	static constexpr int HP_MAX = 100;
 
 	// ‚½‚ßa‚è‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚·•b”
-	static constexpr float CHARGE_TIME = 1.0f;
+	static constexpr float CHARGE_TIME = 5.0f;
 
 	// ‰ñ“]Š®—¹‚Ü‚Å‚ÌŠÔ
 	static constexpr float TIME_ROT = 0.2f;

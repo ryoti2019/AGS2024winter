@@ -792,10 +792,16 @@ void Player::KeyboardMove(void)
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
 		}
+		else if (AsoUtility::EqualsVZero(dir) && state_ == STATE::CHARGE_WALK)
+		{
+			speed_ = 0.0f;
+		}
 	}
 
 	//—­‚ß‚È‚ª‚ç•à‚­
-	if (ins.IsClickMouseLeft() && !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT && state_ != STATE::ROLL)
+	if (ins.IsClickMouseLeft() && (ins.IsNew(KEY_INPUT_W) || ins.IsNew(KEY_INPUT_A) ||
+		ins.IsNew(KEY_INPUT_S) || ins.IsNew(KEY_INPUT_D)) &&
+		!AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT &&state_ != STATE::ROLL)
 	{
 
 		// •ûŒü‚ð³‹K‰»
@@ -1118,10 +1124,15 @@ void Player::GamePadMove(void)
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
 		}
+		else if (AsoUtility::EqualsVZero(dir) && state_ == STATE::CHARGE_WALK)
+		{
+			speed_ = 0.0f;
+		}
 	}
 
 	//—­‚ß‚È‚ª‚ç•à‚­
 	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
+		&& ((pad.AKeyLX != 0.0f) || (pad.AKeyLZ != 0.0f))
 		&& !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		// •ûŒü‚ð³‹K‰»
@@ -1164,6 +1175,35 @@ void Player::GamePadMove(void)
 
 		// ˆÚ“®—Ê
 		speed_ = MOVE_POW_ROLL;
+
+		// •ûŒü‚ðŠp“x‚É•ÏŠ·‚·‚é(XZ•½–Ê YŽ²)
+		float angle = atan2f(dir.x, dir.z);
+
+		// ƒJƒƒ‰‚ÌŠp“x‚ðŠî€‚Æ‚µA•ûŒü•ª‚ÌŠp“x‚ð‰Á‚¦‚é
+		LazyRotation(cameraAngles.y + angle);
+
+	}
+
+	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
+		&& state_ != STATE::HIT && state_ != STATE::ROLL)
+	{
+
+		// •ûŒü‚ð³‹K‰»
+		dir = VNorm(dir);
+
+		// YŽ²‚Ìs—ñ
+		MATRIX mat = MGetIdent();
+		mat = MMult(mat, MGetRotY(cameraAngles.y));
+
+		// ‰ñ“]s—ñ‚ðŽg—p‚µ‚ÄAƒxƒNƒgƒ‹‚ð‰ñ“]‚³‚¹‚é
+		moveDir_ = VTransform(dir, mat);
+
+		// ƒƒbƒNƒIƒ“Žž‚Í‘ŠŽè‚É‹ß‚Ã‚­‚Ì‚É§ŒÀ‚ð‚Â‚¯‚é
+		if (camera->GetMode() == Camera::MODE::LOCKON)
+		{
+			LockOn();
+		}
 
 		// •ûŒü‚ðŠp“x‚É•ÏŠ·‚·‚é(XZ•½–Ê YŽ²)
 		float angle = atan2f(dir.x, dir.z);
@@ -1238,7 +1278,6 @@ void Player::GamePadMove(void)
 void Player::GamePadAttack(void)
 {
 
-
 	auto& insInput = InputManager::GetInstance();
 	auto& insScene = SceneManager::GetInstance();
 
@@ -1250,13 +1289,13 @@ void Player::GamePadAttack(void)
 		ChangeState(STATE::CHARGE_WALK);
 	}
 
-	if (insInput.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
-		&& chargeCnt_ <= CHARGE_TIME && state_ != STATE::HIT)
+	if (insInput.IsPadBtnTrgUp(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) &&
+		chargeCnt_ <= CHARGE_TIME && state_ != STATE::HIT)
 	{
 
 		//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çƒAƒjƒ[ƒVƒ‡ƒ“‚ðØ‚è‘Ö‚¦‚é
 		//‚P’iŠK–Ú
-		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK)
+		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK || state_ == STATE::CHARGE_WALK)
 		{
 			attack1_ = true;
 			ChangeState(STATE::ATTACK);
@@ -1277,31 +1316,10 @@ void Player::GamePadAttack(void)
 		}
 	}
 
-	// ‚P’iŠK–Ú‚ªI‚í‚Á‚½‚ç‘JˆÚ‚·‚é
-	if (attack2_ && !attack1_ && state_ == STATE::ATTACK)
-	{
-		chargeCnt_ = 0.0f;
-		ChangeState(STATE::ATTACK2);
-	}
-
-	// ‚Q’iŠK–Ú‚ªI‚í‚Á‚½‚ç‘JˆÚ‚·‚é
-	if (attack3_ && !attack2_ && state_ == STATE::ATTACK2)
-	{
-		chargeCnt_ = 0.0f;
-		ChangeState(STATE::ATTACK3);
-	}
-
-	// —­‚ßŽa‚è
-	if (chargeCnt_ >= CHARGE_TIME)
-	{
-		chargeAttack_ = true;
-		chargeCnt_ = 0.0f;
-		ChangeState(STATE::CHARGE_ATTACK);
-	}
-
-	if (insInput.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
-		&& chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT && state_ != STATE::ROLL)
+	if (insInput.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) &&
+		chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK && state_ != STATE::ATTACK &&
+		state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT &&
+		state_ != STATE::ROLL)
 	{
 		chargeCnt_ += insScene.GetDeltaTime();
 	}

@@ -673,39 +673,49 @@ void Camera::GamePadController(void)
 	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
 
 	// 右のスティックの情報を取得する
-	auto isTrgRStick = ins.IsPadRStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_TRIGGER);
+	auto isTrgRStick = ins.IsPadRStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::L_TRIGGER);
 
 	// パッドの方向をdirに直す
 	// 右方向
 	if (pad.AKeyRX > 0)
 	{
 		axisDeg.y = pad.AKeyRX;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 2.0f);
 	}
 	// 左方向
 	if (pad.AKeyRX < 0)
 	{
 		axisDeg.y = pad.AKeyRX;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 2.0f);
 	}
 	// 上方向
 	if (pad.AKeyRZ < 0 && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
 	{
 		axisDeg.x = -pad.AKeyRZ;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 2.0f);
 	}
 	// 下方向
 	if (pad.AKeyRZ > 0 && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
 	{
 		axisDeg.x = -pad.AKeyRZ;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 2.0f);
 	}
-
-	// 方向を正規化
-	axisDeg = VNorm(axisDeg);
-
-	VECTOR moveAxisDeg = VScale(axisDeg, 1.0f);
 
 	// カメラを回転させる
 	// X軸のカメラの移動制御
-	angle_.x += AsoUtility::Deg2RadF(moveAxisDeg.x);
-	angle_.y += AsoUtility::Deg2RadF(moveAxisDeg.y);
+	if (axisDeg.x != 0.0f || axisDeg.y != 0.0f)
+	{
+		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
+		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
+	}
 
 	rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
 

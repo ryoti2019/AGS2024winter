@@ -102,7 +102,7 @@ public:
 	static constexpr int HP_MAX = 100;
 
 	// ため斬りのボタンを押す秒数
-	static constexpr float CHARGE_TIME = 5.0f;
+	static constexpr float CHARGE_TIME = 1.0f;
 
 	// 回転完了までの時間
 	static constexpr float TIME_ROT = 0.2f;
@@ -198,6 +198,9 @@ public:
 
 	// ステージのモデルIDを設定
 	void SetStageID(const int modelId);
+
+	// 無敵かどうか取得
+	bool GetInvincible(void);
 
 protected:
 
@@ -300,6 +303,9 @@ protected:
 
 	// 必殺技のムービーカウンタ
 	float specialCnt_;
+
+	// 回避中の無敵時間
+	bool isInvincible_;
 
 	// スタミナの最大値
 	float staminaMax_;

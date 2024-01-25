@@ -140,6 +140,9 @@ public:
 	// ショット攻撃の全体の時間
 	static constexpr float SHOT_ATTACK_TIME = 7.0f;
 
+	// タックル攻撃に入るまでの時間
+	static constexpr float BEOFRE_TACKLE_TIME = 2.0f;
+
 	// プレイヤーの状態
 	enum class STATE
 	{
@@ -148,6 +151,7 @@ public:
 		WALK,
 		ATTACK,
 		JUMP_ATTACK,
+		BEFORE_TACKLE,
 		TACKLE,
 		CREATE,
 		SHOT,
@@ -225,9 +229,6 @@ public:
 	// ジャンプアタックするときに保存するプレイヤーの位置
 	VECTOR GetAttackPlayerPos(void);
 
-	// タックル中かどうか
-	bool GetIsTackle(void);
-
 protected:
 
 	// 弾
@@ -302,9 +303,6 @@ protected:
 
 	// ダッシュ攻撃のフラグ
 	bool jumpAttack_;
-
-	// タックルの攻撃フラグ
-	bool isTackle_;
 
 	// 突進するまでの時間
 	float beforeTackleCnt_;
@@ -457,6 +455,9 @@ protected:
 
 	// ダッシュ攻撃
 	void UpdateJumpAttack(void);
+
+	// タックルの前
+	void UpdateBeforeTackle(void);
 
 	// タックル攻撃
 	void UpdateTackle(void);

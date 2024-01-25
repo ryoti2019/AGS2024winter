@@ -2,6 +2,8 @@
 #include "SceneBase.h"
 #include "../Object/Common/Transform.h"
 
+class Sword;
+
 class GameClearScene : public SceneBase
 {
 
@@ -22,6 +24,9 @@ private:
 
 	// モデル制御の基本情報
 	Transform transform_;
+
+	// 剣
+	Sword* sword_;
 
 	// ゲームシーンの音楽
 	int musicGameClearId_;

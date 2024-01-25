@@ -49,6 +49,7 @@ void Sword::EnemyCheckHit(void)
 
 void Sword::Init(void)
 {
+
 	//武器をアタッチするフレームの番号を検索
 	WeponAttachFrameNum_ = MV1SearchFrame(followTransform_->modelId, "mixamorig:RightHand");
 

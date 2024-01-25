@@ -11,6 +11,11 @@
 
 Player::Player(void)
 {
+
+	// 溜めるエフェクト
+	effectChargeResId_ = -1;
+	effectChargePlayId_ = -1;
+
 }
 
 Player::~Player(void)
@@ -185,6 +190,9 @@ void Player::Init(void)
 	// 攻撃４
 	chargeAttack_ = false;
 
+	// 回避中は無敵
+	isInvincible_ = false;
+
 	// 移動方向
 	moveDir_ = AsoUtility::VECTOR_ZERO;
 
@@ -315,6 +323,19 @@ void Player::Update(void)
 
 			// 現在座標を起点に移動後座標を決める
 			movedPos_ = VAdd(transform_.pos, movePow_);
+
+			isInvincible_ = true;
+
+		}
+
+		if (stepAnim_ >= 0.0f && stepAnim_ <= 4.9f)
+		{
+			isInvincible_ = false;
+		}
+
+		if (stepAnim_ >= 45.1f && stepAnim_ <= 71.0f)
+		{
+			isInvincible_ = false;
 		}
 
 		if (stepAnim_ >= 45.0f)
@@ -641,6 +662,11 @@ void Player::SetStageID(const int modelId)
 	stageId_ = modelId;
 }
 
+bool Player::GetInvincible(void)
+{
+	return isInvincible_;
+}
+
 void Player::Collision(void)
 {
 
@@ -681,6 +707,22 @@ void Player::PlayerBodyCollision(void)
 
 void Player::CollisionStage(void)
 {
+
+	auto vec = VSub({ 0.0f,-300.0f, 500.0f },transform_.pos);
+
+	float length = AsoUtility::Magnitude(vec);
+
+	auto dir = VNorm(vec);
+
+	if (length >= 3500.0f)
+	{
+		// 法線の方向にちょっとだけ移動させる
+		movedPos_ = VAdd(movedPos_, VScale(dir, 50.0f));
+
+		// カプセルも一緒に移動させる
+		transform_.pos = movedPos_;
+		transform_.Update();
+	}
 
 	// カプセルとの衝突判定
 	auto hits = MV1CollCheck_Capsule(
@@ -1090,9 +1132,6 @@ void Player::GamePadMove(void)
 	// ゲームパッドの番号を取得
 	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
 
-	// 左のスティックの情報を取得する
-	auto isTrgLStick = ins.IsPadLStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::L_TRIGGER);
-
 	// パッドの方向をdirに直す
 	dir.x = pad.AKeyLX;
 	dir.z = -pad.AKeyLZ;
@@ -1124,16 +1163,16 @@ void Player::GamePadMove(void)
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
 		}
-		else if (AsoUtility::EqualsVZero(dir) && state_ == STATE::CHARGE_WALK)
+		else if (AsoUtility::EqualsVZero(dir))
 		{
 			speed_ = 0.0f;
 		}
 	}
 
 	//溜めながら歩く
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
-		&& ((pad.AKeyLX != 0.0f) || (pad.AKeyLZ != 0.0f))
-		&& !AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT && state_ != STATE::ROLL)
+	if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
+		/*&& (pad.AKeyLX != 0.0f || pad.AKeyLZ != 0.0f)*/ && !AsoUtility::EqualsVZero(dir)
+		&& state_ != STATE::HIT && state_ != STATE::ROLL)
 	{
 		// 方向を正規化
 		dir = VNorm(dir);
@@ -1153,7 +1192,7 @@ void Player::GamePadMove(void)
 	}
 
 	// 回避
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN)
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_BOTTON)
 		&& !AsoUtility::EqualsVZero(dir) &&
 		state_ != STATE::HIT && state_ != STATE::ROLL && stamina_ >= 10.0f)
 	{
@@ -1358,7 +1397,7 @@ void Player::GamePadCamera(void)
 
 	// プレイヤーが向いている方向にカメラを向ける
 	auto rad = transform_.quaRot.ToEuler();
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_BOTTON))
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_TRIGGER))
 	{
 		// カメラの角度を基準とし、方向分の角度を加える
 		SceneManager::GetInstance().GetCamera()->SetLazyAngles(rad);
@@ -1377,7 +1416,7 @@ void Player::GamePadLockOn(void)
 	auto length = AsoUtility::Distance(followTransform_->pos, transform_.pos);
 
 	// キーを押したらロックオンする
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_TRIGGER) && length <= 3000)
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::L_BOTTON) && length <= 3000)
 	{
 		camera->ChangeLockOnFlag();
 	}

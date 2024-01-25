@@ -7,6 +7,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/Camera.h"
+#include "../Object/Sword.h"
 #include "GameClearScene.h"
 
 GameClearScene::GameClearScene(void)
@@ -79,6 +80,8 @@ void GameClearScene::InitMusic(void)
 void GameClearScene::Init(void)
 {
 
+
+
 	// アニメーションの初期設定
 	InitAnimation();
 
@@ -99,6 +102,11 @@ void GameClearScene::Init(void)
 
 	// エフェクト再生
 	PlayEffect();
+
+	// 剣の生成
+	sword_ = new Sword();
+	sword_->SetFollow(&transform_);
+	sword_->Init();
 
 }
 
@@ -131,6 +139,9 @@ void GameClearScene::Update(void)
 
 	//// エフェクト再生
 	//PlayEffect();
+	// 
+	// 剣の更新
+	sword_->Update();
 
 	transform_.Update();
 
@@ -143,6 +154,9 @@ void GameClearScene::Draw(void)
 
 	// ロードされた３Ｄモデルを画面に描画
 	MV1DrawModel(transform_.modelId);
+
+	// 剣の描画
+	sword_->Draw();
 
 }
 
@@ -157,6 +171,9 @@ void GameClearScene::Release(void)
 	StopEffekseer3DEffect(effectFireWorksPlayId_);
 
 	StopSoundMem(musicGameClearId_);
+
+	// 剣の解放
+	sword_->Release();
 
 }
 
@@ -199,7 +216,7 @@ void GameClearScene::Animation(void)
 	if (stepAnim_ > animTotalTime_)
 	{
 		// ループ再生
-		stepAnim_ = 0.0f;
+		stepAnim_ = 25.0f;
 	}
 
 	// 再生するアニメーション時間の設定
@@ -216,7 +233,7 @@ void GameClearScene::SetAnimation(void)
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, gameClearAnim_);
 
 	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+	animTotalTime_ = 35.0f;
 
 	// アニメーション速度
 	speedAnim_ = 30.0f;

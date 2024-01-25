@@ -672,9 +672,6 @@ void Camera::GamePadController(void)
 	// ゲームパッドの番号を取得
 	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
 
-	// 右のスティックの情報を取得する
-	auto isTrgRStick = ins.IsPadRStickTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::L_TRIGGER);
-
 	// パッドの方向をdirに直す
 	// 右方向
 	if (pad.AKeyRX > 0)
@@ -682,7 +679,7 @@ void Camera::GamePadController(void)
 		axisDeg.y = pad.AKeyRX;
 		// 方向を正規化
 		axisDeg = VNorm(axisDeg);
-		axisDeg = VScale(axisDeg, 2.0f);
+		axisDeg = VScale(axisDeg, 3.0f);
 	}
 	// 左方向
 	if (pad.AKeyRX < 0)
@@ -690,7 +687,7 @@ void Camera::GamePadController(void)
 		axisDeg.y = pad.AKeyRX;
 		// 方向を正規化
 		axisDeg = VNorm(axisDeg);
-		axisDeg = VScale(axisDeg, 2.0f);
+		axisDeg = VScale(axisDeg, 3.0f);
 	}
 	// 上方向
 	if (pad.AKeyRZ < 0 && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
@@ -698,7 +695,7 @@ void Camera::GamePadController(void)
 		axisDeg.x = -pad.AKeyRZ;
 		// 方向を正規化
 		axisDeg = VNorm(axisDeg);
-		axisDeg = VScale(axisDeg, 2.0f);
+		axisDeg = VScale(axisDeg, 3.0f);
 	}
 	// 下方向
 	if (pad.AKeyRZ > 0 && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
@@ -706,7 +703,7 @@ void Camera::GamePadController(void)
 		axisDeg.x = -pad.AKeyRZ;
 		// 方向を正規化
 		axisDeg = VNorm(axisDeg);
-		axisDeg = VScale(axisDeg, 2.0f);
+		axisDeg = VScale(axisDeg, 3.0f);
 	}
 
 	// カメラを回転させる
@@ -727,17 +724,22 @@ void Camera::GamePadController(void)
 	// 追従対象から注視点までの相対座標を回転
 	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_P2T_POS);
 
-	// 注視点の更新
-	targetPos_ = VAdd(followPos, relativeTPos);
+	//// 注視点の更新
+	//targetPos_ = VAdd(followPos, relativeTPos);
 
 	// 追従対象からカメラまでの相対座標
 	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
 
-	// カメラ位置の更新
-	pos_ = VAdd(followPos, relativeCPos);
+	//// カメラ位置の更新
+	//pos_ = VAdd(followPos, relativeCPos);
+
+	// カメラ座標をゆっくり移動させる
+	pos_ = AsoUtility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
+
+	// 注視点をゆっくり移動させる
+	targetPos_ = AsoUtility::Lerp(targetPos_, VAdd(followPos, relativeTPos), 0.1f);
 
 	// カメラの上方向
-	//cameraUp_ = followRot.PosAxis(rotXY_.GetUp());
 	cameraUp_ = AsoUtility::DIR_U;
 
 }

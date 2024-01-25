@@ -132,9 +132,6 @@ void Enemy::Init(void)
 	// ダッシュアタックのフラグ
 	jumpAttack_ = false;
 
-	// タックルアタックのフラグ
-	isTackle_ = false;
-
 	// 回転の開始
 	startRotation_ = false;
 
@@ -320,23 +317,48 @@ void Enemy::TackleSyncEffect(void)
 void Enemy::TackleRangeSyncEffect(void)
 {
 
-	// 追従対象の位置
-	VECTOR followPos = transform_.pos;
+	//// 追従対象の位置
+	//VECTOR followPos = transform_.pos;
 
-	// 追従対象の向き
-	Quaternion followRot = transform_.quaRot;
+	//// 追従対象の向き
+	//Quaternion followRot = transform_.quaRot;
 
-	VECTOR rot = Quaternion::ToEuler(followRot);
+	//VECTOR rot = Quaternion::ToEuler(followRot);
+
+	//// 追従対象から自機までの相対座標
+	//VECTOR effectPos = followRot.PosAxis({ 0.0f,10.0f,-3800.0f });
+
+	//// エフェクトの位置の更新
+	//effectTackleRangePos_ = VAdd(followPos, effectPos);
+
+	//// 位置の設定
+	//SetPosPlayingEffekseer3DEffect(effectTackleRangePlayId_, effectTackleRangePos_.x, effectTackleRangePos_.y, effectTackleRangePos_.z);
+	//SetRotationPlayingEffekseer3DEffect(effectTackleRangePlayId_, rot.x, rot.y, rot.z);
+
+
+	// New
+	auto atkPos = attackPlayerPos_;
+	atkPos.y = 0.0f;
+
+	auto nowPos = transform_.pos;
+	nowPos.y = 0.0f;
+
+	auto dirXZ = VSub(atkPos, nowPos);
+	auto rotXZ = Quaternion::LookRotation(dirXZ);
+	auto rot = rotXZ.ToEuler();
+
+	SetRotationPlayingEffekseer3DEffect(effectTackleRangePlayId_, rot.x, rot.y, rot.z);
+
 
 	// 追従対象から自機までの相対座標
-	VECTOR effectPos = followRot.PosAxis({ 0.0f,10.0f,-3800.0f });
-
+	VECTOR effectPos = rotXZ.PosAxis({ 0.0f,10.0f,3800.0f });
+	 
 	// エフェクトの位置の更新
-	effectTackleRangePos_ = VAdd(followPos, effectPos);
+	effectTackleRangePos_ = VAdd(nowPos, effectPos);
 
 	// 位置の設定
-	SetPosPlayingEffekseer3DEffect(effectTackleRangePlayId_, effectTackleRangePos_.x, effectTackleRangePos_.y, effectTackleRangePos_.z);
-	SetRotationPlayingEffekseer3DEffect(effectTackleRangePlayId_, rot.x, rot.y, rot.z);
+	SetPosPlayingEffekseer3DEffect(
+		effectTackleRangePlayId_, effectTackleRangePos_.x, effectTackleRangePos_.y, effectTackleRangePos_.z);
 
 	transform_.Update();
 
@@ -532,8 +554,17 @@ void Enemy::Update(void)
 		JumpAttackRangeSyncEffect();
 
 		break;
+	case Enemy::STATE::BEFORE_TACKLE:
+		UpdateBeforeTackle();
+		break;
 	case Enemy::STATE::TACKLE:
 		UpdateTackle();
+
+		// 再生速度の設定
+		SetFrequencySoundMem(120000, musicFootStepsId_);
+
+		// 足音
+		FootStepsMusic();
 
 		// エフェクトの位置
 		TackleSyncEffect();
@@ -778,11 +809,6 @@ VECTOR Enemy::GetAttackPlayerPos(void)
 	return attackPlayerPos_;
 }
 
-bool Enemy::GetIsTackle(void)
-{
-	return isTackle_;
-}
-
 void Enemy::Think(void)
 {
 
@@ -793,8 +819,8 @@ void Enemy::Think(void)
 	float length = 0.0f;
 
 	// 攻撃の選択
-	attackNumber_ = GetRand(3);
-	//attackNumber_ = 2;
+	//attackNumber_ = GetRand(3);
+	attackNumber_ = 2;
 	
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -850,8 +876,6 @@ void Enemy::Think(void)
 	if (attackNumber_ == 2)
 	{
 
-		isTackle_ = false;
-
 		// プレイヤーがいた座標を代入
 		attackPlayerPos_ = followTransform_->pos;
 
@@ -859,9 +883,11 @@ void Enemy::Think(void)
 		vec = VSub(attackPlayerPos_, transform_.pos);
 		length = AsoUtility::Magnitude(vec);
 
+		beforeTackleCnt_ = BEOFRE_TACKLE_TIME;
+
 		// 正規化
 		pDirection_ = VNorm(vec);
-		ChangeState(STATE::TACKLE);
+		ChangeState(STATE::BEFORE_TACKLE);
 		SetIdleAnimation();
 
 	}
@@ -890,7 +916,8 @@ void Enemy::Rotation(void)
 	float angle = atan2f(Vdirection.x, Vdirection.z);
 
 	// 回転
-	if (state_ != STATE::IDLE && state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK && state_ != STATE::TACKLE)
+	if (state_ != STATE::IDLE && state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK
+		&& state_ != STATE::TACKLE && state_ != STATE::BEFORE_TACKLE)
 	{
 		LazyRotation(angle);
 	}
@@ -994,34 +1021,19 @@ void Enemy::UpdateJumpAttack(void)
 
 }
 
-void Enemy::UpdateTackle(void)
+void Enemy::UpdateBeforeTackle(void)
 {
-
 	// タックルする前に攻撃範囲を表示する
 	beforeTackleCnt_ -= SceneManager::GetInstance().GetDeltaTime();
 
-	if (beforeTackleCnt_ <= 0.0f && !isTackle_)
+	if (beforeTackleCnt_ <= 0.0f)
 	{
-		// 再生速度の設定
-		SetFrequencySoundMem(120000, musicFootStepsId_);
-
-		// 足音
-		FootStepsMusic();
-
-		isTackle_ = true;
-		SetTackleAnimation();
-		tackleCnt_ = 4.0f;
-
-
-		// エフェクトの再生
-		TacklePlayEffect();
-
-		// 音の再生
-		PlaySoundMem(musicTackleId_, DX_PLAYTYPE_BACK);
-
-		// 音の再生
-		AttackMusic();
+		ChangeState(STATE::TACKLE);
 	}
+}
+
+void Enemy::UpdateTackle(void)
+{
 
 	// タックルする時間を計算
 	tackleCnt_ -= SceneManager::GetInstance().GetDeltaTime();
@@ -1101,6 +1113,23 @@ void Enemy::Collision(void)
 
 void Enemy::CollisionStage(void)
 {
+
+
+	auto vec = VSub({ 0.0f,-300.0f, 500.0f }, transform_.pos);
+
+	float length = AsoUtility::Magnitude(vec);
+
+	auto dir = VNorm(vec);
+
+	if (length >= 3500.0f)
+	{
+		// 法線の方向にちょっとだけ移動させる
+		movedPos_ = VAdd(movedPos_, VScale(dir, 100.0f));
+
+		// カプセルも一緒に移動させる
+		transform_.pos = movedPos_;
+		transform_.Update();
+	}
 
 	// カプセルとの衝突判定
 	auto hits = MV1CollCheck_Capsule(
@@ -1260,10 +1289,23 @@ void Enemy::ChangeState(STATE state)
 		AttackMusic();
 
 		break;
-	case Enemy::STATE::TACKLE:
+	case Enemy::STATE::BEFORE_TACKLE:
 		// エフェクト再生
 		TackleRangePlayEffect();
-		beforeTackleCnt_ = 2.0f;
+		break;
+	case Enemy::STATE::TACKLE:
+
+		SetTackleAnimation();
+		tackleCnt_ = 4.0f;
+
+		// エフェクトの再生
+		TacklePlayEffect();
+
+		// 音の再生
+		PlaySoundMem(musicTackleId_, DX_PLAYTYPE_BACK);
+
+		// 音の再生
+		AttackMusic();
 		break;
 	case Enemy::STATE::CREATE:
 		SetCreateAnimation();

@@ -292,25 +292,28 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 		//   A
 
 		idx = static_cast<int>(JOYPAD_BTN::TOP);
-		ret.ButtonsNew[idx] = d.Buttons[3];// Y
+		ret.ButtonsNew[idx] = d.Buttons[3];// Yボタン
 
 		idx = static_cast<int>(JOYPAD_BTN::LEFT);
-		ret.ButtonsNew[idx] = d.Buttons[2];// X
+		ret.ButtonsNew[idx] = d.Buttons[2];// Xボタン
 
 		idx = static_cast<int>(JOYPAD_BTN::RIGHT);
-		ret.ButtonsNew[idx] = d.Buttons[1];// B
+		ret.ButtonsNew[idx] = d.Buttons[1];// Bボタン
 
 		idx = static_cast<int>(JOYPAD_BTN::DOWN);
-		ret.ButtonsNew[idx] = d.Buttons[0];// A
+		ret.ButtonsNew[idx] = d.Buttons[0];// Aボタン
 
 		idx = static_cast<int>(JOYPAD_BTN::R_BOTTON);
-		ret.ButtonsNew[idx] = d.Buttons[9];// Rスティック押し込み
+		ret.ButtonsNew[idx] = d.Buttons[5];// Rボタン
+
+		idx = static_cast<int>(JOYPAD_BTN::L_BOTTON);
+		ret.ButtonsNew[idx] = d.Buttons[4];// Rボタン
 
 		idx = static_cast<int>(JOYPAD_BTN::R_TRIGGER);
-		ret.ButtonsNew[idx] = x.RightTrigger;// R_TRIGGER
+		ret.ButtonsNew[idx] = d.Buttons[9];// Rスティック押し込み
 
 		idx = static_cast<int>(JOYPAD_BTN::L_TRIGGER);
-		ret.ButtonsNew[idx] = x.LeftTrigger; // L_TRIGGER
+		ret.ButtonsNew[idx] = d.Buttons[8]; // Lスティック押し込み
 
 		// 左スティック
 		ret.AKeyLX = d.X;

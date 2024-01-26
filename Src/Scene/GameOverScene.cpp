@@ -6,6 +6,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/Camera.h"
+#include "../Object/Stage.h"
 #include "GameOverScene.h"
 
 GameOverScene::GameOverScene(void)
@@ -32,7 +33,7 @@ void GameOverScene::InitAnimation(void)
 	// transformの初期化
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = { 0.0f, -150.0f, 0.0f };
+	transform_.pos = { 0.0f, 0.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
 	transform_.Update();
@@ -122,6 +123,10 @@ void GameOverScene::Init(void)
 	// タイトルロゴ
 	imgGameOver_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAMEOVER).handleId_;
 
+	// ステージの生成
+	stage_ = new Stage();
+	stage_->Init();
+
 }
 
 void GameOverScene::Update(void)
@@ -151,6 +156,9 @@ void GameOverScene::Update(void)
 	// 点滅カウンタを加算する
 	BlinkCnt_++;
 
+	// ステージの更新
+	stage_->Update();
+
 	transform_.Update();
 
 }
@@ -158,11 +166,14 @@ void GameOverScene::Update(void)
 void GameOverScene::Draw(void)
 {
 
-	// ロゴ描画
-	DrawLogo();
-
 	// ロードされた３Ｄモデルを画面に描画
 	MV1DrawModel(transform_.modelId);
+
+	// ステージの描画
+	stage_->Draw();
+
+	// ロゴ描画
+	DrawLogo();
 
 }
 
@@ -176,6 +187,8 @@ void GameOverScene::Release(void)
 
 	StopSoundMem(musicGameOverId_);
 
+	// ステージの解放
+	stage_->Release();
 
 }
 

@@ -141,7 +141,7 @@ public:
 	static constexpr float SHOT_ATTACK_TIME = 7.0f;
 
 	// タックル攻撃に入るまでの時間
-	static constexpr float BEOFRE_TACKLE_TIME = 2.0f;
+	static constexpr float BEOFRE_TACKLE_TIME = 1.0f;
 
 	// プレイヤーの状態
 	enum class STATE

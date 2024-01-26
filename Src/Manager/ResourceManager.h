@@ -12,6 +12,8 @@ public:
 	enum class SRC
 	{
 		TITLE_LOGO,
+		KEYBOAD,
+		GAMEPAD,
 		GAMECLEAR,
 		GAMEOVER,
 		PLAYER_HP_BAR,

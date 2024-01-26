@@ -2,6 +2,8 @@
 #include "SceneBase.h"
 #include "../Object/Common/Transform.h"
 
+class Stage;
+
 class GameOverScene : public SceneBase
 {
 
@@ -22,6 +24,9 @@ private:
 
 	// モデル制御の基本情報
 	Transform transform_;
+
+	// ステージ
+	Stage* stage_;
 
 	// ゲームオーバーシーンの音楽
 	int musicGameOverId_;

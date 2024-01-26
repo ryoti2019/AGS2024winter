@@ -3,6 +3,7 @@
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
+#include "../Application.h"
 #include "../Utility/AsoUtility.h"
 #include "../Object/Grid.h"
 #include "../Object/Stage.h"
@@ -68,6 +69,15 @@ void GameScene::Init(void)
 	// HPバーの画像
 	imgPlayerHPBar_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_HP_BAR).handleId_;
 
+	// 操作説明のフラグ
+	isOperation_ = true;
+
+	// キーボードの操作説明
+	imgKeyBoad_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::KEYBOAD).handleId_;
+
+	// ゲームパッドの操作説明
+	imgGamePad_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAMEPAD).handleId_;
+
 	// エフェクトの初期設定
 	InitEffect();
 
@@ -96,6 +106,23 @@ void GameScene::Update(void)
 		{
 			return;
 		}
+	}
+
+	// キーボードでの操作
+	if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_SPACE))
+	{
+		isOperation_ = false;
+	}
+
+	// ゲームパッドでの操作
+	if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
+	{
+		isOperation_ = false;
+	}
+
+	if (isOperation_)
+	{
+		return;
 	}
 
 	// グリッド線の更新
@@ -202,9 +229,21 @@ void GameScene::Draw(void)
 	// デバッグ描画
 	//DrawDebug();
 
-	DrawSphere3D({ 0.0f,-300.0f, 500.0f }, 3500.0f, 10, 0xff0000, 0xff0000, false);
+	//DrawSphere3D({ 0.0f,-300.0f, 500.0f }, 3500.0f, 10, 0xff0000, 0xff0000, false);
 
 	DrawHPBar();
+
+	// キーボードの操作説明
+	if (isOperation_ && !SceneManager::GetInstance().GetGamePad())
+	{
+		DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.5f, 0.0f, imgKeyBoad_, true);
+	}
+
+	// ゲームパッドの操作説明
+	if (isOperation_ && SceneManager::GetInstance().GetGamePad())
+	{
+		DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.5f, 0.0f, imgGamePad_, true);
+	}
 
 }
 

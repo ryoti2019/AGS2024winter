@@ -328,15 +328,20 @@ void Player::Update(void)
 
 		}
 
-		if (stepAnim_ >= 0.0f && stepAnim_ <= 4.9f)
+		if (stepAnim_ >= 10.0f && stepAnim_ <= 45.0f)
+		{
+
+		}
+
+		if ((stepAnim_ >= 0.0f && stepAnim_ <= 9.9f) || (stepAnim_ >= 45.1f && stepAnim_ <= 71.0f))
 		{
 			isInvincible_ = false;
 		}
 
-		if (stepAnim_ >= 45.1f && stepAnim_ <= 71.0f)
-		{
-			isInvincible_ = false;
-		}
+		//if (stepAnim_ >= 45.1f && stepAnim_ <= 71.0f)
+		//{
+		//	isInvincible_ = false;
+		//}
 
 		if (stepAnim_ >= 45.0f)
 		{
@@ -714,10 +719,10 @@ void Player::CollisionStage(void)
 
 	auto dir = VNorm(vec);
 
-	if (length >= 3500.0f)
+	if (length >= 3500.0f && state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK)
 	{
 		// 法線の方向にちょっとだけ移動させる
-		movedPos_ = VAdd(movedPos_, VScale(dir, 50.0f));
+		movedPos_ = VAdd(movedPos_, VScale(dir, 20.0f));
 
 		// カプセルも一緒に移動させる
 		transform_.pos = movedPos_;

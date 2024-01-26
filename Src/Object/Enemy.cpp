@@ -349,7 +349,6 @@ void Enemy::TackleRangeSyncEffect(void)
 
 	SetRotationPlayingEffekseer3DEffect(effectTackleRangePlayId_, rot.x, rot.y, rot.z);
 
-
 	// í«è]ëŒè€Ç©ÇÁé©ã@Ç‹Ç≈ÇÃëäëŒç¿ïW
 	VECTOR effectPos = rotXZ.PosAxis({ 0.0f,10.0f,3800.0f });
 	 
@@ -649,11 +648,11 @@ void Enemy::Draw(void)
 	// HPÇÃï`âÊ
 	if (hp_ >= 0)
 	{
-		DrawBox(x - 390, 500, x - 390 + hpGauge, 520, GetColor(R, G, B), true);
+		DrawBox(x - 390, Application::SCREEN_SIZE_Y - 100, x - 390 + hpGauge, Application::SCREEN_SIZE_Y - 80, GetColor(R, G, B), true);
 	}
 
 	// HPÉoÅ[ÇÃï`âÊ
-	DrawExtendGraph(x - 400, 500, x + 400, 520, imgHPBar_, true);
+	DrawExtendGraph(x - 400, Application::SCREEN_SIZE_Y - 100, x + 400, Application::SCREEN_SIZE_Y - 80, imgHPBar_, true);
 
 	for (auto v : shots_)
 	{
@@ -665,7 +664,7 @@ void Enemy::Draw(void)
 	SetFontSize(30);
 	int len = (int)strlen(msg.c_str());
 	int width = GetDrawStringWidth(msg.c_str(), len);
-	DrawFormatString(x - 400, 470, 0xffffff, msg.c_str());
+	DrawFormatString(x - 400, Application::SCREEN_SIZE_Y - 150, 0xffffff, msg.c_str());
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	SetFontSize(16);
@@ -819,8 +818,8 @@ void Enemy::Think(void)
 	float length = 0.0f;
 
 	// çUåÇÇÃëIë
-	//attackNumber_ = GetRand(3);
-	attackNumber_ = 2;
+	attackNumber_ = GetRand(3);
+	//attackNumber_ = 2;
 	
 	// çUåÇÇ™ìñÇΩÇ¡ÇΩÇ©Ç«Ç§Ç©
 	hit_ = false;

@@ -28,6 +28,14 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Scene/Vanquish A Monster.png");
 	resourcesMap_.emplace(SRC::TITLE_LOGO, res);
 
+	// 操作説明キーボード
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "UI/keyBoad.png");
+	resourcesMap_.emplace(SRC::KEYBOAD, res);
+
+	// 操作説明ゲームパッド
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "UI/gamePad.png");
+	resourcesMap_.emplace(SRC::GAMEPAD, res);
+
 	// ゲームクリア
 	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Scene/GameClearImage.png");
 	resourcesMap_.emplace(SRC::GAMECLEAR, res);

@@ -61,6 +61,15 @@ private:
 	// プレイヤーが死んだときのフラグ
 	bool playerDeath_;
 
+	// キーボードの操作説明
+	int imgKeyBoad_;
+
+	// ゲームパッドの操作説明
+	int imgGamePad_;
+
+	// 操作説明のフラグ
+	bool isOperation_;
+
 	// エフェクト
 	// プレイヤーの攻撃が当たった時のエフェクト
 	int effectPlayerImpactResId_;
@@ -79,7 +88,6 @@ private:
 	bool isEffectTornade_;
 
 	// 音
-	
 	// ゲームシーンの音楽
 	int musicGameId_;
 

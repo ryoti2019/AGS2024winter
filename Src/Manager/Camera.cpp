@@ -135,6 +135,27 @@ void Camera::SetBeforeDrawFree(void)
 void Camera::SetBeforeDrawFollow(void)
 {
 
+	auto& ins = InputManager::GetInstance();
+
+	auto& sce = SceneManager::GetInstance();
+
+	// キーボードでの操作
+	if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_SPACE))
+	{
+		sce.SetIsOperation(false);
+	}
+
+	// ゲームパッドでの操作
+	if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
+	{
+		sce.SetIsOperation(false);
+	}
+
+	if (sce.GetIsOperation())
+	{
+		return;
+	}
+
 	VECTOR playerPos = playerTransform_->pos;
 	VECTOR enemyPos = enemyTransform_->pos;
 
@@ -333,12 +354,15 @@ void Camera::ChangeMode(MODE mode)
 	// カメラモードの変更
 	mode_ = mode;
 
+	rotY_ = Quaternion::Identity();
+	rotXY_ = Quaternion::Identity();
+
 	// 変更時の初期化処理
 	switch (mode_)
 	{
 	case Camera::MODE::FIXED_POINT:
-		pos_ = { 0.0f,0.0f,-500.0f };
-		targetPos_ = { 0.0f,0.0f,0.0f };
+		pos_ = { 0.0f,200.0f,-500.0f };
+		targetPos_ = { 0.0f,150.0f,0.0f };
 		break;
 	case Camera::MODE::FREE:
 		break;

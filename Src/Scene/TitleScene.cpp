@@ -6,6 +6,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/Camera.h"
+#include "../Object/Stage.h"
 #include "TitleScene.h"
 
 TitleScene::TitleScene(void)
@@ -84,9 +85,11 @@ void TitleScene::Draw(void)
 
 void TitleScene::Release(void)
 {
+
 	DeleteGraph(imgTitleLogo_);
 
 	StopSoundMem(musicTitleId_);
+
 }
 
 void TitleScene::DrawLogo(void)

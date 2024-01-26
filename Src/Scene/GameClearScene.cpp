@@ -8,6 +8,7 @@
 #include "../Manager/InputManager.h"
 #include "../Manager/Camera.h"
 #include "../Object/Sword.h"
+#include "../Object/Stage.h"
 #include "GameClearScene.h"
 
 GameClearScene::GameClearScene(void)
@@ -34,7 +35,7 @@ void GameClearScene::InitAnimation(void)
 	// transformの初期化
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = { 0.0f, -150.0f, 0.0f };
+	transform_.pos = { 0.0f, 0.0f, 0.0f };
 	transform_.quaRot = Quaternion();
 	Quaternion rotPow = Quaternion::Identity();
 	transform_.Update();
@@ -80,8 +81,6 @@ void GameClearScene::InitMusic(void)
 void GameClearScene::Init(void)
 {
 
-
-
 	// アニメーションの初期設定
 	InitAnimation();
 
@@ -107,6 +106,10 @@ void GameClearScene::Init(void)
 	sword_ = new Sword();
 	sword_->SetFollow(&transform_);
 	sword_->Init();
+
+	// ステージの生成
+	stage_ = new Stage();
+	stage_->Init();
 
 }
 
@@ -139,9 +142,12 @@ void GameClearScene::Update(void)
 
 	//// エフェクト再生
 	//PlayEffect();
-	// 
+	
 	// 剣の更新
 	sword_->Update();
+
+	// ステージの更新
+	stage_->Update();
 
 	transform_.Update();
 
@@ -149,14 +155,18 @@ void GameClearScene::Update(void)
 
 void GameClearScene::Draw(void)
 {
-	// ロゴ描画
-	DrawLogo();
 
 	// ロードされた３Ｄモデルを画面に描画
 	MV1DrawModel(transform_.modelId);
 
 	// 剣の描画
 	sword_->Draw();
+
+	// ステージの描画
+	stage_->Draw();
+
+	// ロゴ描画
+	DrawLogo();
 
 }
 
@@ -174,6 +184,9 @@ void GameClearScene::Release(void)
 
 	// 剣の解放
 	sword_->Release();
+
+	// ステージの解放
+	stage_->Release();
 
 }
 
@@ -216,7 +229,7 @@ void GameClearScene::Animation(void)
 	if (stepAnim_ > animTotalTime_)
 	{
 		// ループ再生
-		stepAnim_ = 25.0f;
+		stepAnim_ = 0.0f;
 	}
 
 	// 再生するアニメーション時間の設定
@@ -233,7 +246,7 @@ void GameClearScene::SetAnimation(void)
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, gameClearAnim_);
 
 	// アニメーション総時間の取得
-	animTotalTime_ = 35.0f;
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
 
 	// アニメーション速度
 	speedAnim_ = 30.0f;
@@ -259,7 +272,7 @@ void GameClearScene::SyncEffect(void)
 {
 
 	// 位置
-	effectPos_ = {0.0f,-500.0f,200.0f};
+	effectPos_ = {0.0f,-400.0f,0.0f};
 
 	// 位置の設定
 	SetPosPlayingEffekseer3DEffect(effectFireWorksPlayId_, effectPos_.x, effectPos_.y, effectPos_.z);

@@ -52,6 +52,12 @@ public:
 	// ゲームパッドで操作するフラグを取得する
 	void SetGamePad(bool isPad);
 
+	// 操作説明のフラグの取得
+	bool GetIsOperation(void);
+
+	// 操作説明のフラグの取得
+	void SetIsOperation(bool isOp);
+
 private:
 
 	// 静的インスタンス
@@ -78,6 +84,9 @@ private:
 	
 	// ゲームパッドで操作するためのフラグ
 	bool isGamePad_;
+
+	// 操作説明のフラグ
+	bool isOperation_;
 
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする

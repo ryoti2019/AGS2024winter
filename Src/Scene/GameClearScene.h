@@ -3,6 +3,7 @@
 #include "../Object/Common/Transform.h"
 
 class Sword;
+class Stage;
 
 class GameClearScene : public SceneBase
 {
@@ -27,6 +28,9 @@ private:
 
 	// 剣
 	Sword* sword_;
+
+	// ステージ
+	Stage* stage_;
 
 	// ゲームシーンの音楽
 	int musicGameClearId_;

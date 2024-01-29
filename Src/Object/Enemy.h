@@ -138,7 +138,7 @@ public:
 	static constexpr int LOCKON_CURSOR_NUM = 59;
 
 	// ショット攻撃の全体の時間
-	static constexpr float SHOT_ATTACK_TIME = 7.0f;
+	static constexpr float SHOT_ATTACK_TIME = 8.0f;
 
 	// タックル攻撃に入るまでの時間
 	static constexpr float BEOFRE_TACKLE_TIME = 1.0f;
@@ -428,9 +428,6 @@ protected:
 
 	// 攻撃のボイス２
 	int musicAttackVoice2Id_;
-
-	// 攻撃のボイス３
-	int musicAttackVoice3Id_;
 
 	// 攻撃のボイスのフラグ
 	bool isMusicAttackVoice_;

@@ -55,6 +55,9 @@ private:
 	// ゲームオーバーの画像
 	int imgGameOver_;
 
+	// スペースキーかBボタン
+	int imgSpaceOrB_;
+
 	// 点滅用のカウンタ
 	int BlinkCnt_;
 

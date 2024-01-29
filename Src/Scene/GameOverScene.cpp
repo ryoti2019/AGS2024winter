@@ -123,6 +123,9 @@ void GameOverScene::Init(void)
 	// タイトルロゴ
 	imgGameOver_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAMEOVER).handleId_;
 
+	// スペースキーかBボタン
+	imgSpaceOrB_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SPACE_OR_B).handleId_;
+
 	// ステージの生成
 	stage_ = new Stage();
 	stage_->Init();
@@ -141,6 +144,7 @@ void GameOverScene::Update(void)
 	{
 		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+		SceneManager::GetInstance().SetIsOperation(true);
 	}
 
 	// ゲームパッドの番号を取得
@@ -151,6 +155,7 @@ void GameOverScene::Update(void)
 		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 		SceneManager::GetInstance().SetGamePad(true);
+		SceneManager::GetInstance().SetIsOperation(true);
 	}
 
 	// 点滅カウンタを加算する
@@ -181,11 +186,14 @@ void GameOverScene::Release(void)
 {
 
 	DeleteGraph(imgGameOver_);
+	DeleteGraph(imgSpaceOrB_);
 
 	// モデルの開放
 	MV1DeleteModel(transform_.modelId);
+	MV1DeleteModel(gameOverAnim_);
 
-	StopSoundMem(musicGameOverId_);
+	DeleteSoundMem(musicGameOverId_);
+	DeleteSoundMem(musicDecisionId_);
 
 	// ステージの解放
 	stage_->Release();
@@ -201,19 +209,26 @@ void GameOverScene::DrawLogo(void)
 	// ゲームオーバー
 	DrawRotaGraph(cx, cy, 1.0, 0.0, imgGameOver_, true);
 
-	// Pushメッセージ
-	std::string msg = "Push Space";
-	SetFontSize(40);
-	int len = (int)strlen(msg.c_str());
-	int width = GetDrawStringWidth(msg.c_str(), len);
-
+	// スペースキーかBボタン
 	// 点滅させる
 	if ((BlinkCnt_ / 30) % 2)
 	{
-		DrawFormatString(cx - (width / 2), 500, 0xffffff, msg.c_str());
+		DrawRotaGraph(cx, cy + 200, 0.5f, 0.0f, imgSpaceOrB_, true);
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	SetFontSize(16);
+	//// Pushメッセージ
+	//std::string msg = "Push Space";
+	//SetFontSize(40);
+	//int len = (int)strlen(msg.c_str());
+	//int width = GetDrawStringWidth(msg.c_str(), len);
+
+	//// 点滅させる
+	//if ((BlinkCnt_ / 30) % 2)
+	//{
+	//	DrawFormatString(cx - (width / 2), 500, 0xffffff, msg.c_str());
+	//}
+
+	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//SetFontSize(16);
 
 }

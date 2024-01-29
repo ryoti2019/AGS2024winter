@@ -316,6 +316,9 @@ protected:
 	// スタミナのカウンタ
 	float staminaCnt_;
 
+	// 最初の行動できないようにするカウンタ
+	float limitCnt_;
+
 	// エフェクト
 	// 溜めるエフェクト
 	int effectChargeResId_;
@@ -332,9 +335,6 @@ protected:
 	// 風を切る音２
 	int musicSlash2Id_;
 
-	// 風を切る音３
-	int musicSlash3Id_;
-
 	// 風を切る音のフラグ
 	bool isMusicSlash_;
 
@@ -349,9 +349,6 @@ protected:
 
 	// 攻撃ボイス２
 	int musicSlashVoice2Id_;
-
-	// 攻撃ボイス３
-	int musicSlashVoice3Id_;
 
 	// 溜め攻撃ボイス
 	int musicChargeSlashVoiceId_;

@@ -26,7 +26,7 @@ void GameScene::Init(void)
 {
 
 	// カメラモード：フリーカメラ
-	//SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FIXED_POINT);
+	SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FIXED_POINT);
 
 	// グリッド線の生成
 	grid_ = new Grid();
@@ -69,9 +69,6 @@ void GameScene::Init(void)
 	// HPバーの画像
 	imgPlayerHPBar_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_HP_BAR).handleId_;
 
-	// 操作説明のフラグ
-	isOperation_ = true;
-
 	// キーボードの操作説明
 	imgKeyBoad_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::KEYBOAD).handleId_;
 
@@ -83,6 +80,9 @@ void GameScene::Init(void)
 
 	// 音の初期設定
 	InitMusic();
+
+	// 操作説明をスキップさせないようにするカウンタ
+	operationCnt_ = 0.0f;
 
 }
 
@@ -108,19 +108,50 @@ void GameScene::Update(void)
 		}
 	}
 
-	// キーボードでの操作
-	if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_SPACE))
+	operationCnt_ += SceneManager::GetInstance().GetDeltaTime();
+
+	if (operationCnt_ <= 1.0f)
 	{
-		isOperation_ = false;
+		return;
+	}
+
+	auto& sce = SceneManager::GetInstance();
+
+	// キーボードでの操作
+	if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_SPACE)
+		&& SceneManager::GetInstance().GetIsOperation())
+	{
+		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
+		sce.SetIsOperation(false);
+		DeleteGraph(imgKeyBoad_);
 	}
 
 	// ゲームパッドでの操作
-	if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
+	if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
+		&& SceneManager::GetInstance().GetIsOperation())
 	{
-		isOperation_ = false;
+		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
+		sce.SetIsOperation(false);
+		DeleteGraph(imgGamePad_);
 	}
 
-	if (isOperation_)
+	// タイトルシーンに戻る
+	if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_B) && SceneManager::GetInstance().GetIsOperation())
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+		SceneManager::GetInstance().SetIsOperation(true);
+	}
+
+	if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN)
+		&& SceneManager::GetInstance().GetIsOperation())
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+		SceneManager::GetInstance().SetGamePad(true);
+		SceneManager::GetInstance().SetIsOperation(true);
+	}
+
+	// 操作説明を飛ばしたら動く
+	if (SceneManager::GetInstance().GetIsOperation())
 	{
 		return;
 	}
@@ -172,6 +203,7 @@ void GameScene::Update(void)
 	// ヒットストップを入れる
 	if (enemy_->GetHP() <= 0 && !enemyDeath_)
 	{
+		PlaySoundMem(musicEnemyDeath_, DX_PLAYTYPE_BACK);
 		slowCnt_ = 60;
 		enemyDeath_ = true;
 		enemy_->SetState(Enemy::STATE::DEATH);
@@ -179,6 +211,7 @@ void GameScene::Update(void)
 	
 	if (player_->GetHP() <= 0 && !playerDeath_)
 	{
+		PlaySoundMem(musicPlayerDeath_, DX_PLAYTYPE_BACK);
 		slowCnt_ = 60;
 		playerDeath_ = true;
 		player_->SetState(Player::STATE::DEATH);
@@ -234,13 +267,13 @@ void GameScene::Draw(void)
 	DrawHPBar();
 
 	// キーボードの操作説明
-	if (isOperation_ && !SceneManager::GetInstance().GetGamePad())
+	if (SceneManager::GetInstance().GetIsOperation() && !SceneManager::GetInstance().GetGamePad())
 	{
 		DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.5f, 0.0f, imgKeyBoad_, true);
 	}
 
 	// ゲームパッドの操作説明
-	if (isOperation_ && SceneManager::GetInstance().GetGamePad())
+	if (SceneManager::GetInstance().GetIsOperation() && SceneManager::GetInstance().GetGamePad())
 	{
 		DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.5f, 0.0f, imgGamePad_, true);
 	}
@@ -270,7 +303,23 @@ void GameScene::Release(void)
 	sword_->Release();
 	delete sword_;
 
-	StopSoundMem(musicGameId_);
+	DeleteGraph(imgPlayerHPBar_);
+
+	DeleteSoundMem(musicGameId_);
+	DeleteSoundMem(musicEnemyDeath_);
+	DeleteSoundMem(musicEnemyHitVoice1_);
+	DeleteSoundMem(musicEnemyHitVoice2_);
+	DeleteSoundMem(musicDecisionId_);
+	DeleteSoundMem(musicImpactId1_);
+	DeleteSoundMem(musicImpactId2_);
+	DeleteSoundMem(musicPlayerDeath_);
+
+	DeleteEffekseerEffect(effectEnemyImpactPlayId_);
+	DeleteEffekseerEffect(effectEnemyImpactResId_);
+	DeleteEffekseerEffect(effectEnemyTornadePlayId_);
+	DeleteEffekseerEffect(effectEnemyTornadeResId_);
+	DeleteEffekseerEffect(effectPlayerImpactPlayId_);
+	DeleteEffekseerEffect(effectPlayerImpactResId_);
 
 }
 
@@ -289,7 +338,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-3);
+			//enemy_->SetHP(-3);
+			enemy_->SetHP(-100);
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
@@ -315,7 +365,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-10);
+			//enemy_->SetHP(-10);
+			enemy_->SetHP(-100);
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
@@ -343,7 +394,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-15);
+			//player_->SetHP(-15);
+			player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -389,7 +441,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-10);
+			//player_->SetHP(-10);
+			player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -410,7 +463,8 @@ void GameScene::CollisionEnemyAndPlayer()
 			&& player_->GetHP() > 0)
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-3);
+			//player_->SetHP(-3);
+			player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -437,7 +491,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			player_->SetHP(-20);
+			//player_->SetHP(-20);
+			player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -605,14 +660,21 @@ void GameScene::EnemyTornadeSyncEffect(void)
 void GameScene::InitMusic(void)
 {
 
+	// プレイヤーの死亡ボイス
+	musicPlayerDeath_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_DEATH).handleId_;
+
+	ChangeVolumeSoundMem(255 * 100 / 100, musicPlayerDeath_);
+
+	// 敵の死亡ボイス
+	musicEnemyDeath_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_DEATH).handleId_;
+
+	ChangeVolumeSoundMem(255 * 100 / 100, musicEnemyDeath_);
+
 	// プレイヤーの攻撃が当たった時の音１
 	musicImpactId1_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_MUSIC1).handleId_;
 
 	// プレイヤーの攻撃が当たった時の音２
 	musicImpactId2_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_MUSIC2).handleId_;
-
-	// プレイヤーの攻撃が当たった時の音３
-	musicImpactId3_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_IMPACT_MUSIC3).handleId_;
 
 	// プレイヤーのダメージヒットボイス１
 	musicPlayerHitVoice1_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_HIT_VOICE_MUSIC1).handleId_;
@@ -626,9 +688,6 @@ void GameScene::InitMusic(void)
 	// 敵のダメージヒットボイス２
 	musicEnemyHitVoice2_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HIT_VOICE_MUSIC2).handleId_;
 
-	// 敵のダメージヒットボイス３
-	musicEnemyHitVoice3_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HIT_VOICE_MUSIC3).handleId_;
-
 	// ゲームシーンの音楽
 	musicGameId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAME_MUSIC).handleId_;
 
@@ -637,23 +696,22 @@ void GameScene::InitMusic(void)
 	// ゲームシーンの音楽の再生
 	PlaySoundMem(musicGameId_, DX_PLAYTYPE_LOOP);
 
+	// 決定音
+	musicDecisionId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::DECISION_MUSIC).handleId_;
+
 }
 
 void GameScene::ImpactMusic(void)
 {
 
-	int number = GetRand(2);
+	int number = GetRand(1);
 	if (number == 0)
 	{
-		PlaySoundMem(musicImpactId1_, DX_PLAYTYPE_BACK);
+		PlaySoundMem(musicImpactId1_, DX_PLAYTYPE_NORMAL);
 	}
 	else if (number == 1)
 	{
-		PlaySoundMem(musicImpactId2_, DX_PLAYTYPE_BACK);
-	}
-	else if (number == 2)
-	{
-		PlaySoundMem(musicImpactId3_, DX_PLAYTYPE_BACK);
+		PlaySoundMem(musicImpactId2_, DX_PLAYTYPE_NORMAL);
 	}
 
 }
@@ -679,7 +737,7 @@ void GameScene::PlayerHitMusic(void)
 void GameScene::EnemyHitMusic(void)
 {
 
-	int number = GetRand(2);
+	int number = GetRand(1);
 	if (number == 0)
 	{
 		PlaySoundMem(musicEnemyHitVoice1_, DX_PLAYTYPE_BACK);
@@ -687,10 +745,6 @@ void GameScene::EnemyHitMusic(void)
 	else if (number == 1)
 	{
 		PlaySoundMem(musicEnemyHitVoice2_, DX_PLAYTYPE_BACK);
-	}
-	else if (number == 1)
-	{
-		PlaySoundMem(musicEnemyHitVoice3_, DX_PLAYTYPE_BACK);
 	}
 
 }

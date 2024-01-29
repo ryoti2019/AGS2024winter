@@ -112,9 +112,6 @@ void Player::InitMusic(void)
 	// 風を切る音
 	musicSlash2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC2).handleId_;
 
-	// 風を切る音
-	musicSlash3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_MUSIC3).handleId_;
-
 	// 風を切る音のフラグ
 	isMusicSlash_ = true;
 
@@ -129,9 +126,6 @@ void Player::InitMusic(void)
 
 	// プレイヤーの攻撃ボイス２
 	musicSlashVoice2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC2).handleId_;
-
-	// プレイヤーの攻撃ボイス３
-	musicSlashVoice3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SLASH_VOICE_MUSIC3).handleId_;
 
 	// プレイヤーの溜め攻撃ボイス
 	musicChargeSlashVoiceId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CHARGEATTACK_VOICE_MUSIC).handleId_;
@@ -197,6 +191,8 @@ void Player::Init(void)
 	moveDir_ = AsoUtility::VECTOR_ZERO;
 
 	staminaCnt_ = 0.0f;
+
+	limitCnt_ = 0.0f;
 
 }
 
@@ -316,6 +312,7 @@ void Player::Update(void)
 	case Player::STATE::DEATH:
 		break;
 	case Player::STATE::ROLL:
+		RollMusic();
 		if (stepAnim_ >= 5.0f && stepAnim_ <= 45.0f)
 		{
 			// 移動量
@@ -362,6 +359,11 @@ void Player::Update(void)
 	// HPが0になったら操作できないようにする
 	if (hp_ > 0)
 	{
+		limitCnt_ += SceneManager::GetInstance().GetDeltaTime();
+		if (limitCnt_ <= 0.5f)
+		{
+			return;
+		}
 
 		// キーボードでの操作
 		if (!SceneManager::GetInstance().GetGamePad())
@@ -460,7 +462,7 @@ void Player::ChargeSyncEffect(void)
 void Player::SlashMusic(void)
 {
 
-	int number = GetRand(2);
+	int number = GetRand(1);
 	if (stepAnim_ >= ATTACK_COLLISION_START_TIME1 && isMusicSlash_ && state_ == STATE::ATTACK)
 	{
 		if (number == 0)
@@ -475,12 +477,7 @@ void Player::SlashMusic(void)
 			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
-		else if (number == 2)
-		{
-			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
-			isMusicSlash_ = false;
-		}
+
 	}
 
 	if (stepAnim_ >= ATTACK_COLLISION_START_TIME2 && isMusicSlash_ && state_ == STATE::ATTACK2)
@@ -495,12 +492,6 @@ void Player::SlashMusic(void)
 		{
 			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
 			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
-			isMusicSlash_ = false;
-		}
-		else if (number == 2)
-		{
-			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
 	}
@@ -519,12 +510,6 @@ void Player::SlashMusic(void)
 			PlaySoundMem(musicSlashVoice2Id_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
-		else if (number == 2)
-		{
-			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicSlashVoice3Id_, DX_PLAYTYPE_BACK);
-			isMusicSlash_ = false;
-		}
 	}
 
 	if (stepAnim_ >= CHARGE_ATTACK_COLLISION_START_TIME && isMusicSlash_ && state_ == STATE::CHARGE_ATTACK)
@@ -538,12 +523,6 @@ void Player::SlashMusic(void)
 		else if (number == 1)
 		{
 			PlaySoundMem(musicSlash2Id_, DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicChargeSlashVoiceId_, DX_PLAYTYPE_BACK);
-			isMusicSlash_ = false;
-		}
-		else if (number == 2)
-		{
-			PlaySoundMem(musicSlash3Id_, DX_PLAYTYPE_BACK);
 			PlaySoundMem(musicChargeSlashVoiceId_, DX_PLAYTYPE_BACK);
 			isMusicSlash_ = false;
 		}
@@ -589,6 +568,30 @@ void Player::Release(void)
 
 	// モデルの開放
 	MV1DeleteModel(transform_.modelId);
+
+	MV1DeleteModel(idleAnim_);
+	MV1DeleteModel(walkAnim_);
+	MV1DeleteModel(chargeWalkAnim_);
+	MV1DeleteModel(runAnim_);
+	MV1DeleteModel(attackAnim_);
+	MV1DeleteModel(chargeAttackAnim_);
+	MV1DeleteModel(hitAnim_);
+	MV1DeleteModel(deathAnim_);
+	MV1DeleteModel(rollAnim_);
+
+	DeleteEffekseerEffect(effectChargeResId_);
+	DeleteEffekseerEffect(effectChargePlayId_);
+
+	DeleteSoundMem(musicChargeId_);
+	DeleteSoundMem(musicSlash1Id_);
+	DeleteSoundMem(musicSlash2Id_);
+	DeleteSoundMem(musicFootStepsId_);
+	DeleteSoundMem(musicSlashVoice1Id_);
+	DeleteSoundMem(musicSlashVoice2Id_);
+	DeleteSoundMem(musicChargeSlashVoiceId_);
+	DeleteSoundMem(musicRollId_);
+	DeleteSoundMem(musicRollVoice1Id_);
+	DeleteSoundMem(musicRollVoice2Id_);
 
 }
 
@@ -1421,7 +1424,7 @@ void Player::GamePadLockOn(void)
 	auto length = AsoUtility::Distance(followTransform_->pos, transform_.pos);
 
 	// キーを押したらロックオンする
-	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::L_BOTTON) && length <= 3000)
+	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN:: L_BOTTON) && length <= 3000)
 	{
 		camera->ChangeLockOnFlag();
 	}

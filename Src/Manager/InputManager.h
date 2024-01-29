@@ -45,7 +45,11 @@ public:
 		R_TRIGGER,
 		L_TRIGGER,
 		R_BOTTON,
+		ZR_BOTTON,
 		L_BOTTON,
+		ZL_BOTTON,
+		START_BOTTON,
+		BACK_BOTTON,
 		MAX
 	};
 

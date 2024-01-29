@@ -1,5 +1,6 @@
 #include <EffekseerForDXLib.h>
 #include "../Utility/AsoUtility.h"
+#include "ResourceManager.h"
 #include "InputManager.h"
 #include "SceneManager.h" 
 #include "../Application.h"
@@ -23,6 +24,10 @@ void Camera::Init(void)
 {
 	// カメラの初期設定
 	SetDefault();
+
+	// 決定音
+	musicDecisionId_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::DECISION_MUSIC).handleId_;
+
 }
 
 void Camera::Update(void)
@@ -139,17 +144,24 @@ void Camera::SetBeforeDrawFollow(void)
 
 	auto& sce = SceneManager::GetInstance();
 
-	// キーボードでの操作
-	if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_SPACE))
-	{
-		sce.SetIsOperation(false);
-	}
+	//operationCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
-	// ゲームパッドでの操作
-	if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
-	{
-		sce.SetIsOperation(false);
-	}
+	//if (operationCnt_ <= 1.0f)
+	//{
+	//	return;
+	//}
+
+	//// キーボードでの操作
+	//if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_SPACE))
+	//{
+	//	sce.SetIsOperation(false);
+	//}
+
+	//// ゲームパッドでの操作
+	//if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
+	//{
+	//	sce.SetIsOperation(false);
+	//}
 
 	if (sce.GetIsOperation())
 	{
@@ -196,6 +208,12 @@ void Camera::SetBeforeDrawLockOn(void)
 	if (!SceneManager::GetInstance().GetGamePad())
 	{
 		KeybordLockOnContoroller();
+	}
+
+	// ゲームパッドの操作
+	if (SceneManager::GetInstance().GetGamePad())
+	{
+		GamePadLockOnContoroller();
 	}
 
 	// 同期先の位置
@@ -348,27 +366,26 @@ void Camera::ChangeLockOnFlag(void)
 void Camera::ChangeMode(MODE mode)
 {
 
-	// カメラの初期設定
-	SetDefault();
-
 	// カメラモードの変更
 	mode_ = mode;
-
-	rotY_ = Quaternion::Identity();
-	rotXY_ = Quaternion::Identity();
 
 	// 変更時の初期化処理
 	switch (mode_)
 	{
 	case Camera::MODE::FIXED_POINT:
+		// カメラの初期設定
+		SetDefault();
 		pos_ = { 0.0f,200.0f,-500.0f };
 		targetPos_ = { 0.0f,150.0f,0.0f };
 		break;
 	case Camera::MODE::FREE:
 		break;
 	case Camera::MODE::FOLLOW:
+		angle_ = { 0.0f,0.0f,0.0f };
+		lockOnAngles_ = { 0.0f, 0.0f, 0.0f };
 		break;
 	case Camera::MODE::LOCKON:
+		angle_ = { 0.0f,0.0f,0.0f };
 		lockOnAngles_ = { 0.0f, 0.0f, 0.0f };
 		break;
 	}
@@ -418,9 +435,6 @@ void Camera::SetDefault(void)
 
 	// ロックオン
 	lockOn_ = false;
-
-	// マウスを一定時間効かなくするカウンタ
-	mouseCnt_ = 0.0f;
 
 }
 
@@ -484,22 +498,16 @@ void Camera::KeybordContoroller(void)
 	// カメラ位置を中心にセット
 	SetMousePoint(center.x, center.y);
 
-	// マウスは1秒後に操作できる
-	mouseCnt_ += SceneManager::GetInstance().GetDeltaTime();
+	if (center.x <= mousePos.x) { axisDeg.y += rotPowY_; }
+	if (center.x >= mousePos.x) { axisDeg.y += rotPowY_; }
 
-	if (mouseCnt_ > 1.0f)
+	if (center.y >= mousePos.y && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
 	{
-		if (center.x <= mousePos.x) { axisDeg.y += rotPowY_; }
-		if (center.x >= mousePos.x) { axisDeg.y += rotPowY_; }
-
-		if (center.y >= mousePos.y && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
-		{
-			axisDeg.x += rotPowX_;
-		}
-		if (center.y <= mousePos.y && AsoUtility::Rad2DegF(angle_.x) <= 10.0f)
-		{
-			axisDeg.x += rotPowX_;
-		}
+		axisDeg.x += rotPowX_;
+	}
+	if (center.y <= mousePos.y && AsoUtility::Rad2DegF(angle_.x) <= 10.0f)
+	{
+		axisDeg.x += rotPowX_;
 	}
 
 	if (!AsoUtility::EqualsVZero(axisDeg))
@@ -730,17 +738,18 @@ void Camera::GamePadController(void)
 		axisDeg = VScale(axisDeg, 3.0f);
 	}
 
-	// カメラを回転させる
-	// X軸のカメラの移動制御
+
 	if (axisDeg.x != 0.0f || axisDeg.y != 0.0f)
 	{
+		// カメラを回転させる
+		// X軸のカメラの移動制御
 		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
 		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
+
+		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
+
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
 	}
-
-	rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
-
-	rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
 
 	// 追従対象の位置
 	VECTOR followPos = playerTransform_->pos;
@@ -765,6 +774,67 @@ void Camera::GamePadController(void)
 
 	// カメラの上方向
 	cameraUp_ = AsoUtility::DIR_U;
+
+}
+
+void Camera::GamePadLockOnContoroller(void)
+{
+
+	auto& ins = InputManager::GetInstance();
+
+	// 回転
+	//-------------------------------------
+	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+
+	// ゲームパッドの番号を取得
+	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
+
+	// パッドの方向をdirに直す
+	// 右方向
+	if (pad.AKeyRX > 0)
+	{
+		axisDeg.y = pad.AKeyRX;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 3.0f);
+	}
+	// 左方向
+	if (pad.AKeyRX < 0)
+	{
+		axisDeg.y = pad.AKeyRX;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 3.0f);
+	}
+	// 上方向
+	if (pad.AKeyRZ < 0 && AsoUtility::Rad2DegF(lockOnAngles_.x) <= 10.0f)
+	{
+		axisDeg.x = -pad.AKeyRZ;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 3.0f);
+	}
+	// 下方向
+	if (pad.AKeyRZ > 0 && AsoUtility::Rad2DegF(lockOnAngles_.x) >= -20.0f)
+	{
+		axisDeg.x = -pad.AKeyRZ;
+		// 方向を正規化
+		axisDeg = VNorm(axisDeg);
+		axisDeg = VScale(axisDeg, 3.0f);
+	}
+
+
+	if (axisDeg.x != 0.0f || axisDeg.y != 0.0f)
+	{
+		// カメラを回転させる
+		// X軸のカメラの移動制御
+		lockOnAngles_.x += AsoUtility::Deg2RadF(axisDeg.x);
+		lockOnAngles_.y += AsoUtility::Deg2RadF(axisDeg.y);
+
+		rotY_ = Quaternion::AngleAxis(lockOnAngles_.y, AsoUtility::AXIS_Y);
+
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(lockOnAngles_.x, AsoUtility::AXIS_X));
+	}
 
 }
 

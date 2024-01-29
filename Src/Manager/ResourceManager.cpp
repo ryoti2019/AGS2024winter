@@ -36,6 +36,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "UI/gamePad.png");
 	resourcesMap_.emplace(SRC::GAMEPAD, res);
 
+	// スペースキーかＢボタン
+	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "UI/Space or B.png");
+	resourcesMap_.emplace(SRC::SPACE_OR_B, res);
+
 	// ゲームクリア
 	res = Resource(Resource::TYPE::IMG, Application::PATH_IMAGE + "Scene/GameClearImage.png");
 	resourcesMap_.emplace(SRC::GAMECLEAR, res);
@@ -227,7 +231,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::JUMPATTACK_TORNADE_EFFECT, res);
 
 	// サウンド--------------------------------------------------
-
+	
 	// 溜める音
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/Charge.mp3");
 	resourcesMap_.emplace(SRC::PLAYER_CHARGE_MUSIC, res);
@@ -240,10 +244,6 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slash2.mp3");
 	resourcesMap_.emplace(SRC::SLASH_MUSIC2, res);
 
-	// 風を切る音３
-	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slash3.mp3");
-	resourcesMap_.emplace(SRC::SLASH_MUSIC3, res);
-
 	// プレイヤーの攻撃が当たった時の音１
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/impact1.mp3");
 	resourcesMap_.emplace(SRC::PLAYER_IMPACT_MUSIC1, res);
@@ -251,10 +251,6 @@ void ResourceManager::Init(void)
 	// プレイヤーの攻撃が当たった時の音２
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/impact2.mp3");
 	resourcesMap_.emplace(SRC::PLAYER_IMPACT_MUSIC2, res);
-
-	// プレイヤーの攻撃が当たった時の音３
-	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/impact3.mp3");
-	resourcesMap_.emplace(SRC::PLAYER_IMPACT_MUSIC3, res);
 
 	// プレイヤーの足音
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/footSteps.mp3");
@@ -292,10 +288,6 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice2.mp3");
 	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC2, res);
 
-	// プレイヤーの攻撃音ボイス３
-	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/slashVoice3.mp3");
-	resourcesMap_.emplace(SRC::SLASH_VOICE_MUSIC3, res);
-
 	// プレイヤーの溜め攻撃ボイス
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/chargeSlash.mp3");
 	resourcesMap_.emplace(SRC::CHARGEATTACK_VOICE_MUSIC, res);
@@ -328,10 +320,6 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/attackVoice2.mp3");
 	resourcesMap_.emplace(SRC::ENEMY_ATTACK_VOICE_MUSIC2, res);
 
-	// 敵の攻撃ボイス３
-	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/attackVoice3.wav");
-	resourcesMap_.emplace(SRC::ENEMY_ATTACK_VOICE_MUSIC3, res);
-
 	// 敵のダメージヒットボイス１
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/hitVoice1.mp3");
 	resourcesMap_.emplace(SRC::ENEMY_HIT_VOICE_MUSIC1, res);
@@ -340,9 +328,13 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/hitVoice2.mp3");
 	resourcesMap_.emplace(SRC::ENEMY_HIT_VOICE_MUSIC2, res);
 
-	// 敵のダメージヒットボイス３
-	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/hitVoice3.mp3");
-	resourcesMap_.emplace(SRC::ENEMY_HIT_VOICE_MUSIC3, res);
+	// プレイヤーの死亡ボイス
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/death.mp3");
+	resourcesMap_.emplace(SRC::PLAYER_DEATH, res);
+
+	// 敵の死亡ボイス
+	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Enemy/death.mp3");
+	resourcesMap_.emplace(SRC::ENEMY_DEATH, res);
 
 	// タイトルシーンの音楽
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Scene/Title.mp3");

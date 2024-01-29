@@ -99,6 +99,9 @@ void GameClearScene::Init(void)
 	// ゲームクリア
 	imgGameClear_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::GAMECLEAR).handleId_;
 
+	// スペースキーかBボタン
+	imgSpaceOrB_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SPACE_OR_B).handleId_;
+
 	// エフェクト再生
 	PlayEffect();
 
@@ -125,6 +128,7 @@ void GameClearScene::Update(void)
 	{
 		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+		SceneManager::GetInstance().SetIsOperation(true);
 	}
 
 	// ゲームパッドの番号を取得
@@ -135,6 +139,7 @@ void GameClearScene::Update(void)
 		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 		SceneManager::GetInstance().SetGamePad(true);
+		SceneManager::GetInstance().SetIsOperation(true);
 	}
 
 	// 点滅カウンタを加算する
@@ -174,13 +179,18 @@ void GameClearScene::Release(void)
 {
 
 	DeleteGraph(imgGameClear_);
+	DeleteGraph(imgSpaceOrB_);
 
 	// モデルの開放
 	MV1DeleteModel(transform_.modelId);
+	MV1DeleteModel(gameClearAnim_);
 
 	StopEffekseer3DEffect(effectFireWorksPlayId_);
+	DeleteEffekseerEffect(effectFireWorksResId_);
+	DeleteEffekseerEffect(effectFireWorksPlayId_);
 
-	StopSoundMem(musicGameClearId_);
+	DeleteSoundMem(musicGameClearId_);
+	DeleteSoundMem(musicDecisionId_);
 
 	// 剣の解放
 	sword_->Release();
@@ -199,20 +209,27 @@ void GameClearScene::DrawLogo(void)
 	// タイトルロゴ
 	DrawRotaGraph(cx, cy, 1.0, 0.0, imgGameClear_, true);
 
-	// Pushメッセージ
-	std::string msg = "Push Space";
-	SetFontSize(40);
-	int len = (int)strlen(msg.c_str());
-	int width = GetDrawStringWidth(msg.c_str(), len);
-
+	// スペースキーかBボタン
 	// 点滅させる
 	if ((BlinkCnt_ / 30) % 2)
 	{
-		DrawFormatString(cx - (width / 2), 500, 0xffffff, msg.c_str());
+		DrawRotaGraph(cx, cy + 200, 0.5f, 0.0f, imgSpaceOrB_, true);
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	SetFontSize(16);
+	//// Pushメッセージ
+	//std::string msg = "Push Space";
+	//SetFontSize(40);
+	//int len = (int)strlen(msg.c_str());
+	//int width = GetDrawStringWidth(msg.c_str(), len);
+
+	//// 点滅させる
+	//if ((BlinkCnt_ / 30) % 2)
+	//{
+	//	DrawFormatString(cx - (width / 2), 500, 0xffffff, msg.c_str());
+	//}
+
+	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//SetFontSize(16);
 
 }
 

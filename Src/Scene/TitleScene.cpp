@@ -27,6 +27,9 @@ void TitleScene::Init(void)
 	// タイトルロゴ
 	imgTitleLogo_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::TITLE_LOGO).handleId_;
 
+	// スペースキーかBボタン
+	imgSpaceOrB_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::SPACE_OR_B).handleId_;
+
 	// 音の初期化
 	InitMusic();
 
@@ -58,6 +61,7 @@ void TitleScene::Update(void)
 	{
 		PlaySoundMem(musicDecisionId_,DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
+		SceneManager::GetInstance().SetIsOperation(true);
 	}
 
 	// ゲームパッドの番号を取得
@@ -68,6 +72,7 @@ void TitleScene::Update(void)
 		PlaySoundMem(musicDecisionId_, DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 		SceneManager::GetInstance().SetGamePad(true);
+		SceneManager::GetInstance().SetIsOperation(true);
 	}
 
 	// 点滅カウンタを加算する
@@ -87,8 +92,10 @@ void TitleScene::Release(void)
 {
 
 	DeleteGraph(imgTitleLogo_);
+	DeleteGraph(imgSpaceOrB_);
 
-	StopSoundMem(musicTitleId_);
+	DeleteSoundMem(musicTitleId_);
+	DeleteSoundMem(musicDecisionId_);
 
 }
 
@@ -101,21 +108,28 @@ void TitleScene::DrawLogo(void)
 	// タイトルロゴ
 	DrawRotaGraph(cx, cy - 100, 0.4, 0.0, imgTitleLogo_, true);
 
-	// Pushメッセージ
-	ChangeFont("BIZ UD明朝 medium");
-	std::string msg = "Push Space";
-	SetFontSize(40);
-
-	int len = (int)strlen(msg.c_str());
-	int width = GetDrawStringWidth(msg.c_str(), len);
-
-	// 点滅させる
+	// スペースキーかBボタン
+		// 点滅させる
 	if ((BlinkCnt_ / 30) % 2)
 	{
-		DrawFormatString(cx - (width / 2), 500, 0x000000, msg.c_str());
+		DrawRotaGraph(cx, cy + 200, 0.5f, 0.0f, imgSpaceOrB_, true);
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	SetFontSize(16);
+	//// Pushメッセージ
+	//ChangeFont("BIZ UD明朝 medium");
+	//std::string msg = "Push Space";
+	//SetFontSize(40);
+
+	//int len = (int)strlen(msg.c_str());
+	//int width = GetDrawStringWidth(msg.c_str(), len);
+
+	//// 点滅させる
+	//if ((BlinkCnt_ / 30) % 2)
+	//{
+	//	DrawFormatString(cx - (width / 2), 500, 0x000000, msg.c_str());
+	//}
+
+	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//SetFontSize(16);
 
 }

@@ -22,6 +22,9 @@ private:
 	// タイトルロゴ
 	int imgTitleLogo_;
 
+	// スペースキーかBボタン
+	int imgSpaceOrB_;
+
 	// タイトルシーンの音楽
 	int musicTitleId_;
 

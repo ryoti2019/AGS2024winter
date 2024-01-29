@@ -67,8 +67,8 @@ private:
 	// ゲームパッドの操作説明
 	int imgGamePad_;
 
-	// 操作説明のフラグ
-	bool isOperation_;
+	// 操作説明をスキップさせないようにするカウンタ
+	float operationCnt_;
 
 	// エフェクト
 	// プレイヤーの攻撃が当たった時のエフェクト
@@ -97,9 +97,6 @@ private:
 	// プレイヤーの攻撃が当たった時の音２
 	int musicImpactId2_;
 
-	// プレイヤーの攻撃が当たった時の音３
-	int musicImpactId3_;
-
 	// プレイヤーのダメージヒットボイス１
 	int musicPlayerHitVoice1_;
 
@@ -112,8 +109,14 @@ private:
 	// 敵のダメージヒットのボイス２
 	int musicEnemyHitVoice2_;
 
-	// 敵のダメージヒットのボイス３
-	int musicEnemyHitVoice3_;
+	// 決定音
+	int musicDecisionId_;
+
+	// プレイヤー死亡ボイス
+	int musicPlayerDeath_;
+
+	// 敵死亡ボイス
+	int musicEnemyDeath_;
 
 	// 敵のプレイヤーと敵同士の当たり判定
 	void CollisionEnemyAndPlayer();

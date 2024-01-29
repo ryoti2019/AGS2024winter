@@ -179,8 +179,11 @@ private:
 	// ポリゴンと当たっているか
 	bool pHit_;
 
-	// マウスを一定時間効かなくするカウンタ
-	float mouseCnt_;
+	// 操作説明をスキップさせないようにするカウンタ
+	float operationCnt_;
+
+	// 決定音
+	int musicDecisionId_;
 
 	// カメラを初期位置に戻す
 	void SetDefault(void);
@@ -198,6 +201,7 @@ private:
 
 	// ゲームパッドの操作
 	void GamePadController(void);
+	void GamePadLockOnContoroller(void);
 
 	// ステージとの当たり判定
 	void CollisionStage(void);

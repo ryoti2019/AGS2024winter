@@ -53,11 +53,14 @@ private:
 	// モデルの中にあるアニメーションの番号
 	int animNo_;
 
-	// ゲームオーバーのアニメーション
+	// ゲームクリアのアニメーション
 	int gameClearAnim_;
 
 	// ゲームクリアの画像
 	int imgGameClear_;
+
+	// スペースキーかBボタン
+	int imgSpaceOrB_;
 
 	// 点滅用のカウンタ
 	int BlinkCnt_;

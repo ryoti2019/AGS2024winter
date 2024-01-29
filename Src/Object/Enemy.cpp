@@ -437,9 +437,6 @@ void Enemy::InitMusic(void)
 	// 攻撃のボイス２
 	musicAttackVoice2Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_ATTACK_VOICE_MUSIC2).handleId_;
 
-	// 攻撃のボイス３
-	musicAttackVoice3Id_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_ATTACK_VOICE_MUSIC3).handleId_;
-
 	// 攻撃のボイスのフラグ
 	isMusicAttackVoice_ = true;
 
@@ -460,7 +457,7 @@ void Enemy::FootStepsMusic(void)
 void Enemy::AttackMusic(void)
 {
 
-	int number = GetRand(2);
+	int number = GetRand(1);
 
 	if (number == 0)
 	{
@@ -469,10 +466,6 @@ void Enemy::AttackMusic(void)
 	else if (number == 1)
 	{
 		PlaySoundMem(musicAttackVoice2Id_, DX_PLAYTYPE_BACK);
-	}
-	else if (number == 2)
-	{
-		PlaySoundMem(musicAttackVoice3Id_, DX_PLAYTYPE_BACK);
 	}
 
 }
@@ -699,8 +692,22 @@ void Enemy::Draw(void)
 void Enemy::Release(void)
 {
 
+	DeleteGraph(imgHPBar_);
+
 	// モデルの開放
 	MV1DeleteModel(transform_.modelId);
+	MV1DeleteModel(idleAnim_);
+	MV1DeleteModel(walkAnim_);
+	MV1DeleteModel(tackleAnim_);
+	MV1DeleteModel(attackAnim_);
+	MV1DeleteModel(jumpAttackAnim_);
+	MV1DeleteModel(createAnim_);
+	MV1DeleteModel(shotAnim_);
+	MV1DeleteModel(hitAnim_);
+	MV1DeleteModel(deathAnim_);
+	MV1DeleteModel(turnLeftAnim_);
+	MV1DeleteModel(turnRightAnim_);
+
 
 	for (auto& s : shots_)
 	{
@@ -709,10 +716,25 @@ void Enemy::Release(void)
 	}
 	shots_.clear();
 
-	StopEffekseer3DEffect(effectCreatePlayId_);
-	StopEffekseer3DEffect(effectJumpAttackRangePlayId_);
-	StopEffekseer3DEffect(effectJumpAttackPlayId_);
-	StopEffekseer3DEffect(effectTacklePlayId_);
+
+	DeleteEffekseerEffect(effectCreateResId_);
+	DeleteEffekseerEffect(effectCreatePlayId_);
+	DeleteEffekseerEffect(effectTackleResId_);
+	DeleteEffekseerEffect(effectTacklePlayId_);
+	DeleteEffekseerEffect(effectTackleRangeResId_);
+	DeleteEffekseerEffect(effectTackleRangePlayId_);
+	DeleteEffekseerEffect(effectJumpAttackResId_);
+	DeleteEffekseerEffect(effectJumpAttackPlayId_);
+	DeleteEffekseerEffect(effectJumpAttackRangeResId_);
+	DeleteEffekseerEffect(effectJumpAttackRangePlayId_);
+
+	DeleteSoundMem(musicCreateId_);
+	DeleteSoundMem(musicTackleId_);
+	DeleteSoundMem(musicFootStepsId_);
+	DeleteSoundMem(musicJumpAttackId_);
+	DeleteSoundMem(musicEarthQuakeId_);
+	DeleteSoundMem(musicAttackVoice1Id_);
+	DeleteSoundMem(musicAttackVoice2Id_);
 
 }
 
@@ -819,7 +841,7 @@ void Enemy::Think(void)
 
 	// 攻撃の選択
 	attackNumber_ = GetRand(3);
-	//attackNumber_ = 2;
+	//attackNumber_ = 3;
 	
 	// 攻撃が当たったかどうか
 	hit_ = false;

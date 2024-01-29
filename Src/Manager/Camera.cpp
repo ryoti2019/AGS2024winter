@@ -431,6 +431,7 @@ void Camera::SetDefault(void)
 
 	// カメラはX軸に傾いているが、
 	// この傾いた状態を角度ゼロ、傾き無しとする
+	rotY_ = Quaternion::Identity();
 	rotXY_ = Quaternion::Identity();
 
 	// ロックオン

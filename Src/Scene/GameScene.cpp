@@ -337,8 +337,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		// ƒvƒŒƒCƒ„[‚ÌUŒ‚‚ª‚·‚Å‚É“–‚½‚Á‚Ä‚¢‚½‚ç“ü‚ç‚È‚¢
 		if (player_->GetAttack())
 		{
-			//enemy_->SetHP(-3);
-			enemy_->SetHP(-100);
+			enemy_->SetHP(-3);
+			//enemy_->SetHP(-100);
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);

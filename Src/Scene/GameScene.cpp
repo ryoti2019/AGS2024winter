@@ -200,10 +200,10 @@ void GameScene::Update(void)
 		isEffectTornade_ = false;
 	}
 
+
 	// ヒットストップを入れる
 	if (enemy_->GetHP() <= 0 && !enemyDeath_)
 	{
-		PlaySoundMem(musicEnemyDeath_, DX_PLAYTYPE_BACK);
 		slowCnt_ = 60;
 		enemyDeath_ = true;
 		enemy_->SetState(Enemy::STATE::DEATH);
@@ -211,7 +211,6 @@ void GameScene::Update(void)
 	
 	if (player_->GetHP() <= 0 && !playerDeath_)
 	{
-		PlaySoundMem(musicPlayerDeath_, DX_PLAYTYPE_BACK);
 		slowCnt_ = 60;
 		playerDeath_ = true;
 		player_->SetState(Player::STATE::DEATH);
@@ -338,8 +337,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			//enemy_->SetHP(-3);
-			enemy_->SetHP(-100);
+			enemy_->SetHP(-3);
+			//enemy_->SetHP(-100);
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
@@ -365,8 +364,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			//enemy_->SetHP(-10);
-			enemy_->SetHP(-100);
+			enemy_->SetHP(-10);
+			//enemy_->SetHP(-100);
 			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
@@ -394,8 +393,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			//player_->SetHP(-15);
-			player_->SetHP(-100);
+			player_->SetHP(-15);
+			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -441,8 +440,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			//player_->SetHP(-10);
-			player_->SetHP(-100);
+			player_->SetHP(-10);
+			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -463,8 +462,8 @@ void GameScene::CollisionEnemyAndPlayer()
 			&& player_->GetHP() > 0)
 		{
 			player_->SetState(Player::STATE::HIT);
-			//player_->SetHP(-3);
-			player_->SetHP(-100);
+			player_->SetHP(-3);
+			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -491,8 +490,8 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (enemy_->GetAttack())
 		{
 			player_->SetState(Player::STATE::HIT);
-			//player_->SetHP(-20);
-			player_->SetHP(-100);
+			player_->SetHP(-20);
+			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -707,11 +706,11 @@ void GameScene::ImpactMusic(void)
 	int number = GetRand(1);
 	if (number == 0)
 	{
-		PlaySoundMem(musicImpactId1_, DX_PLAYTYPE_NORMAL);
+		PlaySoundMem(musicImpactId1_, DX_PLAYTYPE_BACK);
 	}
 	else if (number == 1)
 	{
-		PlaySoundMem(musicImpactId2_, DX_PLAYTYPE_NORMAL);
+		PlaySoundMem(musicImpactId2_, DX_PLAYTYPE_BACK);
 	}
 
 }

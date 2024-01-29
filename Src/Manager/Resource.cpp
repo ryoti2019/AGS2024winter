@@ -80,7 +80,7 @@ void Resource::Load(void)
 
 	case Resource::TYPE::MUSIC:
 
-		handleId_ = LoadSoundMem(path_.c_str());
+		handleId_ = LoadSoundMem(path_.c_str(),6);
 		break;
 	}
 

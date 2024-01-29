@@ -112,6 +112,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Stand To Roll.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ROLL, res);
 
+	// プレイヤーの疲れたアニメーション
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/tired.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_TIRED, res);
+
 	// プレイヤーの死亡アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Death.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_DEATH, res);

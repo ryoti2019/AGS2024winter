@@ -132,7 +132,8 @@ public:
 		CHARGE_ATTACK,
 		HIT,
 		DEATH,
-		ROLL
+		ROLL,
+		TIRED
 	};
 
 	enum class SPECIAL_STATE
@@ -207,6 +208,9 @@ protected:
 	// プレイヤーの状態
 	STATE state_;
 
+	// 一個前の状態
+	STATE preState_;
+
 	// 必殺技のプレイヤーの状態
 	SPECIAL_STATE specialState_;
 
@@ -237,6 +241,9 @@ protected:
 	// ロックオンの前の情報
 	bool preLockOn_;
 	
+	// 疲れたときのフラグ
+	bool isTired_;
+
 	// 待機アニメーション
 	int idleAnim_;
 
@@ -263,6 +270,9 @@ protected:
 
 	// 回避アニメーション
 	int rollAnim_;
+
+	// 疲れたアニメーション
+	int tiredAnim_;
 
 	// ため斬りのカウンタ
 	float chargeCnt_;
@@ -434,6 +444,9 @@ protected:
 
 	// 回避アニメーションの設定
 	void SetRollAnimation(void);
+
+	// 疲れたアニメーションの設定
+	void SetTiredAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

@@ -66,6 +66,10 @@ void Player::InitAnimation(void)
 	rollAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
 		ResourceManager::SRC::PLAYER_ROLL);
 	
+	// 疲れたアニメーション
+	tiredAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_TIRED);
+
 	// transformの初期化
 	float scale = 1.0f;
 	transform_.scl = { scale, scale, scale };
@@ -186,6 +190,9 @@ void Player::Init(void)
 
 	// 回避中は無敵
 	isInvincible_ = false;
+
+	// 疲れた時のフラグ
+	isTired_ = false;
 
 	// 移動方向
 	moveDir_ = AsoUtility::VECTOR_ZERO;
@@ -308,6 +315,10 @@ void Player::Update(void)
 		}
 		break;
 	case Player::STATE::HIT:
+		if (preState_ == STATE::TIRED && stepAnim_ >= 20.0f)
+		{
+			ChangeState(STATE::TIRED);
+		}
 		break;
 	case Player::STATE::DEATH:
 		break;
@@ -346,14 +357,39 @@ void Player::Update(void)
 		}
 
 		break;
+	case Player::STATE::TIRED:
+		// スタミナが回復したら動ける
+		if (stamina_ >= 100)
+		{
+			isTired_ = false;
+			ChangeState(STATE::IDLE);
+			stamina_ = 100.0f;
+		}
+
+		// スタミナを回復する
+		if (state_ == STATE::TIRED && isTired_ && staminaCnt_ >= 0.1f)
+		{
+			stamina_ += 1.0f;
+			staminaCnt_ = 0.0f;
+		}
+
+		break;
 	}
 
 	staminaCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
-	if ((state_ != STATE::RUN && state_ != STATE::ROLL) && staminaCnt_ >= 0.1f && stamina_ < staminaMax_)
+	if ((state_ != STATE::RUN && state_ != STATE::ROLL && state_ != STATE::TIRED) 
+		&& staminaCnt_ >= 0.1f && stamina_ < staminaMax_)
 	{
-		stamina_ += 0.7f;
+		stamina_ += 0.5f;
 		staminaCnt_ = 0.0f;
+	}
+
+	// スタミナが切れたら疲れたアニメーションに移行
+	if (stamina_ <= 0.0f)
+	{
+		isTired_ = true;
+		ChangeState(STATE::TIRED);
 	}
 
 	// HPが0になったら操作できないようにする
@@ -820,11 +856,11 @@ void Player::KeyboardMove(void)
 	// 移動
 	if (state_ != STATE::ATTACK && state_ != STATE::ATTACK2
 		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		// 走る
 		if (ins.IsNew(KEY_INPUT_LSHIFT) && !AsoUtility::EqualsVZero(dir)
-			&& state_ != STATE::CHARGE_WALK && stamina_ >= 1.0f)
+			&& state_ != STATE::CHARGE_WALK && state_ != STATE::TIRED && stamina_ >= 1.0f)
 		{
 			ChangeState(STATE::RUN);
 			speed_ = MOVE_POW_RUN;
@@ -842,7 +878,7 @@ void Player::KeyboardMove(void)
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
 		}
-		else if (AsoUtility::EqualsVZero(dir) && state_ == STATE::CHARGE_WALK)
+		else if (AsoUtility::EqualsVZero(dir) && state_ != STATE::TIRED && stamina_ <= 0.0f)
 		{
 			speed_ = 0.0f;
 		}
@@ -851,7 +887,7 @@ void Player::KeyboardMove(void)
 	//溜めながら歩く
 	if (ins.IsClickMouseLeft() && (ins.IsNew(KEY_INPUT_W) || ins.IsNew(KEY_INPUT_A) ||
 		ins.IsNew(KEY_INPUT_S) || ins.IsNew(KEY_INPUT_D)) &&
-		!AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT &&state_ != STATE::ROLL)
+		!AsoUtility::EqualsVZero(dir) && state_ != STATE::HIT &&state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 
 		// 方向を正規化
@@ -874,7 +910,7 @@ void Player::KeyboardMove(void)
 
 	// 回避
 	if (ins.IsTrgDown(KEY_INPUT_SPACE) && !AsoUtility::EqualsVZero(dir) &&
-		state_ != STATE::HIT && state_ != STATE::ROLL && stamina_ >= 10.0f)
+		state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED && stamina_ >= 10.0f)
 	{
 
 		chargeCnt_ = 0.0f;
@@ -903,9 +939,15 @@ void Player::KeyboardMove(void)
 
 	}
 
+	// 疲れた時
+	if (state_ == STATE::TIRED)
+	{
+		speed_ = 0;
+	}
+
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
 		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 
 		// 方向を正規化
@@ -1002,7 +1044,8 @@ void Player::KeyboardAttack(void)
 	// 攻撃処理
 	// ボタンがクリックされたかどうかを確認
 	if (chargeCnt_ >= 0.1 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		ChangeState(STATE::CHARGE_WALK);
 	}
@@ -1034,7 +1077,8 @@ void Player::KeyboardAttack(void)
 	}
 
 	if (insInput.IsClickMouseLeft() && chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		chargeCnt_ += insScene.GetDeltaTime();
 	}
@@ -1147,13 +1191,13 @@ void Player::GamePadMove(void)
 	// 移動
 	if (state_ != STATE::ATTACK && state_ != STATE::ATTACK2
 		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 
 		// 走る
 		if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::DOWN)
 			&& !AsoUtility::EqualsVZero(dir)
-			&& state_ != STATE::CHARGE_WALK && stamina_ >= 1.0f)
+			&& state_ != STATE::CHARGE_WALK && state_ != STATE::TIRED && stamina_ >= 1.0f)
 		{
 			ChangeState(STATE::RUN);
 			speed_ = MOVE_POW_RUN;
@@ -1171,7 +1215,7 @@ void Player::GamePadMove(void)
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
 		}
-		else if (AsoUtility::EqualsVZero(dir))
+		else if (AsoUtility::EqualsVZero(dir) && state_ != STATE::TIRED && stamina_ <= 0.0f)
 		{
 			speed_ = 0.0f;
 		}
@@ -1180,7 +1224,7 @@ void Player::GamePadMove(void)
 	//溜めながら歩く
 	if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT)
 		/*&& (pad.AKeyLX != 0.0f || pad.AKeyLZ != 0.0f)*/ && !AsoUtility::EqualsVZero(dir)
-		&& state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		// 方向を正規化
 		dir = VNorm(dir);
@@ -1202,7 +1246,7 @@ void Player::GamePadMove(void)
 	// 回避
 	if (ins.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::R_BOTTON)
 		&& !AsoUtility::EqualsVZero(dir) &&
-		state_ != STATE::HIT && state_ != STATE::ROLL && stamina_ >= 10.0f)
+		state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED && stamina_ >= 10.0f)
 	{
 
 		chargeCnt_ = 0.0f;
@@ -1231,9 +1275,15 @@ void Player::GamePadMove(void)
 
 	}
 
+	// 疲れた時
+	if (state_ == STATE::TIRED)
+	{
+		speed_ = 0;
+	}
+
 	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
 		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 
 		// 方向を正規化
@@ -1331,7 +1381,8 @@ void Player::GamePadAttack(void)
 	// 攻撃処理
 	// ボタンがクリックされたかどうかを確認
 	if (chargeCnt_ >= 0.1 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT && state_ != STATE::ROLL)
+		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 
+		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		ChangeState(STATE::CHARGE_WALK);
 	}
@@ -1366,7 +1417,7 @@ void Player::GamePadAttack(void)
 	if (insInput.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) &&
 		chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK && state_ != STATE::ATTACK &&
 		state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::HIT &&
-		state_ != STATE::ROLL)
+		state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		chargeCnt_ += insScene.GetDeltaTime();
 	}
@@ -1609,6 +1660,9 @@ void Player::ChangeState(STATE state)
 {
 	if (state_ == state) return;
 
+	// 一個前の状態を保存
+	preState_ = state_;
+
 	// 状態の更新
 	state_ = state;
 
@@ -1716,6 +1770,12 @@ void Player::ChangeState(STATE state)
 		// スタミナを減らす
 		stamina_ -= 10.0f;
 
+		break;
+	case Player::STATE::TIRED:
+		SetTiredAnimation();
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	}
 
@@ -1925,6 +1985,25 @@ void Player::SetRollAnimation(void)
 
 	// 再生するアニメーションの設定
 	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, rollAnim_);
+
+	// アニメーション総時間の取得
+	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+
+	// アニメーション速度
+	speedAnim_ = ROLL_ANIM_SPEED;
+
+	// アニメーション時間の初期化
+	stepAnim_ = 0.0f;
+
+}
+
+void Player::SetTiredAnimation(void)
+{
+
+	MV1DetachAnim(transform_.modelId, animAttachNo_);
+
+	// 再生するアニメーションの設定
+	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, tiredAnim_);
 
 	// アニメーション総時間の取得
 	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);

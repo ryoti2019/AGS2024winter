@@ -163,7 +163,7 @@ void Enemy::Init(void)
 	beforeTackleCnt_ = 0.0f;
 
 	// 初期状態
-	ChangeState(STATE::THINK);
+	//ChangeState(STATE::THINK);
 
 }
 
@@ -479,141 +479,141 @@ void Enemy::Update(void)
 	//	return;
 	//}
 
-		// アニメーション処理
-	Animation();
+	//// アニメーション処理
+	//Animation();
 
-	if (noPlayTime_ > 0.0f || hp_ <= 0)
-	{
-		return;
-	}
+	//if (noPlayTime_ > 0.0f || hp_ <= 0)
+	//{
+	//	return;
+	//}
 
-	// 必殺技になったら必殺技以外の処理を止める
-	if (SceneManager::GetInstance().GetSceneID() == SceneManager::SCENE_ID::SPECIALMOVE)
-	{
-		// 必殺技の更新
-		//SpecialMoveUpdate();
-		return;
-	}
+	//// 必殺技になったら必殺技以外の処理を止める
+	//if (SceneManager::GetInstance().GetSceneID() == SceneManager::SCENE_ID::SPECIALMOVE)
+	//{
+	//	// 必殺技の更新
+	//	//SpecialMoveUpdate();
+	//	return;
+	//}
 
-	switch (state_)
-	{
-	case Enemy::STATE::THINK:
-		break;
-	case Enemy::STATE::IDLE:
-		UpdateIdle();
+	//switch (state_)
+	//{
+	//case Enemy::STATE::THINK:
+	//	break;
+	//case Enemy::STATE::IDLE:
+	//	UpdateIdle();
 
-		StopSoundMem(musicFootStepsId_);
-		StopSoundMem(musicEarthQuakeId_);
-		break;
-	case Enemy::STATE::WALK:
-		UpdateWalk();
+	//	StopSoundMem(musicFootStepsId_);
+	//	StopSoundMem(musicEarthQuakeId_);
+	//	break;
+	//case Enemy::STATE::WALK:
+	//	UpdateWalk();
 
-		// 再生速度の設定
-		SetFrequencySoundMem(30000, musicFootStepsId_);
+	//	// 再生速度の設定
+	//	SetFrequencySoundMem(30000, musicFootStepsId_);
 
-		// 足音
-		FootStepsMusic();
-		break;
-	case Enemy::STATE::ATTACK:
-		if (stepAnim_ >= ATTACK_COLLISION_START_TIME
-			&& stepAnim_ <= ATTACK_COLLISION_END_TIME
-			&& !hit_)
-		{
-			attack_ = true;
-		}
-		UpdateAttack();
-		break;
-	case Enemy::STATE::JUMP_ATTACK:
-		if (stepAnim_ >= JUMP_ATTACK_COLLISION_START_TIME
-			&& stepAnim_ <= JUMP_ATTACK_COLLISION_END_TIME
-			&& !hit_)
-		{
-			attack_ = true;
-		}
-		UpdateJumpAttack();
+	//	// 足音
+	//	FootStepsMusic();
+	//	break;
+	//case Enemy::STATE::ATTACK:
+	//	if (stepAnim_ >= ATTACK_COLLISION_START_TIME
+	//		&& stepAnim_ <= ATTACK_COLLISION_END_TIME
+	//		&& !hit_)
+	//	{
+	//		attack_ = true;
+	//	}
+	//	UpdateAttack();
+	//	break;
+	//case Enemy::STATE::JUMP_ATTACK:
+	//	if (stepAnim_ >= JUMP_ATTACK_COLLISION_START_TIME
+	//		&& stepAnim_ <= JUMP_ATTACK_COLLISION_END_TIME
+	//		&& !hit_)
+	//	{
+	//		attack_ = true;
+	//	}
+	//	UpdateJumpAttack();
 
-		if (stepAnim_ >= 40.0f && isEffectJumpAttack_)
-		{
-			// ジャンプアタックのエフェクト
-			JumpAttackPlayEffect();
-			isEffectJumpAttack_ = false;
-			PlaySoundMem(musicJumpAttackId_,DX_PLAYTYPE_BACK);
-			PlaySoundMem(musicEarthQuakeId_, DX_PLAYTYPE_BACK);
-		}
+	//	if (stepAnim_ >= 40.0f && isEffectJumpAttack_)
+	//	{
+	//		// ジャンプアタックのエフェクト
+	//		JumpAttackPlayEffect();
+	//		isEffectJumpAttack_ = false;
+	//		PlaySoundMem(musicJumpAttackId_,DX_PLAYTYPE_BACK);
+	//		PlaySoundMem(musicEarthQuakeId_, DX_PLAYTYPE_BACK);
+	//	}
 
-		// エフェクトの位置
-		JumpAttackSyncEffect();
-		JumpAttackRangeSyncEffect();
+	//	// エフェクトの位置
+	//	JumpAttackSyncEffect();
+	//	JumpAttackRangeSyncEffect();
 
-		break;
-	case Enemy::STATE::BEFORE_TACKLE:
-		UpdateBeforeTackle();
-		break;
-	case Enemy::STATE::TACKLE:
-		UpdateTackle();
+	//	break;
+	//case Enemy::STATE::BEFORE_TACKLE:
+	//	UpdateBeforeTackle();
+	//	break;
+	//case Enemy::STATE::TACKLE:
+	//	UpdateTackle();
 
-		// 再生速度の設定
-		SetFrequencySoundMem(120000, musicFootStepsId_);
+	//	// 再生速度の設定
+	//	SetFrequencySoundMem(120000, musicFootStepsId_);
 
-		// 足音
-		FootStepsMusic();
+	//	// 足音
+	//	FootStepsMusic();
 
-		// エフェクトの位置
-		TackleSyncEffect();
+	//	// エフェクトの位置
+	//	TackleSyncEffect();
 
-		// 足音のカウンタリセット
-		if (musicFootStepsCnt_ >= 2.2f)
-		{
-			musicFootStepsCnt_ = 0.0f;
-		}
+	//	// 足音のカウンタリセット
+	//	if (musicFootStepsCnt_ >= 2.2f)
+	//	{
+	//		musicFootStepsCnt_ = 0.0f;
+	//	}
 
-		break;
-	case Enemy::STATE::CREATE:
-		UpdateCreate();
+	//	break;
+	//case Enemy::STATE::CREATE:
+	//	UpdateCreate();
 
-		// エフェクトの位置
-		CreateSyncEffect();
-		break;
-	case Enemy::STATE::SHOT:
-		UpdateShot();
-		break;
-	case Enemy::STATE::HIT:
-		//UpdateHit();
-		break;
-	case Enemy::STATE::DEATH:
-		break;
-	case Enemy::STATE::TURN_LEFT:
-		// 再生速度の設定
-		SetFrequencySoundMem(10000, musicFootStepsId_);
+	//	// エフェクトの位置
+	//	CreateSyncEffect();
+	//	break;
+	//case Enemy::STATE::SHOT:
+	//	UpdateShot();
+	//	break;
+	//case Enemy::STATE::HIT:
+	//	//UpdateHit();
+	//	break;
+	//case Enemy::STATE::DEATH:
+	//	break;
+	//case Enemy::STATE::TURN_LEFT:
+	//	// 再生速度の設定
+	//	SetFrequencySoundMem(10000, musicFootStepsId_);
 
-		// 足音
-		FootStepsMusic();
-		break;
-	case Enemy::STATE::TURN_RIGHT:
-		// 再生速度の設定
-		SetFrequencySoundMem(10000, musicFootStepsId_);
+	//	// 足音
+	//	FootStepsMusic();
+	//	break;
+	//case Enemy::STATE::TURN_RIGHT:
+	//	// 再生速度の設定
+	//	SetFrequencySoundMem(10000, musicFootStepsId_);
 
-		// 足音
-		FootStepsMusic();
-		break;
-	}
+	//	// 足音
+	//	FootStepsMusic();
+	//	break;
+	//}
 
-	// 回転処理
-	Rotation();
+	//// 回転処理
+	//Rotation();
 
-	// 衝突判定用
-	Collision();
+	//// 衝突判定用
+	//Collision();
 
-	transform_.pos.y = 0.0f;
+	//transform_.pos.y = 0.0f;
 
-	transform_.Update();
+	//transform_.Update();
 
-	walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
+	//walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
-	for (auto v : shots_)
-	{
-		v->Update();
-	}
+	//for (auto v : shots_)
+	//{
+	//	v->Update();
+	//}
 
 }
 

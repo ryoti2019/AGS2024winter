@@ -141,6 +141,20 @@ public:
 		IDLE,
 	};
 
+
+	struct ANIM_DATA
+	{
+
+		// アニメーションハンドル
+		int animHandle = -1;
+
+		// ブレンド用
+		float animRate_ = 0.0f;
+
+		// 優先されるアニメーション
+		bool is_;
+
+	};
 	// コンストラクタ
 	Player(void);
 
@@ -216,6 +230,8 @@ protected:
 
 	// 追従対象
 	const Transform* followTransform_;
+
+	std::vector<ANIM_DATA> animData_;
 
 	// ステージのID
 	int stageId_;
@@ -375,6 +391,14 @@ protected:
 	// 回避ボイスのフラグ
 	bool isMusicRoll_;
 
+	float stepBlend_;
+	float blendTime_;
+	int prePlayAnim_;
+
+	int preAnimAttachNo_;
+
+
+
 	// 移動処理
 	void KeyboardMove(void);
 	void GamePadMove(void);
@@ -404,7 +428,7 @@ protected:
 	void CollisionStage(void);
 
 	// 状態遷移
-	void ChangeState(STATE state);
+	void ChangeState(STATE state,int anim);
 
 	// 必殺技の状態遷移
 	void SpecialChangeState(SPECIAL_STATE state);

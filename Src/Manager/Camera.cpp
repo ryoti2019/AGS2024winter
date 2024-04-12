@@ -169,14 +169,14 @@ void Camera::SetBeforeDrawFollow(void)
 	}
 
 	VECTOR playerPos = playerTransform_->pos;
-	VECTOR enemyPos = enemyTransform_->pos;
+	//VECTOR enemyPos = enemyTransform_->pos;
 
-	VECTOR vec = VSub(enemyPos, playerPos);
-	float length = AsoUtility::Magnitude(vec);
-	if (length >= 2000.0f)
-	{
-		lockOn_ = false;
-	}
+	//VECTOR vec = VSub(enemyPos, playerPos);
+	//float length = AsoUtility::Magnitude(vec);
+	//if (length >= 2000.0f)
+	//{
+	//	lockOn_ = false;
+	//}
 
 	// QƒL[‚ğ‰Ÿ‚µ‚½‚çtrue‚É‚È‚é
 	if (isLazy_)

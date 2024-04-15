@@ -606,6 +606,18 @@ void Player::RollMusic(void)
 
 }
 
+void Player::AttatchNum(void)
+{
+	list_++;
+	MV1AttachAnim(transform_.modelId, animNo_, anim);
+}
+
+void Player::Dettach(void)
+{
+	list_--;
+	MV1DetachAnim(transform_.modelId, preAnimAttachNo_);
+}
+
 void Player::Release(void)
 {
 
@@ -2201,8 +2213,6 @@ void Player::Animation(void)
 
 	// 再生するアニメーション時間の設定
 	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
-
-
 
 	// アニメーションの固定
 	AnimationFrame();

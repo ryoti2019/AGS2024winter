@@ -397,7 +397,7 @@ protected:
 
 	int preAnimAttachNo_;
 
-
+	int list_;
 
 	// 移動処理
 	void KeyboardMove(void);
@@ -518,6 +518,12 @@ protected:
 
 	// 回避音
 	void RollMusic(void);
+
+	// アタッチしている数
+	void AttatchNum(void);
+
+	// デタッチ
+	void Dettach(void);
 
 };
 

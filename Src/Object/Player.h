@@ -84,7 +84,7 @@ public:
 	static constexpr float ATTACK_ANIM_SPEED = 60.0f;
 
 	// 溜め攻撃アニメーションの再生速度
-	static constexpr float CHARGE_ATTACK_ANIM = 30.0f;
+	static constexpr float CHARGE_ATTACK_ANIM_SPEED = 30.0f;
 
 	// 攻撃を受けた時のアニメーションの再生速度
 	static constexpr float HIT_ANIM_SPEED = 30.0f;
@@ -146,15 +146,28 @@ public:
 	{
 
 		// アニメーションハンドル
-		int animHandle = -1;
+		int animHandle_ = -1;
 
-		// ブレンド用
-		float animRate_ = 0.0f;
+		// アタッチNo
+		int attachNo_ = -1;
 
 		// 優先されるアニメーション
-		bool is_;
+		bool isPriority_ = false;
+
+		// アニメーションの総再生時間
+		float animTotalTime_ = 0.0f;
+
+		// アニメーション速度
+		float speedAnim_ = 0.0f;
+
+		// 再生中のアニメーション時間
+		float stepAnim_ = 0.0f;
+
+		// ブレンドレート
+		float blendRate = 0.0f;
 
 	};
+
 	// コンストラクタ
 	Player(void);
 
@@ -231,7 +244,8 @@ protected:
 	// 追従対象
 	const Transform* followTransform_;
 
-	std::vector<ANIM_DATA> animData_;
+	// アニメーションデータ
+	ANIM_DATA animData_[(int)STATE::TIRED + 1];
 
 	// ステージのID
 	int stageId_;
@@ -428,49 +442,11 @@ protected:
 	void CollisionStage(void);
 
 	// 状態遷移
-	void ChangeState(STATE state,int anim);
-
-	// 必殺技の状態遷移
-	void SpecialChangeState(SPECIAL_STATE state);
+	void ChangeAnimation(STATE state);
+	void ChangeState(STATE state);
 
 	// アニメーション
 	void Animation(void)override;
-
-	// 待機アニメーションの設定
-	void SetIdleAnimation(void);
-
-	// 歩くアニメーションの設定
-	void SetWalkAnimation(void);
-
-	// 溜めながら歩くアニメーションの設定
-	void SetChargeWalkAnimation(void);
-
-	// 走るアニメーションの設定
-	void SetRunAnimation(void);
-
-	// 攻撃１段階目のアニメーションの設定
-	void SetAttackAnimation(void);
-
-	// 攻撃２段階目のアニメーションの設定
-	void SetAttackAnimation2(void);
-
-	// 攻撃３段階目のアニメーションの設定
-	void SetAttackAnimation3(void);
-
-	// 溜め攻撃のアニメーションの設定
-	void SetChargeAttackAnimation(void);
-
-	// ダメージヒットアニメーションの設定
-	void SetHitAnimation(void);
-
-	// 死亡アニメーションの設定
-	void SetDeathAnimation(void);
-
-	// 回避アニメーションの設定
-	void SetRollAnimation(void);
-
-	// 疲れたアニメーションの設定
-	void SetTiredAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);
@@ -492,10 +468,6 @@ protected:
 
 	// アニメーションのフレームの固定
 	void AnimationFrame(void);
-
-	// 必殺技
-	void SpecialMoveUpdate(void);
-
 	// エフェクトの初期化
 	void InitEffect(void);
 
@@ -520,10 +492,11 @@ protected:
 	void RollMusic(void);
 
 	// アタッチしている数
-	void AttatchNum(void);
+	void AttatchNum(int anim);
 
 	// デタッチ
-	void Dettach(void);
+	void Dettach(int attachNo);
+	void PreDettach(void);
 
 };
 

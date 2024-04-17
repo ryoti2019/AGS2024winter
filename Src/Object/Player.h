@@ -2,6 +2,7 @@
 #include "Common/Transform.h"
 #include "UnitBase.h"
 class Stage;
+class AnimationController;
 
 class Player : public UnitBase
 {
@@ -81,7 +82,7 @@ public:
 	static constexpr float RUN_ANIM_SPEED = 40.0f;
 
 	// 攻撃アニメーションの再生速度
-	static constexpr float ATTACK_ANIM_SPEED = 60.0f;
+	static constexpr float ATTACK_ANIM_SPEED = 30.0f;
 
 	// 溜め攻撃アニメーションの再生速度
 	static constexpr float CHARGE_ATTACK_ANIM_SPEED = 30.0f;
@@ -148,6 +149,9 @@ public:
 		// アニメーションハンドル
 		int animHandle_ = -1;
 
+		// アニメーションの状態
+		STATE state_ = STATE::IDLE;
+
 		// アタッチNo
 		int attachNo_ = -1;
 
@@ -164,7 +168,10 @@ public:
 		float stepAnim_ = 0.0f;
 
 		// ブレンドレート
-		float blendRate = 0.0f;
+		float blendRate_ = 0.0f;
+
+		// ブレンドタイム
+		float blendTime_ = 0.0f;
 
 	};
 
@@ -231,6 +238,9 @@ public:
 	bool GetInvincible(void);
 
 protected:
+
+	// アニメーション
+	AnimationController* animationController_;
 
 	// プレイヤーの状態
 	STATE state_;
@@ -407,9 +417,6 @@ protected:
 
 	float stepBlend_;
 	float blendTime_;
-	int prePlayAnim_;
-
-	int preAnimAttachNo_;
 
 	int list_;
 
@@ -495,8 +502,7 @@ protected:
 	void AttatchNum(int anim);
 
 	// デタッチ
-	void Dettach(int attachNo);
-	void PreDettach(void);
+	void Dettach(int attachNo, int anim);
 
 };
 

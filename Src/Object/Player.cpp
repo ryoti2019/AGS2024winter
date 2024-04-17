@@ -5,6 +5,7 @@
 #include "../Application.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
+#include "../Object/Common/AnimationContorller.h"
 #include "Stage.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -30,77 +31,234 @@ void Player::InitAnimation(void)
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::PLAYER_MODEL));
 
-	// 待機アニメーション
-	animData_[(int)STATE::IDLE].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_IDLE);
+	std::string path = Application::PATH_MODEL + "Player/";
+	animationController_ = new AnimationController(transform_.modelId);
+	animationController_->Add((int)STATE::IDLE, path + "Idle.mv1", IDLE_ANIM_SPEED);
+	animationController_->Add((int)STATE::WALK, path + "walk.mv1", IDLE_ANIM_SPEED);
+	animationController_->Add((int)STATE::CHARGE_WALK, path + "chargeWalk.mv1", CHARGE_WALK_ANIM_SPEED);
+	animationController_->Add((int)STATE::RUN, path + "run.mv1", RUN_ANIM_SPEED);
+	animationController_->Add((int)STATE::ATTACK, path + "attack.mv1", ATTACK_ANIM_SPEED);
+	animationController_->Add((int)STATE::ATTACK2, path + "attack2.mv1", ATTACK_ANIM_SPEED);
+	animationController_->Add((int)STATE::ATTACK3, path + "attack3.mv1", ATTACK_ANIM_SPEED);
+	animationController_->Add((int)STATE::CHARGE_ATTACK, path + "chargeAttack", CHARGE_ATTACK_ANIM_SPEED);
+	animationController_->Add((int)STATE::HIT, path + "hit.mv1", HIT_ANIM_SPEED);
+	animationController_->Add((int)STATE::DEATH, path + "death.mv1", 20.0f);
+	animationController_->Add((int)STATE::ROLL, path + "roll.mv1", ROLL_ANIM_SPEED);
+	animationController_->Add((int)STATE::TIRED, path + "tired.mv1", 50.0f);
 
-	// 歩くアニメーション
-	animData_[(int)STATE::WALK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_WALK);
+	animationController_->Play((int)STATE::IDLE);
 
-	// 溜めながら歩くアニメーション
-	animData_[(int)STATE::CHARGE_WALK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_CHARGE_WALK);
-	
-	// 走るアニメーション
-	animData_[(int)STATE::RUN].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_RUN);
-
-	// 攻撃アニメーション
-	animData_[(int)STATE::ATTACK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-			ResourceManager::SRC::PLAYER_ATTACK);
-
-	// 溜め攻撃アニメーション
-	animData_[(int)STATE::CHARGE_ATTACK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_CHARGEATTACK);
-
-	// ダメージヒットアニメーション
-	animData_[(int)STATE::HIT].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_HIT);
-
-	// 死亡アニメーション
-	animData_[(int)STATE::DEATH].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_DEATH);
-
-	// 回避アニメーション
-	animData_[(int)STATE::ROLL].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_ROLL);
-	
-	// 疲れたアニメーション
-	animData_[(int)STATE::TIRED].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::PLAYER_TIRED);
-
-
-
-	// 待機アニメーション
-	animData_[(int)STATE::IDLE].speedAnim_ = IDLE_ANIM_SPEED;
-
-	// 歩くアニメーション
-	animData_[(int)STATE::WALK].speedAnim_ = WALK_ANIM_SPEED;
-
-	// 溜めながら歩くアニメーション
-	animData_[(int)STATE::CHARGE_WALK].speedAnim_ = CHARGE_WALK_ANIM_SPEED;
-
-	// 走るアニメーション
-	animData_[(int)STATE::RUN].speedAnim_ = RUN_ANIM_SPEED;
-
-	// 攻撃アニメーション
-	animData_[(int)STATE::ATTACK].speedAnim_ = ATTACK_ANIM_SPEED;
-
-	// 溜め攻撃アニメーション
-	animData_[(int)STATE::CHARGE_ATTACK].speedAnim_ = CHARGE_ATTACK_ANIM_SPEED;
-
-	// ダメージヒットアニメーション
-	animData_[(int)STATE::HIT].speedAnim_ = HIT_ANIM_SPEED;
-
-	// 死亡アニメーション
-	animData_[(int)STATE::DEATH].speedAnim_ = 20.0f;
-
-	// 回避アニメーション
-	animData_[(int)STATE::ROLL].speedAnim_ = ROLL_ANIM_SPEED;
-
-	// 疲れたアニメーション
-	animData_[(int)STATE::TIRED].speedAnim_ = 50.0f;
+//#pragma region アニメーション
+//
+//	// 待機
+//	animData_[(int)STATE::IDLE].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_IDLE);
+//
+//	// 歩く
+//	animData_[(int)STATE::WALK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_WALK);
+//
+//	// 溜めながら歩く
+//	animData_[(int)STATE::CHARGE_WALK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_CHARGE_WALK);
+//	
+//	// 走る
+//	animData_[(int)STATE::RUN].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_RUN);
+//
+//	// 攻撃
+//	animData_[(int)STATE::ATTACK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//			ResourceManager::SRC::PLAYER_ATTACK1);
+//
+//	// 攻撃2
+//	animData_[(int)STATE::ATTACK2].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_ATTACK2);
+//
+//	// 攻撃3
+//	animData_[(int)STATE::ATTACK3].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_ATTACK3);
+//
+//	// 溜め攻撃
+//	animData_[(int)STATE::CHARGE_ATTACK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_CHARGEATTACK);
+//
+//	// ダメージヒット
+//	animData_[(int)STATE::HIT].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_HIT);
+//
+//	// 死亡
+//	animData_[(int)STATE::DEATH].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_DEATH);
+//
+//	// 回避
+//	animData_[(int)STATE::ROLL].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_ROLL);
+//	
+//	// 疲れた
+//	animData_[(int)STATE::TIRED].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+//		ResourceManager::SRC::PLAYER_TIRED);
+//
+//#pragma endregion
+//
+//#pragma region 再生速度
+//
+//	// 待機
+//	animData_[(int)STATE::IDLE].speedAnim_ = IDLE_ANIM_SPEED;
+//
+//	// 歩く
+//	animData_[(int)STATE::WALK].speedAnim_ = IDLE_ANIM_SPEED;
+//
+//	// 溜めながら歩く
+//	animData_[(int)STATE::CHARGE_WALK].speedAnim_ = CHARGE_WALK_ANIM_SPEED;
+//
+//	// 走る
+//	animData_[(int)STATE::RUN].speedAnim_ = RUN_ANIM_SPEED;
+//
+//	// 攻撃
+//	animData_[(int)STATE::ATTACK].speedAnim_ = ATTACK_ANIM_SPEED;
+//
+//	// 攻撃2
+//	animData_[(int)STATE::ATTACK2].speedAnim_ = ATTACK_ANIM_SPEED;
+//
+//	// 攻撃3
+//	animData_[(int)STATE::ATTACK3].speedAnim_ = ATTACK_ANIM_SPEED;
+//
+//	// 溜め攻撃
+//	animData_[(int)STATE::CHARGE_ATTACK].speedAnim_ = CHARGE_ATTACK_ANIM_SPEED;
+//
+//	// ダメージヒット
+//	animData_[(int)STATE::HIT].speedAnim_ = HIT_ANIM_SPEED;
+//
+//	// 死亡
+//	animData_[(int)STATE::DEATH].speedAnim_ = 20.0f;
+//
+//	// 回避
+//	animData_[(int)STATE::ROLL].speedAnim_ = ROLL_ANIM_SPEED;
+//
+//	// 疲れた
+//	animData_[(int)STATE::TIRED].speedAnim_ = 50.0f;
+//
+//#pragma endregion
+//
+//#pragma region ブレンドタイム
+//
+//	// 待機
+//	animData_[(int)STATE::IDLE].blendTime_ = 0.5f;
+//
+//	// 歩く
+//	animData_[(int)STATE::WALK].blendTime_ = 0.5f;
+//
+//	// 溜めながら歩く
+//	animData_[(int)STATE::CHARGE_WALK].blendTime_ = 0.5f;
+//
+//	// 走る
+//	animData_[(int)STATE::RUN].blendTime_ = 0.5f;
+//
+//	// 攻撃
+//	animData_[(int)STATE::ATTACK].blendTime_ = 0.2f;
+//
+//	// 攻撃2
+//	animData_[(int)STATE::ATTACK2].blendTime_ = 0.2f;
+//
+//	// 攻撃3
+//	animData_[(int)STATE::ATTACK3].blendTime_ = 0.2f;
+//
+//	// 溜め攻撃
+//	animData_[(int)STATE::CHARGE_ATTACK].blendTime_ = 0.5f;
+//
+//	// ダメージヒット
+//	animData_[(int)STATE::HIT].blendTime_ = 0.5f;
+//
+//	// 死亡
+//	animData_[(int)STATE::DEATH].blendTime_ = 0.5f;
+//
+//	// 回避
+//	animData_[(int)STATE::ROLL].blendTime_ = 0.5f;
+//
+//	// 疲れた
+//	animData_[(int)STATE::TIRED].blendTime_ = 0.5f;
+//
+//#pragma endregion
+//
+//#pragma region アニメーションが始まる時間
+//
+//	// 待機
+//	animData_[(int)STATE::IDLE].stepAnim_ = 0.0f;
+//
+//	// 歩く
+//	animData_[(int)STATE::WALK].stepAnim_ = 0.0f;
+//
+//	// 溜めながら歩く
+//	animData_[(int)STATE::CHARGE_WALK].stepAnim_ = 0.0f;
+//
+//	// 走る
+//	animData_[(int)STATE::RUN].stepAnim_ = 0.0f;
+//
+//	// 攻撃
+//	animData_[(int)STATE::ATTACK].stepAnim_ = 0.0f;
+//
+//	// 攻撃2
+//	animData_[(int)STATE::ATTACK2].stepAnim_ = 0.0f;
+//
+//	// 攻撃3
+//	animData_[(int)STATE::ATTACK3].stepAnim_ = 0.0f;
+//
+//	// 溜め攻撃
+//	animData_[(int)STATE::CHARGE_ATTACK].stepAnim_ = 0.0f;
+//
+//	// ダメージヒット
+//	animData_[(int)STATE::HIT].stepAnim_ = 0.0f;
+//
+//	// 死亡
+//	animData_[(int)STATE::DEATH].stepAnim_ = 0.0f;
+//
+//	// 回避
+//	animData_[(int)STATE::ROLL].stepAnim_ = 0.0f;
+//
+//	// 疲れた
+//	animData_[(int)STATE::TIRED].stepAnim_ = 0.0f;
+//
+//#pragma endregion
+//
+//#pragma region アニメーションの状態
+//
+//	// 待機
+//	animData_[(int)STATE::IDLE].state_ = STATE::IDLE;
+//
+//	// 歩く
+//	animData_[(int)STATE::WALK].state_ = STATE::WALK;
+//
+//	// 溜めながら歩く
+//	animData_[(int)STATE::CHARGE_WALK].state_ = STATE::CHARGE_WALK;
+//
+//	// 走る
+//	animData_[(int)STATE::RUN].state_ = STATE::RUN;
+//
+//	// 攻撃
+//	animData_[(int)STATE::ATTACK].state_ = STATE::ATTACK;
+//
+//	// 攻撃2
+//	animData_[(int)STATE::ATTACK2].state_ = STATE::ATTACK2;
+//
+//	// 攻撃3
+//	animData_[(int)STATE::ATTACK3].state_ = STATE::ATTACK3;
+//
+//	// 溜め攻撃
+//	animData_[(int)STATE::CHARGE_ATTACK].state_ = STATE::CHARGE_ATTACK;
+//
+//	// ダメージヒット
+//	animData_[(int)STATE::HIT].state_ = STATE::HIT;
+//
+//	// 死亡
+//	animData_[(int)STATE::DEATH].state_ = STATE::DEATH;
+//
+//	// 回避
+//	animData_[(int)STATE::ROLL].state_ = STATE::ROLL;
+//
+//	// 疲れた
+//	animData_[(int)STATE::TIRED].state_ = STATE::TIRED;
+//
+//#pragma endregion
 
 	// アニメーションする番号
 	animNo_ = 1;
@@ -307,13 +465,13 @@ void Player::Update(void)
 	case Player::STATE::ATTACK:
 		// 風を切る音の再生
 		SlashMusic();
-		if (stepAnim_ >= ATTACK_COLLISION_START_TIME1
-			&& stepAnim_ <= ATTACK_COLLISION_END_TIME1
+		if (animData_[(int)STATE::ATTACK].stepAnim_ >= ATTACK_COLLISION_START_TIME1
+			&& animData_[(int)STATE::ATTACK].stepAnim_ <= ATTACK_COLLISION_END_TIME1
 			&& !hit_)
 		{
 			attack_ = true;
 		}
-		if (stepAnim_ >= ATTACK_END_TIME1 - 1.0f)
+		if (animData_[(int)STATE::ATTACK].stepAnim_ >= animData_[(int)STATE::ATTACK].animTotalTime_ - 1.0f)
 		{
 			attack1_ = false;
 			isMusicSlash_ = true;
@@ -322,13 +480,13 @@ void Player::Update(void)
 	case Player::STATE::ATTACK2:
 		// 風を切る音の再生
 		SlashMusic();
-		if (stepAnim_ >= ATTACK_COLLISION_START_TIME2
-			&& stepAnim_ <= ATTACK_COLLISION_END_TIME2
+		if (animData_[(int)STATE::ATTACK2].stepAnim_ >= ATTACK_COLLISION_START_TIME2
+			&& animData_[(int)STATE::ATTACK2].stepAnim_ <= ATTACK_COLLISION_END_TIME2
 			&& !hit_)
 		{
 			attack_ = true;
 		}
-		if (stepAnim_ >= ATTACK_END_TIME2 - 1.0f)
+		if (animData_[(int)STATE::ATTACK2].stepAnim_ >= animData_[(int)STATE::ATTACK2].animTotalTime_ - 1.0f)
 		{
 			attack2_ = false;
 			isMusicSlash_ = true;
@@ -337,8 +495,8 @@ void Player::Update(void)
 	case Player::STATE::ATTACK3:
 		// 風を切る音の再生
 		SlashMusic();
-		if (stepAnim_ >= ATTACK_COLLISION_START_TIME3
-			&& stepAnim_ <= ATTACK_COLLISION_END_TIME3
+		if (animData_[(int)STATE::ATTACK3].stepAnim_ >= ATTACK_COLLISION_START_TIME3
+			&& animData_[(int)STATE::ATTACK3].stepAnim_ <= ATTACK_COLLISION_END_TIME3
 			&& !hit_)
 		{
 			attack_ = true;
@@ -347,15 +505,15 @@ void Player::Update(void)
 	case Player::STATE::CHARGE_ATTACK:
 		// 風を切る音の再生
 		SlashMusic();
-		if (stepAnim_ >= CHARGE_ATTACK_COLLISION_START_TIME
-			&& stepAnim_ <= CHARGE_ATTACK_COLLISION_END_TIME
+		if (animData_[(int)STATE::CHARGE_ATTACK].stepAnim_ >= CHARGE_ATTACK_COLLISION_START_TIME
+			&& animData_[(int)STATE::CHARGE_ATTACK].stepAnim_ <= CHARGE_ATTACK_COLLISION_END_TIME
 			&& !hit_)
 		{
 			attack_ = true;
 		}
 		break;
 	case Player::STATE::HIT:
-		if (preState_ == STATE::TIRED && stepAnim_ >= 20.0f)
+		if (preState_ == STATE::TIRED && animData_[(int)STATE::HIT].stepAnim_ >= 20.0f)
 		{
 			ChangeState(STATE::TIRED);
 		}
@@ -364,7 +522,7 @@ void Player::Update(void)
 		break;
 	case Player::STATE::ROLL:
 		RollMusic();
-		if (stepAnim_ >= 5.0f && stepAnim_ <= 45.0f)
+		if (animData_[(int)STATE::ROLL].stepAnim_ >= 5.0f && animData_[(int)STATE::ROLL].stepAnim_ <= 45.0f)
 		{
 			// 移動量
 			movePow_ = VScale(moveDir_, speed_);
@@ -376,22 +534,13 @@ void Player::Update(void)
 
 		}
 
-		if (stepAnim_ >= 10.0f && stepAnim_ <= 45.0f)
-		{
-
-		}
-
-		if ((stepAnim_ >= 0.0f && stepAnim_ <= 9.9f) || (stepAnim_ >= 45.1f && stepAnim_ <= 71.0f))
+		if ((animData_[(int)STATE::ROLL].stepAnim_ >= 0.0f && animData_[(int)STATE::ROLL].stepAnim_ <= 9.9f)
+			|| (animData_[(int)STATE::ROLL].stepAnim_ >= 45.1f && animData_[(int)STATE::ROLL].stepAnim_ <= 71.0f))
 		{
 			isInvincible_ = false;
 		}
 
-		//if (stepAnim_ >= 45.1f && stepAnim_ <= 71.0f)
-		//{
-		//	isInvincible_ = false;
-		//}
-
-		if (stepAnim_ >= 45.0f)
+		if (animData_[(int)STATE::ROLL].stepAnim_ >= 45.0f)
 		{
 			speed_ = 0.0f;
 		}
@@ -529,7 +678,7 @@ void Player::SlashMusic(void)
 {
 
 	int number = GetRand(1);
-	if (stepAnim_ >= ATTACK_COLLISION_START_TIME1 && isMusicSlash_ && state_ == STATE::ATTACK)
+	if (animData_[(int)STATE::ATTACK].stepAnim_ >= ATTACK_COLLISION_START_TIME1 && isMusicSlash_ && state_ == STATE::ATTACK)
 	{
 		if (number == 0)
 		{
@@ -546,7 +695,7 @@ void Player::SlashMusic(void)
 
 	}
 
-	if (stepAnim_ >= ATTACK_COLLISION_START_TIME2 && isMusicSlash_ && state_ == STATE::ATTACK2)
+	if (animData_[(int)STATE::ATTACK2].stepAnim_ >= ATTACK_COLLISION_START_TIME2 && isMusicSlash_ && state_ == STATE::ATTACK2)
 	{
 		if (number == 0)
 		{
@@ -562,7 +711,7 @@ void Player::SlashMusic(void)
 		}
 	}
 
-	if (stepAnim_ >= ATTACK_COLLISION_START_TIME3 && isMusicSlash_ && state_ == STATE::ATTACK3)
+	if (animData_[(int)STATE::ATTACK3].stepAnim_ >= ATTACK_COLLISION_START_TIME3 && isMusicSlash_ && state_ == STATE::ATTACK3)
 	{
 		if (number == 0)
 		{
@@ -578,7 +727,7 @@ void Player::SlashMusic(void)
 		}
 	}
 
-	if (stepAnim_ >= CHARGE_ATTACK_COLLISION_START_TIME && isMusicSlash_ && state_ == STATE::CHARGE_ATTACK)
+	if (animData_[(int)STATE::CHARGE_ATTACK].stepAnim_ >= CHARGE_ATTACK_COLLISION_START_TIME && isMusicSlash_ && state_ == STATE::CHARGE_ATTACK)
 	{
 		if (number == 0)
 		{
@@ -611,7 +760,7 @@ void Player::RollMusic(void)
 {
 
 	int number = GetRand(1);
-	if (stepAnim_ >= ROLL_INVINCIBLE_START_TIME && isMusicRoll_ && state_ == STATE::ROLL)
+	if (animData_[(int)STATE::ROLL].stepAnim_ >= ROLL_INVINCIBLE_START_TIME && isMusicRoll_ && state_ == STATE::ROLL)
 	{
 		if (number == 0)
 		{
@@ -629,8 +778,14 @@ void Player::RollMusic(void)
 
 }
 
+//void Player::Blend(void)
+//{
+//
+//}
+
 void Player::AttatchNum(int anim)
 {
+
 	if (animData_[anim].attachNo_ != -1)
 	{
 		animData_[anim].isPriority_ = true;
@@ -639,23 +794,28 @@ void Player::AttatchNum(int anim)
 	list_++;
 	animData_[anim].attachNo_ = MV1AttachAnim(transform_.modelId, animNo_, animData_[anim].animHandle_);
 	animData_[anim].isPriority_ = true;
+
 	// アニメーション総時間の取得
 	animData_[anim].animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animData_[anim].attachNo_);
+
 }
 
-void Player::Dettach(int attachNo)
+void Player::Dettach(int attachNo, int anim)
 {
+	if (animData_[anim].attachNo_ == attachNo)return;
 	list_--;
 	MV1DetachAnim(transform_.modelId, attachNo);
-}
 
-void Player::PreDettach(void)
-{
-	if (preState_ != STATE::IDLE)
-	{
-		list_--;
-		MV1DetachAnim(transform_.modelId, preAnimAttachNo_);
-	}
+	//if (anim == (int)STATE::ATTACK)
+	//{
+	//	animData_[(int)STATE::ATTACK].stepAnim_ = 0.0f;
+	//}
+
+	//if (anim == (int)STATE::ATTACK2)
+	//{
+	//	animData_[(int)STATE::ATTACK2].stepAnim_ = ATTACK_START_TIME2;
+	//}
+
 }
 
 void Player::Release(void)
@@ -1471,6 +1631,7 @@ void Player::GamePadAttack(void)
 		{
 			attack3_ = true;
 		}
+
 	}
 
 	if (insInput.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) &&
@@ -1718,71 +1879,29 @@ void Player::Rotate(void)
 void Player::ChangeAnimation(STATE state)
 {
 
+	// 同じ状態だったら入らない
 	if (state_ == preState_) return;
 
-	//PreDettach();
-
-
-
-	//// 状態の更新
-	//state_ = state;
-
-
+	// 前の状態の優先度をなくす
 	animData_[(int)preState_].isPriority_ = false;
 
 	// 再生するアニメーションの設定
 	AttatchNum((int)state_);
 
-
-	//preAnimAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, anim);
-
 	// 状態遷移時の初期化処理
 	switch (state_)
 	{
 	case Player::STATE::IDLE:
-
-
-		//AttatchNum(idleAnim_);
-
-		//// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-		
-		
-		//// アニメーション速度
-		//speedAnim_ = IDLE_ANIM_SPEED;
-
+		animationController_->Play((int)STATE::IDLE, false, 0.0f, 300.0f, false, false);
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		
-		//stepBlend_ = 0.0f;
-		prePlayAnim_ = idleAnim_;
 		break;
 	case Player::STATE::WALK:
-		//Dettach();
-
-		//AttatchNum(walkAnim_);
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = WALK_ANIM_SPEED;
-
-		//stepBlend_ = 0.0f;
-		prePlayAnim_ = walkAnim_;
+		animationController_->Play((int)STATE::WALK, false, 0.0f, 21.0f, false, false);
 		break;
 	case Player::STATE::CHARGE_WALK:
-		//Dettach();
-
-		//AttatchNum(chargeWalkAnim_);
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = CHARGE_WALK_ANIM_SPEED;
-
+		animationController_->Play((int)STATE::CHARGE_WALK, false, 0.0f, 33.0f, false, false);
 		// エフェクトの再生
 		ChargePlayEffect();
 
@@ -1792,183 +1911,67 @@ void Player::ChangeAnimation(STATE state)
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::RUN:
-		//Dettach();
-
-		//AttatchNum(runAnim_);
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = RUN_ANIM_SPEED;
-
-		//stepBlend_ = 0.0f;
+		animationController_->Play((int)STATE::RUN, false, 0.0f, 22.0f, false, false);
 		break;
 	case Player::STATE::ATTACK:
-		//Dettach();
-
-		//AttatchNum(attackAnim_);
+		animationController_->Play((int)STATE::ATTACK, false, 0.0f, 45.0f, false, false);
 		hit_ = false;
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = ATTACK_ANIM_SPEED;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = 0.0f;
-
 		// エフェクトを止める
 		StopEffekseer3DEffect(effectChargePlayId_);
-
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::ATTACK2:
-		//Dettach();
-
-		//AttatchNum(attackAnim_);
+		animationController_->Play((int)STATE::ATTACK2, false, 0.0f, 50.0f, false, false);
 		hit_ = false;
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = ATTACK_ANIM_SPEED;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = ATTACK_START_TIME2;
-
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::ATTACK3:
-		//Dettach();
-
-		//AttatchNum(attackAnim_);
+		animationController_->Play((int)STATE::ATTACK3, false, 0.0f, 73.0f, false, false);
 		hit_ = false;
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = ATTACK_ANIM_SPEED;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = ATTACK_START_TIME3;
-
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::CHARGE_ATTACK:
-		//Dettach();
-
-		//AttatchNum(chargeAttackAnim_);
+		animationController_->Play((int)STATE::CHARGE_ATTACK, false, 0.0f, 52.0f, false, false);
 		hit_ = false;
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = CHARGE_ATTACK_ANIM_SPEED;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = 0.0f;
-
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::HIT:
-		//Dettach();
-
-		//AttatchNum(hitAnim_);
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = HIT_ANIM_SPEED;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = 0.0f;
+		animationController_->Play((int)STATE::HIT, false, 0.0f, 21.0f, false, false);
 		// エフェクトを止める
 		StopEffekseer3DEffect(effectChargePlayId_);
-
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::DEATH:
-		//Dettach();
-
-		//AttatchNum(deathAnim_);
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = 20.0f;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = 0.0f;
-
+		animationController_->Play((int)STATE::DEATH, false, 0.0f, 117.0f, false, false);
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::ROLL:
-		//Dettach();
-
-		//AttatchNum(rollAnim_);
-
-		// アニメーション総時間の取得
-		//animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-		// アニメーション速度
-		//speedAnim_ = ROLL_ANIM_SPEED;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = 0.0f;
-
+		animationController_->Play((int)STATE::ROLL, false, 0.0f, 71.0f, false, false);
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-
 		// スタミナを減らす
 		stamina_ -= 10.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	case Player::STATE::TIRED:
-		//Dettach();
-
-		//AttatchNum(tiredAnim_);
-
-
-
-		// アニメーション速度
-		//speedAnim_ = ROLL_ANIM_SPEED;
-
-		// アニメーション時間の初期化
-		//stepAnim_ = 0.0f;
-
+		animationController_->Play((int)STATE::TIRED, false, 0.0f, 80.0f, false, false);
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		//stepBlend_ = 0.0f;
 		break;
 	}
 
@@ -2078,7 +2081,6 @@ void Player::SetParam(void)
 void Player::Animation(void)
 {
 
-	// アニメーション再生
 	// 経過時間の取得
 	float deltaTime = SceneManager::GetInstance().GetDeltaTime();
 
@@ -2090,23 +2092,26 @@ void Player::Animation(void)
 		{
 			continue;
 		}
-		animData.blendRate -= 0.1f;
 
-		if (animData.blendRate <= 0.0f) 
+		//animData.blendRate_ = animData.stepAnim_ / animData.blendTime_;
+		animData.blendRate_ -= deltaTime / animData.blendTime_;
+
+		if (animData.blendRate_ <= 0.0f) 
 		{
-			Dettach(animData.attachNo_);
+			Dettach(animData.attachNo_,(int)preState_);
 
 			// 値の初期化
-			animData.blendRate = 0.0f;
+			animData.blendRate_ = 0.0f;
 			animData.isPriority_ = false;
 			animData.stepAnim_ = 0.0f;
 			animData.attachNo_ = -1;
 		}
 
-		rate -= animData.blendRate;
+		rate -= animData.blendRate_;
 
 	}
 
+	// アニメーション再生
 	for (auto& animData : animData_)
 	{
 		if (animData.attachNo_ == -1)
@@ -2114,79 +2119,82 @@ void Player::Animation(void)
 			continue;
 		}
 
-		// アニメーション時間の進行
-		animData.stepAnim_ += (speedAnim_ * deltaTime);
+		//if (!(animData_[(int)STATE::ATTACK].stepAnim_ >= ATTACK_END_TIME1))
+		//{
+			// アニメーション時間の進行
+			animData.stepAnim_ += (animData.speedAnim_ * deltaTime);
+		//}
+		//else
+		//{
+		//	int a = 1;
+		//}
 
 		if (animData.stepAnim_ > animData.animTotalTime_)
 		{
 			// ループ再生
 			animData.stepAnim_ = 0.0f;
+
+			if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
+				|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK
+				|| state_ == STATE::HIT || state_ == STATE::ROLL)
+			{
+				//if (state_ == STATE::ATTACK2)
+				//{
+				//	animData_[(int)STATE::ATTACK2].stepAnim_ = ATTACK_START_TIME2;
+				//}
+				//else if (state_ == STATE::ATTACK3)
+				//{
+				//	animData_[(int)STATE::ATTACK3].stepAnim_ = ATTACK_START_TIME3;
+				//}
+				//else
+				//{
+				//animData.stepAnim_ = 0.0f;
+				//}
+				attack1_ = false;
+				attack2_ = false;
+				attack3_ = false;
+				chargeAttack_ = false;
+				isMusicSlash_ = true;
+				isMusicRoll_ = true;
+				hit_ = false;
+				ChangeState(STATE::IDLE);
+				chargeCnt_ = 0.0f;
+			}
+
 		}
+
 		// 再生するアニメーション時間の設定
 		MV1SetAttachAnimTime(transform_.modelId, animData.attachNo_, animData.stepAnim_);
 
 		if (animData.isPriority_)
 		{
-			animData.blendRate = rate;
+			animData.blendRate_ = rate;
 		}
-		MV1SetAttachAnimBlendRate(
-			transform_.modelId, animData.attachNo_, animData.blendRate);
+
+			MV1SetAttachAnimBlendRate(
+				transform_.modelId, animData.attachNo_, animData.blendRate_);
+
 	}
 
-	//if (hp_ > 0)
-	//{
-	//	if (stepAnim_ > animTotalTime_)
-	//	{
-	//		// ループ再生
-	//		stepAnim_ = 0.0f;
-
-	//		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
-	//			|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK
-	//			|| state_ == STATE::HIT || state_ == STATE::ROLL)
-	//		{
-	//			stepAnim_ = 0.0f;
-	//			attack1_ = false;
-	//			attack2_ = false;
-	//			attack3_ = false;
-	//			chargeAttack_ = false;
-	//			isMusicSlash_ = true;
-	//			isMusicRoll_ = true;
-	//			hit_ = false;
-	//			ChangeState(STATE::IDLE, prePlayAnim_);
-	//			chargeCnt_ = 0.0f;
-	//		}
-	//	}
-	//}
-
 	//// 2段階目に進まないときはリセット
-	//if (state_ == STATE::ATTACK && stepAnim_ >= ATTACK_END_TIME1 && !attack2_)
+	//if (state_ == STATE::ATTACK && animData_[(int)STATE::ATTACK].stepAnim_ >= ATTACK_END_TIME1 && !attack2_)
 	//{
-	//	stepAnim_ = 0.0f;
 	//	hit_ = false;
-	//	ChangeState(STATE::IDLE, prePlayAnim_);
+	//	ChangeState(STATE::IDLE);
 	//	chargeCnt_ = 0.0f;
 	//}
 
 	//// 3段階目に進まないときはリセット
-	//if (state_ == STATE::ATTACK2 && stepAnim_ >= ATTACK_END_TIME2 && !attack3_)
+	//if (state_ == STATE::ATTACK2 && animData_[(int)STATE::ATTACK2].stepAnim_ >= ATTACK_END_TIME2 && !attack3_)
 	//{
-	//	stepAnim_ = 0.0f;
+	//	animData_[(int)STATE::ATTACK2].stepAnim_ = ATTACK_START_TIME2;
 	//	hit_ = false;
-	//	ChangeState(STATE::IDLE, prePlayAnim_);
+	//	ChangeState(STATE::IDLE);
 	//	chargeCnt_ = 0.0f;
 	//}
 
-
-
-	//if (stepBlend_ >= blendTime_)
-	//{
-	//	PreDettach();
-	//}
-
-
-
 	// アニメーションの固定
-	//AnimationFrame();
+	AnimationFrame();
 
 }
 

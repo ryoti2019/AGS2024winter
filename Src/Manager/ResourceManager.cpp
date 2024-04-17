@@ -88,6 +88,18 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK, res);
 
+	// プレイヤーの攻撃アニメーション1
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash1.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_ATTACK1, res);
+
+	// プレイヤーの攻撃アニメーション2
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash2.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_ATTACK2, res);
+
+	// プレイヤーの攻撃アニメーション3
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash3.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_ATTACK3, res);
+
 	// プレイヤーの溜め攻撃のアニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Charge Slash.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_CHARGEATTACK, res);

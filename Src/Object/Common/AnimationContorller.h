@@ -20,8 +20,9 @@ public:
 	//};
 
 	// アニメーションデータ
-	struct Animation
+	struct AnimationData
 	{
+
 		// モデル
 		int model = -1;
 
@@ -29,7 +30,7 @@ public:
 		int animHandle = -1;
 
 		// アニメーションタイプ
-		int animType = 0;
+		 state = 
 
 		// アタッチNo
 		int attachNo = -1;
@@ -46,6 +47,12 @@ public:
 		// 再生中のアニメーション時間
 		float stepAnim = 0.0f;
 
+		// アニメーションが始まる時間
+		float startAnim = 0.0f;
+
+		// アニメーションが終わる時間
+		float endAnim = 0.0f;
+
 		// ブレンドレート
 		float blendRate = 0.0f;
 
@@ -61,11 +68,13 @@ public:
 	~AnimationController(void);
 
 	// アニメーション追加
-	void Add(int type, const std::string& path, float speed);
+	//void Add(STATE state, const std::string& path, float speed);
+	void Add(const std::string state, const std::string& path, float startStep,
+		float endStep, float speed, bool isPriority);
 
 	// アニメーション再生
-	void Play(int type, bool isLoop = true,
-		float startStep = 0.0f, float endStep = -1.0f, bool isStop = false, bool isForce = false);
+	void Play(STATE state, bool isLoop = true,
+		float startStep = 0.0f, float endStep = -1.0f, bool isStop = false, bool isPriority = false);
 
 	void Update(void);
 
@@ -73,21 +82,31 @@ public:
 	void SetEndLoop(float startStep, float endStep, float speed);
 
 	// 再生中のアニメーション
-	int GetPlayType(void) const;
+	AnimationController::STATE GetPlayType(void) const;
 
 	// 再生終了
 	bool IsEnd(void) const;
 
+	// アタッチされている数を取得
+	int GetAttachNum(void) const;
+
+
 private:
+
+	// 状態
+	//STATE state_;
+	//STATE preState_;
 
 	// モデルのハンドルID
 	int modelId_;
 
-	// 種類別のアニメーションデータ
-	std::map<int, Animation> animations_;
+	// モデルを読み込んだかのフラグ
+	bool LoadModel_;
 
-	int playType_;
-	Animation playAnim_;
+	// 種類別のアニメーションデータ
+	std::map < std::string , AnimationData > animData_;
+
+	std::string state_ = "";
 
 	// アニメーションをループするかしないか
 	bool isLoop_;
@@ -102,6 +121,18 @@ private:
 
 	// 逆再生
 	float switchLoopReverse_;
+
+	// アタッチしている数
+	int AttachNum_;
+
+	// アタッチ
+	void Attatch(STATE state);
+
+	// デタッチ
+	void Dettach(int attachNo, STATE state);
+
+	// 状態遷移
+	void ChangeAnimation(STATE state);
 
 };
 

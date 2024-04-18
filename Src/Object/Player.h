@@ -453,7 +453,7 @@ protected:
 	void ChangeState(STATE state);
 
 	// アニメーション
-	void Animation(void)override;
+	//void Animation(void)override;
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

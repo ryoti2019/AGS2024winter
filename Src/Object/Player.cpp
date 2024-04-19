@@ -33,27 +33,27 @@ void Player::InitAnimation(void)
 
 	std::string path = Application::PATH_MODEL + "Player/";
 	animationController_ = new AnimationController(transform_.modelId);
-	animationController_->Add((AnimationController::STATE)STATE::IDLE, path + "Idle.mv1", IDLE_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::WALK, path + "walk.mv1", WALK_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::CHARGE_WALK, path + "chargeWalk.mv1", CHARGE_WALK_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::RUN, path + "run.mv1", RUN_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::ATTACK, path + "attack.mv1", ATTACK_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::ATTACK2, path + "attack2.mv1", ATTACK_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::ATTACK3, path + "attack3.mv1", ATTACK_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::CHARGE_ATTACK, path + "chargeAttack", CHARGE_ATTACK_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::HIT, path + "hit.mv1", HIT_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::DEATH, path + "death.mv1", 20.0f);
-	animationController_->Add((AnimationController::STATE)STATE::ROLL, path + "roll.mv1", ROLL_ANIM_SPEED);
-	animationController_->Add((AnimationController::STATE)STATE::TIRED, path + "tired.mv1", 50.0f);
+	animationController_->Add("IDLE", path + "Idle.mv1", 0.0f, 300.0f,IDLE_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_IDLE));
+	animationController_->Add("WALK", path + "walk.mv1", 0.0f, 21.0f,WALK_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_WALK));
+	animationController_->Add("CHARGE_WALK", path + "chargeWalk.mv1", 0.0f, 33.0f, CHARGE_WALK_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_CHARGE_WALK));
+	animationController_->Add("RUN", path + "run.mv1", 0.0f, 22.0f, RUN_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_RUN));
+	animationController_->Add("ATTACK", path + "attack.mv1", 0.0f, 45.0f, ATTACK_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK));
+	animationController_->Add("ATTACK2", path + "attack2.mv1", 0.0f, 50.0f, ATTACK_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK2));
+	animationController_->Add("ATTACK3", path + "attack3.mv1", 0.0f, 73.0f, ATTACK_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK3));
+	animationController_->Add("CHARGE_ATTACK", path + "chargeAttack", 52.0f, 0.0f, CHARGE_ATTACK_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_CHARGEATTACK));
+	animationController_->Add("HIT", path + "hit.mv1", 0.0f, 21.0f, HIT_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_HIT));
+	animationController_->Add("DEATH", path + "death.mv1", 0.0f, 117.0f, 20.0f, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_DEATH));
+	animationController_->Add("ROLL", path + "roll.mv1", 0.0f, 71.0f, ROLL_ANIM_SPEED, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ROLL));
+	animationController_->Add("TIRED", path + "tired.mv1", 0.0f, 80.0f, 50.0f, ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_TIRED));
 
-	animationController_->Play((AnimationController::STATE)STATE::IDLE);
+	animationController_->Play("IDLE", true, true, true);
 
 //#pragma region アニメーション
 //
-//	// 待機
-//	animData_[(int)STATE::IDLE].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
-//		ResourceManager::SRC::PLAYER_IDLE);
-//
+	// 待機
+	animData_[(int)STATE::IDLE].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
+		ResourceManager::SRC::PLAYER_IDLE);
+
 //	// 歩く
 //	animData_[(int)STATE::WALK].animHandle_ = ResourceManager::GetInstance().LoadModelDuplicate(
 //		ResourceManager::SRC::PLAYER_WALK);
@@ -603,8 +603,8 @@ void Player::Update(void)
 		}
 	}
 
-	// 待機アニメーション
-	ChangeAnimation(state_);
+	//// 待機アニメーション
+	//ChangeAnimation(state_);
 
 	// アニメーション処理
 	animationController_->Update();
@@ -1878,120 +1878,125 @@ void Player::Rotate(void)
 
 }
 
-void Player::ChangeAnimation(STATE state)
-{
-
-	// 同じ状態だったら入らない
-	if (state_ == preState_) return;
-
-	// 前の状態の優先度をなくす
-	animData_[(int)preState_].isPriority_ = false;
-
-	// 再生するアニメーションの設定
-	AttatchNum((int)state_);
-
-	// 状態遷移時の初期化処理
-	switch (state_)
-	{
-	case Player::STATE::IDLE:
-		animationController_->Play((AnimationController::STATE)STATE::IDLE, false, 0.0f, 300.0f, false, false);
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::WALK:
-		animationController_->Play((AnimationController::STATE)STATE::WALK, false, 0.0f, 21.0f, false, false);
-		break;
-	case Player::STATE::CHARGE_WALK:
-		animationController_->Play((AnimationController::STATE)STATE::CHARGE_WALK, false, 0.0f, 33.0f, false, false);
-		// エフェクトの再生
-		ChargePlayEffect();
-
-		// 溜める音の再生
-		PlaySoundMem(musicChargeId_,DX_PLAYTYPE_BACK);
-
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::RUN:
-		animationController_->Play((AnimationController::STATE)STATE::RUN, false, 0.0f, 22.0f, false, false);
-		break;
-	case Player::STATE::ATTACK:
-		animationController_->Play((AnimationController::STATE)STATE::ATTACK, false, 0.0f, 45.0f, false, false);
-		hit_ = false;
-		// エフェクトを止める
-		StopEffekseer3DEffect(effectChargePlayId_);
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::ATTACK2:
-		animationController_->Play((AnimationController::STATE)STATE::ATTACK2, false, 0.0f, 50.0f, false, false);
-		hit_ = false;
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::ATTACK3:
-		animationController_->Play((AnimationController::STATE)STATE::ATTACK3, false, 0.0f, 73.0f, false, false);
-		hit_ = false;
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::CHARGE_ATTACK:
-		animationController_->Play((AnimationController::STATE)STATE::CHARGE_ATTACK, false, 0.0f, 52.0f, false, false);
-		hit_ = false;
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::HIT:
-		animationController_->Play((AnimationController::STATE)STATE::HIT, false, 0.0f, 21.0f, false, false);
-		// エフェクトを止める
-		StopEffekseer3DEffect(effectChargePlayId_);
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::DEATH:
-		animationController_->Play((AnimationController::STATE)STATE::DEATH, false, 0.0f, 117.0f, false, false);
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Player::STATE::ROLL:
-		animationController_->Play((AnimationController::STATE)STATE::ROLL, false, 0.0f, 71.0f, false, false);
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		// スタミナを減らす
-		stamina_ -= 10.0f;
-		break;
-	case Player::STATE::TIRED:
-		animationController_->Play((AnimationController::STATE)STATE::TIRED, false, 0.0f, 80.0f, false, false);
-		// 足音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	}
-
-	if (state_ != STATE::CHARGE_WALK)
-	{
-		StopSoundMem(musicChargeId_);
-	}
-
-	// 一個前の状態を保存
-	preState_ = state_;
-
-}
+//void Player::ChangeAnimation(STATE state)
+//{
+//
+//	// 同じ状態だったら入らない
+//	if (state_ == preState_) return;
+//
+//	// 前の状態の優先度をなくす
+//	animData_[(int)preState_].isPriority_ = false;
+//
+//	// 再生するアニメーションの設定
+//	AttatchNum((int)state_);
+//
+//	// 状態遷移時の初期化処理
+//	switch (state_)
+//	{
+//	case Player::STATE::IDLE:
+//		animationController_->Play("IDLE", true, false, true);
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::WALK:
+//		animationController_->Play("WALK", true, false, true);
+//		break;
+//	case Player::STATE::CHARGE_WALK:
+//		animationController_->Play("CHARGE_WALK", true, false, true);
+//		// エフェクトの再生
+//		ChargePlayEffect();
+//
+//		// 溜める音の再生
+//		PlaySoundMem(musicChargeId_,DX_PLAYTYPE_BACK);
+//
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::RUN:
+//		animationController_->Play("RUN", true, false, true);
+//		break;
+//	case Player::STATE::ATTACK:
+//		animationController_->Play("ATTACK", true, false, true);
+//		hit_ = false;
+//		// エフェクトを止める
+//		StopEffekseer3DEffect(effectChargePlayId_);
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::ATTACK2:
+//		animationController_->Play("ATTACK2", true, false, true);
+//		hit_ = false;
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::ATTACK3:
+//		animationController_->Play("ATTACK3", true, false, true);
+//		hit_ = false;
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::CHARGE_ATTACK:
+//		animationController_->Play("CHARGE_ATTACK", true, false, true);
+//		hit_ = false;
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::HIT:
+//		animationController_->Play("HIT", true, false, true);
+//		// エフェクトを止める
+//		StopEffekseer3DEffect(effectChargePlayId_);
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::DEATH:
+//		animationController_->Play("DEATH", true, false, true);
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	case Player::STATE::ROLL:
+//		animationController_->Play("ROLL", true, false, true);
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		// スタミナを減らす
+//		stamina_ -= 10.0f;
+//		break;
+//	case Player::STATE::TIRED:
+//		animationController_->Play("TIRED", true, false, true);
+//		// 足音を止める
+//		StopSoundMem(musicFootStepsId_);
+//		musicFootStepsCnt_ = 0.0f;
+//		break;
+//	}
+//
+//	if (state_ != STATE::CHARGE_WALK)
+//	{
+//		StopSoundMem(musicChargeId_);
+//	}
+//
+//	// 一個前の状態を保存
+//	preState_ = state_;
+//
+//}
 
 void Player::ChangeState(STATE state)
 {
 	if (state_ == state)return;
 
+
 	state_ = state;
+	std::string key = ANIM_DATA_KEY[(int)state];
+
+	animationController_->ChangeAnimation(key);
+
 }
 
 void Player::LazyRotation(float goalRot)

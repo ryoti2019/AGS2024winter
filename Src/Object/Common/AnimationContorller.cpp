@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include "../../Manager/SceneManager.h"
+#include "../../Manager/ResourceManager.h"
 #include "AnimationContorller.h"
 
 AnimationController::AnimationController(int modelId)
@@ -7,15 +8,12 @@ AnimationController::AnimationController(int modelId)
 
 	modelId_ = modelId;
 
-	state_ = STATE::IDLE;
 	isLoop_ = false;
-
 	isStop_ = false;
 	switchLoopReverse_ = 0.0f;
 	endLoopSpeed_ = 0.0f;
 	stepEndLoopStart_ = 0.0f;
 	stepEndLoopEnd_ = 0.0f;
-
 	AttachNum_ = 0;
 
 }
@@ -54,7 +52,7 @@ AnimationController::~AnimationController(void)
 //}
 
 void AnimationController::Add(const std::string state, const std::string& path,float startStep,
-	float endStep, float speed, bool isPriority)
+	float endStep, float speed, int animHandle)
 {
 
 	AnimationData anim;
@@ -63,14 +61,17 @@ void AnimationController::Add(const std::string state, const std::string& path,f
 	if (LoadModel_)
 	{
 		modelId_ = MV1LoadModel(path.c_str());
+		Attatch(state);
 		LoadModel_ = false;
 	}
 
 	anim.model = modelId_;
 	anim.speedAnim = speed;
-	anim.animType = anim.animType;
-	anim.attachNo = anim.attachNo;
-	anim.animTotalTime = anim.animTotalTime;
+	anim.startTime = startStep;
+	anim.animTotalTime = endStep;
+	anim.animHandle = animHandle;
+	anim.blendTime = 0.5f;
+	anim.blendRate = 1.0f;
 
 	// 入れ替え
 	animData_.emplace(state, anim);
@@ -79,7 +80,7 @@ void AnimationController::Add(const std::string state, const std::string& path,f
 
 }
 
-void AnimationController::Play(STATE state, bool isLoop, float startStep, float endStep, bool isStop, bool isPriority)
+void AnimationController::Play(std::string state, bool isLoop, bool isStop, bool isPriority)
 {
 
 	//// 同じ状態だったら入らない
@@ -87,6 +88,12 @@ void AnimationController::Play(STATE state, bool isLoop, float startStep, float 
 
 	//// 前の状態の優先度をなくす
 	//animData_[(int)preState_].isPriority = false;
+
+	isLoop_ = isLoop;
+	isStop_ = isStop;
+	AnimationData anim;
+
+	animData_[state].isPriority = isPriority;
 
 	// アタッチ
 	Attatch(state);
@@ -109,21 +116,20 @@ void AnimationController::Update(void)
 		}
 
 		animData.second.blendRate -= deltaTime / animData.second.blendTime;
-
 		if (animData.second.blendRate <= 0.0f)
 		{
-			Dettach(animData.second.attachNo, preState_);
-
-			// 値の初期化
 			animData.second.blendRate = 0.0f;
-			animData.second.isPriority = false;
-			animData.second.stepAnim = 0.0f;
-			animData.second.attachNo = -1;
 		}
+
+		MV1SetAttachAnimBlendRate(
+			modelId_, animData.second.attachNo, animData.second.blendRate);
+
 
 		rate -= animData.second.blendRate;
 
 	}
+
+	animData_.at(state_).blendRate = rate;
 
 	// アニメーション再生
 	for (auto& animData : animData_)
@@ -201,6 +207,22 @@ void AnimationController::Update(void)
 
 	}
 
+	for (auto& animData : animData_)
+	{
+		if (animData.second.attachNo == -1)continue;
+
+		if (animData.second.blendRate <= 0.0f)
+		{
+			Dettach(animData.second.attachNo);
+
+			// 値の初期化
+			animData.second.blendRate = 0.0f;
+			animData.second.isPriority = false;
+			animData.second.stepAnim = 0.0f;
+			animData.second.attachNo = -1;
+		}
+	}
+
 }
 
 void AnimationController::SetEndLoop(float startStep, float endStep, float speed)
@@ -210,7 +232,7 @@ void AnimationController::SetEndLoop(float startStep, float endStep, float speed
 	endLoopSpeed_ = speed;
 }
 
-AnimationController::STATE AnimationController::GetPlayType(void) const
+std::string AnimationController::GetPlayType(void) const
 {
 	return state_;
 }
@@ -246,52 +268,55 @@ int AnimationController::GetAttachNum(void) const
 	return AttachNum_;
 }
 
-void AnimationController::Attatch(STATE state)
+void AnimationController::Attatch(std::string state)
 {
 
-	if (animData_[(int)state].attachNo != -1)
+	if (animData_[state].attachNo != -1)
 	{
-		animData_[(int)state].isPriority = true;
+		animData_[state].isPriority = true;
 		return;
 	}
 	AttachNum_++;
-	animData_[(int)state].attachNo = MV1AttachAnim(modelId_, 1, animData_[(int)state].animHandle);
-	animData_[(int)state].isPriority = true;
+	animData_[state].attachNo = MV1AttachAnim(modelId_, 1, animData_[state].animHandle);
+	animData_[state].isPriority = true;
 
 	// アニメーション総時間の取得
-	animData_[(int)state].animTotalTime = MV1GetAttachAnimTotalTime(modelId_, animData_[(int)state].attachNo);
+	animData_[state].animTotalTime = MV1GetAttachAnimTotalTime(modelId_, animData_[state].attachNo);
 
 }
 
-void AnimationController::Dettach(int attachNo, STATE state)
+void AnimationController::Dettach(int attachNo)
 {
-
-	if (animData_[(int)state].attachNo == attachNo)return;
 	AttachNum_--;
 	MV1DetachAnim(modelId_, attachNo);
 
 }
 
-void AnimationController::ChangeAnimation(STATE state)
+void AnimationController::ChangeAnimation(std::string state)
 {
 
 	// 同じ状態だったら入らない
 	if (state == preState_) return;
 
 	// 前の状態の優先度をなくす
-	animData_[(int)preState_].isPriority = false;
+	animData_[preState_].isPriority = false;
 
 	// 再生するアニメーションの設定
 	Attatch(state);
 
+	// 一個前の状態を保存
+	preState_ = state;
+
+	Play(state,)
+
 	// 状態遷移時の初期化処理
-	switch (state)
+	switch(animData_[state].animHa)
 	{
-	case Player::STATE::IDLE:
-		animationController_->Play((AnimationController::STATE)STATE::IDLE, false, 0.0f, 300.0f, false, false);
-		//// 足音を止める
-		//StopSoundMem(musicFootStepsId_);
-		//musicFootStepsCnt_ = 0.0f;
+	case :
+		Play((AnimationController::STATE)STATE::IDLE, false, 0.0f, 300.0f, false, false);
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
 		break;
 	case Player::STATE::WALK:
 		animationController_->Play((AnimationController::STATE)STATE::WALK, false, 0.0f, 21.0f, false, false);
@@ -360,7 +385,7 @@ void AnimationController::ChangeAnimation(STATE state)
 		// 足音を止める
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
-		// スタミナを減らす
+		 スタミナを減らす
 		stamina_ -= 10.0f;
 		break;
 	case Player::STATE::TIRED:
@@ -371,12 +396,9 @@ void AnimationController::ChangeAnimation(STATE state)
 		break;
 	}
 
-	if (state_ != STATE::CHARGE_WALK)
-	{
-		StopSoundMem(musicChargeId_);
-	}
-
-	// 一個前の状態を保存
-	preState_ = state_;
+	//if (state_ != STATE::CHARGE_WALK)
+	//{
+	//	StopSoundMem(musicChargeId_);
+	//}
 
 }

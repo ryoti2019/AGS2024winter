@@ -85,43 +85,43 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_IDLE, res);
 
 	// プレイヤーの攻撃アニメーション4
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK, res);
 
 	// プレイヤーの攻撃アニメーション1
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash1.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack1.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK1, res);
 
 	// プレイヤーの攻撃アニメーション2
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash2.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack2.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK2, res);
 
 	// プレイヤーの攻撃アニメーション3
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash3.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack3.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK3, res);
 
 	// プレイヤーの溜め攻撃のアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Charge Slash.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/chargeAttack.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_CHARGEATTACK, res);
 
 	// プレイヤーの歩くアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Running.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/walk.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_WALK, res);
 
 	// プレイヤーの歩くアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Charge Walk.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/chargeWalk.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_CHARGE_WALK, res);
 
 	// プレイヤーの走るアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Standard Run.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/run.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_RUN, res);
 
 	// プレイヤーのダメージヒットアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Impact.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/hit.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_HIT, res);
 
 	// プレイヤーの回避アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Stand To Roll.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/roll.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ROLL, res);
 
 	// プレイヤーの疲れたアニメーション
@@ -129,7 +129,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_TIRED, res);
 
 	// プレイヤーの死亡アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Death.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/death.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_DEATH, res);
 
 	// プレイヤーのゲームクリアシーンのアニメーション

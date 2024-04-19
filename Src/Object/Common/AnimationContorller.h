@@ -30,7 +30,7 @@ public:
 		int animHandle = -1;
 
 		// アニメーションタイプ
-		 state = 
+		std::string state = "";
 
 		// アタッチNo
 		int attachNo = -1;
@@ -48,16 +48,23 @@ public:
 		float stepAnim = 0.0f;
 
 		// アニメーションが始まる時間
-		float startAnim = 0.0f;
+		float startTime = 0.0f;
 
 		// アニメーションが終わる時間
-		float endAnim = 0.0f;
+		float endTime = 0.0f;
 
 		// ブレンドレート
 		float blendRate = 0.0f;
 
 		// ブレンドタイム
 		float blendTime = 0.0f;
+
+		// ループするかしないか
+		bool isLoop = false;
+
+		// ストップするかしないか
+		bool isStop = false;
+
 
 	};
 
@@ -70,11 +77,10 @@ public:
 	// アニメーション追加
 	//void Add(STATE state, const std::string& path, float speed);
 	void Add(const std::string state, const std::string& path, float startStep,
-		float endStep, float speed, bool isPriority);
+		float endStep, float speed, int animHandle);
 
 	// アニメーション再生
-	void Play(STATE state, bool isLoop = true,
-		float startStep = 0.0f, float endStep = -1.0f, bool isStop = false, bool isPriority = false);
+	void Play(std::string state, bool isLoop = true, bool isStop = false, bool isPriority = false);
 
 	void Update(void);
 
@@ -82,7 +88,7 @@ public:
 	void SetEndLoop(float startStep, float endStep, float speed);
 
 	// 再生中のアニメーション
-	AnimationController::STATE GetPlayType(void) const;
+	std::string GetPlayType(void) const;
 
 	// 再生終了
 	bool IsEnd(void) const;
@@ -90,6 +96,8 @@ public:
 	// アタッチされている数を取得
 	int GetAttachNum(void) const;
 
+	// 状態遷移
+	void ChangeAnimation(std::string state);
 
 private:
 
@@ -107,6 +115,8 @@ private:
 	std::map < std::string , AnimationData > animData_;
 
 	std::string state_ = "";
+
+	std::string preState_ = "";
 
 	// アニメーションをループするかしないか
 	bool isLoop_;
@@ -126,13 +136,10 @@ private:
 	int AttachNum_;
 
 	// アタッチ
-	void Attatch(STATE state);
+	void Attatch(std::string state);
 
 	// デタッチ
-	void Dettach(int attachNo, STATE state);
-
-	// 状態遷移
-	void ChangeAnimation(STATE state);
+	void Dettach(int attachNo);
 
 };
 

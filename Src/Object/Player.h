@@ -137,6 +137,22 @@ public:
 		TIRED
 	};
 
+	std::string ANIM_DATA_KEY[(int)STATE::TIRED + 1] = 
+	{
+		"IDLE",
+		"WALK",
+		"CHARGE_WALK",
+		"RUN",
+		"ATTACK",
+		"ATTACK2",
+		"ATTACK3",
+		"CHARGE_ATTACK",
+		"HIT",
+		"DEATH",
+		"ROLL",
+		"TIRED"
+	};
+
 	enum class SPECIAL_STATE
 	{
 		IDLE,
@@ -449,7 +465,7 @@ protected:
 	void CollisionStage(void);
 
 	// 状態遷移
-	void ChangeAnimation(STATE state);
+	//void ChangeAnimation(STATE state);
 	void ChangeState(STATE state);
 
 	// アニメーション

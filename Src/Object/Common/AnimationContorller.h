@@ -23,9 +23,6 @@ public:
 	struct AnimationData
 	{
 
-		// モデル
-		int model = -1;
-
 		// アニメーションハンドル
 		int animHandle = -1;
 
@@ -51,7 +48,7 @@ public:
 		float startTime = 0.0f;
 
 		// アニメーションが終わる時間
-		float endTime = 0.0f;
+		float endStep = 0.0f;
 
 		// ブレンドレート
 		float blendRate = 0.0f;
@@ -77,10 +74,7 @@ public:
 	// アニメーション追加
 	//void Add(STATE state, const std::string& path, float speed);
 	void Add(const std::string state, const std::string& path, float startStep,
-		float endStep, float speed, int animHandle);
-
-	// アニメーション再生
-	void Play(std::string state, bool isLoop = true, bool isStop = false, bool isPriority = false);
+		float totalAnimTime, float speed, int animHandle, bool isLoop, bool isStop);
 
 	void Update(void);
 
@@ -98,6 +92,12 @@ public:
 
 	// 状態遷移
 	void ChangeAnimation(std::string state);
+
+	// アニメーションデータの取得
+	AnimationData GetAnimData(const std::string& state);
+
+	// アニメーションが始まる時間を設定
+	void SetStartStepAnim(std::string state, float stepAnim);
 
 private:
 
@@ -117,12 +117,6 @@ private:
 	std::string state_ = "";
 
 	std::string preState_ = "";
-
-	// アニメーションをループするかしないか
-	bool isLoop_;
-
-	// アニメーションを止めたままにする
-	bool isStop_;
 
 	// アニメーション終了後に繰り返すループステップ
 	float stepEndLoopStart_;

@@ -134,10 +134,11 @@ public:
 		HIT,
 		DEATH,
 		ROLL,
-		TIRED
+		TIRED,
+		MAX
 	};
 
-	std::string ANIM_DATA_KEY[(int)STATE::TIRED + 1] = 
+	std::string ANIM_DATA_KEY[(int)STATE::MAX] = 
 	{
 		"IDLE",
 		"WALK",
@@ -156,39 +157,6 @@ public:
 	enum class SPECIAL_STATE
 	{
 		IDLE,
-	};
-
-
-	struct ANIM_DATA
-	{
-
-		// アニメーションハンドル
-		int animHandle_ = -1;
-
-		// アニメーションの状態
-		STATE state_ = STATE::IDLE;
-
-		// アタッチNo
-		int attachNo_ = -1;
-
-		// 優先されるアニメーション
-		bool isPriority_ = false;
-
-		// アニメーションの総再生時間
-		float animTotalTime_ = 0.0f;
-
-		// アニメーション速度
-		float speedAnim_ = 0.0f;
-
-		// 再生中のアニメーション時間
-		float stepAnim_ = 0.0f;
-
-		// ブレンドレート
-		float blendRate_ = 0.0f;
-
-		// ブレンドタイム
-		float blendTime_ = 0.0f;
-
 	};
 
 	// コンストラクタ
@@ -264,14 +232,14 @@ protected:
 	// 一個前の状態
 	STATE preState_;
 
+	// アニメーションデータ
+	std::string key_;
+
 	// 必殺技のプレイヤーの状態
 	SPECIAL_STATE specialState_;
 
 	// 追従対象
 	const Transform* followTransform_;
-
-	// アニメーションデータ
-	ANIM_DATA animData_[(int)STATE::TIRED + 1];
 
 	// ステージのID
 	int stageId_;
@@ -489,8 +457,12 @@ protected:
 	// ゲームパッドの操作
 	void GamePadController(void);
 
+	// アニメーション
+	void Animation(void);
+
 	// アニメーションのフレームの固定
 	void AnimationFrame(void);
+
 	// エフェクトの初期化
 	void InitEffect(void);
 
@@ -513,12 +485,6 @@ protected:
 
 	// 回避音
 	void RollMusic(void);
-
-	// アタッチしている数
-	void AttatchNum(int anim);
-
-	// デタッチ
-	void Dettach(int attachNo, int anim);
 
 };
 

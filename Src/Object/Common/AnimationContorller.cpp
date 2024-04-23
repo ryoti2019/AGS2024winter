@@ -226,9 +226,9 @@ void AnimationController::ChangeAnimation(std::string state)
 	Attatch(state);
 
 	// ˆêŒÂ‘O‚Ìó‘Ô‚ğ•Û‘¶
-	preState_ = state_;
+	preState_ = state;
 
-	state_ = state;
+	//state_ = state;
 
 	//Play(state,)
 

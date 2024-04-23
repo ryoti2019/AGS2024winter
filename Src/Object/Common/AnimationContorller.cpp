@@ -20,31 +20,6 @@ AnimationController::~AnimationController(void)
 	MV1DeleteModel(modelId_);
 }
 
-//void AnimationController::Add(const std::string& state, float speed)
-//{
-//
-//	AnimationData anim;
-//
-//	anim.model = MV1LoadModel(path.c_str());
-//	anim.animType = state;
-//	anim.speedAnim = speed;
-//
-//	if (animData_.count((int)state) == 0)
-//	{
-//		// 入れ替え
-//		animData_.emplace((int)state, anim);
-//	}
-//	else
-//	{
-//		// 追加
-//		animData_[(int)state].model = anim.model;
-//		animData_[(int)state].animType = anim.animType;
-//		animData_[(int)state].attachNo = anim.attachNo;
-//		animData_[(int)state].animTotalTime = anim.animTotalTime;
-//	}
-//
-//}
-
 void AnimationController::Add(const std::string state, const std::string& path,float startStep,
 	float animTotalTime, float speed, int animHandle, bool isLoop, bool isStop)
 {
@@ -67,8 +42,7 @@ void AnimationController::Add(const std::string state, const std::string& path,f
 	anim.blendRate = 1.0f;
 	anim.isLoop = isLoop;
 	anim.isStop = isStop;
-
-	// 入れ替え
+	anim.state = state;
 	animData_.emplace(state, anim);
 
 }
@@ -76,38 +50,38 @@ void AnimationController::Add(const std::string state, const std::string& path,f
 void AnimationController::Update(void)
 {
 
-		// 経過時間の取得
-		float deltaTime = SceneManager::GetInstance().GetDeltaTime();
-	
-		// レートの計算
-		float rate = 1.0f;
-		for (auto& animData : animData_)
+	// 経過時間の取得
+	float deltaTime = SceneManager::GetInstance().GetDeltaTime();
+
+	// レートの計算
+	float rate = 1.0f;
+	for (auto& animData : animData_)
+	{
+		if (animData.second.attachNo == -1 || animData.second.isPriority)
 		{
-			if (animData.second.attachNo == -1 || animData.second.isPriority)
-			{
-				continue;
-			}
-
-			animData.second.blendRate -= deltaTime / animData.second.blendTime;
-
-			if (animData.second.blendRate <= 0.0f)
-			{
-				Dettach(animData.second.attachNo);
-
-				// 値の初期化
-				animData.second.blendRate = 0.0f;
-				animData.second.isPriority = false;
-				animData.second.stepAnim = 0.0f;
-				animData.second.attachNo = -1;
-			}
-
-			rate -= animData.second.blendRate;
-
+			continue;
 		}
+
+		animData.second.blendRate -= deltaTime / animData.second.blendTime;
+
+		if (animData.second.blendRate <= 0.0f)
+		{
+			Dettach(animData.second.attachNo);
+
+			// 値の初期化
+			animData.second.blendRate = 0.0f;
+			animData.second.isPriority = false;
+			animData.second.stepAnim = 0.0f;
+			animData.second.attachNo = -1;
+		}
+
+		rate -= animData.second.blendRate;
+
+	}
 
 
 	animData_.at(state_).blendRate = rate;
-	//DrawFormatString(0, 15, 0xff0000, "stepAnim_", animData_.at(state_).stepAnim);
+	
 
 	// アニメーション再生
 	for (auto& animData : animData_)
@@ -219,8 +193,13 @@ void AnimationController::ChangeAnimation(std::string state)
 	// 同じ状態だったら入らない
 	if (state == preState_) return;
 
-	// 前の状態の優先度をなくす
-	animData_[preState_].isPriority = false;
+	state_ = state;
+
+	// 前の状態の
+	if (preState_ != "")
+	{
+		animData_[preState_].isPriority = false;
+	}
 
 	// 再生するアニメーションの設定
 	Attatch(state);
@@ -331,8 +310,17 @@ AnimationController::AnimationData AnimationController::GetAnimData(const std::s
 	return animData_[state];
 }
 
+const std::map<std::string, AnimationController::AnimationData>& AnimationController::GetAnimDatas(void) const
+{
+	return animData_;
+}
+
 void AnimationController::SetStartStepAnim(std::string state, float stepAnim)
 {
 	animData_[state].stepAnim = stepAnim;
 }
 
+bool AnimationController::GetIsPriority(void)
+{
+	return animData_[preState_].isPriority;
+}

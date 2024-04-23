@@ -634,7 +634,33 @@ void Player::Draw(void)
 	//DrawDebug();
 
 	// アタッチされている数
-	DrawFormatString(0, 0, 0xff0000, "list:%d", animationController_->GetAttachNum());
+	DrawFormatString(0, 180, 0xff0000, "list:%d", animationController_->GetAttachNum());
+
+
+	int y = 200;
+	const auto& animDatas = animationController_->GetAnimDatas();
+	for (const auto& anim : animDatas)
+	{
+		//if (anim.second.blendRate > 0.0f)
+		{
+			DrawFormatString(0, y, 0xff0000, "type:%s, step:%.2f, rate:%.2f",
+				anim.second.state.c_str(),
+				anim.second.stepAnim,
+				anim.second.blendRate
+			);
+			y += 20;
+		}
+	}
+
+
+	//if (animationController_->GetIsPriority())
+	//{
+	//	auto data = animationController_->GetAnimData(key_);
+	//	DrawFormatString(0, 200, 0xff0000, "stepAnim_:%f, animType:%s", 
+	//		data.stepAnim,
+	//		data.state.c_str()
+	//	);
+	//}
 
 }
 
@@ -1960,6 +1986,9 @@ void Player::ChangeState(STATE state)
 
 
 	state_ = state;
+
+	preKey_ = key_;
+
 	key_ = ANIM_DATA_KEY[(int)state];
 
 	animationController_->ChangeAnimation(key_);

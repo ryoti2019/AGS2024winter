@@ -234,6 +234,7 @@ protected:
 
 	// アニメーションデータ
 	std::string key_;
+	std::string preKey_;
 
 	// 必殺技のプレイヤーの状態
 	SPECIAL_STATE specialState_;

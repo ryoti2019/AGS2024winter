@@ -74,7 +74,7 @@ public:
 	// アニメーション追加
 	//void Add(STATE state, const std::string& path, float speed);
 	void Add(const std::string state, const std::string& path, float startStep,
-		float totalAnimTime, float speed, int animHandle, bool isLoop, bool isStop);
+		float animTotalTime, float speed, int animHandle, bool isLoop, bool isStop);
 
 	void Update(void);
 
@@ -95,9 +95,13 @@ public:
 
 	// アニメーションデータの取得
 	AnimationData GetAnimData(const std::string& state);
+	const std::map <std::string, AnimationData>& GetAnimDatas(void) const;
 
 	// アニメーションが始まる時間を設定
 	void SetStartStepAnim(std::string state, float stepAnim);
+
+	// 優先されているアニメーションタイプを取得
+	bool GetIsPriority(void);
 
 private:
 
@@ -112,7 +116,7 @@ private:
 	bool LoadModel_;
 
 	// 種類別のアニメーションデータ
-	std::map < std::string , AnimationData > animData_;
+	std::map <std::string, AnimationData> animData_;
 
 	std::string state_ = "";
 

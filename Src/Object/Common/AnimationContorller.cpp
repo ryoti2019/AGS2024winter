@@ -107,6 +107,7 @@ void AnimationController::Update(void)
 
 
 	animData_.at(state_).blendRate = rate;
+	//DrawFormatString(0, 15, 0xff0000, "stepAnim_", animData_.at(state_).stepAnim);
 
 	// アニメーション再生
 	for (auto& animData : animData_)
@@ -225,7 +226,9 @@ void AnimationController::ChangeAnimation(std::string state)
 	Attatch(state);
 
 	// 一個前の状態を保存
-	preState_ = state;
+	preState_ = state_;
+
+	state_ = state;
 
 	//Play(state,)
 

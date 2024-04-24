@@ -405,6 +405,8 @@ protected:
 
 	int list_;
 
+	int slowCnt_;
+
 	// ˆÚ“®ˆ—
 	void KeyboardMove(void);
 	void GamePadMove(void);

@@ -99,6 +99,10 @@ void AnimationController::Update(void)
 			// ループ再生
 			animData.second.stepAnim = 0.0f;
 		}
+		else if (animData.second.stepAnim > animData.second.animTotalTime && !animData.second.isLoop)
+		{
+			animData.second.stepAnim = animData.second.animTotalTime;
+		}
 
 		// アニメーション設定
 		MV1SetAttachAnimTime(modelId_, animData.second.attachNo, animData.second.stepAnim);

@@ -48,6 +48,8 @@ void Player::InitAnimation(void)
 
 	animationController_->ChangeAnimation("IDLE");
 
+	key_ = "IDLE";
+
 //#pragma region アニメーション
 //
 	// 待機
@@ -407,12 +409,25 @@ void Player::Init(void)
 
 	list_ = 0;
 
+	slowCnt_ = 60;
 	//AttatchNum((int)STATE::IDLE);
 
 }
 
 void Player::Update(void)
 {
+
+	//// スロー
+	//if (slowCnt_ > 0)
+	//{
+	//	slowCnt_--;
+	//	if (slowCnt_ % 5 != 0)
+	//	{
+	//		return;
+	//	}
+	//}
+
+	slowCnt_ = 60;
 
 	// 状態の遷移
 	switch (state_)
@@ -1982,8 +1997,8 @@ void Player::Rotate(void)
 
 void Player::ChangeState(STATE state)
 {
-	if (state_ == state)return;
 
+	if (state_ == state)return;
 
 	state_ = state;
 

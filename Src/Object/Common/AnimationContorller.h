@@ -95,6 +95,7 @@ public:
 
 	// アニメーションデータの取得
 	AnimationData GetAnimData(const std::string& state);
+
 	const std::map <std::string, AnimationData>& GetAnimDatas(void) const;
 
 	// アニメーションが始まる時間を設定
@@ -103,6 +104,7 @@ public:
 	// 優先されているアニメーションタイプを取得
 	bool GetIsPriority(void);
 
+	bool IsEndPlayAnimation(void);
 private:
 
 	// 状態

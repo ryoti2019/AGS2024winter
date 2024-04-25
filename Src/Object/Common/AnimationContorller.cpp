@@ -205,6 +205,8 @@ void AnimationController::ChangeAnimation(std::string state)
 		animData_[preState_].isPriority = false;
 	}
 
+	animData_[state_].blendRate = 0.0f;
+
 	// 再生するアニメーションの設定
 	Attatch(state);
 
@@ -327,4 +329,14 @@ void AnimationController::SetStartStepAnim(std::string state, float stepAnim)
 bool AnimationController::GetIsPriority(void)
 {
 	return animData_[preState_].isPriority;
+}
+
+bool AnimationController::IsEndPlayAnimation(void)
+{
+	const auto& data = animData_[state_];
+	if (!data.isLoop && data.stepAnim >= data.animTotalTime)
+	{
+		return true;
+	}
+	return false;
 }

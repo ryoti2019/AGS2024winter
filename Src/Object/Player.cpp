@@ -417,6 +417,168 @@ void Player::Init(void)
 void Player::Update(void)
 {
 
+
+
+
+
+
+
+
+
+
+
+
+	//auto& ins = InputManager::GetInstance();
+
+	//// 左クリックで攻撃
+	//if (ins.IsClickMouseLeft())
+	//{
+	//	animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::ATTACK]);
+	//}
+
+
+
+	//// 攻撃モーションが終わったら自動的にIDLE
+	//auto atk = ANIM_DATA_KEY[(int)STATE::ATTACK];
+	//if (atk == animationController_->GetPlayType())
+	//{
+	//	if (animationController_->IsEndPlayAnimation())
+	//	{
+	//		animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::CHARGE_WALK]);
+	//		animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);
+	//	}
+	//}
+
+	//// 右クリックでIDLE
+	//if (ins.IsClickMouseRight())
+	//{
+	//	animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);
+	//}
+
+
+	//// 2段階目に進まないときはリセット
+	//float step = animationController_->GetAnimData("ATTACK").stepAnim;
+	//float time = animationController_->GetAnimData("ATTACK").animTotalTime;
+	//if (state_ == STATE::ATTACK
+	//	&& step >= time
+	//	&& !attack2_)
+	//{
+	//	hit_ = false;
+	//	ChangeState(STATE::IDLE);
+	//	chargeCnt_ = 0.0f;
+	//}
+
+
+
+	//KeyboardContoroller();
+
+	//// アニメーション更新
+	//animationController_->Update();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//// アニメーションの固定
+	////AnimationFrame();
+
+	////
+	////// アニメーション再生
+	////if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime)
+	////{
+
+	////	if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
+	////		|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK
+	////		|| state_ == STATE::HIT || state_ == STATE::ROLL)
+	////	{
+	////		if (state_ == STATE::ATTACK2)
+	////		{
+	////			animationController_->SetStartStepAnim("ATTACK2", ATTACK_START_TIME2);
+	////		}
+	////		else if (state_ == STATE::ATTACK3)
+	////		{
+	////			animationController_->SetStartStepAnim("ATTACK3", ATTACK_START_TIME3);
+	////		}
+	////		else
+	////		{
+	////			animationController_->SetStartStepAnim(key_, 0.0f);
+	////		}
+	////		attack1_ = false;
+	////		attack2_ = false;
+	////		attack3_ = false;
+	////		chargeAttack_ = false;
+	////		isMusicSlash_ = true;
+	////		isMusicRoll_ = true;
+	////		hit_ = false;
+	////		ChangeState(STATE::IDLE);
+	////		chargeCnt_ = 0.0f;
+	////	}
+
+	////}
+
+
+
+
+
+
+
+	////// 3段階目に進まないときはリセット
+	////if (state_ == STATE::ATTACK2 && animationController_->GetAnimData("ATTACK2").stepAnim >=
+	////	animationController_->GetAnimData("ATTACK2").animTotalTime && !attack3_)
+	////{
+	////	animationController_->SetStartStepAnim("ATTACK2", ATTACK_START_TIME2);
+	////	hit_ = false;
+	////	ChangeState(STATE::IDLE);
+	////	chargeCnt_ = 0.0f;
+	////}
+
+
+
+
+	//// 他の処理を一切行わない
+	//return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//// スロー
 	//if (slowCnt_ > 0)
 	//{
@@ -623,9 +785,8 @@ void Player::Update(void)
 	//// 待機アニメーション
 	//ChangeAnimation(state_);
 
-	// アニメーション処理
-	animationController_->Update();
 	Animation();
+
 
 	// 衝突判定
 	Collision();
@@ -633,9 +794,14 @@ void Player::Update(void)
 
 
 
+
+
 	transform_.pos.y = 0.0f;
 
 	transform_.Update();
+
+	// アニメーション処理
+	animationController_->Update();
 
 }
 
@@ -1272,7 +1438,7 @@ void Player::KeyboardAttack(void)
 
 	// 攻撃処理
 	// ボタンがクリックされたかどうかを確認
-	if (chargeCnt_ >= 0.1 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
+	if (chargeCnt_ >= 0.5 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
 		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 
 		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
@@ -2099,9 +2265,15 @@ void Player::SetParam(void)
 void Player::Animation(void)
 {
 
-	int a = 0;
+	// アニメーションの固定
+	AnimationFrame();
+
+	if (state_ == STATE::ROLL)
+	{
+		int a = 0;
+	}
 	// アニメーション再生
-	if (animationController_->GetAnimData(key_).stepAnim > animationController_->GetAnimData(key_).animTotalTime)
+	if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime)
 	{
 
 		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
@@ -2151,9 +2323,6 @@ void Player::Animation(void)
 		ChangeState(STATE::IDLE);
 		chargeCnt_ = 0.0f;
 	}
-
-	// アニメーションの固定
-	AnimationFrame();
 
 }
 

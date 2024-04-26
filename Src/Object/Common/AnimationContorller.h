@@ -105,6 +105,9 @@ public:
 	bool GetIsPriority(void);
 
 	bool IsEndPlayAnimation(void);
+
+	bool IsBlendPlay(std::string state);
+
 private:
 
 	// èÛë‘

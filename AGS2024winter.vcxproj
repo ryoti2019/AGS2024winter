@@ -31,6 +31,7 @@
     <ClCompile Include="Src\Manager\ResourceManager.cpp" />
     <ClCompile Include="Src\Manager\SceneManager.cpp" />
     <ClCompile Include="Src\Object\Common\AnimationContorller.cpp" />
+    <ClCompile Include="Src\Object\Common\InputContoroller.cpp" />
     <ClCompile Include="Src\Object\Common\Transform.cpp" />
     <ClCompile Include="Src\Object\Enemy.cpp" />
     <ClCompile Include="Src\Object\Grid.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="Src\Manager\ResourceManager.h" />
     <ClInclude Include="Src\Manager\SceneManager.h" />
     <ClInclude Include="Src\Object\Common\AnimationContorller.h" />
+    <ClInclude Include="Src\Object\Common\InputContoroller.h" />
     <ClInclude Include="Src\Object\Common\Transform.h" />
     <ClInclude Include="Src\Object\Enemy.h" />
     <ClInclude Include="Src\Object\Grid.h" />

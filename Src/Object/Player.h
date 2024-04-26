@@ -3,6 +3,8 @@
 #include "UnitBase.h"
 class Stage;
 class AnimationController;
+class InputContoroller;
+;
 
 class Player : public UnitBase
 {
@@ -226,6 +228,9 @@ protected:
 	// アニメーション
 	AnimationController* animationController_;
 
+	// コントローラ
+	InputContoroller* inputController_;
+
 	// プレイヤーの状態
 	STATE state_;
 
@@ -406,6 +411,8 @@ protected:
 	int list_;
 
 	int slowCnt_;
+
+	std::vector<STATE> stateHiss_;
 
 	// 移動処理
 	void KeyboardMove(void);

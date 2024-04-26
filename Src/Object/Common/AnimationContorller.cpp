@@ -39,7 +39,7 @@ void AnimationController::Add(const std::string state, const std::string& path,f
 	anim.animTotalTime = animTotalTime;
 	anim.animHandle = animHandle;
 	anim.blendTime = 0.5f;
-	anim.blendRate = 1.0f;
+	anim.blendRate = 0.0f;
 	anim.isLoop = isLoop;
 	anim.isStop = isStop;
 	anim.state = state;
@@ -92,8 +92,10 @@ void AnimationController::Update(void)
 		}
 
 		// 再生
-		animData.second.stepAnim += (deltaTime * animData.second.speedAnim);
-
+		if (animData.second.stepAnim <= animData.second.animTotalTime)
+		{
+			animData.second.stepAnim += (deltaTime * animData.second.speedAnim);
+		}
 		if (animData.second.stepAnim > animData.second.animTotalTime && animData.second.isLoop)
 		{
 			// ループ再生
@@ -103,9 +105,6 @@ void AnimationController::Update(void)
 		{
 			animData.second.stepAnim = animData.second.animTotalTime;
 		}
-
-		// アニメーション設定
-		MV1SetAttachAnimTime(modelId_, animData.second.attachNo, animData.second.stepAnim);
 
 		// 再生するアニメーション時間の設定
 		MV1SetAttachAnimTime(modelId_, animData.second.attachNo, animData.second.stepAnim);
@@ -338,5 +337,19 @@ bool AnimationController::IsEndPlayAnimation(void)
 	{
 		return true;
 	}
+	return false;
+}
+
+bool AnimationController::IsBlendPlay(std::string state)
+{
+
+	for (auto& data : animData_)
+	{
+		if (data.second.blendRate > 0.0 && data.second.state == state)
+		{
+			return true;
+		}
+	}
+
 	return false;
 }

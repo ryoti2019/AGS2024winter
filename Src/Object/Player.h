@@ -2,6 +2,9 @@
 #include "Common/Transform.h"
 #include "UnitBase.h"
 class Stage;
+class AnimationController;
+class InputContoroller;
+;
 
 class Player : public UnitBase
 {
@@ -81,10 +84,10 @@ public:
 	static constexpr float RUN_ANIM_SPEED = 40.0f;
 
 	// 攻撃アニメーションの再生速度
-	static constexpr float ATTACK_ANIM_SPEED = 60.0f;
+	static constexpr float ATTACK_ANIM_SPEED = 30.0f;
 
 	// 溜め攻撃アニメーションの再生速度
-	static constexpr float CHARGE_ATTACK_ANIM = 30.0f;
+	static constexpr float CHARGE_ATTACK_ANIM_SPEED = 30.0f;
 
 	// 攻撃を受けた時のアニメーションの再生速度
 	static constexpr float HIT_ANIM_SPEED = 30.0f;
@@ -133,28 +136,26 @@ public:
 		HIT,
 		DEATH,
 		ROLL,
-		TIRED
+		TIRED,
+		MAX
 	};
 
-	enum class SPECIAL_STATE
+	std::string ANIM_DATA_KEY[(int)STATE::MAX] =
 	{
-		IDLE,
+		"IDLE",
+		"WALK",
+		"CHARGE_WALK",
+		"RUN",
+		"ATTACK",
+		"ATTACK2",
+		"ATTACK3",
+		"CHARGE_ATTACK",
+		"HIT",
+		"DEATH",
+		"ROLL",
+		"TIRED"
 	};
 
-
-	struct ANIM_DATA
-	{
-
-		// アニメーションハンドル
-		int animHandle = -1;
-
-		// ブレンド用
-		float animRate_ = 0.0f;
-
-		// 優先されるアニメーション
-		bool is_;
-
-	};
 	// コンストラクタ
 	Player(void);
 
@@ -186,7 +187,7 @@ public:
 
 	// プレイヤーの座標を設定
 	void SetPos(VECTOR pos);
-	
+
 	// 攻撃フラグの取得
 	bool GetAttack(void);
 
@@ -219,19 +220,24 @@ public:
 
 protected:
 
+	// アニメーション
+	AnimationController* animationController_;
+
+	// コントローラ
+	InputContoroller* inputController_;
+
 	// プレイヤーの状態
 	STATE state_;
 
 	// 一個前の状態
 	STATE preState_;
 
-	// 必殺技のプレイヤーの状態
-	SPECIAL_STATE specialState_;
+	// アニメーションデータ
+	std::string key_;
+	std::string preKey_;
 
 	// 追従対象
 	const Transform* followTransform_;
-
-	std::vector<ANIM_DATA> animData_;
 
 	// ステージのID
 	int stageId_;
@@ -256,7 +262,7 @@ protected:
 
 	// ロックオンの前の情報
 	bool preLockOn_;
-	
+
 	// 疲れたときのフラグ
 	bool isTired_;
 
@@ -280,7 +286,7 @@ protected:
 
 	// ダメージヒットアニメーション
 	int hitAnim_;
-	
+
 	// 死亡アニメーション
 	int deathAnim_;
 
@@ -393,27 +399,24 @@ protected:
 
 	float stepBlend_;
 	float blendTime_;
-	int prePlayAnim_;
 
-	int preAnimAttachNo_;
+	int list_;
 
+	int slowCnt_;
 
+	std::vector<STATE> stateHiss_;
 
 	// 移動処理
 	void KeyboardMove(void);
-	void GamePadMove(void);
 
 	// 攻撃処理
 	void KeyboardAttack(void);
-	void GamePadAttack(void);
 
 	// プレイヤー方向にカメラを向ける処理
 	void KeyBoardCamera(void);
-	void GamePadCamera(void);
 
 	// 敵をロックオンする処理
 	void KeyBoardLockOn(void);
-	void GamePadLockOn(void);
 	void LockOn(void);
 	void SetGoalRotate(Quaternion rot);
 	void Rotate(void);
@@ -428,49 +431,7 @@ protected:
 	void CollisionStage(void);
 
 	// 状態遷移
-	void ChangeState(STATE state,int anim);
-
-	// 必殺技の状態遷移
-	void SpecialChangeState(SPECIAL_STATE state);
-
-	// アニメーション
-	void Animation(void)override;
-
-	// 待機アニメーションの設定
-	void SetIdleAnimation(void);
-
-	// 歩くアニメーションの設定
-	void SetWalkAnimation(void);
-
-	// 溜めながら歩くアニメーションの設定
-	void SetChargeWalkAnimation(void);
-
-	// 走るアニメーションの設定
-	void SetRunAnimation(void);
-
-	// 攻撃１段階目のアニメーションの設定
-	void SetAttackAnimation(void);
-
-	// 攻撃２段階目のアニメーションの設定
-	void SetAttackAnimation2(void);
-
-	// 攻撃３段階目のアニメーションの設定
-	void SetAttackAnimation3(void);
-
-	// 溜め攻撃のアニメーションの設定
-	void SetChargeAttackAnimation(void);
-
-	// ダメージヒットアニメーションの設定
-	void SetHitAnimation(void);
-
-	// 死亡アニメーションの設定
-	void SetDeathAnimation(void);
-
-	// 回避アニメーションの設定
-	void SetRollAnimation(void);
-
-	// 疲れたアニメーションの設定
-	void SetTiredAnimation(void);
+	void ChangeState(STATE state);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);
@@ -487,14 +448,11 @@ protected:
 	// キーボードの操作
 	void KeyboardContoroller(void);
 
-	// ゲームパッドの操作
-	void GamePadController(void);
+	// アニメーション
+	void Animation(void);
 
 	// アニメーションのフレームの固定
 	void AnimationFrame(void);
-
-	// 必殺技
-	void SpecialMoveUpdate(void);
 
 	// エフェクトの初期化
 	void InitEffect(void);
@@ -520,4 +478,3 @@ protected:
 	void RollMusic(void);
 
 };
-

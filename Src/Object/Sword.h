@@ -10,10 +10,10 @@ public:
 	static constexpr VECTOR LOCAL_SWORD_POS = { 125.0f,10.0f,00.0f };
 
 	// カプセルの上の相対座標
-	static constexpr VECTOR LOCAL_C_DOWN_POS = { -50.0f,5.0f,0.0f };
+	static constexpr VECTOR LOCAL_C_DOWN_POS = { 50.0f,5.0f,0.0f };
 
 	// カプセルの下の相対座標
-	static constexpr VECTOR LOCAL_C_UP_POS = { 100.0f,5.0f,0.0f };
+	static constexpr VECTOR LOCAL_C_UP_POS = { -100.0f,5.0f,0.0f };
 
 	// 衝突判定の球体半径
 	static constexpr float COLLISION_RADIUS = 10.0f;

@@ -53,21 +53,6 @@ protected:
 	int modelWalk_;
 	int modelRun_;
 
-	// アニメーションのアタッチ番号
-	int animAttachNo_;
-
-	// アニメーションの総再生時間
-	float animTotalTime_;
-
-	// 再生中のアニメーション時間
-	float stepAnim_;
-
-	// アニメーション速度
-	float speedAnim_;
-
-	// モデルの中にあるアニメーションの番号
-	int animNo_;
-
 	// 表示座標
 	VECTOR pos_;
 

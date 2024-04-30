@@ -2,6 +2,7 @@
 #include "Common/Transform.h"
 #include "UnitBase.h"
 class ShotEnemy;
+class AnimationController;
 
 class Enemy : public UnitBase
 {
@@ -159,6 +160,24 @@ public:
 		DEATH,
 		TURN_LEFT,
 		TURN_RIGHT,
+		MAX
+	};
+
+	std::string ANIM_DATA_KEY[(int)STATE::MAX - 1] =
+	{
+		"THINK"
+		"IDLE",
+		"WALK",
+		"ATTACK",
+		"JUMP_ATTACK",
+		"BEFORE_TACKLE"
+		"TACKLE",
+		"CREATE",
+		"SHOT",
+		"HIT",
+		"DEATH",
+		"TURN_LEFT",
+		"TURN_RIGHT",
 	};
 
 	// コンストラクタ
@@ -231,12 +250,21 @@ public:
 
 protected:
 
+	// アニメーション
+	AnimationController* animationController_;
+
 	// 弾
 	std::vector<ShotEnemy*> shots_;
 
 	// 状態
 	STATE state_;
 	STATE preState_;
+
+	// アニメーションデータ
+	std::string key_;
+	std::string preKey_;
+
+	std::vector<STATE> stateHiss_;
 
 	// HPバーの画像
 	int imgHPBar_;
@@ -482,39 +510,6 @@ protected:
 
 	// 状態遷移
 	void ChangeState(STATE state);
-
-	// 待機アニメーションの設定
-	void SetIdleAnimation(void);
-
-	// 歩くアニメーションの設定
-	void SetWalkAnimation(void);
-
-	// タックルのアニメーションの設定
-	void SetTackleAnimation(void);
-
-	// 攻撃アニメーションの設定
-	void SetAttackAnimation(void);
-
-	// ジャンプアタックアニメーションの設定
-	void SetJumpAttackAnimation(void);
-
-	// 弾を作るアニメーションの設定
-	void SetCreateAnimation(void);
-
-	// ショットの設定
-	void SetShotAnimation(void);
-
-	// ダメージヒットヒットアニメーションの設定
-	void SetHitAnimation(void);
-
-	// 死亡アニメーションの設定
-	void SetDeathAnimation(void);
-
-	// 左旋回アニメーションの設定
-	void SetTurnLeftAnimation(void);
-
-	// 右旋回アニメーションの設定
-	void SetTurnRightAnimation(void);
 
 	// 遅延回転
 	void LazyRotation(float goalRot);

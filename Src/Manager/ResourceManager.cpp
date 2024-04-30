@@ -85,31 +85,43 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_IDLE, res);
 
 	// プレイヤーの攻撃アニメーション4
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Slash.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ATTACK, res);
 
+	// プレイヤーの攻撃アニメーション1
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack1.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_ATTACK1, res);
+
+	// プレイヤーの攻撃アニメーション2
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack2.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_ATTACK2, res);
+
+	// プレイヤーの攻撃アニメーション3
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/attack3.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_ATTACK3, res);
+
 	// プレイヤーの溜め攻撃のアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Charge Slash.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/chargeAttack.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_CHARGEATTACK, res);
 
 	// プレイヤーの歩くアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Running.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/walk.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_WALK, res);
 
 	// プレイヤーの歩くアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Charge Walk.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/chargeWalk.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_CHARGE_WALK, res);
 
 	// プレイヤーの走るアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Standard Run.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/run.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_RUN, res);
 
 	// プレイヤーのダメージヒットアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Impact.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/hit.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_HIT, res);
 
 	// プレイヤーの回避アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Stand To Roll.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/roll.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_ROLL, res);
 
 	// プレイヤーの疲れたアニメーション
@@ -117,7 +129,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_TIRED, res);
 
 	// プレイヤーの死亡アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sword And Shield Death.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/death.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_DEATH, res);
 
 	// プレイヤーのゲームクリアシーンのアニメーション
@@ -129,47 +141,47 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_GAMEOVER, res);
 
 	// 敵の待機アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Breathing Idle.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/idle.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_IDLE, res);
 
 	// 敵の歩くアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Walking.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/walk.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_WALK, res);
 
 	// 敵の攻撃アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Swiping.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/attack.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_ATTACK, res);
 
 	// 敵のタックルアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Run.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/tackle.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_TACKLE, res);
 
 	// 敵のジャンプ攻撃アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Jump Attack.mv1");
-	resourcesMap_.emplace(SRC::ENEMY_DASH_ATTACK, res);
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/jumpAttack.mv1");
+	resourcesMap_.emplace(SRC::ENEMY_JUMP_ATTACK, res);
 
 	// 敵の弾の生成アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Shot Create.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/create.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_SHOT_CREATE, res);
 
 	// 敵の遠距離攻撃アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Shot Attack.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/shot.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_SHOT_ATTACK, res);
 
 	// 敵のダメージヒットアニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Zombie Reaction Hit.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/hit.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_HIT, res);
 
 	// 敵の死亡アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Dying.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/death.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_DEATH, res);
 
 	// 敵の左旋回アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Left Turn 45.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/leftTurn.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_TURN_LEFT, res);
 
 	// 敵の右旋回アニメーション
-	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/Mutant Right Turn 45.mv1");
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/rightTurn.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_TURN_RIGHT, res);
 
 	// 弾のモデル
@@ -185,7 +197,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::SWORD_MODEL1, res);
 
 	// ロックオンカーソル
-	res = Resource(Resource::TYPE::IMGS, Application::PATH_IMAGE + "UI/enemyCursor.png",20,3,100,100);
+	res = Resource(Resource::TYPE::IMGS, Application::PATH_IMAGE + "UI/enemyCursor.png", 20, 3, 100, 100);
 	resourcesMap_.emplace(SRC::CURSOR, res);
 
 	// エフェクト------------------------------------------------
@@ -235,7 +247,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::JUMPATTACK_TORNADE_EFFECT, res);
 
 	// サウンド--------------------------------------------------
-	
+
 	// 溜める音
 	res = Resource(Resource::TYPE::MUSIC, Application::PATH_MUSIC + "Player/Charge.mp3");
 	resourcesMap_.emplace(SRC::PLAYER_CHARGE_MUSIC, res);

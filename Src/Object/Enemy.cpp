@@ -6,6 +6,7 @@
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
+#include "../Object/Common/AnimationContorller.h"
 #include "ShotEnemy.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -26,49 +27,38 @@ void Enemy::InitAnimation(void)
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::ENEMY_IDLE));
 
-	// 待機アニメーション
-	idleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_IDLE);
+	std::string path = Application::PATH_MODEL + "Enemy/";
+	animationController_ = new AnimationController(transform_.modelId, 0);
+	animationController_->Add("THINK", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+	animationController_->Add("IDLE", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE),true,false);
+	animationController_->Add("WALK", path + "walk.mv1", 0.0f, 43.0f, WALK_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_WALK), true, false);
+	animationController_->Add("ATTACK", path + "attack.mv1", 0.0f, 80.0f, ATTACK_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_ATTACK), false, false);
+	animationController_->Add("JUMP_ATTACK", path + "jumpAttack.mv1", 0.0f, 111.0f, JUMP_ATTACK_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_JUMP_ATTACK), false, false);
+	animationController_->Add("BEFORE_TACKLE", path + "idle.mv1", 0.0f, 120.0f, IDLE_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+	animationController_->Add("TACKLE", path + "tackle.mv1", 0.0f, 38.0f, TACKLE_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+	animationController_->Add("CREATE", path + "create.mv1", 0.0f, 98.0f, SHOT_CREATE_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_CREATE), false, false);
+	animationController_->Add("SHOT", path + "shot.mv1", 0.0f, 81.0f, SHOT_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_ATTACK), false, false);
+	animationController_->Add("HIT", path + "hit.mv1", 0.0f, 81.0f, HIT_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_HIT), false, false);
+	animationController_->Add("DEATH", path + "death.mv1", 0.0f, 81.0,30.0f,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_DEATH), false, false);
+	animationController_->Add("TURN_LEFT", path + "turnLeft.mv1", 0.0f, 40.0f, 30.0f,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_LEFT), false, false);
+	animationController_->Add("TURN_RIGHT", path + "turnRight.mv1", 0.0f, 40.0f, 30.0f,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_RIGHT), false, false);
 
-	// 歩くアニメーション
-	walkAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_WALK);
+	animationController_->ChangeAnimation("THINK");
 
-	// タックルアニメーション
-	tackleAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_TACKLE);
-
-	// 攻撃アニメーション
-	attackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_ATTACK);
-
-	// ダッシュ攻撃アニメーション
-	jumpAttackAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_DASH_ATTACK);
-
-	// 弾を生成するアニメーション
-	createAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_SHOT_CREATE);
-
-	// ショットアニメーション
-	shotAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_SHOT_ATTACK);
-
-	// 攻撃を食らったときのアニメーション
-	hitAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_HIT);
-
-	// 死亡アニメーション
-	deathAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_DEATH);
-
-	// 左旋回のアニメーション
-	turnLeftAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_TURN_LEFT);
-
-	// 右旋回のアニメーション
-	turnRightAnim_ = ResourceManager::GetInstance().LoadModelDuplicate(
-		ResourceManager::SRC::ENEMY_TURN_RIGHT);
+	key_ = "THINK";
 
 	// ロックオン状態に出るカーソル
 	lockOnCursorImg_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::CURSOR).handleIds_;
@@ -78,18 +68,6 @@ void Enemy::InitAnimation(void)
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, 0.0f, 1000.0f };
 	transform_.Update();
-
-	// 再生するアニメーションの番号
-	animNo_ = 0;
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_);
-
-	// 再生中のアニメーション時間
-	stepAnim_ = 0.0f;
-
-	// アニメーション速度
-	speedAnim_ = 0.0f;
 
 	// 待機状態の弾の数
 	shotNum_ = 0;
@@ -112,7 +90,7 @@ void Enemy::Init(void)
 	SetParam();
 
 	// 待機アニメーション
-	SetIdleAnimation();
+	//SetIdleAnimation();
 
 	// HPバーの画像
 	imgHPBar_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HP_BAR).handleId_;
@@ -163,7 +141,7 @@ void Enemy::Init(void)
 	beforeTackleCnt_ = 0.0f;
 
 	// 初期状態
-	//ChangeState(STATE::THINK);
+	ChangeState(STATE::THINK);
 
 }
 
@@ -351,7 +329,7 @@ void Enemy::TackleRangeSyncEffect(void)
 
 	// 追従対象から自機までの相対座標
 	VECTOR effectPos = rotXZ.PosAxis({ 0.0f,10.0f,3800.0f });
-	 
+
 	// エフェクトの位置の更新
 	effectTackleRangePos_ = VAdd(nowPos, effectPos);
 
@@ -479,141 +457,133 @@ void Enemy::Update(void)
 	//	return;
 	//}
 
-	//// アニメーション処理
-	//Animation();
+		// アニメーション処理
+	Animation();
 
-	//if (noPlayTime_ > 0.0f || hp_ <= 0)
-	//{
-	//	return;
-	//}
+	if (noPlayTime_ > 0.0f || hp_ <= 0)
+	{
+		return;
+	}
 
-	//// 必殺技になったら必殺技以外の処理を止める
-	//if (SceneManager::GetInstance().GetSceneID() == SceneManager::SCENE_ID::SPECIALMOVE)
-	//{
-	//	// 必殺技の更新
-	//	//SpecialMoveUpdate();
-	//	return;
-	//}
+	switch (state_)
+	{
+	case Enemy::STATE::THINK:
+		break;
+	case Enemy::STATE::IDLE:
+		UpdateIdle();
 
-	//switch (state_)
-	//{
-	//case Enemy::STATE::THINK:
-	//	break;
-	//case Enemy::STATE::IDLE:
-	//	UpdateIdle();
+		StopSoundMem(musicFootStepsId_);
+		StopSoundMem(musicEarthQuakeId_);
+		break;
+	case Enemy::STATE::WALK:
+		UpdateWalk();
 
-	//	StopSoundMem(musicFootStepsId_);
-	//	StopSoundMem(musicEarthQuakeId_);
-	//	break;
-	//case Enemy::STATE::WALK:
-	//	UpdateWalk();
+		// 再生速度の設定
+		SetFrequencySoundMem(30000, musicFootStepsId_);
 
-	//	// 再生速度の設定
-	//	SetFrequencySoundMem(30000, musicFootStepsId_);
+		// 足音
+		FootStepsMusic();
+		break;
+	case Enemy::STATE::ATTACK:
+		if (animationController_->GetAnimData("ATTACK").stepAnim >= ATTACK_COLLISION_START_TIME
+			&& animationController_->GetAnimData("ATTACK").stepAnim <= ATTACK_COLLISION_END_TIME
+			&& !hit_)
+		{
+			attack_ = true;
+		}
+		UpdateAttack();
+		break;
+	case Enemy::STATE::JUMP_ATTACK:
+		if (animationController_->GetAnimData("JUMP_ATTACK").stepAnim >= JUMP_ATTACK_COLLISION_START_TIME
+			&& animationController_->GetAnimData("JUMP_ATTACK").stepAnim <= JUMP_ATTACK_COLLISION_END_TIME
+			&& !hit_)
+		{
+			attack_ = true;
+		}
+		UpdateJumpAttack();
 
-	//	// 足音
-	//	FootStepsMusic();
-	//	break;
-	//case Enemy::STATE::ATTACK:
-	//	if (stepAnim_ >= ATTACK_COLLISION_START_TIME
-	//		&& stepAnim_ <= ATTACK_COLLISION_END_TIME
-	//		&& !hit_)
-	//	{
-	//		attack_ = true;
-	//	}
-	//	UpdateAttack();
-	//	break;
-	//case Enemy::STATE::JUMP_ATTACK:
-	//	if (stepAnim_ >= JUMP_ATTACK_COLLISION_START_TIME
-	//		&& stepAnim_ <= JUMP_ATTACK_COLLISION_END_TIME
-	//		&& !hit_)
-	//	{
-	//		attack_ = true;
-	//	}
-	//	UpdateJumpAttack();
+		if (animationController_->GetAnimData("JUMP_ATTACK").stepAnim >= 40.0f && isEffectJumpAttack_)
+		{
+			// ジャンプアタックのエフェクト
+			JumpAttackPlayEffect();
+			isEffectJumpAttack_ = false;
+			PlaySoundMem(musicJumpAttackId_, DX_PLAYTYPE_BACK);
+			PlaySoundMem(musicEarthQuakeId_, DX_PLAYTYPE_BACK);
+		}
 
-	//	if (stepAnim_ >= 40.0f && isEffectJumpAttack_)
-	//	{
-	//		// ジャンプアタックのエフェクト
-	//		JumpAttackPlayEffect();
-	//		isEffectJumpAttack_ = false;
-	//		PlaySoundMem(musicJumpAttackId_,DX_PLAYTYPE_BACK);
-	//		PlaySoundMem(musicEarthQuakeId_, DX_PLAYTYPE_BACK);
-	//	}
+		// エフェクトの位置
+		JumpAttackSyncEffect();
+		JumpAttackRangeSyncEffect();
 
-	//	// エフェクトの位置
-	//	JumpAttackSyncEffect();
-	//	JumpAttackRangeSyncEffect();
+		break;
+	case Enemy::STATE::BEFORE_TACKLE:
+		UpdateBeforeTackle();
+		break;
+	case Enemy::STATE::TACKLE:
+		UpdateTackle();
 
-	//	break;
-	//case Enemy::STATE::BEFORE_TACKLE:
-	//	UpdateBeforeTackle();
-	//	break;
-	//case Enemy::STATE::TACKLE:
-	//	UpdateTackle();
+		// 再生速度の設定
+		SetFrequencySoundMem(120000, musicFootStepsId_);
 
-	//	// 再生速度の設定
-	//	SetFrequencySoundMem(120000, musicFootStepsId_);
+		// 足音
+		FootStepsMusic();
 
-	//	// 足音
-	//	FootStepsMusic();
+		// エフェクトの位置
+		TackleSyncEffect();
 
-	//	// エフェクトの位置
-	//	TackleSyncEffect();
+		// 足音のカウンタリセット
+		if (musicFootStepsCnt_ >= 2.2f)
+		{
+			musicFootStepsCnt_ = 0.0f;
+		}
 
-	//	// 足音のカウンタリセット
-	//	if (musicFootStepsCnt_ >= 2.2f)
-	//	{
-	//		musicFootStepsCnt_ = 0.0f;
-	//	}
+		break;
+	case Enemy::STATE::CREATE:
+		UpdateCreate();
 
-	//	break;
-	//case Enemy::STATE::CREATE:
-	//	UpdateCreate();
+		// エフェクトの位置
+		CreateSyncEffect();
+		break;
+	case Enemy::STATE::SHOT:
+		UpdateShot();
+		break;
+	case Enemy::STATE::HIT:
+		//UpdateHit();
+		break;
+	case Enemy::STATE::DEATH:
+		break;
+	case Enemy::STATE::TURN_LEFT:
+		// 再生速度の設定
+		SetFrequencySoundMem(10000, musicFootStepsId_);
 
-	//	// エフェクトの位置
-	//	CreateSyncEffect();
-	//	break;
-	//case Enemy::STATE::SHOT:
-	//	UpdateShot();
-	//	break;
-	//case Enemy::STATE::HIT:
-	//	//UpdateHit();
-	//	break;
-	//case Enemy::STATE::DEATH:
-	//	break;
-	//case Enemy::STATE::TURN_LEFT:
-	//	// 再生速度の設定
-	//	SetFrequencySoundMem(10000, musicFootStepsId_);
+		// 足音
+		FootStepsMusic();
+		break;
+	case Enemy::STATE::TURN_RIGHT:
+		// 再生速度の設定
+		SetFrequencySoundMem(10000, musicFootStepsId_);
 
-	//	// 足音
-	//	FootStepsMusic();
-	//	break;
-	//case Enemy::STATE::TURN_RIGHT:
-	//	// 再生速度の設定
-	//	SetFrequencySoundMem(10000, musicFootStepsId_);
+		// 足音
+		FootStepsMusic();
+		break;
+	}
 
-	//	// 足音
-	//	FootStepsMusic();
-	//	break;
-	//}
+	// 回転処理
+	Rotation();
 
-	//// 回転処理
-	//Rotation();
+	// 衝突判定用
+	Collision();
 
-	//// 衝突判定用
-	//Collision();
+	transform_.pos.y = 0.0f;
 
-	//transform_.pos.y = 0.0f;
+	transform_.Update();
 
-	//transform_.Update();
+	walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
 
-	//walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
-
-	//for (auto v : shots_)
-	//{
-	//	v->Update();
-	//}
+	for (auto v : shots_)
+	{
+		v->Update();
+	}
 
 }
 
@@ -842,17 +812,19 @@ void Enemy::Think(void)
 	// 攻撃の選択
 	attackNumber_ = GetRand(3);
 	//attackNumber_ = 3;
-	
+
 	// 攻撃が当たったかどうか
 	hit_ = false;
 
 	// 移動 --------------------------------------------------
 
-	if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && stepAnim_ == 0.0f)
+	for (auto& animData : animationController_->GetAnimDatas())
 	{
-		ChangeState(STATE::WALK);
+		if (state_ != STATE::ATTACK && state_ != STATE::JUMP_ATTACK || state_ != STATE::TACKLE && animData.second.stepAnim == 0.0f)
+		{
+			ChangeState(STATE::WALK);
+		}
 	}
-
 	if (walkCnt_ <= FIRST_WALK_TIME)
 	{
 		return;
@@ -909,7 +881,7 @@ void Enemy::Think(void)
 		// 正規化
 		pDirection_ = VNorm(vec);
 		ChangeState(STATE::BEFORE_TACKLE);
-		SetIdleAnimation();
+		//SetIdleAnimation();
 
 	}
 
@@ -998,7 +970,8 @@ void Enemy::UpdateAttack(void)
 	attack_ = false;
 
 	// 攻撃判定が入るアニメーションの秒数
-	if (stepAnim_ >= ATTACK_COLLISION_START_TIME && stepAnim_ <= ATTACK_COLLISION_END_TIME && !hit_)
+	if (animationController_->GetAnimData("ATTACK").stepAnim >= ATTACK_COLLISION_START_TIME &&
+		animationController_->GetAnimData("ATTACK").stepAnim <= ATTACK_COLLISION_END_TIME && !hit_)
 	{
 		attack_ = true;
 	}
@@ -1016,10 +989,10 @@ void Enemy::UpdateJumpAttack(void)
 	// 移動量
 	movePow_ = VScale(pDirection_, JUMP_ATTACK_SPEED);
 
-	if (stepAnim_ >= 20.0f && stepAnim_ <= 80.0f)
+	if (animationController_->GetAnimData("JUMP_ATTACK").stepAnim >= 20.0f && animationController_->GetAnimData("JUMP_ATTACK").stepAnim <= 80.0f)
 	{
 		// プレイヤーとの距離が10.0f未満になるまで移動
-		if (stepAnim_ <= JUMP_ATTACK_END_TIME)
+		if (animationController_->GetAnimData("JUMP_ATTACK").stepAnim <= JUMP_ATTACK_END_TIME)
 		{
 			if (length >= JUMP_ATTACK_RANGE_MIN)
 			{
@@ -1035,7 +1008,8 @@ void Enemy::UpdateJumpAttack(void)
 	}
 
 	// 攻撃判定が入るアニメーションの秒数
-	if (stepAnim_ >= JUMP_ATTACK_COLLISION_START_TIME && stepAnim_ <= JUMP_ATTACK_COLLISION_END_TIME && !hit_)
+	if (animationController_->GetAnimData("JUMP_ATTACK").stepAnim >= JUMP_ATTACK_COLLISION_START_TIME &&
+		animationController_->GetAnimData("JUMP_ATTACK").stepAnim <= JUMP_ATTACK_COLLISION_END_TIME && !hit_)
 	{
 		attack_ = true;
 	}
@@ -1109,7 +1083,7 @@ void Enemy::UpdateHit(void)
 	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
 	pDirection_ = VNorm(vec);
 
-	if (stepAnim_ <= HIT_END_TIME)
+	if (animationController_->GetAnimData("HIT").stepAnim <= HIT_END_TIME)
 	{
 		transform_.pos = VAdd(transform_.pos, VScale(pDirection_, -HIT_SPEED));
 	}
@@ -1259,336 +1233,139 @@ void Enemy::WeponCollision(void)
 void Enemy::ChangeState(STATE state)
 {
 
-	// 前の状態を保持する
-	preState_ = state_;
-
-	// 状態の更新
-	state_ = state;
-
-	// 状態遷移時の初期化処理
-	switch (state_)
+	if (state_ == state && state != STATE::THINK)
 	{
-	case Enemy::STATE::THINK:
-		// 回転のフラグを戻す
-		isRotation_ = false;
-		// これからの行動を考える
-		Think();
-		break;
-	case Enemy::STATE::IDLE:
-		SetIdleAnimation();
-
-		// 音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-
-		isEffectJumpAttack_ = true;
-		break;
-	case Enemy::STATE::WALK:
-		SetWalkAnimation();
-		break;
-	case Enemy::STATE::ATTACK:
-		SetAttackAnimation();
-
-		// 音を止める
-		StopSoundMem(musicFootStepsId_);
-
-		// 音の再生
-		AttackMusic();
-
-		break;
-	case Enemy::STATE::JUMP_ATTACK:
-		SetJumpAttackAnimation();
-
-		// エフェクトの再生
-		JumpAttackRangePlayEffect();
-
-		// 音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-
-		// 音の再生
-		AttackMusic();
-
-		break;
-	case Enemy::STATE::BEFORE_TACKLE:
-		// エフェクト再生
-		TackleRangePlayEffect();
-		break;
-	case Enemy::STATE::TACKLE:
-
-		SetTackleAnimation();
-		tackleCnt_ = 4.0f;
-
-		// エフェクトの再生
-		TacklePlayEffect();
-
-		// 音の再生
-		PlaySoundMem(musicTackleId_, DX_PLAYTYPE_BACK);
-
-		// 音の再生
-		AttackMusic();
-		break;
-	case Enemy::STATE::CREATE:
-		SetCreateAnimation();
-
-		// 音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-
-		// エフェクトの再生
-		CreatePlayEffect();
-
-		// 音の再生
-		PlaySoundMem(musicCreateId_, DX_PLAYTYPE_BACK);
-
-		// 音の再生
-		AttackMusic();
-
-		break;
-	case Enemy::STATE::SHOT:
-		delayShot_ = TIME_DELAY_SHOT;
-		SetShotAnimation();
-
-		// 音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		StopSoundMem(musicCreateId_);
-
-		// 音の再生
-		AttackMusic();
-
-		break;
-	case Enemy::STATE::HIT:
-		attackPlayerPos_ = followTransform_->pos;
-		SetHitAnimation();
-
-		// 音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Enemy::STATE::DEATH:
-		SetDeathAnimation();
-
-		// 音を止める
-		StopSoundMem(musicFootStepsId_);
-		musicFootStepsCnt_ = 0.0f;
-		break;
-	case Enemy::STATE::TURN_LEFT:
-		SetTurnLeftAnimation();
-		break;
-	case Enemy::STATE::TURN_RIGHT:
-		SetTurnRightAnimation();
-		break;
+		return;
 	}
 
-}
+	state_ = state;
 
-void Enemy::SetIdleAnimation(void)
-{
+	stateHiss_.emplace_back(state_);
 
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
+	preKey_ = key_;
 
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, idleAnim_);
+	key_ = ANIM_DATA_KEY[(int)state];
 
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
+	animationController_->ChangeAnimation(key_);
 
-	// アニメーション速度
-	speedAnim_ = IDLE_ANIM_SPEED;
+	// 回転のフラグを戻す
+	isRotation_ = false;
 
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
+	// これからの行動を考える
+	Think();
 
-}
+	//// 状態遷移時の初期化処理
+	//switch (state_)
+	//{
+	//case Enemy::STATE::THINK:
 
-void Enemy::SetWalkAnimation(void)
-{
+	//	break;
+	//case Enemy::STATE::IDLE:
+	//	SetIdleAnimation();
 
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, walkAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = WALK_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
-
-}
-
-void Enemy::SetAttackAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, attackAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = ATTACK_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
-
-}
-
-void Enemy::SetJumpAttackAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, jumpAttackAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = JUMP_ATTACK_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
-
-}
-
-void Enemy::SetTackleAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, tackleAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = TACKLE_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
-
-}
-
-void Enemy::SetCreateAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, createAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = SHOT_CREATE_END_TIME;
-
-	// アニメーション速度
-	speedAnim_ = SHOT_CREATE_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = SHOT_CREATE_START_TIME;
-
-}
-
-void Enemy::SetShotAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, shotAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = SHOT_END_TIME;
-
-	// アニメーション速度
-	speedAnim_ = SHOT_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = SHOT_START_TIME;
-
-}
-
-void Enemy::SetHitAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, hitAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = HIT_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 10.0f;
-
-}
-
-void Enemy::SetDeathAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, deathAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = 20.0f;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 15.0f;
-
-}
-
-void Enemy::SetTurnLeftAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, turnLeftAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = HIT_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
-
-}
-
-void Enemy::SetTurnRightAnimation(void)
-{
-
-	MV1DetachAnim(transform_.modelId, animAttachNo_);
-
-	// 再生するアニメーションの設定
-	animAttachNo_ = MV1AttachAnim(transform_.modelId, animNo_, turnRightAnim_);
-
-	// アニメーション総時間の取得
-	animTotalTime_ = MV1GetAttachAnimTotalTime(transform_.modelId, animAttachNo_);
-
-	// アニメーション速度
-	speedAnim_ = HIT_ANIM_SPEED;
-
-	// アニメーション時間の初期化
-	stepAnim_ = 0.0f;
+	//	// 音を止める
+	//	StopSoundMem(musicFootStepsId_);
+	//	musicFootStepsCnt_ = 0.0f;
+
+	//	isEffectJumpAttack_ = true;
+	//	break;
+	//case Enemy::STATE::WALK:
+	//	SetWalkAnimation();
+	//	break;
+	//case Enemy::STATE::ATTACK:
+	//	SetAttackAnimation();
+
+	//	// 音を止める
+	//	StopSoundMem(musicFootStepsId_);
+
+	//	// 音の再生
+	//	AttackMusic();
+
+	//	break;
+	//case Enemy::STATE::JUMP_ATTACK:
+	//	SetJumpAttackAnimation();
+
+	//	// エフェクトの再生
+	//	JumpAttackRangePlayEffect();
+
+	//	// 音を止める
+	//	StopSoundMem(musicFootStepsId_);
+	//	musicFootStepsCnt_ = 0.0f;
+
+	//	// 音の再生
+	//	AttackMusic();
+
+	//	break;
+	//case Enemy::STATE::BEFORE_TACKLE:
+	//	// エフェクト再生
+	//	TackleRangePlayEffect();
+	//	break;
+	//case Enemy::STATE::TACKLE:
+
+	//	SetTackleAnimation();
+	//	tackleCnt_ = 4.0f;
+
+	//	// エフェクトの再生
+	//	TacklePlayEffect();
+
+	//	// 音の再生
+	//	PlaySoundMem(musicTackleId_, DX_PLAYTYPE_BACK);
+
+	//	// 音の再生
+	//	AttackMusic();
+	//	break;
+	//case Enemy::STATE::CREATE:
+	//	SetCreateAnimation();
+
+	//	// 音を止める
+	//	StopSoundMem(musicFootStepsId_);
+	//	musicFootStepsCnt_ = 0.0f;
+
+	//	// エフェクトの再生
+	//	CreatePlayEffect();
+
+	//	// 音の再生
+	//	PlaySoundMem(musicCreateId_, DX_PLAYTYPE_BACK);
+
+	//	// 音の再生
+	//	AttackMusic();
+
+	//	break;
+	//case Enemy::STATE::SHOT:
+	//	delayShot_ = TIME_DELAY_SHOT;
+	//	SetShotAnimation();
+
+	//	// 音を止める
+	//	StopSoundMem(musicFootStepsId_);
+	//	musicFootStepsCnt_ = 0.0f;
+	//	StopSoundMem(musicCreateId_);
+
+	//	// 音の再生
+	//	AttackMusic();
+
+	//	break;
+	//case Enemy::STATE::HIT:
+	//	attackPlayerPos_ = followTransform_->pos;
+	//	SetHitAnimation();
+
+	//	// 音を止める
+	//	StopSoundMem(musicFootStepsId_);
+	//	musicFootStepsCnt_ = 0.0f;
+	//	break;
+	//case Enemy::STATE::DEATH:
+	//	SetDeathAnimation();
+
+	//	// 音を止める
+	//	StopSoundMem(musicFootStepsId_);
+	//	musicFootStepsCnt_ = 0.0f;
+	//	break;
+	//case Enemy::STATE::TURN_LEFT:
+	//	SetTurnLeftAnimation();
+	//	break;
+	//case Enemy::STATE::TURN_RIGHT:
+	//	SetTurnRightAnimation();
+	//	break;
+	//}
 
 }
 
@@ -1638,6 +1415,13 @@ void Enemy::DrawDebug(void)
 	//	DrawCone3D(VAdd(attackPlayerPos_, { 0.0f,0.0f,0.0f }), VAdd(attackPlayerPos_, { 0.0f,10.0f,0.0f }), 1000, 10, 0x0000ff, 0x0000ff, true);
 	//}
 
+	int y = 100;
+	for (auto s : stateHiss_)
+	{
+		DrawFormatString(800, y, 0xff0000, "state:%d", (int)s);
+		y += 20;
+	}
+
 }
 
 void Enemy::SetParam(void)
@@ -1660,13 +1444,6 @@ void Enemy::Animation(void)
 		noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
 	}
 
-	// アニメーション再生
-	// 経過時間の取得
-	float deltaTime = SceneManager::GetInstance().GetDeltaTime();
-
-	// アニメーション時間の進行
-	stepAnim_ += (speedAnim_ * deltaTime);
-
 	// ショットの全体の時間のカウンタ
 	if (state_ == STATE::SHOT)
 	{
@@ -1676,12 +1453,8 @@ void Enemy::Animation(void)
 	if (state_ != STATE::SHOT || (shotNum_ == 0 && shotCnt_ >= SHOT_ATTACK_TIME))
 	{
 		isShot_ = false;
-		if (stepAnim_ > animTotalTime_)
+		if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime)
 		{
-			// ループ再生
-			stepAnim_ = 0.0f;
-			shotCnt_ = 0.0f;
-
 			if (state_ != STATE::TACKLE || tackleCnt_ < 0.0f)
 			{
 
@@ -1705,16 +1478,13 @@ void Enemy::Animation(void)
 		}
 	}
 
-	// 再生するアニメーション時間の設定
-	MV1SetAttachAnimTime(transform_.modelId, animAttachNo_, stepAnim_);
 	if (noPlayTime_ >= 0.0f)
 	{
 		return;
 	}
 
-	if (state_ == STATE::SHOT && stepAnim_ >= SHOT_END_TIME)
+	if (state_ == STATE::SHOT && animationController_->GetAnimData("SHOT").stepAnim >= SHOT_END_TIME)
 	{
-		stepAnim_ = SHOT_START_TIME;
 		isShot_ = false;
 	}
 
@@ -1759,7 +1529,6 @@ void Enemy::Animation(void)
 		{
 			ChangeState(STATE::TURN_RIGHT);
 		}
-
 	}
 
 	// 行動を選択
@@ -1816,7 +1585,7 @@ void Enemy::ProcessShot(void)
 	delayShot_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// 弾を時間をずらして飛ばす
-	if (stepAnim_ >= 35.0f && !isShot_)
+	if (animationController_->GetAnimData("SHOT").stepAnim >= 35.0f && !isShot_)
 	{
 		Shot();
 		isShot_ = true;
@@ -1886,7 +1655,7 @@ void Enemy::CreateShot(void)
 	delayCreate_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// アニメーションが終わったらショットに移行する
-	if (stepAnim_ >= SHOT_CREATE_END_TIME - 1.0f)
+	if (animationController_->GetAnimData("CREATE").speedAnim >= SHOT_CREATE_END_TIME - 1.0f)
 	{
 		ChangeState(STATE::SHOT);
 	}

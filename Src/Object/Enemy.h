@@ -163,14 +163,14 @@ public:
 		MAX
 	};
 
-	std::string ANIM_DATA_KEY[(int)STATE::MAX - 1] =
+	std::string ANIM_DATA_KEY[(int)STATE::MAX] =
 	{
-		"THINK"
+		"THINK",
 		"IDLE",
 		"WALK",
 		"ATTACK",
 		"JUMP_ATTACK",
-		"BEFORE_TACKLE"
+		"BEFORE_TACKLE",
 		"TACKLE",
 		"CREATE",
 		"SHOT",
@@ -264,7 +264,7 @@ protected:
 	std::string key_;
 	std::string preKey_;
 
-	std::vector<STATE> stateHiss_;
+	std::vector <std::string> stateHiss_;
 
 	// HPÉoÅ[ÇÃâÊëú
 	int imgHPBar_;

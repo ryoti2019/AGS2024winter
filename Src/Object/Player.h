@@ -404,7 +404,7 @@ protected:
 
 	int slowCnt_;
 
-	std::vector<STATE> stateHiss_;
+	std::vector<std::string> stateHiss_;
 
 	// ˆÚ“®ˆ—
 	void KeyboardMove(void);

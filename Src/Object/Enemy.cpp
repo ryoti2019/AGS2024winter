@@ -27,34 +27,36 @@ void Enemy::InitAnimation(void)
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::ENEMY_IDLE));
 
+	auto& model = ResourceManager::GetInstance();
+
 	std::string path = Application::PATH_MODEL + "Enemy/";
 	animationController_ = new AnimationController(transform_.modelId, 0);
 	animationController_->Add("THINK", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
 	animationController_->Add("IDLE", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE),true,false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE),true,false);
 	animationController_->Add("WALK", path + "walk.mv1", 0.0f, 43.0f, WALK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_WALK), true, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_WALK), true, false);
 	animationController_->Add("ATTACK", path + "attack.mv1", 0.0f, 80.0f, ATTACK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_ATTACK), false, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_ATTACK), false, false);
 	animationController_->Add("JUMP_ATTACK", path + "jumpAttack.mv1", 0.0f, 111.0f, JUMP_ATTACK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_JUMP_ATTACK), false, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_JUMP_ATTACK), false, false);
 	animationController_->Add("BEFORE_TACKLE", path + "idle.mv1", 0.0f, 120.0f, IDLE_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
 	animationController_->Add("TACKLE", path + "tackle.mv1", 0.0f, 38.0f, TACKLE_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
-	animationController_->Add("CREATE", path + "create.mv1", 0.0f, 98.0f, SHOT_CREATE_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_CREATE), false, false);
-	animationController_->Add("SHOT", path + "shot.mv1", 0.0f, 81.0f, SHOT_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_ATTACK), false, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+	animationController_->Add("CREATE", path + "create.mv1", 15.0f, 45.0f, 30.0f,
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_CREATE), false, false);
+	animationController_->Add("SHOT", path + "shot.mv1", SHOT_START_TIME, SHOT_END_TIME, SHOT_ANIM_SPEED,
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_ATTACK), false, false);
 	animationController_->Add("HIT", path + "hit.mv1", 0.0f, 81.0f, HIT_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_HIT), false, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_HIT), false, false);
 	animationController_->Add("DEATH", path + "death.mv1", 0.0f, 81.0,30.0f,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_DEATH), false, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_DEATH), false, false);
 	animationController_->Add("TURN_LEFT", path + "turnLeft.mv1", 0.0f, 40.0f, 30.0f,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_LEFT), false, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_LEFT), false, false);
 	animationController_->Add("TURN_RIGHT", path + "turnRight.mv1", 0.0f, 40.0f, 30.0f,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_RIGHT), false, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_RIGHT), false, false);
 
 	animationController_->ChangeAnimation("THINK");
 
@@ -457,7 +459,7 @@ void Enemy::Update(void)
 	//	return;
 	//}
 
-		// アニメーション処理
+	// アニメーション処理
 	Animation();
 
 	if (noPlayTime_ > 0.0f || hp_ <= 0)
@@ -579,6 +581,9 @@ void Enemy::Update(void)
 	transform_.Update();
 
 	walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
+
+	// アニメーション処理
+	animationController_->Update();
 
 	for (auto v : shots_)
 	{
@@ -810,8 +815,8 @@ void Enemy::Think(void)
 	float length = 0.0f;
 
 	// 攻撃の選択
-	attackNumber_ = GetRand(3);
-	//attackNumber_ = 3;
+	//attackNumber_ = GetRand(3);
+	attackNumber_ = 0;
 
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -1240,7 +1245,7 @@ void Enemy::ChangeState(STATE state)
 
 	state_ = state;
 
-	stateHiss_.emplace_back(state_);
+	stateHiss_.emplace_back(ANIM_DATA_KEY[(int)state]);
 
 	preKey_ = key_;
 
@@ -1248,11 +1253,16 @@ void Enemy::ChangeState(STATE state)
 
 	animationController_->ChangeAnimation(key_);
 
-	// 回転のフラグを戻す
-	isRotation_ = false;
+	if (state_ == STATE::THINK)
+	{
 
-	// これからの行動を考える
-	Think();
+		// 回転のフラグを戻す
+		isRotation_ = false;
+
+		// これからの行動を考える
+		Think();
+
+	}
 
 	//// 状態遷移時の初期化処理
 	//switch (state_)
@@ -1415,10 +1425,28 @@ void Enemy::DrawDebug(void)
 	//	DrawCone3D(VAdd(attackPlayerPos_, { 0.0f,0.0f,0.0f }), VAdd(attackPlayerPos_, { 0.0f,10.0f,0.0f }), 1000, 10, 0x0000ff, 0x0000ff, true);
 	//}
 
-	int y = 100;
-	for (auto s : stateHiss_)
+	// アタッチされている数
+	DrawFormatString(900, 180, 0xff0000, "list:%d", animationController_->GetAttachNum());
+
+	int y = 200;
+	const auto& animDatas = animationController_->GetAnimDatas();
+	for (const auto& anim : animDatas)
 	{
-		DrawFormatString(800, y, 0xff0000, "state:%d", (int)s);
+		//if (anim.second.blendRate > 0.0f)
+		{
+			DrawFormatString(900, y, 0xff0000, "type:%s, step:%.2f, rate:%.2f",
+				anim.second.state.c_str(),
+				anim.second.stepAnim,
+				anim.second.blendRate
+			);
+			y += 20;
+		}
+	}
+
+	y = 100;
+	for (auto& s : stateHiss_)
+	{
+		DrawFormatString(750, y, 0xff0000, "state:%s", s.c_str());
 		y += 20;
 	}
 
@@ -1453,8 +1481,9 @@ void Enemy::Animation(void)
 	if (state_ != STATE::SHOT || (shotNum_ == 0 && shotCnt_ >= SHOT_ATTACK_TIME))
 	{
 		isShot_ = false;
-		if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime)
+		if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime - 1)
 		{
+			int i = 0;
 			if (state_ != STATE::TACKLE || tackleCnt_ < 0.0f)
 			{
 

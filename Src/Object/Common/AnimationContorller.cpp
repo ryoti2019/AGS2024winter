@@ -81,9 +81,7 @@ void AnimationController::Update(void)
 
 	}
 
-
 	animData_.at(state_).blendRate = rate;
-
 
 	// アニメーション再生
 	for (auto& animData : animData_)

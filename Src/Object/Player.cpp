@@ -513,7 +513,7 @@ void Player::Update(void)
 	transform_.Update();
 
 	// アニメーション処理
-	animationController_->Update();
+	//animationController_->Update();
 
 
 	// アニメーションの固定
@@ -550,9 +550,9 @@ void Player::Draw(void)
 	}
 
 	y = 100;
-	for (auto s : stateHiss_)
+	for (auto& s : stateHiss_)
 	{
-		DrawFormatString(400, y, 0xff0000, "state:%d", (int)s);
+		DrawFormatString(400, y, 0xff0000, "state:%s", s.c_str());
 		y += 20;
 	}
 
@@ -1435,7 +1435,7 @@ void Player::ChangeState(STATE state)
 
 	state_ = state;
 
-	stateHiss_.emplace_back(state_);
+	stateHiss_.emplace_back(ANIM_DATA_KEY[(int)state]);
 
 	preKey_ = key_;
 

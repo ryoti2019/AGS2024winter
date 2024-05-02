@@ -123,8 +123,7 @@ void Sword::Draw(void)
 	//collisionDOWNPos_ = VAdd(collisionDOWNPos_, { 0.0f,-5.0f,0.0f });
 
 	// “–‚½‚è”»’è‚Ì•`‰æ
-	//DrawCapsule3D(VAdd(transform_.pos, cPosDown_), VAdd(transform_.pos, cPosUp_), 10, 10, 0xff0000, 0xff0000, false);
-	DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
+	//DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 }
 

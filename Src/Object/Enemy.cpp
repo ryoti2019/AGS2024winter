@@ -132,7 +132,7 @@ void Enemy::Init(void)
 	// 最初の歩きのアニメーションのカウンタ
 	walkCnt_ = 0.0f;
 
-	noPlayTime_ = 0.0f;
+	idleCoolTime_ = 0.0f;
 
 	lockOnCursorCnt_ = 0;
 
@@ -460,9 +460,9 @@ void Enemy::Update(void)
 	//}
 
 	// アニメーション処理
-	Animation();
+ 	Animation();
 
-	if (noPlayTime_ > 0.0f || hp_ <= 0)
+	if (hp_ <= 0)
 	{
 		return;
 	}
@@ -584,6 +584,9 @@ void Enemy::Update(void)
 
 	// アニメーション処理
 	animationController_->Update();
+
+	// アニメーションの固定
+	AnimationFrame();
 
 	for (auto v : shots_)
 	{
@@ -816,7 +819,7 @@ void Enemy::Think(void)
 
 	// 攻撃の選択
 	//attackNumber_ = GetRand(3);
-	attackNumber_ = 0;
+	attackNumber_ = 1;
 
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -947,6 +950,13 @@ void Enemy::AfterRotation(void)
 
 void Enemy::UpdateIdle(void)
 {
+
+	idleCoolTime_ -= SceneManager::GetInstance().GetDeltaTime();
+	if (idleCoolTime_ < 0.0f)
+	{
+		ChangeState(STATE::THINK);
+	}
+
 }
 
 void Enemy::UpdateWalk(void)
@@ -1253,15 +1263,20 @@ void Enemy::ChangeState(STATE state)
 
 	animationController_->ChangeAnimation(key_);
 
-	if (state_ == STATE::THINK)
+	switch (state)
 	{
+	case Enemy::STATE::IDLE:
+		idleCoolTime_ = COOL_TIME;
+		isNoPlay_ = false;
+		break;
 
+	case Enemy::STATE::THINK:
 		// 回転のフラグを戻す
 		isRotation_ = false;
 
 		// これからの行動を考える
 		Think();
-
+		break;
 	}
 
 	//// 状態遷移時の初期化処理
@@ -1469,7 +1484,7 @@ void Enemy::Animation(void)
 	// 行動後に動かない時間を作る
 	if (isAction_)
 	{
-		noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
+		//noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
 	}
 
 	// ショットの全体の時間のカウンタ
@@ -1480,7 +1495,7 @@ void Enemy::Animation(void)
 
 	if (state_ != STATE::SHOT || (shotNum_ == 0 && shotCnt_ >= SHOT_ATTACK_TIME))
 	{
-		isShot_ = false;
+		//isShot_ = false;
 		if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime - 1)
 		{
 			int i = 0;
@@ -1499,22 +1514,16 @@ void Enemy::Animation(void)
 				startRotation_ = true;
 
 			}
-			if (isNoPlay_ && state_ == STATE::IDLE && preState_ != STATE::WALK)
+			if (isNoPlay_ && preState_ != STATE::WALK)
 			{
-				noPlayTime_ = COOL_TIME;
-				isNoPlay_ = false;
+				ChangeState(STATE::IDLE);
 			}
 		}
 	}
 
-	if (noPlayTime_ >= 0.0f)
+	if (idleCoolTime_ >= 0.0f)
 	{
 		return;
-	}
-
-	if (state_ == STATE::SHOT && animationController_->GetAnimData("SHOT").stepAnim >= SHOT_END_TIME)
-	{
-		isShot_ = false;
 	}
 
 	float goalDeg = 0.0f;
@@ -1567,9 +1576,6 @@ void Enemy::Animation(void)
 		isNoPlay_ = true;
 	}
 
-	// アニメーションの固定
-	AnimationFrame();
-
 }
 
 void Enemy::AnimationFrame(void)
@@ -1579,9 +1585,8 @@ void Enemy::AnimationFrame(void)
 	MV1ResetFrameUserLocalMatrix(transform_.modelId, enemyPosFrameNum_);
 
 	// ジャンプ攻撃時に座標を固定する
-	if (state_ == STATE::JUMP_ATTACK || state_ == STATE::HIT)
+	if (animationController_->IsBlendPlay("JUMP_ATTACK") || animationController_->IsBlendPlay("HIT"))
 	{
-
 		// 対象フレームのローカル行列(大きさ、回転、位置)を取得する
 		auto mat = MV1GetFrameLocalMatrix(transform_.modelId, enemyPosFrameNum_);
 
@@ -1618,6 +1623,13 @@ void Enemy::ProcessShot(void)
 	{
 		Shot();
 		isShot_ = true;
+	}
+
+
+	if (animationController_->GetAnimData("SHOT").stepAnim >= SHOT_END_TIME && shotNum_ > 0)
+	{
+		isShot_ = false;
+		animationController_->ChangeAnimation("SHOT", true);
 	}
 
 }
@@ -1684,7 +1696,7 @@ void Enemy::CreateShot(void)
 	delayCreate_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// アニメーションが終わったらショットに移行する
-	if (animationController_->GetAnimData("CREATE").speedAnim >= SHOT_CREATE_END_TIME - 1.0f)
+	if (animationController_->GetAnimData("CREATE").stepAnim >= SHOT_CREATE_END_TIME - 1.0f)
 	{
 		ChangeState(STATE::SHOT);
 	}

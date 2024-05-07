@@ -68,7 +68,7 @@ void AnimationController::Update(void)
 
 		if (animData.second.blendRate <= 0.0f)
 		{
-			Dettach(animData.second.attachNo);
+   			Dettach(animData.second.attachNo);
 
 			// ’l‚Ì‰Šú‰»
 			animData.second.blendRate = 0.0f;
@@ -170,6 +170,9 @@ int AnimationController::GetAttachNum(void) const
 void AnimationController::Attatch(std::string state)
 {
 
+	animData_[state].stepAnim = 0.0f;
+
+
 	if (animData_[state].attachNo != -1)
 	{
 		animData_[state].isPriority = true;
@@ -190,14 +193,18 @@ void AnimationController::Dettach(int attachNo)
 	MV1DetachAnim(modelId_, attachNo);
 }
 
-void AnimationController::ChangeAnimation(std::string state)
+void AnimationController::ChangeAnimation(std::string state, bool isForce)
 {
 
 	// “¯‚¶ó‘Ô‚¾‚Á‚½‚ç“ü‚ç‚È‚¢
-	if (state == preState_) return;
+	if (state == preState_ && !isForce) return;
 
 	state_ = state;
 
+	if (state_ == "IDLE")
+	{
+		int a = 1;
+	}
 	// ‘O‚Ìó‘Ô‚Ì
 	if (preState_ != "")
 	{

@@ -381,7 +381,7 @@ protected:
 	int shotNum_;
 
 	// “G‚ª“®‚©‚È‚¢ŽžŠÔ
-	float noPlayTime_;
+	float idleCoolTime_;
 
 	// “G‚ð“®‚©‚È‚¢‚æ‚¤‚É‚·‚éƒtƒ‰ƒO
 	bool isNoPlay_;

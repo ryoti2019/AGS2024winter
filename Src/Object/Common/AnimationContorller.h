@@ -91,7 +91,7 @@ public:
 	int GetAttachNum(void) const;
 
 	// 状態遷移
-	void ChangeAnimation(std::string state);
+	void ChangeAnimation(std::string state, bool isForce = false);
 
 	// アニメーションデータの取得
 	AnimationData GetAnimData(const std::string& state);

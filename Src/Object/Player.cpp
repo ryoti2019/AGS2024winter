@@ -513,7 +513,7 @@ void Player::Update(void)
 	transform_.Update();
 
 	// アニメーション処理
-	//animationController_->Update();
+	animationController_->Update();
 
 
 	// アニメーションの固定

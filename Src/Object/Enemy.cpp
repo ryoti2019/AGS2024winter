@@ -819,7 +819,7 @@ void Enemy::Think(void)
 
 	// 攻撃の選択
 	//attackNumber_ = GetRand(3);
-	attackNumber_ = 1;
+	attackNumber_ = 2;
 
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -889,7 +889,6 @@ void Enemy::Think(void)
 		// 正規化
 		pDirection_ = VNorm(vec);
 		ChangeState(STATE::BEFORE_TACKLE);
-		//SetIdleAnimation();
 
 	}
 
@@ -1277,6 +1276,13 @@ void Enemy::ChangeState(STATE state)
 		// これからの行動を考える
 		Think();
 		break;
+	case Enemy::STATE::BEFORE_TACKLE:
+		// エフェクト再生
+		TackleRangePlayEffect();
+		break;
+	case Enemy::STATE::TACKLE:
+		tackleCnt_ = 4.0f;
+
 	}
 
 	//// 状態遷移時の初期化処理
@@ -1521,10 +1527,10 @@ void Enemy::Animation(void)
 		}
 	}
 
-	if (idleCoolTime_ >= 0.0f)
-	{
-		return;
-	}
+	//if (idleCoolTime_ >= 0.0f)
+	//{
+	//	return;
+	//}
 
 	float goalDeg = 0.0f;
 	// 行動後プレイヤー方向に角度を変える

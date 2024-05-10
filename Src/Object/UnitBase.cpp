@@ -1,6 +1,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Utility/AsoUtility.h"
 #include "../Application.h"
+#include "Common/AnimationContorller.h"
 #include "UnitBase.h"
 
 UnitBase::UnitBase(void)

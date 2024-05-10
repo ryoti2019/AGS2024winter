@@ -327,6 +327,11 @@ const std::map<std::string, AnimationController::AnimationData>& AnimationContro
 	return animData_;
 }
 
+std::string AnimationController::GetAnimDataNow(void)
+{
+	return state_;
+}
+
 void AnimationController::SetStartStepAnim(std::string state, float stepAnim)
 {
 	animData_[state].stepAnim = stepAnim;

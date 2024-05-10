@@ -44,7 +44,7 @@ void Enemy::InitAnimation(void)
 	animationController_->Add("BEFORE_TACKLE", path + "idle.mv1", 0.0f, 120.0f, IDLE_ANIM_SPEED,
 		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
 	animationController_->Add("TACKLE", path + "tackle.mv1", 0.0f, 38.0f, TACKLE_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TACKLE), true, false);
 	animationController_->Add("CREATE", path + "create.mv1", 15.0f, 45.0f, 30.0f,
 		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_CREATE), false, false);
 	animationController_->Add("SHOT", path + "shot.mv1", SHOT_START_TIME, SHOT_END_TIME, SHOT_ANIM_SPEED,
@@ -808,6 +808,11 @@ VECTOR Enemy::GetAttackPlayerPos(void)
 	return attackPlayerPos_;
 }
 
+float Enemy::GetStepAnim(void)
+{
+	return animationController_->GetAnimData(animationController_->GetAnimDataNow()).stepAnim;
+}
+
 void Enemy::Think(void)
 {
 
@@ -818,8 +823,8 @@ void Enemy::Think(void)
 	float length = 0.0f;
 
 	// 攻撃の選択
-	//attackNumber_ = GetRand(3);
-	attackNumber_ = 2;
+	attackNumber_ = GetRand(3);
+	//attackNumber_ = 2;
 
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -1048,7 +1053,7 @@ void Enemy::UpdateTackle(void)
 	tackleCnt_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// タックルし続ける間は座標を動かす
-	if (tackleCnt_ > 0.0f && beforeTackleCnt_ <= 0.0f)
+	if (tackleCnt_ > 0.0f /*&& beforeTackleCnt_ <= 0.0f*/)
 	{
 		// 移動量
 		movePow_ = VScale(pDirection_, TACKLE_SPEED);
@@ -1520,17 +1525,23 @@ void Enemy::Animation(void)
 				startRotation_ = true;
 
 			}
-			if (isNoPlay_ && preState_ != STATE::WALK)
+			if (!isNoPlay_ && preState_ != STATE::WALK)
 			{
+
+				// 待機状態にする
 				ChangeState(STATE::IDLE);
+
+				// アニメーションが終わったらtrueにする
+				isAction_ = true;
+
 			}
 		}
 	}
-
-	//if (idleCoolTime_ >= 0.0f)
-	//{
-	//	return;
-	//}
+	idleCoolTime_ -= SceneManager::GetInstance().GetDeltaTime();
+	if (idleCoolTime_ >= 0.0f)
+	{
+		return;
+	}
 
 	float goalDeg = 0.0f;
 	// 行動後プレイヤー方向に角度を変える

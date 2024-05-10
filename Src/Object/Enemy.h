@@ -248,6 +248,9 @@ public:
 	// ジャンプアタックするときに保存するプレイヤーの位置
 	VECTOR GetAttackPlayerPos(void);
 
+	// 再生中のアニメーション時間
+	float GetStepAnim(void);
+
 protected:
 
 	// アニメーション

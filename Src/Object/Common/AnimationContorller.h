@@ -98,6 +98,9 @@ public:
 
 	const std::map <std::string, AnimationData>& GetAnimDatas(void) const;
 
+	// 今のアニメーションデータの取得
+	std::string GetAnimDataNow(void);
+
 	// アニメーションが始まる時間を設定
 	void SetStartStepAnim(std::string state, float stepAnim);
 

@@ -84,7 +84,7 @@ void Camera::SetBeforeDrawFree(void)
 	if (ins.IsNew(KEY_INPUT_UP)) { axisDeg.x += 1.0f; }
 	if (ins.IsNew(KEY_INPUT_DOWN)) { axisDeg.x += -1.0f; }
 	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += 1.0f; }
-	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += -1.0f; }
+	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y +=-1.0f; }
 
 	// 移動
 	//--------------------------------------
@@ -479,7 +479,7 @@ void Camera::KeybordContoroller(void)
 	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
 
 	// マウス回転量
-	float rotPow = 3.0f;
+	float rotPow = 4.0f;
 	//float rotPow = 0.0f;
 
 	// マウス位置

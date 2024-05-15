@@ -12,6 +12,7 @@
 #include "../Object/ShotEnemy.h"
 #include "../Object/Sword.h"
 #include "../Object/UnitBase.h"
+#include "../Object/Common/AnimationContorller.h"
 #include "GameScene.h"
 
 GameScene::GameScene(void)

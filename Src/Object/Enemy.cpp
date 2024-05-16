@@ -1273,13 +1273,28 @@ void Enemy::ChangeState(STATE state)
 		idleCoolTime_ = COOL_TIME;
 		isNoPlay_ = false;
 		break;
-
 	case Enemy::STATE::THINK:
 		// 回転のフラグを戻す
 		isRotation_ = false;
-
 		// これからの行動を考える
 		Think();
+		break;
+	case Enemy::STATE::WALK:
+		break;
+	case Enemy::STATE::ATTACK:
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		// 音の再生
+		AttackMusic();
+		break;
+	case Enemy::STATE::JUMP_ATTACK:
+		// エフェクトの再生
+		JumpAttackRangePlayEffect();
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		// 音の再生
+		AttackMusic();
 		break;
 	case Enemy::STATE::BEFORE_TACKLE:
 		// エフェクト再生
@@ -1287,122 +1302,43 @@ void Enemy::ChangeState(STATE state)
 		break;
 	case Enemy::STATE::TACKLE:
 		tackleCnt_ = 4.0f;
-
+		break;
+	case Enemy::STATE::CREATE:
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		// エフェクトの再生
+		CreatePlayEffect();
+		// 音の再生
+		PlaySoundMem(musicCreateId_, DX_PLAYTYPE_BACK);
+		// 音の再生
+		AttackMusic();
+		break;
+	case Enemy::STATE::SHOT:
+		delayShot_ = TIME_DELAY_SHOT;
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		StopSoundMem(musicCreateId_);
+		// 音の再生
+		AttackMusic();
+		break;
+	case Enemy::STATE::HIT:
+		attackPlayerPos_ = followTransform_->pos;
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Enemy::STATE::DEATH:
+		// 音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Enemy::STATE::TURN_LEFT:
+		break;
+	case Enemy::STATE::TURN_RIGHT:
+		break;
 	}
-
-	//// 状態遷移時の初期化処理
-	//switch (state_)
-	//{
-	//case Enemy::STATE::THINK:
-
-	//	break;
-	//case Enemy::STATE::IDLE:
-	//	SetIdleAnimation();
-
-	//	// 音を止める
-	//	StopSoundMem(musicFootStepsId_);
-	//	musicFootStepsCnt_ = 0.0f;
-
-	//	isEffectJumpAttack_ = true;
-	//	break;
-	//case Enemy::STATE::WALK:
-	//	SetWalkAnimation();
-	//	break;
-	//case Enemy::STATE::ATTACK:
-	//	SetAttackAnimation();
-
-	//	// 音を止める
-	//	StopSoundMem(musicFootStepsId_);
-
-	//	// 音の再生
-	//	AttackMusic();
-
-	//	break;
-	//case Enemy::STATE::JUMP_ATTACK:
-	//	SetJumpAttackAnimation();
-
-	//	// エフェクトの再生
-	//	JumpAttackRangePlayEffect();
-
-	//	// 音を止める
-	//	StopSoundMem(musicFootStepsId_);
-	//	musicFootStepsCnt_ = 0.0f;
-
-	//	// 音の再生
-	//	AttackMusic();
-
-	//	break;
-	//case Enemy::STATE::BEFORE_TACKLE:
-	//	// エフェクト再生
-	//	TackleRangePlayEffect();
-	//	break;
-	//case Enemy::STATE::TACKLE:
-
-	//	SetTackleAnimation();
-	//	tackleCnt_ = 4.0f;
-
-	//	// エフェクトの再生
-	//	TacklePlayEffect();
-
-	//	// 音の再生
-	//	PlaySoundMem(musicTackleId_, DX_PLAYTYPE_BACK);
-
-	//	// 音の再生
-	//	AttackMusic();
-	//	break;
-	//case Enemy::STATE::CREATE:
-	//	SetCreateAnimation();
-
-	//	// 音を止める
-	//	StopSoundMem(musicFootStepsId_);
-	//	musicFootStepsCnt_ = 0.0f;
-
-	//	// エフェクトの再生
-	//	CreatePlayEffect();
-
-	//	// 音の再生
-	//	PlaySoundMem(musicCreateId_, DX_PLAYTYPE_BACK);
-
-	//	// 音の再生
-	//	AttackMusic();
-
-	//	break;
-	//case Enemy::STATE::SHOT:
-	//	delayShot_ = TIME_DELAY_SHOT;
-	//	SetShotAnimation();
-
-	//	// 音を止める
-	//	StopSoundMem(musicFootStepsId_);
-	//	musicFootStepsCnt_ = 0.0f;
-	//	StopSoundMem(musicCreateId_);
-
-	//	// 音の再生
-	//	AttackMusic();
-
-	//	break;
-	//case Enemy::STATE::HIT:
-	//	attackPlayerPos_ = followTransform_->pos;
-	//	SetHitAnimation();
-
-	//	// 音を止める
-	//	StopSoundMem(musicFootStepsId_);
-	//	musicFootStepsCnt_ = 0.0f;
-	//	break;
-	//case Enemy::STATE::DEATH:
-	//	SetDeathAnimation();
-
-	//	// 音を止める
-	//	StopSoundMem(musicFootStepsId_);
-	//	musicFootStepsCnt_ = 0.0f;
-	//	break;
-	//case Enemy::STATE::TURN_LEFT:
-	//	SetTurnLeftAnimation();
-	//	break;
-	//case Enemy::STATE::TURN_RIGHT:
-	//	SetTurnRightAnimation();
-	//	break;
-	//}
-
 }
 
 void Enemy::LazyRotation(float goalRot)

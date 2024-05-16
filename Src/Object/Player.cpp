@@ -1443,6 +1443,85 @@ void Player::ChangeState(STATE state)
 
 	animationController_->ChangeAnimation(key_);
 
+	// 状態遷移時の初期化処理
+	switch (state)
+	{
+	case Player::STATE::IDLE:
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::WALK:
+		break;
+	case Player::STATE::CHARGE_WALK:
+		// エフェクトの再生
+		ChargePlayEffect();
+
+		// 溜める音の再生
+		PlaySoundMem(musicChargeId_, DX_PLAYTYPE_BACK);
+
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::RUN:
+		break;
+	case Player::STATE::ATTACK:
+		hit_ = false;
+		// エフェクトを止める
+		StopEffekseer3DEffect(effectChargePlayId_);
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::ATTACK2:
+		hit_ = false;
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::ATTACK3:
+		hit_ = false;
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::CHARGE_ATTACK:
+		hit_ = false;
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::HIT:
+		// エフェクトを止める
+		StopEffekseer3DEffect(effectChargePlayId_);
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::DEATH:
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	case Player::STATE::ROLL:
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		// スタミナを減らす
+		stamina_ -= 10.0f;
+		break;
+	case Player::STATE::TIRED:
+		// 足音を止める
+		StopSoundMem(musicFootStepsId_);
+		musicFootStepsCnt_ = 0.0f;
+		break;
+	}
+
+	if (state_ != STATE::CHARGE_WALK)
+	{
+		StopSoundMem(musicChargeId_);
+	}
 }
 
 void Player::LazyRotation(float goalRot)

@@ -84,9 +84,6 @@ public:
 	// 再生中のアニメーション
 	std::string GetPlayType(void) const;
 
-	// 再生終了
-	bool IsEnd(void) const;
-
 	// アタッチされている数を取得
 	int GetAttachNum(void) const;
 
@@ -108,6 +105,8 @@ public:
 	bool GetIsPriority(void);
 
 	bool IsEndPlayAnimation(void);
+
+	bool IsEndBlendPlayingAnimation(std::string state);
 
 	bool IsBlendPlay(std::string state);
 

@@ -1535,7 +1535,7 @@ void Player::Animation(void)
 {
 
 	// アニメーション再生
-	if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime)
+	if (animationController_->IsEndPlayAnimation())
 	{
 
 		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2

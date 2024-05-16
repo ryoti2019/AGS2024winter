@@ -133,35 +133,6 @@ std::string AnimationController::GetPlayType(void) const
 	return state_;
 }
 
-
-bool AnimationController::IsEnd(void) const
-{
-
-	bool ret = false;
-
-	for (auto& animData : animData_)
-	{
-		if (animData.second.isLoop)
-		{
-			// ループ設定されているなら、
-			// 無条件で終了しないを返す
-			return ret;
-		}
-	}
-
-	for (auto& animData : animData_)
-	{
-		if (animData.second.stepAnim >= animData.second.animTotalTime)
-		{
-			// 再生時間を過ぎたらtrue
-			return true;
-		}
-	}
-
-	return ret;
-
-}
-
 int AnimationController::GetAttachNum(void) const
 {
 	return AttachNum_;
@@ -348,6 +319,21 @@ bool AnimationController::IsEndPlayAnimation(void)
 	if (!data.isLoop && data.stepAnim >= data.animTotalTime)
 	{
 		return true;
+	}
+	return false;
+}
+
+bool AnimationController::IsEndBlendPlayingAnimation(std::string state)
+{
+	// 指定したアニメーションが再生終了されているか
+	const auto& data = animData_[state];
+	if (data.blendRate > 0.0 && data.state == state)
+	{
+
+		if (!data.isLoop && data.stepAnim >= data.animTotalTime)
+		{
+			return true;
+		}
 	}
 	return false;
 }

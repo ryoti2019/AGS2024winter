@@ -51,7 +51,7 @@ void Enemy::InitAnimation(void)
 		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_ATTACK), false, false);
 	animationController_->Add("HIT", path + "hit.mv1", 0.0f, 81.0f, HIT_ANIM_SPEED,
 		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_HIT), false, false);
-	animationController_->Add("DEATH", path + "death.mv1", 0.0f, 81.0,30.0f,
+	animationController_->Add("DEATH", path + "death.mv1", 0.0f, 138.0,30.0f,
 		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_DEATH), false, false);
 	animationController_->Add("TURN_LEFT", path + "turnLeft.mv1", 0.0f, 40.0f, 30.0f,
 		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_LEFT), false, false);
@@ -90,9 +90,6 @@ void Enemy::Init(void)
 
 	// プレイヤーのパラメーター
 	SetParam();
-
-	// 待機アニメーション
-	//SetIdleAnimation();
 
 	// HPバーの画像
 	imgHPBar_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::ENEMY_HP_BAR).handleId_;
@@ -297,25 +294,6 @@ void Enemy::TackleSyncEffect(void)
 void Enemy::TackleRangeSyncEffect(void)
 {
 
-	//// 追従対象の位置
-	//VECTOR followPos = transform_.pos;
-
-	//// 追従対象の向き
-	//Quaternion followRot = transform_.quaRot;
-
-	//VECTOR rot = Quaternion::ToEuler(followRot);
-
-	//// 追従対象から自機までの相対座標
-	//VECTOR effectPos = followRot.PosAxis({ 0.0f,10.0f,-3800.0f });
-
-	//// エフェクトの位置の更新
-	//effectTackleRangePos_ = VAdd(followPos, effectPos);
-
-	//// 位置の設定
-	//SetPosPlayingEffekseer3DEffect(effectTackleRangePlayId_, effectTackleRangePos_.x, effectTackleRangePos_.y, effectTackleRangePos_.z);
-	//SetRotationPlayingEffekseer3DEffect(effectTackleRangePlayId_, rot.x, rot.y, rot.z);
-
-
 	// New
 	auto atkPos = attackPlayerPos_;
 	atkPos.y = 0.0f;
@@ -452,12 +430,6 @@ void Enemy::AttackMusic(void)
 
 void Enemy::Update(void)
 {
-
-	//// 回転しきっていなかったら処理しない
-	//if (isRotation_)
-	//{
-	//	return;
-	//}
 
 	// アニメーション処理
  	Animation();
@@ -1242,8 +1214,6 @@ void Enemy::WeponCollision(void)
 	VECTOR cPosUP = followRot.PosAxis(LOCAL_WEPON_C_UP_POS);
 
 	// 敵の位置の更新
-	//cWeponPosDown_ = VAdd(transform_.pos, cPosDOWN);
-	//cWeponPosUp_ = VAdd(transform_.pos, cPosUP);
 	cWeponPosDown_ = VAdd(pos, cPosDOWN);
 	cWeponPosUp_ = VAdd(pos, cPosUP);
 
@@ -1257,7 +1227,7 @@ void Enemy::ChangeState(STATE state)
 		return;
 	}
 
-	state_ = state;
+ 	state_ = state;
 
 	stateHiss_.emplace_back(ANIM_DATA_KEY[(int)state]);
 
@@ -1374,18 +1344,18 @@ void Enemy::LazyRotation(float goalRot)
 
 void Enemy::DrawDebug(void)
 {
+#ifdef DEBUG
+	// エネミー自身の衝突判定のカプセルの描画
+	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
 
-	//// エネミー自身の衝突判定のカプセルの描画
-	//DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
+	// エネミー武器の衝突判定のカプセルの描画
+	DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
 
-	//// エネミー武器の衝突判定のカプセルの描画
-	//DrawCapsule3D(cWeponPosDown_, cWeponPosUp_, COLLISION_WEPON_RADIUS, 10, 0xff0000, 0xff0000, false);
-
-	//// ジャンプアタックの球体の描画
-	//if (state_ == STATE::JUMP_ATTACK)
-	//{
-	//	DrawCone3D(VAdd(attackPlayerPos_, { 0.0f,0.0f,0.0f }), VAdd(attackPlayerPos_, { 0.0f,10.0f,0.0f }), 1000, 10, 0x0000ff, 0x0000ff, true);
-	//}
+	// ジャンプアタックの球体の描画
+	if (state_ == STATE::JUMP_ATTACK)
+	{
+		DrawCone3D(VAdd(attackPlayerPos_, { 0.0f,0.0f,0.0f }), VAdd(attackPlayerPos_, { 0.0f,10.0f,0.0f }), 1000, 10, 0x0000ff, 0x0000ff, true);
+	}
 
 	// アタッチされている数
 	DrawFormatString(900, 180, 0xff0000, "list:%d", animationController_->GetAttachNum());
@@ -1411,6 +1381,9 @@ void Enemy::DrawDebug(void)
 		DrawFormatString(750, y, 0xff0000, "state:%s", s.c_str());
 		y += 20;
 	}
+#endif
+
+
 
 }
 
@@ -1427,12 +1400,6 @@ void Enemy::SetParam(void)
 
 void Enemy::Animation(void)
 {
-
-	// 行動後に動かない時間を作る
-	if (isAction_)
-	{
-		//noPlayTime_ -= SceneManager::GetInstance().GetDeltaTime();
-	}
 
 	// ショットの全体の時間のカウンタ
 	if (state_ == STATE::SHOT)
@@ -1454,9 +1421,6 @@ void Enemy::Animation(void)
 
 				// アニメーションが終わったらtrueにする
 				isAction_ = true;
-
-				//// クールタイムをリセットする
-				//noPlayTime_ = 3.0f;
 
 				startRotation_ = true;
 
@@ -1670,10 +1634,6 @@ ShotEnemy* Enemy::GetAvailableShot(void)
 
 	// なかった場合作成
 	ShotEnemy* newShot = new ShotEnemy();
-	//newShot->Create({ transform_.pos.x,
-	//	transform_.pos.y + 150 ,
-	//	transform_.pos.z },
-	//	transform_.GetForward());
 
 	// 弾の管理配列に追加
 	shots_.push_back(newShot);

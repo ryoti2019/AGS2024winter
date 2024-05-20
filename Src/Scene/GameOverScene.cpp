@@ -216,19 +216,4 @@ void GameOverScene::DrawLogo(void)
 		DrawRotaGraph(cx, cy + 200, 0.5f, 0.0f, imgSpaceOrB_, true);
 	}
 
-	//// Pushメッセージ
-	//std::string msg = "Push Space";
-	//SetFontSize(40);
-	//int len = (int)strlen(msg.c_str());
-	//int width = GetDrawStringWidth(msg.c_str(), len);
-
-	//// 点滅させる
-	//if ((BlinkCnt_ / 30) % 2)
-	//{
-	//	DrawFormatString(cx - (width / 2), 500, 0xffffff, msg.c_str());
-	//}
-
-	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	//SetFontSize(16);
-
 }

@@ -31,17 +31,6 @@ public:
 	// カメラの初期座標
 	static constexpr VECTOR DEFAULT_CAMERA_POS = { 0.0f, 500.0f, -500.0f };
 
-	// カメラ位置から注視点までの相対座標
-	//static constexpr VECTOR RELATIVE_C2T_POS = { 0.0f, -100.0f, 500.0f };
-
-	// 追従対象からカメラ位置までの相対座標(完全追従)
-	//static constexpr VECTOR RELATIVE_F2C_POS_FOLLOW = { 0.0f, 1000.0f, 300.0f };
-
-
-	// F - FOLLOW - 追従対象 - Player
-	// C - CAMERA - カメラ位置
-	// T - TARGET - 注視点
-
 	// プレイヤーからカメラの位置までの相対座標
 	static constexpr VECTOR LOCAL_P2C_POS = { 0.0f, 500.0f,-400.0f };
 

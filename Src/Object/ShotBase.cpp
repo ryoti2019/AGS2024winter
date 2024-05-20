@@ -25,10 +25,6 @@ ShotBase::ShotBase(void)
 
 	transform_.Update();
 
-	//// 爆発エフェクト
-	//effectBlastResId_ = ResourceManager::GetInstance().Load(
-	//	ResourceManager::SRC::SHOT_EXPLOSION).handleId_;
-
 }
 
 ShotBase::~ShotBase(void)
@@ -41,14 +37,9 @@ void ShotBase::Create(VECTOR relPos, Transform* follow)
 	// パラメータ設定
 	SetParam();
 
-	// 再利用可能なようにする
-	// 指定方向に弾を飛ばす
-	//dir_ = dir;
-
 	// 弾の発生位置
 	relPos;
 	follow;
-	//transform_.pos = birthPos;
 
 	// 弾モデルの向き(角度)を指定方向に合わせる
 	transform_.quaRot = Quaternion::LookRotation(dir_);
@@ -117,14 +108,8 @@ void ShotBase::Draw(void)
 	case ShotBase::STATE::NONE:
 		break;
 	case ShotBase::STATE::IDLE:
-		//MV1DrawModel(transform_.modelId);
-		// デバッグ描画
-		//DrawDebug();
 		break;
 	case ShotBase::STATE::SHOT:
-		//MV1DrawModel(transform_.modelId);
-		// デバッグ描画
-		//DrawDebug();
 		break;
 	case ShotBase::STATE::BLAST:
 		break;
@@ -253,5 +238,5 @@ void ShotBase::PlayBlastEffect(void)
 
 void ShotBase::DrawDebug(void)
 {
-	DrawSphere3D(transform_.pos, /*collisionRadius_*/50, 10, 0xff0000, 0xff0000, true);
+	DrawSphere3D(transform_.pos,50, 10, 0xff0000, 0xff0000, true);
 }

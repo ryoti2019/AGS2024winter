@@ -144,39 +144,12 @@ void Camera::SetBeforeDrawFollow(void)
 
 	auto& sce = SceneManager::GetInstance();
 
-	//operationCnt_ += SceneManager::GetInstance().GetDeltaTime();
-
-	//if (operationCnt_ <= 1.0f)
-	//{
-	//	return;
-	//}
-
-	//// キーボードでの操作
-	//if (!SceneManager::GetInstance().GetGamePad() && ins.IsTrgDown(KEY_INPUT_SPACE))
-	//{
-	//	sce.SetIsOperation(false);
-	//}
-
-	//// ゲームパッドでの操作
-	//if (SceneManager::GetInstance().GetGamePad() && ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT))
-	//{
-	//	sce.SetIsOperation(false);
-	//}
-
 	if (sce.GetIsOperation())
 	{
 		return;
 	}
 
 	VECTOR playerPos = playerTransform_->pos;
-	//VECTOR enemyPos = enemyTransform_->pos;
-
-	//VECTOR vec = VSub(enemyPos, playerPos);
-	//float length = AsoUtility::Magnitude(vec);
-	//if (length >= 2000.0f)
-	//{
-	//	lockOn_ = false;
-	//}
 
 	// Qキーを押したらtrueになる
 	if (isLazy_)
@@ -227,12 +200,6 @@ void Camera::SetBeforeDrawLockOn(void)
 
 	// 敵とプレイヤーの距離をとる
 	float dis = AsoUtility::Distance(goalPos, playerPos);
-	//if (dis < min)
-	//{
-	//	// 注視点の距離が近すぎる場合、一定の距離を保つ
-	//	auto dir = VNorm(VSub(goalPos, pos));
-	//	goalPos = VAdd(pos, VScale(dir, min));
-	//}
 	
 	// 注視点の座標を目標の座標に近づける(ゆっくり目標の座標に近づける)
 	targetPos_ = AsoUtility::Lerp(targetPos_, goalPos, 0.1f);
@@ -260,12 +227,9 @@ void Camera::SetBeforeDrawLockOn(void)
 		if (dis < minmin)
 		{
 			isNearLockOnTarget_ = true;
-			//followTransform_->pos = VAdd(targetPos_,
-			//	VScale(VNorm(VSub(followTransform_->pos, targetPos_)), minmin));
 		}
 
 		// 注視点の距離が近すぎる場合、一定の距離を保つ
-		//auto dir = VNorm(VSub(goalCameraPos, targetPos_));
 		auto dir = lockOnLook_.GetBack();
 		goalCameraPos = VAdd(targetPos_, VScale(dir, min));
 
@@ -549,70 +513,6 @@ void Camera::KeybordContoroller(void)
 	// カメラの上方向
 	cameraUp_ = AsoUtility::DIR_U;
 
-	//auto& ins = InputManager::GetInstance();
-	//// 回転
-	////-------------------------------------
-	//VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
-	//if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += -1.0f; }
-	//if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += 1.0f; }
-	//if (ins.IsNew(KEY_INPUT_DOWN) && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
-	//{
-	//	axisDeg.x += -1.0f;
-	//}
-	//if (ins.IsNew(KEY_INPUT_UP) && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
-	//{
-	//	axisDeg.x += 1.0f;
-	//}
-	//if (!AsoUtility::EqualsVZero(axisDeg))
-	//{
-	//	// プレイヤーがカメラを動かしたときのフラグ
-	//	// カメラを回転させる
-	//	// X軸のカメラの移動制御
-	//	angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
-	//	angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
-	//	rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
-	//	rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
-	//}
-
-	// ロックオンしていないとき
-	//if (!lockOn_)
-	//{
-	//	// 追従対象の位置
-	//	VECTOR followPos = playerTransform_->pos;
-
-	//	// 追従対象から注視点までの相対座標を回転
-	//	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_P2T_POS);
-
-	//	// 注視点の更新
-	//	targetPos_ = VAdd(followPos, relativeTPos);
-
-	//	VECTOR relativeCPos = AsoUtility::VECTOR_ZERO;
-
-	//	if (!pHit_)
-	//	{
-	//		// 追従対象からカメラまでの相対座標
-	//		relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
-	//	}
-	//	else
-	//	{
-	//		// 追従対象からカメラまでの相対座標	
-	//		relativeCPos = rotXY_.PosAxis({ 0.0f,200.0f,0.0f });
-	//	}
-
-	//	// カメラ位置の更新
-	//	pos_ = VAdd(followPos, relativeCPos);
-
-	//	// カメラ座標をゆっくり移動させる
-	//	pos_ = AsoUtility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
-
-	//	// 注視点をゆっくり移動させる
-	//	targetPos_ = AsoUtility::Lerp(targetPos_, VAdd(followPos, relativeTPos), 0.1f);
-
-	//	// カメラの上方向
-	//	cameraUp_ = AsoUtility::DIR_U;
-
-	//}
-
 }
 
 void Camera::KeybordLockOnContoroller(void)
@@ -672,24 +572,6 @@ void Camera::KeybordLockOnContoroller(void)
 		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(lockOnAngles_.x, AsoUtility::AXIS_X));
 
 	}
-
-	//// 追従対象の位置
-	//VECTOR followPos = playerTransform_->pos;
-
-	//// 追従対象から注視点までの相対座標を回転
-	//VECTOR relativeTPos = rotY_.PosAxis(LOCAL_P2T_POS);
-
-	//// 注視点の更新
-	//targetPos_ = VAdd(followPos, relativeTPos);
-
-	//// 追従対象からカメラまでの相対座標
-	//VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
-
-	//// カメラ位置の更新
-	//pos_ = VAdd(followPos, relativeCPos);
-
-	//// カメラの上方向
-	//cameraUp_ = AsoUtility::DIR_U;
 
 }
 
@@ -758,14 +640,8 @@ void Camera::GamePadController(void)
 	// 追従対象から注視点までの相対座標を回転
 	VECTOR relativeTPos = rotY_.PosAxis(LOCAL_P2T_POS);
 
-	//// 注視点の更新
-	//targetPos_ = VAdd(followPos, relativeTPos);
-
 	// 追従対象からカメラまでの相対座標
 	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
-
-	//// カメラ位置の更新
-	//pos_ = VAdd(followPos, relativeCPos);
 
 	// カメラ座標をゆっくり移動させる
 	pos_ = AsoUtility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
@@ -854,48 +730,6 @@ void Camera::CollisionStage(void)
 	{
 		pHit_ = false;
 	}
-
-	//// 衝突した複数のポリゴンと衝突回避するまで、
-	//// プレイヤーの位置を移動させる
-	//for (int i = 0; i < hits.HitNum; i++)
-	//{
-
-	//	auto hit = hits.Dim[i];
-
-	//	// 地面と異なり、衝突回避位置が不明なため、何度か移動させる
-	//	// この時、移動させる方向は、移動前座標に向いた方向であったり、
-	//	// 衝突したポリゴンの法線方向だったりする
-	//	for (int tryCnt = 0; tryCnt < 10; tryCnt++)
-	//	{
-
-	//		// 再度、モデル全体と衝突検出するには、効率が悪過ぎるので、
-	//		// 最初の衝突判定で検出した衝突ポリゴン1枚と衝突判定を取る
-	//		int pHit = HitCheck_Capsule_Triangle(
-	//			pos_, pos_, 10.0f,
-	//			hit.Position[0], hit.Position[1], hit.Position[2]);
-
-	//		if (pHit)
-	//		{
-
-	//			pHit_ = true;
-
-	//			// 法線の方向にちょっとだけ移動させる
-	//			movedPos_ = VAdd(movedPos_, VScale(hit.Normal, 10.0f));
-
-	//			// カプセルも一緒に移動させる
-	//			pos_ = movedPos_;
-
-	//		}
-	//		else
-	//		{
-	//			pHit_ = false;
-	//		}
-
-	//		break;
-
-	//	}
-
-	//}
 
 	// 検出した地面ポリゴン情報の後始末
 	MV1CollResultPolyDimTerminate(hits);

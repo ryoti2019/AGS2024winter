@@ -195,114 +195,6 @@ void Player::Init(void)
 void Player::Update(void)
 {
 
-	//auto& ins = InputManager::GetInstance();
-
-	//// 左クリックで攻撃
-	//if (ins.IsClickMouseLeft())
-	//{
-	//	animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::ATTACK]);
-	//}
-
-	//// 攻撃モーションが終わったら自動的にIDLE
-	//auto atk = ANIM_DATA_KEY[(int)STATE::ATTACK];
-	//if (atk == animationController_->GetPlayType())
-	//{
-	//	if (animationController_->IsEndPlayAnimation())
-	//	{
-	//		animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::CHARGE_WALK]);
-	//		animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);
-	//	}
-	//}
-
-	//// 右クリックでIDLE
-	//if (ins.IsClickMouseRight())
-	//{
-	//	animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);
-	//}
-
-	//// 2段階目に進まないときはリセット
-	//float step = animationController_->GetAnimData("ATTACK").stepAnim;
-	//float time = animationController_->GetAnimData("ATTACK").animTotalTime;
-	//if (state_ == STATE::ATTACK
-	//	&& step >= time
-	//	&& !attack2_)
-	//{
-	//	hit_ = false;
-	//	//animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);;
-	//	chargeCnt_ = 0.0f;
-	//}
-
-	//KeyboardContoroller();
-
-	//// アニメーション更新
-	//animationController_->Update();
-
-	//// アニメーションの固定
-	//AnimationFrame();
-	//
-	//// アニメーション再生
-	//if (animationController_->GetAnimData(key_).stepAnim >= animationController_->GetAnimData(key_).animTotalTime)
-	//{
-	//	if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
-	//		|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK
-	//		|| state_ == STATE::HIT || state_ == STATE::ROLL)
-	//	{
-
-	//		if (state_ == STATE::ATTACK2)
-	//		{
-	//			animationController_->SetStartStepAnim("ATTACK2", ATTACK_START_TIME2);
-	//		}
-	//		else if (state_ == STATE::ATTACK3)
-	//		{
-	//			animationController_->SetStartStepAnim("ATTACK3", ATTACK_START_TIME3);
-	//		}
-	//		//else
-	//		//{
-	//		//	animationController_->SetStartStepAnim(key_, 0.0f);
-	//		//}
-	//		attack1_ = false;
-	//		attack2_ = false;
-	//		attack3_ = false;
-	//		chargeAttack_ = false;
-	//		isMusicSlash_ = true;
-	//		isMusicRoll_ = true;
-	//		hit_ = false;
-	//		//animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);
-	//		chargeCnt_ = 0.0f;
-	//	}
-	//
-	//}
-
-	//// 3段階目に進まないときはリセット
-	//if (state_ == STATE::ATTACK2 && animationController_->GetAnimData("ATTACK2").stepAnim >=
-	//	animationController_->GetAnimData("ATTACK2").animTotalTime && !attack3_)
-	//{
-	//	animationController_->SetStartStepAnim("ATTACK2", ATTACK_START_TIME2);
-	//	hit_ = false;
-	//	ChangeState(STATE::IDLE);
-	//	chargeCnt_ = 0.0f;
-	//}
-
-	// 他の処理を一切行わない
-	//return;
-
-
-
-
-
-
-
-
-	//// スロー
-	//if (slowCnt_ > 0)
-	//{
-	//	slowCnt_--;
-	//	if (slowCnt_ % 5 != 0)
-	//	{
-	//		return;
-	//	}
-	//}
-
 	slowCnt_ = 60;
 
 	// 状態の遷移
@@ -488,22 +380,7 @@ void Player::Update(void)
 
 	}
 
-	//// 待機アニメーション
-	//ChangeAnimation(state_);
-
 	Animation();
-
-
-	// 攻撃モーションが終わったら自動的にIDLE
-	//auto atk = ANIM_DATA_KEY[(int)STATE::ATTACK];
-	//if (atk == animationController_->GetPlayType())
-	//{
-	//	if (animationController_->IsEndPlayAnimation())
-	//	{
-	//		//animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);
-	//		ChangeState(STATE::IDLE);
-	//	}
-	//}
 
 	// 衝突判定
 	Collision();
@@ -527,43 +404,48 @@ void Player::Draw(void)
 	// モデルの描画
 	UnitBase::Draw();
 
-	// デバッグ描画
-	//DrawDebug();
+#ifdef _DEBUG
 
-	// アタッチされている数
-	DrawFormatString(0, 180, 0xff0000, "list:%d", animationController_->GetAttachNum());
+// デバッグ描画
+DrawDebug();
+
+// アタッチされている数
+DrawFormatString(0, 180, 0xff0000, "list:%d", animationController_->GetAttachNum());
 
 
-	int y = 200;
-	const auto& animDatas = animationController_->GetAnimDatas();
-	for (const auto& anim : animDatas)
+int y = 200;
+const auto& animDatas = animationController_->GetAnimDatas();
+for (const auto& anim : animDatas)
+{
+	//if (anim.second.blendRate > 0.0f)
 	{
-		//if (anim.second.blendRate > 0.0f)
-		{
-			DrawFormatString(0, y, 0xff0000, "type:%s, step:%.2f, rate:%.2f",
-				anim.second.state.c_str(),
-				anim.second.stepAnim,
-				anim.second.blendRate
-			);
-			y += 20;
-		}
-	}
-
-	y = 100;
-	for (auto& s : stateHiss_)
-	{
-		DrawFormatString(400, y, 0xff0000, "state:%s", s.c_str());
+		DrawFormatString(0, y, 0xff0000, "type:%s, step:%.2f, rate:%.2f",
+			anim.second.state.c_str(),
+			anim.second.stepAnim,
+			anim.second.blendRate
+		);
 		y += 20;
 	}
+}
 
-	//if (animationController_->GetIsPriority())
-	//{
-	//	auto data = animationController_->GetAnimData(key_);
-	//	DrawFormatString(0, 200, 0xff0000, "stepAnim_:%f, animType:%s", 
-	//		data.stepAnim,
-	//		data.state.c_str()
-	//	);
-	//}
+y = 100;
+for (auto& s : stateHiss_)
+{
+	DrawFormatString(400, y, 0xff0000, "state:%s", s.c_str());
+	y += 20;
+}
+
+if (animationController_->GetIsPriority())
+{
+	auto data = animationController_->GetAnimData(key_);
+	DrawFormatString(0, 200, 0xff0000, "stepAnim_:%f, animType:%s", 
+		data.stepAnim,
+		data.state.c_str()
+	);
+}
+
+#endif
+
 
 }
 
@@ -1276,126 +1158,6 @@ void Player::LockOn(void)
 		Rotate();
 	}
 
-	//// ②移動処理前に、ターゲットとの特別衝突判定
-	//moveDiff_ = VSub(movedPos_, transform_.pos);
-
-	//// ロックオンモードの時
-	//if (camera->GetMode() == Camera::MODE::LOCKON)
-	//{
-
-	//	// カメラの注視点
-	//	auto cameraTargetPos = camera->GetTargetPos();
-
-	//	float y = movedPos_.y;
-
-	//	// XZ平面の移動後座標
-	//	auto movedPosXZ = movedPos_;
-
-	//	// XZ平面のカメラの注視点
-	//	auto cameraTargetPosXZ = cameraTargetPos;
-
-	//	// XZ平面のカメラ座標
-	//	auto cameraPosXZ = camera->GetPos();
-
-	//	// 移動後座標とカメラの注視点とカメラ座標を0にすることでXZ平面座標にしている
-	//	movedPosXZ.y = cameraTargetPosXZ.y = cameraPosXZ.y = 0.0f;
-
-	//	// 注視点からのプレイヤーのベクトル
-	//	auto target2Player = VNorm(VSub(movedPosXZ, cameraTargetPosXZ));
-
-	//	//// 目的の角度までの差を測る
-	//	//SetGoalRotate(Quaternion::LookRotation(VScale(target2Player, -1.0)));
-
-	//	//// 少しずつ回転させる
-	//	//Rotate();
-
-	//	// 移動後座標と移動前座標が0以上の時
-	//	if (!AsoUtility::EqualsVZero(moveDiff_))
-	//	{
-
-	//		// 注視点と移動後座標の距離
-	//		target2PlayerDis_ = AsoUtility::Distance(cameraTargetPos, movedPos_);
-
-	//		// 敵との最小限の距離
-	//		enemyMinDis_ = 100.0f;
-
-	//		// 注視点と敵との最小限の距離が100未満の時
-	//		if (target2PlayerDis_ < enemyMinDis_)
-	//		{
-
-	//			// 注視点から移動後座標のベクトルをクォータニオンに
-	//			auto rot = Quaternion::LookRotation(target2Player);
-
-	////			// 右方向
-	////			auto r = rot.GetRight();
-
-	////			// 左方向
-	////			auto l = rot.GetLeft();
-
-	////			// 右方向の内積
-	////			auto dotR = VDot(r, target2Player);
-
-	////			// 左方向の内積
-	////			auto dotL = VDot(l, target2Player);
-
-	////			float deg = 2.0f;
-
-
-	////			// 右か左かを選ぶ処理
-
-	////			if (dotR + 0.01f > dotL)
-
-	////			{
-
-	////				deg *= -1.0f;
-
-	////				// キャラが右に回る
-
-	////				rot = rot.Mult(
-
-	////					Quaternion::AngleAxis(-deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
-
-	////				// 内積の大きいほうに角度を足す
-	////				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
-
-
-	////			}
-
-	////			else
-
-	////			{
-
-	////				// キャラが左に回る
-
-	////				rot = rot.Mult(
-
-	////					Quaternion::AngleAxis(deg * DX_PI_F / 180.0f, AsoUtility::AXIS_Y));
-
-	////				camera->AddLockOnAnglesY(deg * DX_PI_F / 180.0f);
-
-	////			}
-
-
-	//			movedPos_ = VAdd(cameraTargetPos, VScale(rot.GetForward(), enemyMinDis_ + 0.5f));
-	//			movedPos_.y = y;
-
-	//		}
-
-	//	}
-
-	//}
-
-
-	//// 移動
-
-	//moveDiff_ = VSub(movedPos_, transform_.pos);
-
-	//transform_.pos = movedPos_;
-
-
-	// ③回転完了までの時間短縮
-
-
 }
 
 // 補足関数
@@ -1527,43 +1289,6 @@ void Player::ChangeState(STATE state)
 void Player::LazyRotation(float goalRot)
 {
 
-	//// 回転処理
-	//// クォータニオンからラジアン
-	//float radNowAngleY = transform_.quaRot.ToEuler().y;
-	//float degNowAngleY = AsoUtility::Rad2DegF(radNowAngleY);
-	//float degGoalAngleY = AsoUtility::Rad2DegF(goalRot);
-
-	//// 0度～360度以内に角度をおさめる
-	////degGoalAngleY = static_cast<float>(AsoUtility::DegIn360(degGoalAngleY));
-
-	//// 回転が少ない方の回転向きを取得する(時計回り:1、反時計回り:-1)
-	//int aroundDir = AsoUtility::DirNearAroundDeg(degNowAngleY, degGoalAngleY);
-
-	//// 回転量の作成
-	//Quaternion rotPow = Quaternion::Identity();
-	//rotPow = Quaternion::Mult(
-	//	rotPow,
-	//	Quaternion::AngleAxis(AsoUtility::Deg2RadF(3.0f * aroundDir), AsoUtility::AXIS_Y));
-
-	////auto localRotRad = transform_.quaRot.ToEuler();
-	////auto localRotDeg = AsoUtility::Rad2DegF(localRotRad.y);
-	////auto goalRad = goalRot;
-
-	//if (fabs(degGoalAngleY - degNowAngleY) >= 5)
-	//{
-	//	transform_.quaRot = Quaternion::Mult(transform_.quaRot, rotPow);
-	//}
-	//else
-	//{
-	//	// ラジアンからクォータニオン
-	//	Quaternion qua = Quaternion::Euler(0, goalRot, 0);
-	//	transform_.quaRot.y = qua.y;
-	//}
-
-	//auto* camera = SceneManager::GetInstance().GetCamera();
-
-	//auto cameraRotY = camera->GetRotY();
-	//transform_.quaRot = Quaternion::Slerp(transform_.quaRot, cameraRotY, 0.1f);
 	if (state_ == STATE::ROLL)
 	{
 		auto goal = Quaternion::Euler(0.0f, goalRot, 0.0f);
@@ -1579,6 +1304,8 @@ void Player::LazyRotation(float goalRot)
 void Player::DrawDebug(void)
 {
 
+#ifdef _DEBUG
+
 	auto rad = transform_.quaRot.ToEuler();
 
 	VECTOR pDeg = { AsoUtility::Rad2DegF(rad.x),
@@ -1590,6 +1317,9 @@ void Player::DrawDebug(void)
 
 	// エネミー自身の衝突判定のカプセルの描画
 	DrawCapsule3D(cBodyPosDown_, cBodyPosUp_, COLLISION_BODY_RADIUS, 10, 0xff0000, 0xff0000, false);
+
+#endif
+
 
 }
 
@@ -1631,7 +1361,6 @@ void Player::Animation(void)
 			isMusicRoll_ = true;
 			hit_ = false;
 			ChangeState(STATE::IDLE);
-			//animationController_->ChangeAnimation(ANIM_DATA_KEY[(int)STATE::IDLE]);
 			chargeCnt_ = 0.0f;
 		}
 
@@ -1642,7 +1371,6 @@ void Player::Animation(void)
 		animationController_->GetAnimData("ATTACK").animTotalTime && !attack2_)
 	{
 		hit_ = false;
-		//ChangeState(STATE::IDLE);
 		chargeCnt_ = 0.0f;
 	}
 
@@ -1650,9 +1378,7 @@ void Player::Animation(void)
 	if (state_ == STATE::ATTACK2 && animationController_->GetAnimData("ATTACK2").stepAnim >=
 		animationController_->GetAnimData("ATTACK2").animTotalTime && !attack3_)
 	{
-		//animationController_->SetStartStepAnim("ATTACK2", ATTACK_START_TIME2);
 		hit_ = false;
-		//ChangeState(STATE::IDLE);
 		chargeCnt_ = 0.0f;
 	}
 
@@ -1665,8 +1391,6 @@ void Player::AnimationFrame(void)
 	MV1ResetFrameUserLocalMatrix(transform_.modelId, playerAttachFrameNum_);
 
 	// ジャンプ攻撃時に座標を固定する
-
-	//if (/*state_ == STATE::ATTACK || state_ == STATE::ATTACK2 || state_ == STATE::ATTACK3 ||*/ state_ == STATE::CHARGE_ATTACK || state_ == STATE::ROLL)
 	if (animationController_->IsBlendPlay("CHARGE_ATTACK") || animationController_->IsBlendPlay("ROLL") || animationController_->IsBlendPlay("ATTACK3"))
 	{
 

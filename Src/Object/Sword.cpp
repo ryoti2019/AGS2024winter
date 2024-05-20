@@ -27,8 +27,6 @@ void Sword::InitAnimation(void)
 		rotPow,
 		Quaternion::AngleAxis(AsoUtility::Deg2RadF(-270), AsoUtility::AXIS_Z));
 	rotPow = rotPow.Mult(Quaternion::AngleAxis(AsoUtility::Deg2RadF(0), AsoUtility::AXIS_X));
-	//VECTOR localRot = { AsoUtility::Deg2RadF(90),AsoUtility::Deg2RadF(0), AsoUtility::Deg2RadF(60) };
-	//transform_.quaRotLocal = Quaternion::Euler(localRot);
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 
@@ -118,12 +116,6 @@ void Sword::Draw(void)
 
 	// ÉçÅ[ÉhÇ≥ÇÍÇΩÇRÇcÉÇÉfÉãÇâÊñ Ç…ï`âÊ
 	MV1DrawModel(transform_.modelId);
-
-	//collisionUPPos_ = VAdd(collisionUPPos_, { 0.0f,5.0f,0.0f });
-	//collisionDOWNPos_ = VAdd(collisionDOWNPos_, { 0.0f,-5.0f,0.0f });
-
-	// ìñÇΩÇËîªíËÇÃï`âÊ
-	//DrawCapsule3D(cPosDown_, cPosUp_, COLLISION_RADIUS, 10, 0xff0000, 0xff0000, false);
 
 }
 

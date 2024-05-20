@@ -13,33 +13,14 @@ Stage::~Stage(void)
 void Stage::Init(void)
 {
 
-	//// モデル制御の基本情報
-	//transform_.SetModel(
-	//	ResourceManager::GetInstance().LoadModelDuplicate(
-	//		ResourceManager::SRC::TEST_STAGE));
-
-	// モデル制御の基本情報
-	//transform_.SetModel(
-	//	ResourceManager::GetInstance().LoadModelDuplicate(
-	//		ResourceManager::SRC::TEST_STAGE3));
-
 	transform_.SetModel(
 		ResourceManager::GetInstance().LoadModelDuplicate(
 			ResourceManager::SRC::TEST_STAGE4));
-
-	//float scale = 3.0f;
-	//transform_.scl = { scale, scale, scale };
-	//transform_.pos = { -1500.0f, 0.0f, 11000.0f };
 
 	float scale = 8.0f;
 	transform_.scl = { scale, scale, scale };
 	transform_.pos = { 0.0f, -160.0f, 0.0f };
 
-	//transform_.quaRot = Quaternion::Euler(
-	//	0.0f,
-	//	AsoUtility::Deg2RadF(0.0f),
-	//	0.0f
-	//);
 	transform_.quaRotLocal = Quaternion();
 	transform_.Update();
 

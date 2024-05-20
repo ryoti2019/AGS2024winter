@@ -157,9 +157,6 @@ void GameScene::Update(void)
 		return;
 	}
 
-	// グリッド線の更新
-	//grid_->Update();
-
 	// ステージの更新
 	stage_->Update();
 
@@ -244,9 +241,6 @@ void GameScene::Update(void)
 void GameScene::Draw(void)
 {
 
-	// グリッド線の描画
-	//grid_->Draw();
-
 	// ステージの描画
 	stage_->Draw();
 
@@ -258,11 +252,6 @@ void GameScene::Draw(void)
 
 	// 敵の描画
 	enemy_->Draw();
-
-	// デバッグ描画
-	//DrawDebug();
-
-	//DrawSphere3D({ 0.0f,-300.0f, 500.0f }, 3500.0f, 10, 0xff0000, 0xff0000, false);
 
 	DrawHPBar();
 
@@ -338,9 +327,7 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-3);
-			//enemy_->SetHP(-100);
-			//enemy_->SetState(Enemy::STATE::HIT);
+			enemy_->SetHP(-100);
 			player_->SetAttack(false);
 			player_->SetHit(true);
 			hitStopCnt_ = 5;
@@ -366,8 +353,6 @@ void GameScene::CollisionEnemyAndPlayer()
 		if (player_->GetAttack())
 		{
 			enemy_->SetHP(-10);
-			//enemy_->SetHP(-100);
-			//enemy_->SetState(Enemy::STATE::HIT);
 			player_->SetAttack(false);
 			player_->SetHit(true);
 			hitStopCnt_ = 5;
@@ -395,7 +380,6 @@ void GameScene::CollisionEnemyAndPlayer()
 		{
 			player_->SetState(Player::STATE::HIT);
 			player_->SetHP(-15);
-			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -406,30 +390,7 @@ void GameScene::CollisionEnemyAndPlayer()
 			PlayerHitMusic();
 		}
 	}
-	//// プレイヤーと敵同士の当たり判定(タックル)
-	//else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
-	//	enemy_->GetCWeponPosDown(), enemy_->GetCWeponPosUP(), enemy_->COLLISION_WEPON_RADIUS)
-	//	&& enemy_->GetState() == Enemy::STATE::TACKLE
-	//	&& player_->GetState() != Player::STATE::ROLL &&
-	//	(player_->GetStepAnim() >= 0.0f && player_->GetStepAnim() <= 5.0f ||
-	//		player_->GetStepAnim() >= 45.0f && player_->GetStepAnim() <= 71.0f)
-	//	&& player_->GetHP() > 0)
-	//{
-	//	// 敵の攻撃がすでに当たっていたら入らない
-	//	if (enemy_->GetAttack())
-	//	{
-	//		player_->SetState(Player::STATE::HIT);
-	//		player_->SetHP(-10);
-	//		enemy_->SetAttack(false);
-	//		enemy_->SetHit(true);
 
-	//		// 敵の攻撃が当たった時のエフェクト
-	//		EnemyImpactPlayEffect();
-
-	//		// ダメージヒット音の再生
-	//		PlayerHitMusic();
-	//	}
-	//}
 	// プレイヤーと敵同士の当たり判定
 	else if (HitCheck_Capsule_Capsule(player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
@@ -442,7 +403,6 @@ void GameScene::CollisionEnemyAndPlayer()
 		{
 			player_->SetState(Player::STATE::HIT);
 			player_->SetHP(-10);
-			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -464,7 +424,6 @@ void GameScene::CollisionEnemyAndPlayer()
 		{
 			player_->SetState(Player::STATE::HIT);
 			player_->SetHP(-3);
-			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 
@@ -492,7 +451,6 @@ void GameScene::CollisionEnemyAndPlayer()
 		{
 			player_->SetState(Player::STATE::HIT);
 			player_->SetHP(-20);
-			//player_->SetHP(-100);
 			enemy_->SetAttack(false);
 			enemy_->SetHit(true);
 

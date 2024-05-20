@@ -4,7 +4,6 @@
 #include "../Common/Fader.h"
 #include "../Scene/TitleScene.h"
 #include "../Scene/GameScene.h"
-#include"../Scene/SpecialMoveScene.h"
 #include "../Scene/GameClearScene.h"
 #include "../Scene/GameOverScene.h"
 #include "ResourceManager.h"
@@ -252,9 +251,6 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 		break;
 	case SCENE_ID::GAME:
 		scene_ = new GameScene();
-		break;
-	case SCENE_ID::SPECIALMOVE:
-		scene_ = new SpecialMoveScene();
 		break;
 	case SCENE_ID::GAMECLEAR:
 		scene_ = new GameClearScene();

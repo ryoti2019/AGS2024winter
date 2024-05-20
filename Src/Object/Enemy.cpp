@@ -434,8 +434,9 @@ void Enemy::Update(void)
 	// アニメーション処理
  	Animation();
 
-	if (hp_ <= 0)
+	if (animationController_->GetAnimData("DEATH").stepAnim >= animationController_->GetAnimData("DEATH").animTotalTime)
 	{
+		animationController_->SetStartStepAnim("DEATH", animationController_->GetAnimData("DEATH").animTotalTime);
 		return;
 	}
 
@@ -522,7 +523,6 @@ void Enemy::Update(void)
 		UpdateShot();
 		break;
 	case Enemy::STATE::HIT:
-		//UpdateHit();
 		break;
 	case Enemy::STATE::DEATH:
 		break;
@@ -796,7 +796,6 @@ void Enemy::Think(void)
 
 	// 攻撃の選択
 	attackNumber_ = GetRand(3);
-	//attackNumber_ = 2;
 
 	// 攻撃が当たったかどうか
 	hit_ = false;
@@ -1025,7 +1024,7 @@ void Enemy::UpdateTackle(void)
 	tackleCnt_ -= SceneManager::GetInstance().GetDeltaTime();
 
 	// タックルし続ける間は座標を動かす
-	if (tackleCnt_ > 0.0f /*&& beforeTackleCnt_ <= 0.0f*/)
+	if (tackleCnt_ > 0.0f)
 	{
 		// 移動量
 		movePow_ = VScale(pDirection_, TACKLE_SPEED);

@@ -164,7 +164,7 @@ void GameScene::Update(void)
 	player_->Update();
 
 	// 敵の更新
-	enemy_->Update();
+ 	enemy_->Update();
 
 	// 剣の更新
 	sword_->Update();
@@ -327,7 +327,7 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-100);
+			enemy_->SetHP(-5);
 			player_->SetAttack(false);
 			player_->SetHit(true);
 			hitStopCnt_ = 5;
@@ -352,7 +352,7 @@ void GameScene::CollisionEnemyAndPlayer()
 		// プレイヤーの攻撃がすでに当たっていたら入らない
 		if (player_->GetAttack())
 		{
-			enemy_->SetHP(-10);
+			enemy_->SetHP(-15);
 			player_->SetAttack(false);
 			player_->SetHit(true);
 			hitStopCnt_ = 5;

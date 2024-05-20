@@ -45,7 +45,7 @@ void AnimationController::Add(const std::string state, const std::string& path, 
 	anim.isLoop = isLoop;
 	anim.isStop = isStop;
 	anim.state = state;
-	animData_.emplace(state, anim);
+ 	animData_.emplace(state, anim);
 
 }
 
@@ -94,7 +94,7 @@ void AnimationController::Update(void)
 		// çƒê∂
 		if (animData.second.stepAnim <= animData.second.animTotalTime)
 		{
-			animData.second.stepAnim += (deltaTime * animData.second.speedAnim);
+         		animData.second.stepAnim += (deltaTime * animData.second.speedAnim);
 		}
 		if (animData.second.stepAnim > animData.second.animTotalTime && animData.second.isLoop)
 		{

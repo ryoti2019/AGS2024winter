@@ -31,32 +31,32 @@ void Enemy::InitAnimation(void)
 
 	std::string path = Application::PATH_MODEL + "Enemy/";
 	animationController_ = new AnimationController(transform_.modelId, 0);
-	animationController_->Add("THINK", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
-	animationController_->Add("IDLE", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE),true,false);
-	animationController_->Add("WALK", path + "walk.mv1", 0.0f, 43.0f, WALK_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_WALK), true, false);
-	animationController_->Add("ATTACK", path + "attack.mv1", 0.0f, 80.0f, ATTACK_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_ATTACK), false, false);
-	animationController_->Add("JUMP_ATTACK", path + "jumpAttack.mv1", 0.0f, 111.0f, JUMP_ATTACK_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_JUMP_ATTACK), false, false);
-	animationController_->Add("BEFORE_TACKLE", path + "idle.mv1", 0.0f, 120.0f, IDLE_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
-	animationController_->Add("TACKLE", path + "tackle.mv1", 0.0f, 38.0f, TACKLE_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TACKLE), true, false);
-	animationController_->Add("CREATE", path + "create.mv1", 15.0f, 45.0f, 30.0f,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_CREATE), false, false);
-	animationController_->Add("SHOT", path + "shot.mv1", SHOT_START_TIME, SHOT_END_TIME, SHOT_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_ATTACK), false, false);
-	animationController_->Add("HIT", path + "hit.mv1", 0.0f, 81.0f, HIT_ANIM_SPEED,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_HIT), false, false);
-	animationController_->Add("DEATH", path + "death.mv1", 0.0f, 138.0,30.0f,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_DEATH), false, false);
-	animationController_->Add("TURN_LEFT", path + "turnLeft.mv1", 0.0f, 40.0f, 30.0f,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_LEFT), false, false);
-	animationController_->Add("TURN_RIGHT", path + "turnRight.mv1", 0.0f, 40.0f, 30.0f,
-		model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_RIGHT), false, false);
+	//animationController_->Add("THINK", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+	//animationController_->Add("IDLE", path + "idle.mv1", 0.0f, 121.0f, IDLE_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE),true,false);
+	//animationController_->Add("WALK", path + "walk.mv1", 0.0f, 43.0f, WALK_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_WALK), true, false);
+	//animationController_->Add("ATTACK", path + "attack.mv1", 0.0f, 80.0f, ATTACK_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_ATTACK), false, false);
+	//animationController_->Add("JUMP_ATTACK", path + "jumpAttack.mv1", 0.0f, 111.0f, JUMP_ATTACK_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_JUMP_ATTACK), false, false);
+	//animationController_->Add("BEFORE_TACKLE", path + "idle.mv1", 0.0f, 120.0f, IDLE_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_IDLE), true, false);
+	//animationController_->Add("TACKLE", path + "tackle.mv1", 0.0f, 38.0f, TACKLE_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TACKLE), true, false);
+	//animationController_->Add("CREATE", path + "create.mv1", 15.0f, 45.0f, 30.0f,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_CREATE), false, false);
+	//animationController_->Add("SHOT", path + "shot.mv1", SHOT_START_TIME, SHOT_END_TIME, SHOT_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_SHOT_ATTACK), false, false);
+	//animationController_->Add("HIT", path + "hit.mv1", 0.0f, 81.0f, HIT_ANIM_SPEED,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_HIT), false, false);
+	//animationController_->Add("DEATH", path + "death.mv1", 0.0f, 138.0,30.0f,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_DEATH), false, false);
+	//animationController_->Add("TURN_LEFT", path + "turnLeft.mv1", 0.0f, 40.0f, 30.0f,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_LEFT), false, false);
+	//animationController_->Add("TURN_RIGHT", path + "turnRight.mv1", 0.0f, 40.0f, 30.0f,
+	//	model.LoadModelDuplicate(ResourceManager::SRC::ENEMY_TURN_RIGHT), false, false);
 
 	animationController_->ChangeAnimation("THINK");
 

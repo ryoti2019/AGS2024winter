@@ -140,6 +140,10 @@ void ResourceManager::Init(void)
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/Sad Idle.mv1");
 	resourcesMap_.emplace(SRC::PLAYER_GAMEOVER, res);
 
+	// プレイヤーの納刀
+	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Player/drawSword.mv1");
+	resourcesMap_.emplace(SRC::PLAYER_DRAW, res);
+
 	// 敵の待機アニメーション
 	res = Resource(Resource::TYPE::MODEL, Application::PATH_MODEL + "Enemy/idle.mv1");
 	resourcesMap_.emplace(SRC::ENEMY_IDLE, res);

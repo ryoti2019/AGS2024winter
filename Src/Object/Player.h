@@ -130,6 +130,7 @@ public:
 		CHARGE_WALK,
 		RUN,
 		ATTACK,
+		ATTACK_REVERSE,
 		ATTACK2,
 		ATTACK3,
 		CHARGE_ATTACK,
@@ -137,6 +138,8 @@ public:
 		DEATH,
 		ROLL,
 		TIRED,
+		DRAW,
+		DRAW_REVERSE,
 		MAX
 	};
 
@@ -147,13 +150,16 @@ public:
 		"CHARGE_WALK",
 		"RUN",
 		"ATTACK",
+		"ATTACK_REVERSE",
 		"ATTACK2",
 		"ATTACK3",
 		"CHARGE_ATTACK",
 		"HIT",
 		"DEATH",
 		"ROLL",
-		"TIRED"
+		"TIRED",
+		"DRAW",
+		"DRAW_REVERSE"
 	};
 
 	// コンストラクタ

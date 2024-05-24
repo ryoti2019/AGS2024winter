@@ -35,29 +35,35 @@ void Player::InitAnimation(void)
 	std::string path = Application::PATH_MODEL + "Player/";
 	animationController_ = new AnimationController(transform_.modelId, 1);
 	animationController_->Add("IDLE", path + "idle.mv1", 0.0f, 300.0f, IDLE_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_IDLE), true, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_IDLE), true, false, false, 1);
 	animationController_->Add("WALK", path + "walk.mv1", 0.0f, 21.0f, WALK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_WALK), true, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_WALK), true, false, false, 1);
 	animationController_->Add("CHARGE_WALK", path + "chargeWalk.mv1", 0.0f, 33.0f, CHARGE_WALK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_CHARGE_WALK), true, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_CHARGE_WALK), true, false, false, 1);
 	animationController_->Add("RUN", path + "run.mv1", 0.0f, 22.0f, RUN_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_RUN), true, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_RUN), true, false, false, 1);
 	animationController_->Add("ATTACK", path + "attack1.mv1", 0.0f, 45.0f, ATTACK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK1), false, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK1), false, false, false, 1);
+	animationController_->Add("ATTACK_REVERSE", path + "attack1.mv1", 45.0f, 45.0f, ATTACK_ANIM_SPEED,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK1), false, false, true, 1);
 	animationController_->Add("ATTACK2", path + "attack2.mv1", 0.0f, 50.0f, ATTACK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK2), false, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK2), false, false, false, 1);
 	animationController_->Add("ATTACK3", path + "attack3.mv1", 0.0f, 73.0f, ATTACK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK3), false, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ATTACK3), false, false, false, 1);
 	animationController_->Add("CHARGE_ATTACK", path + "chargeAttack", 52.0f, 0.0f, CHARGE_ATTACK_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_CHARGEATTACK), false, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_CHARGEATTACK), false, false, false, 1);
 	animationController_->Add("HIT", path + "hit.mv1", 0.0f, 21.0f, HIT_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_HIT), false, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_HIT), false, false, false, 1);
 	animationController_->Add("DEATH", path + "death.mv1", 0.0f, 117.0f, 20.0f,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_DEATH), false, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_DEATH), false, false, false, 1);
 	animationController_->Add("ROLL", path + "roll.mv1", 0.0f, 71.0f, ROLL_ANIM_SPEED,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ROLL), false, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ROLL), false, false, false, 1);
 	animationController_->Add("TIRED", path + "tired.mv1", 0.0f, 80.0f, 50.0f,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_TIRED), true, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_TIRED), true, false, false, 1);
+	animationController_->Add("DRAW", path + "drawSword.mv1", 0.0f, 23.0f, 10.0f,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_DRAW), true, false, false, 0);
+	animationController_->Add("DRAW_REVERSE", path + "drawSword.mv1", 23.0f, 23.0f, 10.0f,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_DRAW), true, false, true, 0);
 
 	animationController_->ChangeAnimation("IDLE");
 
@@ -247,31 +253,31 @@ void Player::Update(void)
 		}
 
 		break;
-	case Player::STATE::ATTACK:
+	case Player::STATE::DRAW:
 		// •—‚ðØ‚é‰¹‚ÌÄ¶
 		SlashMusic();
-		if (animationController_->GetAnimData("ATTACK").stepAnim >= animationController_->GetAnimData("ATTACK").startTime
-			&& animationController_->GetAnimData("ATTACK").stepAnim <= ATTACK_COLLISION_END_TIME1
+		if (animationController_->GetAnimData("DRAW").stepAnim >= animationController_->GetAnimData("DRAW").startTime
+			&& animationController_->GetAnimData("DRAW").stepAnim <= animationController_->GetAnimData("DRAW").animTotalTime
 			&& !hit_)
 		{
 			attack_ = true;
 		}
-		if (animationController_->GetAnimData("ATTACK").stepAnim >= animationController_->GetAnimData("ATTACK").animTotalTime - 1.0f)
+		if (animationController_->GetAnimData("DRAW").stepAnim >= animationController_->GetAnimData("DRAW").animTotalTime - 1.0f)
 		{
 			attack1_ = false;
 			isMusicSlash_ = true;
 		}
 		break;
-	case Player::STATE::ATTACK2:
+	case Player::STATE::DRAW_REVERSE:
 		// •—‚ðØ‚é‰¹‚ÌÄ¶
 		SlashMusic();
-		if (animationController_->GetAnimData("ATTACK2").stepAnim >= animationController_->GetAnimData("ATTACK2").startTime
-			&& animationController_->GetAnimData("ATTACK2").stepAnim <= animationController_->GetAnimData("ATTACK2").animTotalTime
+		if (animationController_->GetAnimData("DRAW_REVERSE").stepAnim <= animationController_->GetAnimData("DRAW_REVERSE").animTotalTime
+			&& animationController_->GetAnimData("DRAW_REVERSE").stepAnim >= 0.0f
 			&& !hit_)
 		{
 			attack_ = true;
 		}
-		if (animationController_->GetAnimData("ATTACK2").stepAnim >= animationController_->GetAnimData("ATTACK2").animTotalTime - 1.0f)
+		if (animationController_->GetAnimData("DRAW_REVERSE").stepAnim <= 0.0f)
 		{
 			attack2_ = false;
 			isMusicSlash_ = true;
@@ -493,7 +499,7 @@ void Player::SlashMusic(void)
 {
 
 	int number = GetRand(1);
-	if (animationController_->GetAnimData("ATTACK").stepAnim >= animationController_->GetAnimData("ATTACK").startTime && isMusicSlash_ && state_ == STATE::ATTACK)
+	if (animationController_->GetAnimData("DRAW").stepAnim >= animationController_->GetAnimData("DRAW").startTime && isMusicSlash_ && state_ == STATE::DRAW)
 	{
 		if (number == 0)
 		{
@@ -510,7 +516,7 @@ void Player::SlashMusic(void)
 
 	}
 
-	if (animationController_->GetAnimData("ATTACK2").stepAnim >= animationController_->GetAnimData("ATTACK").startTime && isMusicSlash_ && state_ == STATE::ATTACK2)
+	if (animationController_->GetAnimData("ATTACK2").stepAnim >= animationController_->GetAnimData("ATTACK").startTime && isMusicSlash_ && state_ == STATE::DRAW_REVERSE)
 	{
 		if (number == 0)
 		{
@@ -752,7 +758,7 @@ void Player::CollisionStage(void)
 
 	auto dir = VNorm(vec);
 
-	if (length >= 3500.0f && state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK)
+	if (length >= 3500.0f && state_ != STATE::DRAW && state_ != STATE::DRAW_REVERSE && state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK)
 	{
 		// –@ü‚Ì•ûŒü‚É‚¿‚å‚Á‚Æ‚¾‚¯ˆÚ“®‚³‚¹‚é
 		movedPos_ = VAdd(movedPos_, VScale(dir, 20.0f));
@@ -844,7 +850,7 @@ void Player::KeyboardMove(void)
 	dir = inputController_->Dir();
 
 	// ˆÚ“®
-	if (state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+	if (state_ != STATE::DRAW && state_ != STATE::DRAW_REVERSE
 		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
@@ -935,7 +941,7 @@ void Player::KeyboardMove(void)
 		speed_ = 0;
 	}
 
-	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::DRAW && state_ != STATE::DRAW_REVERSE
 		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
@@ -964,7 +970,7 @@ void Player::KeyboardMove(void)
 
 	}
 
-	if (state_ != STATE::HIT && state_ != STATE::ATTACK && state_ != STATE::ATTACK2 &&
+	if (state_ != STATE::HIT && state_ != STATE::DRAW && state_ != STATE::DRAW_REVERSE &&
 		state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::ROLL)
 	{
 		// ˆÚ“®—Ê
@@ -1034,7 +1040,7 @@ void Player::KeyboardAttack(void)
 	// UŒ‚ˆ—
 	// ƒ{ƒ^ƒ“‚ªƒNƒŠƒbƒN‚³‚ê‚½‚©‚Ç‚¤‚©‚ðŠm”F
 	if (chargeCnt_ >= 0.1 && state_ != STATE::CHARGE_ATTACK && state_ != STATE::CHARGE_WALK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3
+		&& state_ != STATE::DRAW && state_ != STATE::DRAW_REVERSE && state_ != STATE::ATTACK3
 		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		ChangeState(STATE::CHARGE_WALK);
@@ -1048,43 +1054,43 @@ void Player::KeyboardAttack(void)
 		if (state_ == STATE::IDLE || state_ == STATE::RUN || state_ == STATE::WALK || state_ == STATE::CHARGE_WALK)
 		{
 			attack1_ = true;
-			ChangeState(STATE::ATTACK);
+			ChangeState(STATE::DRAW);
 		}
 		// ‚Q’iŠK–Ú
-		else if (state_ == STATE::ATTACK && !attack2_)
+		else if (state_ == STATE::DRAW && !attack2_)
 		{
 			attack2_ = true;
 			attack_ = false;
 		}
 		// 3’iŠK–Ú
-		else if (state_ == STATE::ATTACK && attack2_)
+		else if (state_ == STATE::DRAW && attack2_)
 		{
 			attack3_ = true;
 		}
-		else if (state_ == STATE::ATTACK2)
+		else if (state_ == STATE::DRAW_REVERSE)
 		{
 			attack3_ = true;
 		}
 	}
 
 	if (inputController_->ChargeAttack() && chargeCnt_ <= CHARGE_TIME && state_ != STATE::CHARGE_ATTACK
-		&& state_ != STATE::ATTACK && state_ != STATE::ATTACK2 && state_ != STATE::ATTACK3
+		&& state_ != STATE::DRAW && state_ != STATE::DRAW_REVERSE && state_ != STATE::ATTACK3
 		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		chargeCnt_ += insScene.GetDeltaTime();
 	}
 
 	// ‚P’iŠK–Ú‚ªI‚í‚Á‚½‚ç‘JˆÚ‚·‚é
-	if (attack2_ && !attack1_ && state_ == STATE::ATTACK)
+	if (attack2_ && !attack1_ && state_ == STATE::DRAW)
 	{
 		chargeCnt_ = 0.0f;
 		attack_ = true;
 		StopEffekseer3DEffect(effectChargePlayId_);
-		ChangeState(STATE::ATTACK2);
+		ChangeState(STATE::DRAW_REVERSE);
 	}
 
 	// ‚Q’iŠK–Ú‚ªI‚í‚Á‚½‚ç‘JˆÚ‚·‚é
-	if (attack3_ && !attack2_ && state_ == STATE::ATTACK2)
+	if (attack3_ && !attack2_ && state_ == STATE::DRAW_REVERSE)
 	{
 		chargeCnt_ = 0.0f;
 		attack_ = true;
@@ -1228,7 +1234,7 @@ void Player::ChangeState(STATE state)
 		break;
 	case Player::STATE::RUN:
 		break;
-	case Player::STATE::ATTACK:
+	case Player::STATE::DRAW:
 		hit_ = false;
 		// ƒGƒtƒFƒNƒg‚ðŽ~‚ß‚é
 		StopEffekseer3DEffect(effectChargePlayId_);
@@ -1236,7 +1242,7 @@ void Player::ChangeState(STATE state)
 		StopSoundMem(musicFootStepsId_);
 		musicFootStepsCnt_ = 0.0f;
 		break;
-	case Player::STATE::ATTACK2:
+	case Player::STATE::DRAW_REVERSE:
 		hit_ = false;
 		// ‘«‰¹‚ðŽ~‚ß‚é
 		StopSoundMem(musicFootStepsId_);
@@ -1347,7 +1353,7 @@ void Player::Animation(void)
 	if (animationController_->IsEndPlayAnimation())
 	{
 
-		if (state_ == STATE::ATTACK || state_ == STATE::ATTACK2
+		if (state_ == STATE::DRAW || state_ == STATE::DRAW_REVERSE
 			|| state_ == STATE::ATTACK3 || state_ == STATE::CHARGE_ATTACK
 			|| state_ == STATE::HIT || state_ == STATE::ROLL)
 		{
@@ -1367,7 +1373,7 @@ void Player::Animation(void)
 	}
 
 	// 2’iŠK–Ú‚Éi‚Ü‚È‚¢‚Æ‚«‚ÍƒŠƒZƒbƒg
-	if (state_ == STATE::ATTACK && animationController_->GetAnimData("ATTACK").stepAnim >=
+	if (state_ == STATE::DRAW && animationController_->GetAnimData("ATTACK").stepAnim >=
 		animationController_->GetAnimData("ATTACK").animTotalTime && !attack2_)
 	{
 		hit_ = false;
@@ -1375,8 +1381,8 @@ void Player::Animation(void)
 	}
 
 	// 3’iŠK–Ú‚Éi‚Ü‚È‚¢‚Æ‚«‚ÍƒŠƒZƒbƒg
-	if (state_ == STATE::ATTACK2 && animationController_->GetAnimData("ATTACK2").stepAnim >=
-		animationController_->GetAnimData("ATTACK2").animTotalTime && !attack3_)
+	if (state_ == STATE::DRAW_REVERSE && animationController_->GetAnimData("ATTACK_REVERSE").stepAnim >=
+		animationController_->GetAnimData("ATTACK_REVERSE").animTotalTime && !attack3_)
 	{
 		hit_ = false;
 		chargeCnt_ = 0.0f;

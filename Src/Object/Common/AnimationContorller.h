@@ -63,6 +63,12 @@ public:
 		// ストップするかしないか
 		bool isStop = false;
 
+		// 逆再生かどうか
+		bool isReverse = false;
+
+		// アニメーション番号
+		int idx = 0;
+
 	};
 
 	// コンストラクタ
@@ -74,7 +80,7 @@ public:
 	// アニメーション追加
 	//void Add(STATE state, const std::string& path, float speed);
 	void Add(const std::string state, const std::string& path, float startStep,
-		float animTotalTime, float speed, int animHandle, bool isLoop, bool isStop);
+		float animTotalTime, float speed, int animHandle, bool isLoop, bool isStop,bool isReverse, int idx);
 
 	void Update(void);
 

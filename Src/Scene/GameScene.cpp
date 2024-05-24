@@ -164,7 +164,7 @@ void GameScene::Update(void)
 	player_->Update();
 
 	// “G‚ÌXV
- 	enemy_->Update();
+ 	//enemy_->Update();
 
 	// Œ•‚ÌXV
 	sword_->Update();
@@ -319,8 +319,8 @@ void GameScene::CollisionEnemyAndPlayer()
 	// ŽãUŒ‚
 	if (HitCheck_Capsule_Capsule(sword_->GetCPosDown(), sword_->GetCPosUP(), sword_->COLLISION_RADIUS,
 		enemy_->GetCBodyPosDown(), enemy_->GetCBodyPosUP(), enemy_->COLLISION_BODY_RADIUS)
-		&& (player_->GetState() == Player::STATE::ATTACK
-			|| player_->GetState() == Player::STATE::ATTACK2
+		&& (player_->GetState() == Player::STATE::DRAW
+			|| player_->GetState() == Player::STATE::DRAW_REVERSE
 			|| player_->GetState() == Player::STATE::ATTACK3)
 		&& enemy_->GetHP() > 0)
 	{

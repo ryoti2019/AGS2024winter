@@ -23,7 +23,7 @@ AnimationController::~AnimationController(void)
 }
 
 void AnimationController::Add(const std::string state, const std::string& path, float startStep,
-	float animTotalTime, float speed, int animHandle, bool isLoop, bool isStop)
+	float animTotalTime, float speed, int animHandle, bool isLoop, bool isStop, bool isReverse, int idx)
 {
 
 	AnimationData anim;
@@ -37,7 +37,7 @@ void AnimationController::Add(const std::string state, const std::string& path, 
 	}
 
 	anim.speedAnim = speed;
-	anim.startTime = startStep;
+	anim.stepAnim = startStep;
 	anim.animTotalTime = animTotalTime;
 	anim.animHandle = animHandle;
 	anim.blendTime = 0.5f;
@@ -45,6 +45,9 @@ void AnimationController::Add(const std::string state, const std::string& path, 
 	anim.isLoop = isLoop;
 	anim.isStop = isStop;
 	anim.state = state;
+	anim.isReverse = isReverse;
+	anim.startTime = startStep;
+	anim.idx = idx;
  	animData_.emplace(state, anim);
 
 }
@@ -68,14 +71,23 @@ void AnimationController::Update(void)
 
 		if (animData.second.blendRate <= 0.0f)
 		{
-   			Dettach(animData.second.attachNo);
+			Dettach(animData.second.attachNo);
 
 			// 値の初期化
 			animData.second.blendRate = 0.0f;
 			animData.second.isPriority = false;
-			animData.second.stepAnim = 0.0f;
 			animData.second.attachNo = -1;
+
+			if (!animData.second.isReverse)
+			{
+				animData.second.stepAnim = 0.0f;
+			}
+			else if (animData.second.isReverse)
+			{
+				animData.second.stepAnim = animData.second.animTotalTime;
+			}
 		}
+
 
 		rate -= animData.second.blendRate;
 
@@ -92,18 +104,29 @@ void AnimationController::Update(void)
 		}
 
 		// 再生
-		if (animData.second.stepAnim <= animData.second.animTotalTime)
+		if (animData.second.stepAnim <= animData.second.animTotalTime && !animData.second.isReverse)
 		{
-         		animData.second.stepAnim += (deltaTime * animData.second.speedAnim);
+         	animData.second.stepAnim += (deltaTime * animData.second.speedAnim);
+		}
+		// 逆再生
+		else if (animData.second.stepAnim >= 0.0f && animData.second.isReverse)
+		{
+			animData.second.stepAnim -= deltaTime * animData.second.speedAnim;
 		}
 		if (animData.second.stepAnim > animData.second.animTotalTime && animData.second.isLoop)
 		{
 			// ループ再生
 			animData.second.stepAnim = 0.0f;
 		}
-		else if (animData.second.stepAnim > animData.second.animTotalTime && !animData.second.isLoop)
+		// 再生
+		else if (animData.second.stepAnim > animData.second.animTotalTime && !animData.second.isLoop && !animData.second.isReverse)
 		{
 			animData.second.stepAnim = animData.second.animTotalTime;
+		}
+		// 逆再生
+		else if (animData.second.stepAnim > animData.second.animTotalTime && !animData.second.isLoop && animData.second.isReverse)
+		{
+			animData.second.stepAnim = 0.0f;
 		}
 
 		// 再生するアニメーション時間の設定
@@ -141,8 +164,10 @@ int AnimationController::GetAttachNum(void) const
 void AnimationController::Attatch(std::string state)
 {
 
-	animData_[state].stepAnim = 0.0f;
-
+	if (!animData_[state].isReverse)
+	{
+		animData_[state].stepAnim = 0.0f;
+	}
 
 	if (animData_[state].attachNo != -1)
 	{
@@ -150,7 +175,7 @@ void AnimationController::Attatch(std::string state)
 		return;
 	}
 	AttachNum_++;
-	animData_[state].attachNo = MV1AttachAnim(modelId_, animIndex_, animData_[state].animHandle);
+	animData_[state].attachNo = MV1AttachAnim(modelId_, animData_[state].idx, animData_[state].animHandle);
 	animData_[state].isPriority = true;
 
 	// アニメーション総時間の取得
@@ -220,7 +245,11 @@ bool AnimationController::GetIsPriority(void)
 bool AnimationController::IsEndPlayAnimation(void)
 {
 	const auto& data = animData_[state_];
-	if (!data.isLoop && data.stepAnim >= data.animTotalTime)
+	if (!data.isLoop && data.stepAnim >= data.animTotalTime && !data.isReverse)
+	{
+		return true;
+	}
+	else if (!data.isLoop && data.stepAnim <= 0.0f && data.isReverse)
 	{
 		return true;
 	}

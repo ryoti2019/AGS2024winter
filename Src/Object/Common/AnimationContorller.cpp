@@ -1,4 +1,3 @@
-
 #include <DxLib.h>
 #include "../../Manager/SceneManager.h"
 #include "../../Manager/ResourceManager.h"

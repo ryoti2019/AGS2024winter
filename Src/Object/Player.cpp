@@ -57,7 +57,11 @@ void Player::InitAnimation(void)
 	animationController_->Add("ROLL", path + "roll.mv1", 0.0f, 71.0f, ROLL_ANIM_SPEED,
 		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_ROLL), false, false);
 	animationController_->Add("TIRED", path + "tired.mv1", 0.0f, 80.0f, 50.0f,
-		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_TIRED), true, false);
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_TIRED), true, false, false, 1);
+	animationController_->Add("DRAW", path + "drawSword.mv1", 0.0f, 23.0f, 10.0f,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_DRAW), false, false, false, 0);
+	animationController_->Add("DRAW_REVERSE", path + "drawSword.mv1", 23.0f, 23.0f, 10.0f,
+		ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_DRAW), true, false, true, 0);
 
 	animationController_->ChangeAnimation("IDLE");
 

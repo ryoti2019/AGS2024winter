@@ -511,11 +511,9 @@ void Enemy::Update(void)
 		{
 			musicFootStepsCnt_ = 0.0f;
 		}
-
 		break;
 	case Enemy::STATE::CREATE:
 		UpdateCreate();
-
 		// エフェクトの位置
 		CreateSyncEffect();
 		break;
@@ -1381,8 +1379,6 @@ void Enemy::DrawDebug(void)
 		y += 20;
 	}
 #endif
-
-
 
 }
 

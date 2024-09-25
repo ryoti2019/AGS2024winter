@@ -1,0 +1,21 @@
+ShotBase call:[Deg2RadF,Euler,GetInstance,LoadModelDuplicate,Quaternion,Update] noreturn:[Update]
+ShotBase
+Create call:[ChangeState,LookRotation,SetParam,Update] noreturn:[ChangeState]
+Blast call:[ChangeState] noreturn:[ChangeState]
+Update call:[Update,UpdateBlast,UpdateIdle,UpdateShot] noreturn:[Update]
+CheckAlive call:[ChangeState,GetDeltaTime,GetInstance] noreturn:[ChangeState]
+Draw
+Release call:[MV1DeleteModel] noreturn:[MV1DeleteModel]
+GetPos
+SetPos
+GetQuaRot
+GetSpeed
+GetTimeAlive
+GetCollisionRadius
+Move call:[VAdd,VScale] noreturn:[VAdd]
+UpdateIdle
+UpdateShot call:[CheckAlive,Move] noreturn:[Move]
+UpdateBlast call:[ChangeState,IsEffekseer3DEffectPlaying] noreturn:[ChangeState]
+ChangeState call:[PlayBlastEffect]
+PlayBlastEffect call:[PlayEffekseer3DEffect,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,SetScalePlayingEffekseer3DEffect] noreturn:[SetPosPlayingEffekseer3DEffect]
+DrawDebug call:[DrawSphere3D] noreturn:[DrawSphere3D]

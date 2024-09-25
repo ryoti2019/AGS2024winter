@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="1177707329509397720">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;fstream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;fstream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;sstream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;sstream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.cpp" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.cpp" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;math.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;math.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.cpp" line="5" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.cpp" line="6" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:77:16" my-argnr="1" my-argname="p1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="298" col="21" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:77:16" my-argnr="2" my-argname="p2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="298" col="25" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:77:16" my-argnr="3" my-argname="p3" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="299" col="25" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:80:16" my-argnr="1" my-argname="centerPos" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="305" col="31" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:80:16" my-argnr="2" my-argname="radiusPos" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="305" col="17" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:83:16" my-argnr="1" my-argname="v" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="312" col="18" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:84:16" my-argnr="1" my-argname="v" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="317" col="18" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:85:15" my-argnr="1" my-argname="v" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="322" col="19" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:86:13" my-argnr="1" my-argname="v" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="327" col="12" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:87:15" my-argnr="1" my-argname="v" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="332" col="12" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:88:16" my-argnr="1" my-argname="v" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="337" col="12" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:89:16" my-argnr="1" my-argname="v1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="342" col="23" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:89:16" my-argnr="2" my-argname="v2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="342" col="16" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:90:16" my-argnr="1" my-argname="v1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="347" col="28" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:90:16" my-argnr="2" my-argname="v2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="347" col="21" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:91:16" my-argnr="1" my-argname="v1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="352" col="28" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:91:16" my-argnr="2" my-argname="v2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="352" col="21" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:108:14" my-argnr="1" my-argname="v1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="441" col="9" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:108:14" my-argnr="2" my-argname="v2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="441" col="17" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:109:14" my-argnr="1" my-argname="v1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="451" col="9" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:113:16" my-argnr="1" my-argname="v" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="474" col="33" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:116:16" my-argnr="1" my-argname="from" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="486" col="30" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:116:16" my-argnr="2" my-argname="to" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="487" col="30" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:119:14" my-argnr="2" my-argname="dir" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="511" col="40" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:120:14" my-argnr="1" my-argname="pos" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="525" col="17" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:121:14" my-argnr="1" my-argname="pos" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="544" col="17" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.h:121:14" my-argnr="2" my-argname="rot" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Utility/AsoUtility.cpp" line="543" col="11" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Round" lineNumber="9"/>
+    <functiondecl functionName="Split" lineNumber="14"/>
+    <functiondecl functionName="Rad2DegD" lineNumber="29"/>
+    <functiondecl functionName="Rad2DegF" lineNumber="34"/>
+    <functiondecl functionName="Rad2DegI" lineNumber="39"/>
+    <functiondecl functionName="Deg2RadD" lineNumber="44"/>
+    <functiondecl functionName="Deg2RadF" lineNumber="49"/>
+    <functiondecl functionName="Deg2RadI" lineNumber="54"/>
+    <functiondecl functionName="DegIn360" lineNumber="59"/>
+    <functiondecl functionName="RadIn2PI" lineNumber="69"/>
+    <functiondecl functionName="DirNearAroundRad" lineNumber="79"/>
+    <functiondecl functionName="DirNearAroundDeg" lineNumber="125"/>
+    <functiondecl functionName="Lerp" lineNumber="171"/>
+    <functiondecl functionName="Lerp" lineNumber="184"/>
+    <functiondecl functionName="Lerp" lineNumber="197"/>
+    <functiondecl functionName="Lerp" lineNumber="210"/>
+    <functiondecl functionName="Lerp" lineNumber="224"/>
+    <functiondecl functionName="LerpDeg" lineNumber="240"/>
+    <functiondecl functionName="Lerp" lineNumber="273"/>
+    <functiondecl functionName="Bezier" lineNumber="289"/>
+    <functiondecl functionName="Bezier" lineNumber="296"/>
+    <functiondecl functionName="RotXZPos" lineNumber="303"/>
+    <functiondecl functionName="Magnitude" lineNumber="310"/>
+    <functiondecl functionName="Magnitude" lineNumber="315"/>
+    <functiondecl functionName="MagnitudeF" lineNumber="320"/>
+    <functiondecl functionName="SqrMagnitude" lineNumber="325"/>
+    <functiondecl functionName="SqrMagnitudeF" lineNumber="330"/>
+    <functiondecl functionName="SqrMagnitude" lineNumber="335"/>
+    <functiondecl functionName="SqrMagnitude" lineNumber="340"/>
+    <functiondecl functionName="Distance" lineNumber="345"/>
+    <functiondecl functionName="Distance" lineNumber="350"/>
+    <functiondecl functionName="IsHitSpheres" lineNumber="355"/>
+    <functiondecl functionName="IsHitSphereCapsule" lineNumber="376"/>
+    <functiondecl functionName="Equals" lineNumber="439"/>
+    <functiondecl functionName="EqualsVZero" lineNumber="448"/>
+    <functiondecl functionName="Normalize" lineNumber="458"/>
+    <functiondecl functionName="VNormalize" lineNumber="472"/>
+    <functiondecl functionName="AngleDeg" lineNumber="483"/>
+    <functiondecl functionName="DrawLineDir" lineNumber="509"/>
+    <functiondecl functionName="DrawLineXYZ" lineNumber="518"/>
+    <functiondecl functionName="DrawLineXYZ" lineNumber="537"/>
+    <functioncall functionName="DX_PI"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="DX_TWO_PI"/>
+    <functioncall functionName="DrawLine3D"/>
+    <functioncall functionName="DrawLineDir"/>
+    <functioncall functionName="DrawSphere3D"/>
+    <functioncall functionName="EqualsVZero"/>
+    <functioncall functionName="GetForward"/>
+    <functioncall functionName="GetRight"/>
+    <functioncall functionName="GetUp"/>
+    <functioncall functionName="IsHitSpheres"/>
+    <functioncall functionName="Lerp"/>
+    <functioncall functionName="Magnitude"/>
+    <functioncall functionName="MagnitudeF"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Round"/>
+    <functioncall functionName="SqrMagnitude"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VDot"/>
+    <functioncall functionName="VGet"/>
+    <functioncall functionName="VNorm"/>
+    <functioncall functionName="VNormalize"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="VSub"/>
+    <functioncall functionName="VTransform"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="acos"/>
+    <functioncall functionName="cosf"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="fmod"/>
+    <functioncall functionName="getline"/>
+    <functioncall functionName="pow"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="roundf"/>
+    <functioncall functionName="sinf"/>
+    <functioncall functionName="sqrt"/>
+    <functioncall functionName="sqrtf"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="3980621938497846039">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.cpp" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &apos;Fader&apos; does not declare a constructor although it has private member variables which likely require initialization." verbose="The class &apos;Fader&apos; does not declare a constructor although it has private member variables which likely require initialization. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Fader.h" line="3" column="1"/>
+            <symbol>Fader</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;SceneManager::isGamePad_&apos; is not initialized in the constructor." verbose="Member variable &apos;SceneManager::isGamePad_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.cpp" line="207" column="15"/>
+            <symbol>SceneManager::isGamePad_</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;SceneManager::isOperation_&apos; is not initialized in the constructor." verbose="Member variable &apos;SceneManager::isOperation_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.cpp" line="207" column="15"/>
+            <symbol>SceneManager::isOperation_</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~TitleScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~TitleScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\TitleScene.h" line="13" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\SceneBase.h" line="12" column="11" info="Virtual destructor in base class"/>
+            <symbol>~TitleScene</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~GameScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~GameScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.h" line="19" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\SceneBase.h" line="12" column="11" info="Virtual destructor in base class"/>
+            <symbol>~GameScene</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~GameClearScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~GameClearScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameClearScene.h" line="17" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\SceneBase.h" line="12" column="11" info="Virtual destructor in base class"/>
+            <symbol>~GameClearScene</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~GameOverScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~GameOverScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/SceneManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.h" line="16" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\SceneBase.h" line="12" column="11" info="Virtual destructor in base class"/>
+            <symbol>~GameOverScene</symbol>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="CreateInstance" lineNumber="15"/>
+    <functiondecl functionName="GetInstance" lineNumber="24"/>
+    <functiondecl functionName="Init" lineNumber="29"/>
+    <functiondecl functionName="Init3D" lineNumber="64"/>
+    <functiondecl functionName="Update" lineNumber="87"/>
+    <functiondecl functionName="Draw" lineNumber="116"/>
+    <functiondecl functionName="Destroy" lineNumber="143"/>
+    <functiondecl functionName="ChangeScene" lineNumber="158"/>
+    <functiondecl functionName="GetSceneID" lineNumber="171"/>
+    <functiondecl functionName="GetDeltaTime" lineNumber="176"/>
+    <functiondecl functionName="GetCamera" lineNumber="182"/>
+    <functiondecl functionName="GetGamePad" lineNumber="187"/>
+    <functiondecl functionName="SetGamePad" lineNumber="192"/>
+    <functiondecl functionName="GetIsOperation" lineNumber="197"/>
+    <functiondecl functionName="SetIsOperation" lineNumber="202"/>
+    <functiondecl functionName="ResetDeltaTime" lineNumber="225"/>
+    <functiondecl functionName="DoChangeScene" lineNumber="231"/>
+    <functiondecl functionName="Fade" lineNumber="271"/>
+    <functioncall functionName="Camera"/>
+    <functioncall functionName="ChangeLightTypeDir"/>
+    <functioncall functionName="ClearDrawScreen"/>
+    <functioncall functionName="DX_SCREEN_BACK"/>
+    <functioncall functionName="DoChangeScene"/>
+    <functioncall functionName="Draw"/>
+    <functioncall functionName="DrawEffekseer3D"/>
+    <functioncall functionName="Fade"/>
+    <functioncall functionName="GameClearScene"/>
+    <functioncall functionName="GameOverScene"/>
+    <functioncall functionName="GameScene"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetState"/>
+    <functioncall functionName="Init"/>
+    <functioncall functionName="Init3D"/>
+    <functioncall functionName="IsEnd"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Release"/>
+    <functioncall functionName="ResetDeltaTime"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetBackgroundColor"/>
+    <functioncall functionName="SetBeforeDraw"/>
+    <functioncall functionName="SetDrawScreen"/>
+    <functioncall functionName="SetFade"/>
+    <functioncall functionName="SetUseBackCulling"/>
+    <functioncall functionName="SetUseLighting"/>
+    <functioncall functionName="SetUseZBuffer3D"/>
+    <functioncall functionName="SetWriteZBuffer3D"/>
+    <functioncall functionName="TitleScene"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="UpdateEffekseer3D"/>
+    <functioncall functionName="count"/>
+    <functioncall functionName="duration_cast"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="nanoseconds"/>
+    <functioncall functionName="now"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

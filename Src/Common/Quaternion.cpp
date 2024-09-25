@@ -1,15 +1,23 @@
 #include <math.h>
 #include <DxLib.h>
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "Quaternion.h"
 
-Quaternion::Quaternion(void)
+Quaternion::Quaternion()
+    :
+    w(1),
+    x(0),
+    y(0),
+    z(0)
 {
-    w = 1;
-    x = y = z = 0;
 }
 
 Quaternion::Quaternion(const VECTOR& rad)
+    :
+    w(1),
+    x(0),
+    y(0),
+    z(0)
 {
     Quaternion q = Euler(rad.x, rad.y, rad.z);
     w = q.w;
@@ -19,146 +27,22 @@ Quaternion::Quaternion(const VECTOR& rad)
 }
 
 Quaternion::Quaternion(double ww, double wx, double wy, double wz)
-{
-    w = ww;
-    x = wx;
-    y = wy;
-    z = wz;
-}
-
-Quaternion::~Quaternion(void)
+    :
+    w(ww),
+    x(wx),
+    y(wy),
+    z(wz)
 {
 }
 
-Quaternion Quaternion::Euler(const VECTOR& rad)
+Quaternion::~Quaternion()
 {
-    return Euler(rad.x, rad.y, rad.z);
-}
-
-Quaternion Quaternion::Euler(double radX, double radY, double radZ)
-{
-
-    Quaternion ret = Quaternion();
-
-    radX = AsoUtility::RadIn2PI(radX);
-    radY = AsoUtility::RadIn2PI(radY);
-    radZ = AsoUtility::RadIn2PI(radZ);
-
-    double cosZ = cos(radZ / 2.0f);
-    double sinZ = sin(radZ / 2.0f);
-    double cosX = cos(radX / 2.0f);
-    double sinX = sin(radX / 2.0f);
-    double cosY = cos(radY / 2.0f);
-    double sinY = sin(radY / 2.0f);
-
-    //ret.w = cosZ * cosX * cosY + sinZ * sinX * sinY;
-    //ret.x = sinZ * cosX * cosY - cosZ * sinX * sinY;
-    //ret.y = cosZ * sinX * cosY + sinZ * cosX * sinY;
-    //ret.z = cosZ * cosX * sinY - sinZ * sinX * cosY;
-
-    ret.w = cosX * cosY * cosZ + sinX * sinY * sinZ;
-    ret.x = sinX * cosY * cosZ + cosX * sinY * sinZ;
-    ret.y = cosX * sinY * cosZ - sinX * cosY * sinZ;
-    ret.z = cosX * cosY * sinZ - sinX * sinY * cosZ;
-
-    return ret;
-
-}
-
-Quaternion Quaternion::Mult(const Quaternion& q1, const Quaternion& q2)
-{
-
-    Quaternion ret = Quaternion();
-    double d1, d2, d3, d4;
-
-    // wÇÃåvéZ 
-    d1 = q1.w * q2.w;
-    d2 = -q1.x * q2.x;
-    d3 = -q1.y * q2.y;
-    d4 = -q1.z * q2.z;
-    ret.w = d1 + d2 + d3 + d4;
-
-    // xÇÃåvéZ 
-    d1 = q1.w * q2.x;
-    d2 = q2.w * q1.x;
-    d3 = q1.y * q2.z;
-    d4 = -q1.z * q2.y;
-    ret.x = d1 + d2 + d3 + d4;
-
-    // yÇÃåvéZ
-    d1 = q1.w * q2.y;
-    d2 = q2.w * q1.y;
-    d3 = q1.z * q2.x;
-    d4 = -q1.x * q2.z;
-    ret.y = d1 + d2 + d3 + d4;
-
-    // zÇÃåvéZ
-    d1 = q1.w * q2.z;
-    d2 = q2.w * q1.z;
-    d3 = q1.x * q2.y;
-    d4 = -q1.y * q2.x;
-    ret.z = d1 + d2 + d3 + d4;
-
-    return ret;
-
-}
-
-Quaternion Quaternion::Mult(const Quaternion& q) const
-{
-    return Mult(Quaternion(w, x, y, z), q);
-}
-
-Quaternion Quaternion::AngleAxis(double rad, VECTOR axis)
-{
-
-    Quaternion ret = Quaternion();
-
-    double norm;
-    double c, s;
-
-    // UnityÇ…çáÇÌÇπÇÈ
-    //ret.w = ret.x = ret.y = ret.z = 0.0;
-    ret.w = 1.0;
-    ret.x = ret.y = ret.z = 0.0;
-
-    norm = (double)axis.x * (double)axis.x + (double)axis.y * (double)axis.y + (double)axis.z * (double)axis.z;
-    if (norm <= 0.0f)
-    {
-        return ret;
-    }
-
-    norm = 1.0 / sqrt(norm);
-    axis.x = (float)(axis.x * norm);
-    axis.y = (float)(axis.y * norm);
-    axis.z = (float)(axis.z * norm);
-
-    c = cos(0.5f * rad);
-    s = sin(0.5f * rad);
-
-    ret.w = c;
-    ret.x = s * axis.x;
-    ret.y = s * axis.y;
-    ret.z = s * axis.z;
-
-    return ret;
-
 }
 
 VECTOR Quaternion::PosAxis(const Quaternion& q, VECTOR pos)
-{
-    // à íuèÓïÒÇ…âÒì]èÓïÒÇîΩâfÇ≥ÇπÇÈ
-    // pos' = qÅEposÅEq(-1)
-    Quaternion tmp = Quaternion();
-    tmp = tmp.Mult(q);
-    tmp = tmp.Mult(Quaternion(0.0f, pos.x, pos.y, pos.z));
-    tmp = tmp.Mult(q.Inverse());
-    return { (float)tmp.x, (float)tmp.y, (float)tmp.z };
-}
 
 VECTOR Quaternion::PosAxis(VECTOR pos) const
-{
-    return PosAxis(Quaternion(w, x, y, z), pos);
-}
+
 
 VECTOR Quaternion::ToEuler(const Quaternion& q)
 {
@@ -258,8 +142,8 @@ Quaternion Quaternion::LookRotation(VECTOR dir)
 Quaternion Quaternion::LookRotation(VECTOR dir, VECTOR up)
 {
 
-    dir = AsoUtility::VNormalize(dir);
-    VECTOR right = AsoUtility::VNormalize(VCross(up, dir));
+    dir = Utility::VNormalize(dir);
+    VECTOR right = Utility::VNormalize(VCross(up, dir));
     up = VCross(dir, right);
     auto m00 = right.x;
     auto m01 = right.y;
@@ -441,32 +325,32 @@ VECTOR Quaternion::GetDir(VECTOR dir) const
 
 VECTOR Quaternion::GetForward(void) const
 {
-    return GetDir(AsoUtility::DIR_F);
+    return GetDir(Utility::DIR_F);
 }
 
 VECTOR Quaternion::GetBack(void) const
 {
-    return GetDir(AsoUtility::DIR_B);
+    return GetDir(Utility::DIR_B);
 }
 
 VECTOR Quaternion::GetRight(void) const
 {
-    return GetDir(AsoUtility::DIR_R);
+    return GetDir(Utility::DIR_R);
 }
 
 VECTOR Quaternion::GetLeft(void) const
 {
-    return GetDir(AsoUtility::DIR_L);
+    return GetDir(Utility::DIR_L);
 }
 
 VECTOR Quaternion::GetUp(void) const
 {
-    return GetDir(AsoUtility::DIR_U);
+    return GetDir(Utility::DIR_U);
 }
 
 VECTOR Quaternion::GetDown(void) const
 {
-    return GetDir(AsoUtility::DIR_D);
+    return GetDir(Utility::DIR_D);
 }
 
 double Quaternion::Dot(const Quaternion& q1, const Quaternion& q2)
@@ -536,21 +420,21 @@ Quaternion Quaternion::FromToRotation(VECTOR fromDir, VECTOR toDir)
 {
 
 	VECTOR axis = VCross(fromDir, toDir);
-	double angle = AsoUtility::AngleDeg(fromDir, toDir);
+	double angle = Utility::AngleDeg(fromDir, toDir);
 	if (angle >= 179.9196)
 	{
-		auto r = VCross(fromDir, AsoUtility::DIR_R);
+		auto r = VCross(fromDir, Utility::DIR_R);
 		axis = VCross(r, fromDir);
 		//if (axis.sqrMagnitude < 0.000001f)
 		float len = axis.x * axis.x + axis.y * axis.y + axis.z * axis.z;
 		if (len < 0.000001f)
 		{
-			axis = AsoUtility::DIR_U;
+			axis = Utility::DIR_U;
 		}
 	}
 
-	axis = AsoUtility::VNormalize(axis);
-	return Quaternion::AngleAxis(AsoUtility::Deg2RadD(angle), axis);
+	axis = Utility::VNormalize(axis);
+	return Quaternion::AngleAxis(Utility::Deg2RadD(angle), axis);
 
 }
 

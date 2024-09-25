@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="6027384515004898987">
+  <FileInfo check="Class">
+<class name="Vector2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Vector2.h" line="2" col="1" hash="12934802108943703709"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="Vector2"/>
+  </FileInfo>
+</analyzerinfo>

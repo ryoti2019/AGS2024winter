@@ -1,0 +1,13 @@
+Transform call:[MGetIdent,Quaternion] noreturn:[Quaternion]
+Transform call:[MGetIdent,Quaternion] noreturn:[Quaternion]
+Transform
+Update call:[MGetIdent,MGetScale,MGetTranslate,MMult,MV1SetMatrix,Mult,ToEuler,ToMatrix] noreturn:[MV1SetMatrix]
+Release
+SetModel
+GetForward call:[GetDir] noreturn:[GetDir]
+GetBack call:[GetDir] noreturn:[GetDir]
+GetRight call:[GetDir] noreturn:[GetDir]
+GetLeft call:[GetDir] noreturn:[GetDir]
+GetUp call:[GetDir] noreturn:[GetDir]
+GetDown call:[GetDir] noreturn:[GetDir]
+GetDir call:[PosAxis] noreturn:[PosAxis]

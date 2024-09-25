@@ -1,7 +1,7 @@
 #include <EffekseerForDXLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "ShotEnemy.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -226,10 +226,10 @@ void ShotEnemy::ShotSyncEffect(void)
 
 	VECTOR rot = Quaternion::ToEuler(followRot);
 
-	float degY = AsoUtility::Rad2DegF(rot.y);
+	float degY = Utility::Rad2DegF(rot.y);
 	degY = degY + 180.0f;
 
-	float radY = AsoUtility::Deg2RadF(degY);
+	float radY = Utility::Deg2RadF(degY);
 
 	// í«è]ëŒè€Ç©ÇÁé©ã@Ç‹Ç≈ÇÃëäëŒç¿ïW
 	VECTOR effectLPos = followRot.PosAxis({ 0.0f,0.0f,0.0f });

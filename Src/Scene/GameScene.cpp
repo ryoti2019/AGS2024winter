@@ -4,7 +4,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
 #include "../Application.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "../Object/Grid.h"
 #include "../Object/Stage.h"
 #include "../Object/Player.h"
@@ -65,7 +65,7 @@ void GameScene::Init(void)
 	enemyDeath_ = false;
 
 	// プレイヤーの回避用の座標
-	rollPos_ = AsoUtility::VECTOR_ZERO;
+	rollPos_ = Utility::VECTOR_ZERO;
 
 	// HPバーの画像
 	imgPlayerHPBar_ = ResourceManager::GetInstance().Load(ResourceManager::SRC::PLAYER_HP_BAR).handleId_;
@@ -187,7 +187,7 @@ void GameScene::Update(void)
 	// 回避用の座標を初期化
 	if (enemy_->GetState() != Enemy::STATE::JUMP_ATTACK)
 	{
-		rollPos_ = AsoUtility::VECTOR_ZERO;
+		rollPos_ = Utility::VECTOR_ZERO;
 		isEffectTornade_ = true;
 	}
 
@@ -417,7 +417,7 @@ void GameScene::CollisionEnemyAndPlayer()
 	// プレイヤーと敵の弾の当たり判定
 	for (auto s : enemy_->GetShots())
 	{
-		if (AsoUtility::IsHitSphereCapsule(s->GetPos(), s->GetCollisionRadius(),
+		if (Utility::IsHitSphereCapsule(s->GetPos(), s->GetCollisionRadius(),
 			player_->GetCPosDown(), player_->GetCPosUP(), player_->COLLISION_BODY_RADIUS)
 			&& (s->GetState() == ShotEnemy::STATE::SHOT) && player_->GetState() != Player::STATE::ROLL
 			&& player_->GetHP() > 0)

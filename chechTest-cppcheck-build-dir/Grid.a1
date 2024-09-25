@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="2639622668829965879">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Grid.cpp" line="1" column="0"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;num&apos; can be reduced." verbose="The scope of the variable &apos;num&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Grid.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Grid.cpp" line="31" column="8"/>
+            <symbol>num</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="Grid" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Grid.h" line="2" col="1" hash="8666821605190639087"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Init" lineNumber="12"/>
+    <functiondecl functionName="Update" lineNumber="16"/>
+    <functiondecl functionName="Draw" lineNumber="20"/>
+    <functiondecl functionName="Release" lineNumber="61"/>
+    <functioncall functionName="DrawLine3D"/>
+    <functioncall functionName="DrawSphere3D"/>
+    <functioncall functionName="Grid"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

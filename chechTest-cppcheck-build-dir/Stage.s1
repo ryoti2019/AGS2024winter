@@ -1,0 +1,7 @@
+Stage
+Stage
+Init call:[GetInstance,LoadModelDuplicate,Quaternion,SetModel,Update] noreturn:[Update]
+Update call:[Update] noreturn:[Update]
+Draw call:[MV1DrawModel] noreturn:[MV1DrawModel]
+Release
+GetModelId

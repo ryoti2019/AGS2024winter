@@ -1,0 +1,8 @@
+TitleScene
+TitleScene
+Init call:[ChangeMode,GetCamera,GetInstance,InitMusic,Load] noreturn:[InitMusic]
+InitMusic call:[ChangeVolumeSoundMem,GetInstance,Load,PlaySoundMem]
+Update call:[ChangeScene,GetInstance,GetJPadInputState,IsPadBtnTrgDown,IsTrgDown,PlaySoundMem,SetGamePad,SetIsOperation] noreturn:[SetIsOperation]
+Draw call:[DrawLogo] noreturn:[DrawLogo]
+Release call:[DeleteGraph,DeleteSoundMem] noreturn:[DeleteSoundMem]
+DrawLogo call:[DrawRotaGraph] noreturn:[DrawRotaGraph]

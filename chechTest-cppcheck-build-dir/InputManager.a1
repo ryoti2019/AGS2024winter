@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="3749584002959930108">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="3" column="0"/>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;InputManager::infoEmpty_&apos; is not initialized in the constructor." verbose="Member variable &apos;InputManager::infoEmpty_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="179" column="15"/>
+            <symbol>InputManager::infoEmpty_</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;InputManager::mouseInfoEmpty_&apos; is not initialized in the constructor." verbose="Member variable &apos;InputManager::mouseInfoEmpty_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="179" column="15"/>
+            <symbol>InputManager::mouseInfoEmpty_</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;InputManager::padInfos_&apos; is not initialized in the constructor." verbose="Member variable &apos;InputManager::padInfos_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="179" column="15"/>
+            <symbol>InputManager::padInfos_</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;InputManager::infoEmpty_&apos; is not initialized in the copy constructor." verbose="Member variable &apos;InputManager::infoEmpty_&apos; is not initialized in the copy constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="184" column="15"/>
+            <symbol>InputManager::infoEmpty_</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;InputManager::mouseInfoEmpty_&apos; is not initialized in the copy constructor." verbose="Member variable &apos;InputManager::mouseInfoEmpty_&apos; is not initialized in the copy constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="184" column="15"/>
+            <symbol>InputManager::mouseInfoEmpty_</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;InputManager::mouseInput_&apos; is not initialized in the copy constructor." verbose="Member variable &apos;InputManager::mouseInput_&apos; is not initialized in the copy constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="184" column="15"/>
+            <symbol>InputManager::mouseInput_</symbol>
+        </error>
+        <error id="uninitMemberVarPrivate" severity="warning" msg="Member variable &apos;InputManager::padInfos_&apos; is not initialized in the copy constructor." verbose="Member variable &apos;InputManager::padInfos_&apos; is not initialized in the copy constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="184" column="15"/>
+            <symbol>InputManager::padInfos_</symbol>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h:220:7" call-funcname="SetJPadInState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp" line="93" col="16" call-argexpr="JOYPAD_NO::KEY_PAD1" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h:129:18" call-funcname="GetJPadInputState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp" line="235" col="35" call-argexpr="jpNo" call-argvaluetype="0" call-argvalue="0">
+  <path file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="93" col="26" info="Calling function &apos;SetJPadInState&apos;, 1st argument &apos;JOYPAD_NO::KEY_PAD1&apos; value is 0"/>
+</function-call><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h:211:14" call-funcname="GetJPadType" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.cpp" line="273" col="25" call-argexpr="no" call-argvaluetype="0" call-argvalue="0">
+  <path file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="93" col="26" info="Calling function &apos;SetJPadInState&apos;, 1st argument &apos;JOYPAD_NO::KEY_PAD1&apos; value is 0"/>
+  <path file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.cpp" line="235" col="36" info="Calling function &apos;GetJPadInputState&apos;, 1st argument &apos;jpNo&apos; value is 0"/>
+</function-call>  </FileInfo>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="CreateInstance" lineNumber="6"/>
+    <functiondecl functionName="GetInstance" lineNumber="15"/>
+    <functiondecl functionName="Init" lineNumber="24"/>
+    <functiondecl functionName="Update" lineNumber="68"/>
+    <functiondecl functionName="Destroy" lineNumber="101"/>
+    <functiondecl functionName="Add" lineNumber="108"/>
+    <functiondecl functionName="Clear" lineNumber="119"/>
+    <functiondecl functionName="IsNew" lineNumber="124"/>
+    <functiondecl functionName="IsTrgDown" lineNumber="129"/>
+    <functiondecl functionName="IsTrgUp" lineNumber="134"/>
+    <functiondecl functionName="GetMousePos" lineNumber="139"/>
+    <functiondecl functionName="GetMouse" lineNumber="144"/>
+    <functiondecl functionName="IsClickMouseLeft" lineNumber="149"/>
+    <functiondecl functionName="IsClickMouseRight" lineNumber="154"/>
+    <functiondecl functionName="IsTrgDownMouseLeft" lineNumber="159"/>
+    <functiondecl functionName="IsTrgUpMouseLeft" lineNumber="164"/>
+    <functiondecl functionName="IsTrgDownMouseRight" lineNumber="169"/>
+    <functiondecl functionName="IsTrgUpMouseRight" lineNumber="174"/>
+    <functiondecl functionName="Find" lineNumber="188"/>
+    <functiondecl functionName="FindMouse" lineNumber="201"/>
+    <functiondecl functionName="GetJPadType" lineNumber="212"/>
+    <functiondecl functionName="GetJPadDInputState" lineNumber="217"/>
+    <functiondecl functionName="GetJPadXInputState" lineNumber="224"/>
+    <functiondecl functionName="SetJPadInState" lineNumber="231"/>
+    <functiondecl functionName="GetJPadInputState" lineNumber="268"/>
+    <functiondecl functionName="IsPadBtnNew" lineNumber="404"/>
+    <functiondecl functionName="IsPadBtnTrgDown" lineNumber="409"/>
+    <functiondecl functionName="IsPadBtnTrgUp" lineNumber="414"/>
+    <functiondecl functionName="IsPadLStickTrgDown" lineNumber="419"/>
+    <functiondecl functionName="IsPadXStickTrgDownX" lineNumber="424"/>
+    <functiondecl functionName="IsPadZStickTrgDownZ" lineNumber="429"/>
+    <functiondecl functionName="IsPadRStickTrgDown" lineNumber="434"/>
+    <functiondecl functionName="IsPadRXStickTrgDownX" lineNumber="439"/>
+    <functiondecl functionName="IsPadRZStickTrgDownZ" lineNumber="444"/>
+    <functioncall functionName="Add"/>
+    <functioncall functionName="CheckHitKey"/>
+    <functioncall functionName="CreateInstance"/>
+    <functioncall functionName="Find"/>
+    <functioncall functionName="FindMouse"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetJPadDInputState"/>
+    <functioncall functionName="GetJPadInputState"/>
+    <functioncall functionName="GetJPadType"/>
+    <functioncall functionName="GetJPadXInputState"/>
+    <functioncall functionName="GetJoypadDirectInputState"/>
+    <functioncall functionName="GetJoypadType"/>
+    <functioncall functionName="GetJoypadXInputState"/>
+    <functioncall functionName="GetMouseInput"/>
+    <functioncall functionName="GetMousePoint"/>
+    <functioncall functionName="Init"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="KEY_INPUT_A"/>
+    <functioncall functionName="KEY_INPUT_B"/>
+    <functioncall functionName="KEY_INPUT_D"/>
+    <functioncall functionName="KEY_INPUT_DOWN"/>
+    <functioncall functionName="KEY_INPUT_H"/>
+    <functioncall functionName="KEY_INPUT_LEFT"/>
+    <functioncall functionName="KEY_INPUT_LSHIFT"/>
+    <functioncall functionName="KEY_INPUT_Q"/>
+    <functioncall functionName="KEY_INPUT_RIGHT"/>
+    <functioncall functionName="KEY_INPUT_S"/>
+    <functioncall functionName="KEY_INPUT_SPACE"/>
+    <functioncall functionName="KEY_INPUT_UP"/>
+    <functioncall functionName="KEY_INPUT_V"/>
+    <functioncall functionName="KEY_INPUT_W"/>
+    <functioncall functionName="MOUSE_INPUT_LEFT"/>
+    <functioncall functionName="MOUSE_INPUT_RIGHT"/>
+    <functioncall functionName="SetJPadInState"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="emplace"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="find"/>
+  </FileInfo>
+</analyzerinfo>

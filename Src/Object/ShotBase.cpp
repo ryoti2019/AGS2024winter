@@ -1,5 +1,5 @@
 #include <EffekseerForDXLib.h>
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/Resource.h"
@@ -10,7 +10,7 @@ ShotBase::ShotBase(void)
 
 	// èâä˙âª
 	stepAlive_ = 0.0f;
-	dir_ = AsoUtility::VECTOR_ZERO;
+	dir_ = Utility::VECTOR_ZERO;
 
 	// ÉÇÉfÉãêßå‰ÇÃäÓñ{èÓïÒ
 	ResourceManager& rem = ResourceManager::GetInstance();
@@ -18,10 +18,10 @@ ShotBase::ShotBase(void)
 		rem.LoadModelDuplicate(ResourceManager::SRC::SHOT_MODEL);
 	float scale = 10.0f;
 	transform_.scl = { scale, scale, scale };
-	transform_.pos = AsoUtility::VECTOR_ZERO;
+	transform_.pos = Utility::VECTOR_ZERO;
 	transform_.quaRot = Quaternion();
 	transform_.quaRotLocal =
-		Quaternion::Euler(AsoUtility::Deg2RadF(90.0f), 0.0f, 0.0f);
+		Quaternion::Euler(Utility::Deg2RadF(90.0f), 0.0f, 0.0f);
 
 	transform_.Update();
 

@@ -1,0 +1,8 @@
+IntVector3
+IntVector3
+IntVector3 call:[Round] noreturn:[Round]
+IntVector3
+operator< call:[tie] noreturn:[tie]
+Add
+Sub
+Scale

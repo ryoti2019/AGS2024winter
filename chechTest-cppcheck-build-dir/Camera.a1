@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="11930555629763284311">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.h" line="2" column="0"/>
+        </error>
+        <error id="normalCheckLevelMaxBranches" severity="information" msg="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." verbose="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="0" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::stageId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::stageId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::stageId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::lockOn_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::lockOn_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::lockOn_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::isNearLockOnTarget_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::isNearLockOnTarget_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::isNearLockOnTarget_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::rotPowY_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::rotPowY_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::rotPowY_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::rotPowX_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::rotPowX_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::rotPowX_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::pHit_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::pHit_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::pHit_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::operationCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::operationCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::operationCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::musicDecisionId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::musicDecisionId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::musicDecisionId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::playerTransform_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::playerTransform_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::playerTransform_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Camera::enemyTransform_&apos; is not initialized in the constructor." verbose="Member variable &apos;Camera::enemyTransform_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="11" column="9"/>
+            <symbol>Camera::enemyTransform_</symbol>
+        </error>
+        <error id="unusedPrivateFunction" severity="style" msg="Unused private function: &apos;Camera::SetTargetPosFollowForward&apos;" verbose="Unused private function: &apos;Camera::SetTargetPosFollowForward&apos;" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.h" line="181" column="7"/>
+            <symbol>Camera::SetTargetPosFollowForward</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;pos_&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;pos_&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="14" column="2"/>
+            <symbol>pos_</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;targetPos_&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;targetPos_&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="15" column="2"/>
+            <symbol>targetPos_</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;rotXY_&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;rotXY_&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="16" column="2"/>
+            <symbol>rotXY_</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="111" column="25" info="Derived variable &apos;Player::TIME_ROT&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="17" column="25" info="Parent variable &apos;UnitBase::TIME_ROT&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>TIME_ROT</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="174" column="19" info="Derived function &apos;Player::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="163" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Player</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="169" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="29" column="15" info="Virtual function in base class"/>
+            <symbol>Draw</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="171" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="452" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="79" column="15" info="Virtual function in base class"/>
+            <symbol>Animation</symbol>
+        </error>
+        <error id="returnByReference" severity="performance" msg="Function &apos;GetRotY()&apos; should return member &apos;rotY_&apos; by const reference." verbose="Function &apos;GetRotY()&apos; should return member &apos;rotY_&apos; by const reference." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.h" line="96" column="13"/>
+        </error>
+        <error id="redundantInitialization" severity="style" msg="Redundant initialization for &apos;dis&apos;. The initialized value is overwritten before it is read." verbose="Redundant initialization for &apos;dis&apos;. The initialized value is overwritten before it is read." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="219" column="6" info="dis is overwritten"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="202" column="12" info="dis is initialized"/>
+            <symbol>dis</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="79" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="436" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.cpp" line="521" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+<class name="Camera" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Camera.h" line="8" col="1" hash="5493226365060895966"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Init" lineNumber="23"/>
+    <functiondecl functionName="Update" lineNumber="33"/>
+    <functiondecl functionName="SetBeforeDraw" lineNumber="37"/>
+    <functiondecl functionName="SetBeforeDrawFixedPoint" lineNumber="71"/>
+    <functiondecl functionName="SetBeforeDrawFree" lineNumber="76"/>
+    <functiondecl functionName="SetBeforeDrawFollow" lineNumber="140"/>
+    <functiondecl functionName="SetBeforeDrawLockOn" lineNumber="177"/>
+    <functiondecl functionName="Draw" lineNumber="268"/>
+    <functiondecl functionName="Release" lineNumber="272"/>
+    <functiondecl functionName="GetPos" lineNumber="276"/>
+    <functiondecl functionName="GetAngles" lineNumber="281"/>
+    <functiondecl functionName="SetLazyAngles" lineNumber="286"/>
+    <functiondecl functionName="GetTargetPos" lineNumber="294"/>
+    <functiondecl functionName="SetPlayer" lineNumber="299"/>
+    <functiondecl functionName="SetEnemy" lineNumber="304"/>
+    <functiondecl functionName="ChangeLockOnFlag" lineNumber="309"/>
+    <functiondecl functionName="ChangeMode" lineNumber="330"/>
+    <functiondecl functionName="GetRotY" lineNumber="359"/>
+    <functiondecl functionName="GetLockOn" lineNumber="364"/>
+    <functiondecl functionName="GetMode" lineNumber="369"/>
+    <functiondecl functionName="AddLockOnAnglesY" lineNumber="374"/>
+    <functiondecl functionName="SetStageID" lineNumber="379"/>
+    <functiondecl functionName="SetDefault" lineNumber="384"/>
+    <functiondecl functionName="SetTargetPosFollowForward" lineNumber="406"/>
+    <functiondecl functionName="KeybordContoroller" lineNumber="433"/>
+    <functiondecl functionName="KeybordLockOnContoroller" lineNumber="518"/>
+    <functiondecl functionName="GamePadController" lineNumber="578"/>
+    <functiondecl functionName="GamePadLockOnContoroller" lineNumber="657"/>
+    <functiondecl functionName="CollisionStage" lineNumber="718"/>
+    <functiondecl functionName="LazyRotation" lineNumber="739"/>
+    <functioncall functionName="Angle"/>
+    <functioncall functionName="AngleAxis"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="Camera"/>
+    <functioncall functionName="ChangeMode"/>
+    <functioncall functionName="CollisionStage"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="Deg2RadF"/>
+    <functioncall functionName="Distance"/>
+    <functioncall functionName="Effekseer_Sync3DSetting"/>
+    <functioncall functionName="EqualsVZero"/>
+    <functioncall functionName="Euler"/>
+    <functioncall functionName="GamePadController"/>
+    <functioncall functionName="GamePadLockOnContoroller"/>
+    <functioncall functionName="GetBack"/>
+    <functioncall functionName="GetFPS"/>
+    <functioncall functionName="GetGamePad"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetIsOperation"/>
+    <functioncall functionName="GetJPadInputState"/>
+    <functioncall functionName="GetMousePoint"/>
+    <functioncall functionName="GetUp"/>
+    <functioncall functionName="Identity"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="IsNew"/>
+    <functioncall functionName="KEY_INPUT_A"/>
+    <functioncall functionName="KEY_INPUT_D"/>
+    <functioncall functionName="KEY_INPUT_DOWN"/>
+    <functioncall functionName="KEY_INPUT_LEFT"/>
+    <functioncall functionName="KEY_INPUT_RIGHT"/>
+    <functioncall functionName="KEY_INPUT_S"/>
+    <functioncall functionName="KEY_INPUT_UP"/>
+    <functioncall functionName="KEY_INPUT_W"/>
+    <functioncall functionName="KeybordContoroller"/>
+    <functioncall functionName="KeybordLockOnContoroller"/>
+    <functioncall functionName="LazyRotation"/>
+    <functioncall functionName="Lerp"/>
+    <functioncall functionName="Load"/>
+    <functioncall functionName="LookRotation"/>
+    <functioncall functionName="MGetIdent"/>
+    <functioncall functionName="MGetRotX"/>
+    <functioncall functionName="MGetRotY"/>
+    <functioncall functionName="MMult"/>
+    <functioncall functionName="MV1CollCheck_Sphere"/>
+    <functioncall functionName="MV1CollResultPolyDimTerminate"/>
+    <functioncall functionName="Mult"/>
+    <functioncall functionName="Player"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Rad2DegF"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetBeforeDrawFixedPoint"/>
+    <functioncall functionName="SetBeforeDrawFollow"/>
+    <functioncall functionName="SetBeforeDrawFree"/>
+    <functioncall functionName="SetBeforeDrawLockOn"/>
+    <functioncall functionName="SetCameraNearFar"/>
+    <functioncall functionName="SetCameraPositionAndTargetAndUpVec"/>
+    <functioncall functionName="SetDefault"/>
+    <functioncall functionName="SetMouseDispFlag"/>
+    <functioncall functionName="SetMousePoint"/>
+    <functioncall functionName="Slerp"/>
+    <functioncall functionName="ToEuler"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="UnitBase"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VNorm"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="VSub"/>
+    <functioncall functionName="VTransform"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="clamp"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="y"/>
+  </FileInfo>
+</analyzerinfo>

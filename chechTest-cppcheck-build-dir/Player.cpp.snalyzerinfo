@@ -1,0 +1,47 @@
+Player
+Player
+InitAnimation call:[Add,AngleAxis,AnimationController,ChangeAnimation,Deg2RadF,GetInstance,Identity,LoadModelDuplicate,Mult,Quaternion,SetModel,Update] noreturn:[Update]
+InitEffect call:[GetInstance,Load]
+InitMusic call:[ChangeVolumeSoundMem,GetInstance,Load]
+Init call:[InitAnimation,InitEffect,InitMusic,InputContoroller,MV1SearchFrame,SetParam]
+Update call:[Animation,AnimationFrame,ChangeState,ChargeSyncEffect,Collision,FootStepsMusic,GetAnimData,GetDeltaTime,GetInstance,KeyboardContoroller,RollMusic,SetFrequencySoundMem,SlashMusic,Update,VAdd,VScale] noreturn:[AnimationFrame,ChangeState,FootStepsMusic,KeyboardContoroller]
+Draw call:[Draw,DrawDebug,DrawFormatString,GetAnimData,GetAnimDatas,GetAttachNum,GetIsPriority,c_str] noreturn:[DrawFormatString]
+ChargePlayEffect call:[ChargeSyncEffect,PlayEffekseer3DEffect,SetScalePlayingEffekseer3DEffect] noreturn:[ChargeSyncEffect]
+ChargeSyncEffect call:[PosAxis,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,ToEuler,Update,VAdd] noreturn:[Update]
+SlashMusic call:[GetAnimData,GetRand,PlaySoundMem]
+FootStepsMusic call:[GetDeltaTime,GetInstance,PlaySoundMem] noreturn:[GetDeltaTime,PlaySoundMem]
+RollMusic call:[GetAnimData,GetRand,PlaySoundMem]
+Release call:[DeleteEffekseerEffect,DeleteSoundMem,MV1DeleteModel] noreturn:[DeleteSoundMem]
+GetTransform
+GetState
+SetState call:[ChangeState] noreturn:[ChangeState]
+GetCPosDown
+GetCPosUP
+SetPos call:[VAdd] noreturn:[VAdd]
+GetAttack
+SetAttack
+GetHP
+SetHP
+GetStamina
+GetHit
+SetHit
+SetFollow
+SetStageID
+GetInvincible
+Collision call:[CollisionStage,PlayerBodyCollision] noreturn:[CollisionStage]
+PlayerBodyCollision call:[GetRotation,MGetRotElem,MGetTranslateElem,MV1GetFrameLocalWorldMatrix,PosAxis,VAdd] noreturn:[VAdd]
+CollisionStage call:[HitCheck_Capsule_Triangle,MV1CollCheck_Capsule,MV1CollResultPolyDimTerminate,Magnitude,Update,VAdd,VNorm,VScale,VSub] noreturn:[MV1CollResultPolyDimTerminate,Update]
+KeyboardContoroller call:[KeyBoardCamera,KeyBoardLockOn,KeyboardAttack,KeyboardMove] noreturn:[KeyBoardLockOn]
+KeyboardMove call:[ChangeState,ChargeWalk,Dir,Distance,EqualsVZero,GetAngles,GetCamera,GetForward,GetInstance,GetMode,GetPos,LazyRotation,LockOn,LookRotation,MGetIdent,MGetRotY,MMult,Roll,Run,StopEffekseer3DEffect,VAdd,VNorm,VScale,VSub,VTransform,atan2f] noreturn:[LazyRotation,LockOn,VAdd,atan2f]
+KeyboardAttack call:[Attack,ChangeState,ChargeAttack,GetDeltaTime,GetInstance,StopEffekseer3DEffect] noreturn:[ChangeState,GetDeltaTime]
+KeyBoardCamera call:[GetCamera,GetInstance,IsTrgDown,SetLazyAngles,ToEuler] noreturn:[SetLazyAngles]
+KeyBoardLockOn call:[ChangeLockOnFlag,ChangeMode,Distance,GetCamera,GetInstance,GetLockOn,IsTrgDown] noreturn:[ChangeLockOnFlag,ChangeMode]
+LockOn call:[GetCamera,GetInstance,GetMode,Rotate,VAdd] noreturn:[Rotate]
+SetGoalRotate call:[Angle]
+Rotate call:[GetDeltaTime,GetInstance,Slerp] noreturn:[Slerp]
+ChangeState call:[ChangeAnimation,ChargePlayEffect,PlaySoundMem,StopEffekseer3DEffect,StopSoundMem,emplace_back] noreturn:[StopSoundMem]
+LazyRotation call:[Euler,Slerp] noreturn:[Slerp]
+DrawDebug call:[DrawCapsule3D,DrawFormatString,Rad2DegF,ToEuler] noreturn:[DrawCapsule3D]
+SetParam
+Animation call:[ChangeState,GetAnimData,IsEndPlayAnimation]
+AnimationFrame call:[IsBlendPlay,MGetIdent,MGetRotElem,MGetScale,MGetSize,MGetTranslate,MGetTranslateElem,MMult,MV1GetFrameLocalMatrix,MV1ResetFrameUserLocalMatrix,MV1SetFrameUserLocalMatrix] noreturn:[MV1SetFrameUserLocalMatrix]

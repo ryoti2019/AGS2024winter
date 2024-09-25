@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="17860831932835936891">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;crtdbg.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;crtdbg.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\main.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\main.cpp" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.h" line="2" column="0"/>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="WinMain" lineNumber="8"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="CreateInstance"/>
+    <functioncall functionName="Destroy"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="IsInitFail"/>
+    <functioncall functionName="Run"/>
+    <functioncall functionName="_CRTDBG_LEAK_CHECK_DF"/>
+    <functioncall functionName="_CrtSetDbgFlag"/>
+  </FileInfo>
+</analyzerinfo>

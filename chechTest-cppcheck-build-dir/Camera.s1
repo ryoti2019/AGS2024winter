@@ -1,0 +1,32 @@
+Camera call:[Identity] noreturn:[Identity]
+Camera
+Init call:[GetInstance,Load,SetDefault]
+Update
+SetBeforeDraw call:[Effekseer_Sync3DSetting,SetBeforeDrawFixedPoint,SetBeforeDrawFollow,SetBeforeDrawFree,SetBeforeDrawLockOn,SetCameraNearFar,SetCameraPositionAndTargetAndUpVec] noreturn:[Effekseer_Sync3DSetting]
+SetBeforeDrawFixedPoint
+SetBeforeDrawFree call:[AngleAxis,Deg2RadF,EqualsVZero,GetInstance,GetUp,IsNew,Mult,PosAxis,VAdd,VNorm,VScale] noreturn:[GetUp,VAdd]
+SetBeforeDrawFollow call:[CollisionStage,GamePadController,GetGamePad,GetInstance,GetIsOperation,KeybordContoroller,LazyRotation] noreturn:[CollisionStage,GamePadController,KeybordContoroller,LazyRotation]
+SetBeforeDrawLockOn call:[AngleAxis,CollisionStage,Distance,GamePadLockOnContoroller,GetBack,GetGamePad,GetInstance,KeybordLockOnContoroller,Lerp,LookRotation,Mult,PosAxis,ToEuler,VAdd,VNorm,VScale,VSub] noreturn:[CollisionStage,GamePadLockOnContoroller,KeybordLockOnContoroller,Lerp]
+Draw
+Release
+GetPos
+GetAngles
+SetLazyAngles call:[Euler]
+GetTargetPos
+SetPlayer
+SetEnemy
+ChangeLockOnFlag call:[ChangeMode]
+ChangeMode call:[SetDefault]
+GetRotY
+GetLockOn
+GetMode
+AddLockOnAnglesY
+SetStageID
+SetDefault call:[Identity,VAdd]
+SetTargetPosFollowForward call:[MGetIdent,MGetRotX,MGetRotY,MMult,VAdd,VTransform] noreturn:[VAdd]
+KeybordContoroller call:[AngleAxis,Deg2RadF,EqualsVZero,GetFPS,GetInstance,GetMousePoint,Lerp,Mult,PosAxis,Rad2DegF,SetMouseDispFlag,SetMousePoint,VAdd,clamp,float] noreturn:[Mult]
+KeybordLockOnContoroller call:[AngleAxis,Deg2RadF,EqualsVZero,GetFPS,GetInstance,GetMousePoint,Mult,Rad2DegF,SetMouseDispFlag,SetMousePoint,clamp,float] noreturn:[Mult]
+GamePadController call:[AngleAxis,Deg2RadF,GetInstance,GetJPadInputState,Lerp,Mult,PosAxis,Rad2DegF,VAdd,VNorm,VScale] noreturn:[Mult,VScale]
+GamePadLockOnContoroller call:[AngleAxis,Deg2RadF,GetInstance,GetJPadInputState,Mult,Rad2DegF,VNorm,VScale] noreturn:[Mult,VScale]
+CollisionStage call:[MV1CollCheck_Sphere,MV1CollResultPolyDimTerminate] noreturn:[MV1CollResultPolyDimTerminate]
+LazyRotation call:[Angle,AngleAxis,Mult,Slerp,ToEuler,abs] noreturn:[Mult]

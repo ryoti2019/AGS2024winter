@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="15297987096009393447">
+  <FileInfo check="Class">
+<class name="SceneBase" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/SceneBase.h" line="3" col="1" hash="14171729531982519272"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="SceneBase"/>
+  </FileInfo>
+</analyzerinfo>

@@ -1,0 +1,898 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="2688854262369493303">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="3" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::animationController_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::animationController_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::animationController_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::state_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::state_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::state_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::preState_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::preState_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::preState_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::imgHPBar_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::imgHPBar_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::imgHPBar_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::stageId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::stageId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::stageId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::idleAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::idleAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::idleAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::walkAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::walkAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::walkAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::tackleAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::tackleAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::tackleAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::attackAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::attackAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::attackAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::jumpAttackAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::jumpAttackAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::jumpAttackAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::createAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::createAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::createAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::shotAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::shotAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::shotAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::hitAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::hitAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::hitAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::deathAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::deathAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::deathAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::turnLeftAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::turnLeftAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::turnLeftAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::turnRightAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::turnRightAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::turnRightAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::walkCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::walkCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::walkCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::startRotation_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::startRotation_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::startRotation_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::isRotation_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::isRotation_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::isRotation_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::isAction_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::isAction_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::isAction_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::attackNumber_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::attackNumber_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::attackNumber_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::attack_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::attack_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::attack_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::isShot_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::isShot_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::isShot_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::hit_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::hit_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::hit_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::jumpAttack_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::jumpAttack_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::jumpAttack_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::beforeTackleCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::beforeTackleCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::beforeTackleCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::tackleCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::tackleCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::tackleCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::enemyPosFrameNum_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::enemyPosFrameNum_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::enemyPosFrameNum_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::enemyAttachFrameNum_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::enemyAttachFrameNum_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::enemyAttachFrameNum_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::weponAttachFrameNum_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::weponAttachFrameNum_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::weponAttachFrameNum_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::followTransform_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::followTransform_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::followTransform_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::delayCreate_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::delayCreate_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::delayCreate_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::shotCreateDeg_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::shotCreateDeg_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::shotCreateDeg_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::shotCreateRad_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::shotCreateRad_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::shotCreateRad_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::delayShot_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::delayShot_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::delayShot_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::shotCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::shotCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::shotCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::shotNum_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::shotNum_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::shotNum_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::idleCoolTime_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::idleCoolTime_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::idleCoolTime_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::isNoPlay_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::isNoPlay_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::isNoPlay_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::lockOnCursorImg_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::lockOnCursorImg_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::lockOnCursorImg_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::lockOnCursorCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::lockOnCursorCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::lockOnCursorCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::lockOnCursorTime_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::lockOnCursorTime_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::lockOnCursorTime_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectCreateResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectCreateResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectCreateResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectCreatePlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectCreatePlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectCreatePlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectTackleResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectTackleResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectTackleResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectTacklePlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectTacklePlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectTacklePlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectTackleRangeResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectTackleRangeResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectTackleRangeResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectTackleRangePlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectTackleRangePlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectTackleRangePlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectJumpAttackResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectJumpAttackResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectJumpAttackResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectJumpAttackPlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectJumpAttackPlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectJumpAttackPlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::isEffectJumpAttack_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::isEffectJumpAttack_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::isEffectJumpAttack_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectJumpAttackRangeResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectJumpAttackRangeResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectJumpAttackRangeResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::effectJumpAttackRangePlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::effectJumpAttackRangePlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::effectJumpAttackRangePlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicCreateId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicCreateId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicCreateId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicTackleId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicTackleId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicTackleId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicFootStepsId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicFootStepsId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicFootStepsId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicFootStepsCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicFootStepsCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicFootStepsCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicJumpAttackId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicJumpAttackId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicJumpAttackId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicEarthQuakeId_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicEarthQuakeId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicEarthQuakeId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicAttackVoice1Id_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicAttackVoice1Id_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicAttackVoice1Id_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::musicAttackVoice2Id_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::musicAttackVoice2Id_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::musicAttackVoice2Id_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Enemy::isMusicAttackVoice_&apos; is not initialized in the constructor." verbose="Member variable &apos;Enemy::isMusicAttackVoice_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="14" column="8"/>
+            <symbol>Enemy::isMusicAttackVoice_</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="111" column="25" info="Derived variable &apos;Player::TIME_ROT&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="17" column="25" info="Parent variable &apos;UnitBase::TIME_ROT&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>TIME_ROT</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="174" column="19" info="Derived function &apos;Player::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member variable with name &apos;pos_&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member variable with name &apos;pos_&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="402" column="9" info="Derived variable &apos;Enemy::pos_&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="57" column="9" info="Parent variable &apos;UnitBase::pos_&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>pos_</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="689" column="25" info="Derived function &apos;Enemy::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member function with name &apos;GetStepAnim&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member function with name &apos;GetStepAnim&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="781" column="14" info="Derived function &apos;Enemy::GetStepAnim&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="36" column="8" info="Parent function &apos;UnitBase::GetStepAnim&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>GetStepAnim</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~ShotEnemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~ShotEnemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.h" line="14" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="28" column="11" info="Virtual destructor in base class"/>
+            <symbol>~ShotEnemy</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;CheckAlive&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;CheckAlive&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.h" line="49" column="15" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="102" column="15" info="Virtual function in base class"/>
+            <symbol>CheckAlive</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="163" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Player</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="169" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="29" column="15" info="Virtual function in base class"/>
+            <symbol>Draw</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="171" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="452" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="79" column="15" info="Virtual function in base class"/>
+            <symbol>Animation</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Enemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Enemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="187" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Enemy</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="195" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="redundantInitialization" severity="style" msg="Redundant initialization for &apos;vec&apos;. The initialized value is overwritten before it is read." verbose="Redundant initialization for &apos;vec&apos;. The initialized value is overwritten before it is read." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="818" column="6" info="vec is overwritten"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="790" column="13" info="vec is initialized"/>
+            <symbol>vec</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;R&apos; can be reduced." verbose="The scope of the variable &apos;R&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="582" column="6"/>
+            <symbol>R</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;G&apos; can be reduced." verbose="The scope of the variable &apos;G&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="583" column="6"/>
+            <symbol>G</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;B&apos; can be reduced." verbose="The scope of the variable &apos;B&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="584" column="6"/>
+            <symbol>B</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;angle&apos; can be reduced." verbose="The scope of the variable &apos;angle&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="890" column="8"/>
+            <symbol>angle</symbol>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;goalDeg&apos; shadows outer variable" verbose="Local variable &apos;goalDeg&apos; shadows outer variable" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1470" column="9" info="Shadow variable"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1441" column="8" info="Shadowed declaration"/>
+            <symbol>goalDeg</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="76" column="29" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;animData&apos; can be declared as reference to const" verbose="Variable &apos;animData&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="803" column="13" info="Variable &apos;animData&apos; can be declared as reference to const"/>
+            <symbol>animData</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1529" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::find_if algorithm instead of a raw loop." verbose="Consider using std::find_if algorithm instead of a raw loop." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1557" column="3"/>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::find_if algorithm instead of a raw loop." verbose="Consider using std::find_if algorithm instead of a raw loop." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1625" column="3"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;width&apos; is assigned a value that is never used." verbose="Variable &apos;width&apos; is assigned a value that is never used." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="607" column="12"/>
+            <symbol>width</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;length&apos; is assigned a value that is never used." verbose="Variable &apos;length&apos; is assigned a value that is never used." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="859" column="10"/>
+            <symbol>length</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;goalDeg&apos; is assigned a value that is never used." verbose="Variable &apos;goalDeg&apos; is assigned a value that is never used." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="920" column="10"/>
+            <symbol>goalDeg</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;i&apos; is assigned a value that is never used." verbose="Variable &apos;i&apos; is assigned a value that is never used." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1410" column="10"/>
+            <symbol>i</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;goalDeg&apos; is assigned a value that is never used." verbose="Variable &apos;goalDeg&apos; is assigned a value that is never used." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1441" column="16"/>
+            <symbol>goalDeg</symbol>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h:69:2" call-funcname="AnimationController" call-argnr="2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="33" col="48" call-argexpr="0" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h:515:7" call-funcname="ChangeState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="143" col="13" call-argexpr="STATE::THINK" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h:515:7" call-funcname="ChangeState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="930" col="14" call-argexpr="STATE::THINK" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h:515:7" call-funcname="ChangeState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="1487" col="14" call-argexpr="STATE::THINK" call-argvaluetype="0" call-argvalue="0"/>  </FileInfo>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+<class name="AnimationController::AnimationData" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h" line="24" col="2" hash="7260631439233016987"/>
+<class name="Enemy" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h" line="7" col="1" hash="7163990896481460183"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Init" lineNumber="79"/>
+    <functiondecl functionName="InitEffect" lineNumber="147"/>
+    <functiondecl functionName="CreatePlayEffect" lineNumber="170"/>
+    <functiondecl functionName="TacklePlayEffect" lineNumber="185"/>
+    <functiondecl functionName="TackleRangePlayEffect" lineNumber="200"/>
+    <functiondecl functionName="JumpAttackPlayEffect" lineNumber="214"/>
+    <functiondecl functionName="JumpAttackRangePlayEffect" lineNumber="229"/>
+    <functiondecl functionName="CreateSyncEffect" lineNumber="244"/>
+    <functiondecl functionName="TackleSyncEffect" lineNumber="269"/>
+    <functiondecl functionName="TackleRangeSyncEffect" lineNumber="294"/>
+    <functiondecl functionName="JumpAttackSyncEffect" lineNumber="324"/>
+    <functiondecl functionName="JumpAttackRangeSyncEffect" lineNumber="349"/>
+    <functiondecl functionName="InitMusic" lineNumber="374"/>
+    <functiondecl functionName="FootStepsMusic" lineNumber="403"/>
+    <functiondecl functionName="AttackMusic" lineNumber="415"/>
+    <functiondecl functionName="Update" lineNumber="431"/>
+    <functiondecl functionName="Draw" lineNumber="568"/>
+    <functiondecl functionName="Release" lineNumber="640"/>
+    <functiondecl functionName="GetTransform" lineNumber="689"/>
+    <functiondecl functionName="GetState" lineNumber="694"/>
+    <functiondecl functionName="SetState" lineNumber="699"/>
+    <functiondecl functionName="GetCBodyPosDown" lineNumber="704"/>
+    <functiondecl functionName="GetCBodyPosUP" lineNumber="709"/>
+    <functiondecl functionName="GetCWeponPosDown" lineNumber="714"/>
+    <functiondecl functionName="GetCWeponPosUP" lineNumber="719"/>
+    <functiondecl functionName="GetHP" lineNumber="724"/>
+    <functiondecl functionName="SetHP" lineNumber="729"/>
+    <functiondecl functionName="SetFollow" lineNumber="734"/>
+    <functiondecl functionName="GetAttack" lineNumber="741"/>
+    <functiondecl functionName="SetAttack" lineNumber="746"/>
+    <functiondecl functionName="GetHit" lineNumber="751"/>
+    <functiondecl functionName="SetHit" lineNumber="756"/>
+    <functiondecl functionName="SetDeathCnt" lineNumber="761"/>
+    <functiondecl functionName="GetShots" lineNumber="766"/>
+    <functiondecl functionName="SetStageID" lineNumber="771"/>
+    <functiondecl functionName="GetAttackPlayerPos" lineNumber="776"/>
+    <functiondecl functionName="GetStepAnim" lineNumber="781"/>
+    <functiondecl functionName="Think" lineNumber="786"/>
+    <functiondecl functionName="Rotation" lineNumber="878"/>
+    <functiondecl functionName="AfterRotation" lineNumber="901"/>
+    <functiondecl functionName="UpdateIdle" lineNumber="924"/>
+    <functiondecl functionName="UpdateWalk" lineNumber="935"/>
+    <functiondecl functionName="UpdateAttack" lineNumber="955"/>
+    <functiondecl functionName="UpdateJumpAttack" lineNumber="969"/>
+    <functiondecl functionName="UpdateBeforeTackle" lineNumber="1007"/>
+    <functiondecl functionName="UpdateTackle" lineNumber="1018"/>
+    <functiondecl functionName="UpdateCreate" lineNumber="1045"/>
+    <functiondecl functionName="UpdateShot" lineNumber="1053"/>
+    <functiondecl functionName="UpdateHit" lineNumber="1067"/>
+    <functiondecl functionName="Collision" lineNumber="1081"/>
+    <functiondecl functionName="CollisionStage" lineNumber="1097"/>
+    <functiondecl functionName="EnemyBodyCollision" lineNumber="1165"/>
+    <functiondecl functionName="WeponCollision" lineNumber="1192"/>
+    <functiondecl functionName="ChangeState" lineNumber="1219"/>
+    <functiondecl functionName="LazyRotation" lineNumber="1311"/>
+    <functiondecl functionName="DrawDebug" lineNumber="1342"/>
+    <functiondecl functionName="Animation" lineNumber="1396"/>
+    <functiondecl functionName="AnimationFrame" lineNumber="1493"/>
+    <functiondecl functionName="ProcessShot" lineNumber="1526"/>
+    <functiondecl functionName="Shot" lineNumber="1549"/>
+    <functiondecl functionName="CreateShot" lineNumber="1575"/>
+    <functiondecl functionName="GetAvailableShot" lineNumber="1618"/>
+    <functioncall functionName="Add"/>
+    <functioncall functionName="Animation"/>
+    <functioncall functionName="AnimationController"/>
+    <functioncall functionName="AnimationFrame"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="AttackMusic"/>
+    <functioncall functionName="Camera"/>
+    <functioncall functionName="ChangeAnimation"/>
+    <functioncall functionName="ChangeState"/>
+    <functioncall functionName="Collision"/>
+    <functioncall functionName="CollisionStage"/>
+    <functioncall functionName="Create"/>
+    <functioncall functionName="CreatePlayEffect"/>
+    <functioncall functionName="CreateShot"/>
+    <functioncall functionName="CreateSyncEffect"/>
+    <functioncall functionName="DX_BLENDMODE_NOBLEND"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="DX_PLAYTYPE_BACK"/>
+    <functioncall functionName="DegIn360"/>
+    <functioncall functionName="DeleteEffekseerEffect"/>
+    <functioncall functionName="DeleteGraph"/>
+    <functioncall functionName="DeleteSoundMem"/>
+    <functioncall functionName="Draw"/>
+    <functioncall functionName="DrawBillboard3D"/>
+    <functioncall functionName="DrawBox"/>
+    <functioncall functionName="DrawDebug"/>
+    <functioncall functionName="DrawExtendGraph"/>
+    <functioncall functionName="DrawFormatString"/>
+    <functioncall functionName="Enemy"/>
+    <functioncall functionName="EnemyBodyCollision"/>
+    <functioncall functionName="Euler"/>
+    <functioncall functionName="FootStepsMusic"/>
+    <functioncall functionName="GetAnimData"/>
+    <functioncall functionName="GetAnimDataNow"/>
+    <functioncall functionName="GetAnimDatas"/>
+    <functioncall functionName="GetAvailableShot"/>
+    <functioncall functionName="GetCamera"/>
+    <functioncall functionName="GetColor"/>
+    <functioncall functionName="GetDeltaTime"/>
+    <functioncall functionName="GetDrawStringWidth"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetMode"/>
+    <functioncall functionName="GetPos"/>
+    <functioncall functionName="GetRand"/>
+    <functioncall functionName="GetRotation"/>
+    <functioncall functionName="HitCheck_Capsule_Triangle"/>
+    <functioncall functionName="InitAnimation"/>
+    <functioncall functionName="InitEffect"/>
+    <functioncall functionName="InitMusic"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="IsAlive"/>
+    <functioncall functionName="IsBlendPlay"/>
+    <functioncall functionName="IsIdle"/>
+    <functioncall functionName="JumpAttackPlayEffect"/>
+    <functioncall functionName="JumpAttackRangePlayEffect"/>
+    <functioncall functionName="JumpAttackRangeSyncEffect"/>
+    <functioncall functionName="JumpAttackSyncEffect"/>
+    <functioncall functionName="LazyRotation"/>
+    <functioncall functionName="Load"/>
+    <functioncall functionName="LoadModelDuplicate"/>
+    <functioncall functionName="LookRotation"/>
+    <functioncall functionName="MGetIdent"/>
+    <functioncall functionName="MGetRotElem"/>
+    <functioncall functionName="MGetScale"/>
+    <functioncall functionName="MGetSize"/>
+    <functioncall functionName="MGetTranslate"/>
+    <functioncall functionName="MGetTranslateElem"/>
+    <functioncall functionName="MMult"/>
+    <functioncall functionName="MV1CollCheck_Capsule"/>
+    <functioncall functionName="MV1CollResultPolyDimTerminate"/>
+    <functioncall functionName="MV1DeleteModel"/>
+    <functioncall functionName="MV1DrawModel"/>
+    <functioncall functionName="MV1GetFrameLocalMatrix"/>
+    <functioncall functionName="MV1GetFrameLocalWorldMatrix"/>
+    <functioncall functionName="MV1ResetFrameUserLocalMatrix"/>
+    <functioncall functionName="MV1SearchFrame"/>
+    <functioncall functionName="MV1SetFrameUserLocalMatrix"/>
+    <functioncall functionName="Magnitude"/>
+    <functioncall functionName="PlayEffekseer3DEffect"/>
+    <functioncall functionName="PlaySoundMem"/>
+    <functioncall functionName="Player"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="ProcessShot"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Rad2DegF"/>
+    <functioncall functionName="Release"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="Rotation"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetDrawBlendMode"/>
+    <functioncall functionName="SetFontSize"/>
+    <functioncall functionName="SetFrequencySoundMem"/>
+    <functioncall functionName="SetModel"/>
+    <functioncall functionName="SetParam"/>
+    <functioncall functionName="SetPosPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetRotationPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetScalePlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetStartStepAnim"/>
+    <functioncall functionName="Shot"/>
+    <functioncall functionName="ShotBase"/>
+    <functioncall functionName="ShotEnemy"/>
+    <functioncall functionName="Slerp"/>
+    <functioncall functionName="StopSoundMem"/>
+    <functioncall functionName="TackleRangePlayEffect"/>
+    <functioncall functionName="TackleRangeSyncEffect"/>
+    <functioncall functionName="TackleSyncEffect"/>
+    <functioncall functionName="Think"/>
+    <functioncall functionName="ToEuler"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="UnitBase"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="UpdateAttack"/>
+    <functioncall functionName="UpdateBeforeTackle"/>
+    <functioncall functionName="UpdateCreate"/>
+    <functioncall functionName="UpdateIdle"/>
+    <functioncall functionName="UpdateJumpAttack"/>
+    <functioncall functionName="UpdateShot"/>
+    <functioncall functionName="UpdateTackle"/>
+    <functioncall functionName="UpdateWalk"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VNorm"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="VSub"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="WeponCollision"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="atan2f"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="emplace_back"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="max"/>
+    <functioncall functionName="min"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="strlen"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;s&apos; can be declared as reference to const" verbose="Variable &apos;s&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.cpp" line="1376" column="13" info="Variable &apos;s&apos; can be declared as reference to const"/>
+            <symbol>s</symbol>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h:69:2" call-funcname="AnimationController" call-argnr="2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="33" col="48" call-argexpr="0" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h:515:7" call-funcname="ChangeState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="143" col="13" call-argexpr="STATE::THINK" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h:515:7" call-funcname="ChangeState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="930" col="14" call-argexpr="STATE::THINK" call-argvaluetype="0" call-argvalue="0"/><function-call call-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h:515:7" call-funcname="ChangeState" call-argnr="1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.cpp" line="1487" col="14" call-argexpr="STATE::THINK" call-argvaluetype="0" call-argvalue="0"/>  </FileInfo>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+<class name="AnimationController::AnimationData" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h" line="24" col="2" hash="7260631439233016987"/>
+<class name="Enemy" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Enemy.h" line="7" col="1" hash="13203571198021537902"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Init" lineNumber="79"/>
+    <functiondecl functionName="InitEffect" lineNumber="147"/>
+    <functiondecl functionName="CreatePlayEffect" lineNumber="170"/>
+    <functiondecl functionName="TacklePlayEffect" lineNumber="185"/>
+    <functiondecl functionName="TackleRangePlayEffect" lineNumber="200"/>
+    <functiondecl functionName="JumpAttackPlayEffect" lineNumber="214"/>
+    <functiondecl functionName="JumpAttackRangePlayEffect" lineNumber="229"/>
+    <functiondecl functionName="CreateSyncEffect" lineNumber="244"/>
+    <functiondecl functionName="TackleSyncEffect" lineNumber="269"/>
+    <functiondecl functionName="TackleRangeSyncEffect" lineNumber="294"/>
+    <functiondecl functionName="JumpAttackSyncEffect" lineNumber="324"/>
+    <functiondecl functionName="JumpAttackRangeSyncEffect" lineNumber="349"/>
+    <functiondecl functionName="InitMusic" lineNumber="374"/>
+    <functiondecl functionName="FootStepsMusic" lineNumber="403"/>
+    <functiondecl functionName="AttackMusic" lineNumber="415"/>
+    <functiondecl functionName="Update" lineNumber="431"/>
+    <functiondecl functionName="Draw" lineNumber="568"/>
+    <functiondecl functionName="Release" lineNumber="640"/>
+    <functiondecl functionName="GetTransform" lineNumber="689"/>
+    <functiondecl functionName="GetState" lineNumber="694"/>
+    <functiondecl functionName="SetState" lineNumber="699"/>
+    <functiondecl functionName="GetCBodyPosDown" lineNumber="704"/>
+    <functiondecl functionName="GetCBodyPosUP" lineNumber="709"/>
+    <functiondecl functionName="GetCWeponPosDown" lineNumber="714"/>
+    <functiondecl functionName="GetCWeponPosUP" lineNumber="719"/>
+    <functiondecl functionName="GetHP" lineNumber="724"/>
+    <functiondecl functionName="SetHP" lineNumber="729"/>
+    <functiondecl functionName="SetFollow" lineNumber="734"/>
+    <functiondecl functionName="GetAttack" lineNumber="741"/>
+    <functiondecl functionName="SetAttack" lineNumber="746"/>
+    <functiondecl functionName="GetHit" lineNumber="751"/>
+    <functiondecl functionName="SetHit" lineNumber="756"/>
+    <functiondecl functionName="SetDeathCnt" lineNumber="761"/>
+    <functiondecl functionName="GetShots" lineNumber="766"/>
+    <functiondecl functionName="SetStageID" lineNumber="771"/>
+    <functiondecl functionName="GetAttackPlayerPos" lineNumber="776"/>
+    <functiondecl functionName="GetStepAnim" lineNumber="781"/>
+    <functiondecl functionName="Think" lineNumber="786"/>
+    <functiondecl functionName="Rotation" lineNumber="878"/>
+    <functiondecl functionName="AfterRotation" lineNumber="901"/>
+    <functiondecl functionName="UpdateIdle" lineNumber="924"/>
+    <functiondecl functionName="UpdateWalk" lineNumber="935"/>
+    <functiondecl functionName="UpdateAttack" lineNumber="955"/>
+    <functiondecl functionName="UpdateJumpAttack" lineNumber="969"/>
+    <functiondecl functionName="UpdateBeforeTackle" lineNumber="1007"/>
+    <functiondecl functionName="UpdateTackle" lineNumber="1018"/>
+    <functiondecl functionName="UpdateCreate" lineNumber="1045"/>
+    <functiondecl functionName="UpdateShot" lineNumber="1053"/>
+    <functiondecl functionName="UpdateHit" lineNumber="1067"/>
+    <functiondecl functionName="Collision" lineNumber="1081"/>
+    <functiondecl functionName="CollisionStage" lineNumber="1097"/>
+    <functiondecl functionName="EnemyBodyCollision" lineNumber="1165"/>
+    <functiondecl functionName="WeponCollision" lineNumber="1192"/>
+    <functiondecl functionName="ChangeState" lineNumber="1219"/>
+    <functiondecl functionName="LazyRotation" lineNumber="1311"/>
+    <functiondecl functionName="DrawDebug" lineNumber="1342"/>
+    <functiondecl functionName="Animation" lineNumber="1396"/>
+    <functiondecl functionName="AnimationFrame" lineNumber="1493"/>
+    <functiondecl functionName="ProcessShot" lineNumber="1526"/>
+    <functiondecl functionName="Shot" lineNumber="1549"/>
+    <functiondecl functionName="CreateShot" lineNumber="1575"/>
+    <functiondecl functionName="GetAvailableShot" lineNumber="1618"/>
+    <functioncall functionName="Add"/>
+    <functioncall functionName="Animation"/>
+    <functioncall functionName="AnimationController"/>
+    <functioncall functionName="AnimationFrame"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="AttackMusic"/>
+    <functioncall functionName="Camera"/>
+    <functioncall functionName="ChangeAnimation"/>
+    <functioncall functionName="ChangeState"/>
+    <functioncall functionName="Collision"/>
+    <functioncall functionName="CollisionStage"/>
+    <functioncall functionName="Create"/>
+    <functioncall functionName="CreatePlayEffect"/>
+    <functioncall functionName="CreateShot"/>
+    <functioncall functionName="CreateSyncEffect"/>
+    <functioncall functionName="DX_BLENDMODE_NOBLEND"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="DX_PLAYTYPE_BACK"/>
+    <functioncall functionName="DegIn360"/>
+    <functioncall functionName="DeleteEffekseerEffect"/>
+    <functioncall functionName="DeleteGraph"/>
+    <functioncall functionName="DeleteSoundMem"/>
+    <functioncall functionName="Draw"/>
+    <functioncall functionName="DrawBillboard3D"/>
+    <functioncall functionName="DrawBox"/>
+    <functioncall functionName="DrawCapsule3D"/>
+    <functioncall functionName="DrawCone3D"/>
+    <functioncall functionName="DrawDebug"/>
+    <functioncall functionName="DrawExtendGraph"/>
+    <functioncall functionName="DrawFormatString"/>
+    <functioncall functionName="Enemy"/>
+    <functioncall functionName="EnemyBodyCollision"/>
+    <functioncall functionName="Euler"/>
+    <functioncall functionName="FootStepsMusic"/>
+    <functioncall functionName="GetAnimData"/>
+    <functioncall functionName="GetAnimDataNow"/>
+    <functioncall functionName="GetAnimDatas"/>
+    <functioncall functionName="GetAttachNum"/>
+    <functioncall functionName="GetAvailableShot"/>
+    <functioncall functionName="GetCamera"/>
+    <functioncall functionName="GetColor"/>
+    <functioncall functionName="GetDeltaTime"/>
+    <functioncall functionName="GetDrawStringWidth"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetMode"/>
+    <functioncall functionName="GetPos"/>
+    <functioncall functionName="GetRand"/>
+    <functioncall functionName="GetRotation"/>
+    <functioncall functionName="HitCheck_Capsule_Triangle"/>
+    <functioncall functionName="InitAnimation"/>
+    <functioncall functionName="InitEffect"/>
+    <functioncall functionName="InitMusic"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="IsAlive"/>
+    <functioncall functionName="IsBlendPlay"/>
+    <functioncall functionName="IsIdle"/>
+    <functioncall functionName="JumpAttackPlayEffect"/>
+    <functioncall functionName="JumpAttackRangePlayEffect"/>
+    <functioncall functionName="JumpAttackRangeSyncEffect"/>
+    <functioncall functionName="JumpAttackSyncEffect"/>
+    <functioncall functionName="LazyRotation"/>
+    <functioncall functionName="Load"/>
+    <functioncall functionName="LoadModelDuplicate"/>
+    <functioncall functionName="LookRotation"/>
+    <functioncall functionName="MGetIdent"/>
+    <functioncall functionName="MGetRotElem"/>
+    <functioncall functionName="MGetScale"/>
+    <functioncall functionName="MGetSize"/>
+    <functioncall functionName="MGetTranslate"/>
+    <functioncall functionName="MGetTranslateElem"/>
+    <functioncall functionName="MMult"/>
+    <functioncall functionName="MV1CollCheck_Capsule"/>
+    <functioncall functionName="MV1CollResultPolyDimTerminate"/>
+    <functioncall functionName="MV1DeleteModel"/>
+    <functioncall functionName="MV1DrawModel"/>
+    <functioncall functionName="MV1GetFrameLocalMatrix"/>
+    <functioncall functionName="MV1GetFrameLocalWorldMatrix"/>
+    <functioncall functionName="MV1ResetFrameUserLocalMatrix"/>
+    <functioncall functionName="MV1SearchFrame"/>
+    <functioncall functionName="MV1SetFrameUserLocalMatrix"/>
+    <functioncall functionName="Magnitude"/>
+    <functioncall functionName="PlayEffekseer3DEffect"/>
+    <functioncall functionName="PlaySoundMem"/>
+    <functioncall functionName="Player"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="ProcessShot"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Rad2DegF"/>
+    <functioncall functionName="Release"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="Rotation"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetDrawBlendMode"/>
+    <functioncall functionName="SetFontSize"/>
+    <functioncall functionName="SetFrequencySoundMem"/>
+    <functioncall functionName="SetModel"/>
+    <functioncall functionName="SetParam"/>
+    <functioncall functionName="SetPosPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetRotationPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetScalePlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetStartStepAnim"/>
+    <functioncall functionName="Shot"/>
+    <functioncall functionName="ShotBase"/>
+    <functioncall functionName="ShotEnemy"/>
+    <functioncall functionName="Slerp"/>
+    <functioncall functionName="StopSoundMem"/>
+    <functioncall functionName="TackleRangePlayEffect"/>
+    <functioncall functionName="TackleRangeSyncEffect"/>
+    <functioncall functionName="TackleSyncEffect"/>
+    <functioncall functionName="Think"/>
+    <functioncall functionName="ToEuler"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="UnitBase"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="UpdateAttack"/>
+    <functioncall functionName="UpdateBeforeTackle"/>
+    <functioncall functionName="UpdateCreate"/>
+    <functioncall functionName="UpdateIdle"/>
+    <functioncall functionName="UpdateJumpAttack"/>
+    <functioncall functionName="UpdateShot"/>
+    <functioncall functionName="UpdateTackle"/>
+    <functioncall functionName="UpdateWalk"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VNorm"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="VSub"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="WeponCollision"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="atan2f"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="emplace_back"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="max"/>
+    <functioncall functionName="min"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="strlen"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

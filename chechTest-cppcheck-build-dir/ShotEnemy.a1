@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="27167115096680382">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="3" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotEnemy::isAlive_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotEnemy::isAlive_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.cpp" line="11" column="12"/>
+            <symbol>ShotEnemy::isAlive_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotEnemy::enemyTransform_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotEnemy::enemyTransform_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.cpp" line="11" column="12"/>
+            <symbol>ShotEnemy::enemyTransform_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotEnemy::effectShotPlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotEnemy::effectShotPlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.cpp" line="11" column="12"/>
+            <symbol>ShotEnemy::effectShotPlayId_</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="111" column="25" info="Derived variable &apos;Player::TIME_ROT&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="17" column="25" info="Parent variable &apos;UnitBase::TIME_ROT&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>TIME_ROT</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="174" column="19" info="Derived function &apos;Player::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member variable with name &apos;pos_&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member variable with name &apos;pos_&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="402" column="9" info="Derived variable &apos;Enemy::pos_&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="57" column="9" info="Parent variable &apos;UnitBase::pos_&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>pos_</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="198" column="19" info="Derived function &apos;Enemy::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member function with name &apos;GetStepAnim&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member function with name &apos;GetStepAnim&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="252" column="8" info="Derived function &apos;Enemy::GetStepAnim&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="36" column="8" info="Parent function &apos;UnitBase::GetStepAnim&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>GetStepAnim</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~ShotEnemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~ShotEnemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.h" line="14" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="28" column="11" info="Virtual destructor in base class"/>
+            <symbol>~ShotEnemy</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;CheckAlive&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;CheckAlive&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.h" line="49" column="15" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="102" column="15" info="Virtual function in base class"/>
+            <symbol>CheckAlive</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Enemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Enemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="187" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Enemy</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="195" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="163" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Player</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="169" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="29" column="15" info="Virtual function in base class"/>
+            <symbol>Draw</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="171" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="452" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="79" column="15" info="Virtual function in base class"/>
+            <symbol>Animation</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="ShotEnemy" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotEnemy.h" line="5" col="1" hash="15794130050174319209"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Release" lineNumber="26"/>
+    <functiondecl functionName="InitEffect" lineNumber="33"/>
+    <functiondecl functionName="InitMusic" lineNumber="41"/>
+    <functiondecl functionName="GetState" lineNumber="52"/>
+    <functiondecl functionName="SetState" lineNumber="57"/>
+    <functiondecl functionName="SetDir" lineNumber="62"/>
+    <functiondecl functionName="IsAlive" lineNumber="67"/>
+    <functiondecl functionName="IsIdle" lineNumber="72"/>
+    <functiondecl functionName="Shot" lineNumber="77"/>
+    <functiondecl functionName="Create" lineNumber="85"/>
+    <functiondecl functionName="Move" lineNumber="135"/>
+    <functiondecl functionName="UpdateIdle" lineNumber="140"/>
+    <functiondecl functionName="UpdateShot" lineNumber="154"/>
+    <functiondecl functionName="UpdateBlast" lineNumber="176"/>
+    <functiondecl functionName="CheckAlive" lineNumber="190"/>
+    <functiondecl functionName="ShotPlayEffect" lineNumber="203"/>
+    <functiondecl functionName="ShotSyncEffect" lineNumber="218"/>
+    <functioncall functionName="ChangeState"/>
+    <functioncall functionName="CheckAlive"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="DX_PLAYTYPE_BACK"/>
+    <functioncall functionName="Deg2RadF"/>
+    <functioncall functionName="END"/>
+    <functioncall functionName="Enemy"/>
+    <functioncall functionName="GetDeltaTime"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="IDLE"/>
+    <functioncall functionName="InitEffect"/>
+    <functioncall functionName="InitMusic"/>
+    <functioncall functionName="IsEffekseer3DEffectPlaying"/>
+    <functioncall functionName="Load"/>
+    <functioncall functionName="LookRotation"/>
+    <functioncall functionName="Move"/>
+    <functioncall functionName="PlayEffekseer3DEffect"/>
+    <functioncall functionName="PlaySoundMem"/>
+    <functioncall functionName="Player"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Rad2DegF"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SHOT"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetParam"/>
+    <functioncall functionName="SetPosPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetRotationPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetScalePlayingEffekseer3DEffect"/>
+    <functioncall functionName="ShotBase"/>
+    <functioncall functionName="ShotEnemy"/>
+    <functioncall functionName="ShotPlayEffect"/>
+    <functioncall functionName="ShotSyncEffect"/>
+    <functioncall functionName="StopEffekseer3DEffect"/>
+    <functioncall functionName="StopSoundMem"/>
+    <functioncall functionName="ToEuler"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="UnitBase"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="string"/>
+  </FileInfo>
+</analyzerinfo>

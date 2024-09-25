@@ -1,0 +1,6 @@
+GetState
+IsEnd
+SetFade
+Init
+Update
+Draw call:[DrawBox,SetDrawBlendMode]

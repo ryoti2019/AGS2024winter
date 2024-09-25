@@ -1,0 +1,41 @@
+Round call:[roundf]
+Split call:[getline,push_back,stream] noreturn:[push_back]
+Rad2DegD
+Rad2DegF
+Rad2DegI call:[Round] noreturn:[Round]
+Deg2RadD
+Deg2RadF
+Deg2RadI call:[Round] noreturn:[Round]
+DegIn360 call:[fmod]
+RadIn2PI call:[fmod]
+DirNearAroundRad
+DirNearAroundDeg
+Lerp call:[Round]
+Lerp
+Lerp
+Lerp call:[Round]
+Lerp
+LerpDeg call:[Lerp] noreturn:[Lerp]
+Lerp
+Bezier call:[Lerp] noreturn:[Lerp]
+Bezier call:[Lerp] noreturn:[Lerp]
+RotXZPos call:[VGet,cosf,sinf] noreturn:[VGet]
+Magnitude call:[sqrt] noreturn:[sqrt]
+Magnitude call:[sqrt] noreturn:[sqrt]
+MagnitudeF call:[sqrtf] noreturn:[sqrtf]
+SqrMagnitude
+SqrMagnitudeF
+SqrMagnitude
+SqrMagnitude call:[pow] noreturn:[pow]
+Distance call:[pow,sqrt] noreturn:[sqrt]
+Distance call:[pow,sqrt] noreturn:[sqrt]
+IsHitSpheres call:[VSub]
+IsHitSphereCapsule call:[IsHitSpheres,MagnitudeF,VAdd,VDot,VNorm,VScale,VSub] noreturn:[VAdd]
+Equals
+EqualsVZero
+Normalize call:[Magnitude,VGet]
+VNormalize call:[EqualsVZero,VNorm] noreturn:[VNorm]
+AngleDeg call:[SqrMagnitude,VDot,acos,sqrt]
+DrawLineDir call:[DrawLine3D,DrawSphere3D,VAdd,VNormalize,VScale] noreturn:[DrawSphere3D]
+DrawLineXYZ call:[DrawLineDir,VTransform] noreturn:[DrawLineDir]
+DrawLineXYZ call:[DrawLineDir,GetForward,GetRight,GetUp] noreturn:[DrawLineDir]

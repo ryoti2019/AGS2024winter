@@ -1,0 +1,12 @@
+Sword
+Sword
+InitAnimation call:[AngleAxis,Deg2RadF,EnemyCheckHit,GetInstance,Identity,LoadModelDuplicate,Mult,Quaternion,SetModel,Update] noreturn:[Update]
+EnemyCheckHit
+Init call:[InitAnimation,MV1SearchFrame] noreturn:[InitAnimation]
+GetTransform
+GetCPosDown
+GetCPosUP
+Update call:[GetRotation,MGetRotElem,MGetTranslateElem,MV1GetFrameLocalWorldMatrix,PosAxis,Update,VAdd] noreturn:[Update]
+Draw call:[MV1DrawModel] noreturn:[MV1DrawModel]
+Release call:[MV1DeleteModel] noreturn:[MV1DeleteModel]
+SetFollow

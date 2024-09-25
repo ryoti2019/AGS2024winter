@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="16718390104953205526">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Sword.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Sword::WeponAttachFrameNum_&apos; is not initialized in the constructor." verbose="Member variable &apos;Sword::WeponAttachFrameNum_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Sword.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Sword.cpp" line="6" column="8"/>
+            <symbol>Sword::WeponAttachFrameNum_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Sword::followTransform_&apos; is not initialized in the constructor." verbose="Member variable &apos;Sword::followTransform_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Sword.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Sword.cpp" line="6" column="8"/>
+            <symbol>Sword::followTransform_</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Sword.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Sword.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="Sword" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Sword.h" line="5" col="1" hash="9798347738123323171"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="InitAnimation" lineNumber="14"/>
+    <functiondecl functionName="EnemyCheckHit" lineNumber="43"/>
+    <functiondecl functionName="Init" lineNumber="48"/>
+    <functiondecl functionName="GetTransform" lineNumber="59"/>
+    <functiondecl functionName="GetCPosDown" lineNumber="64"/>
+    <functiondecl functionName="GetCPosUP" lineNumber="69"/>
+    <functiondecl functionName="Update" lineNumber="74"/>
+    <functiondecl functionName="Draw" lineNumber="114"/>
+    <functiondecl functionName="Release" lineNumber="122"/>
+    <functiondecl functionName="SetFollow" lineNumber="130"/>
+    <functioncall functionName="AngleAxis"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="Deg2RadF"/>
+    <functioncall functionName="EnemyCheckHit"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetRotation"/>
+    <functioncall functionName="Identity"/>
+    <functioncall functionName="InitAnimation"/>
+    <functioncall functionName="LoadModelDuplicate"/>
+    <functioncall functionName="MGetRotElem"/>
+    <functioncall functionName="MGetTranslateElem"/>
+    <functioncall functionName="MV1DeleteModel"/>
+    <functioncall functionName="MV1DrawModel"/>
+    <functioncall functionName="MV1GetFrameLocalWorldMatrix"/>
+    <functioncall functionName="MV1SearchFrame"/>
+    <functioncall functionName="Mult"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetModel"/>
+    <functioncall functionName="Sword"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="string"/>
+  </FileInfo>
+</analyzerinfo>

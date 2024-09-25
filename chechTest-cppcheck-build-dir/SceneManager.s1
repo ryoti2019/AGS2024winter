@@ -1,0 +1,19 @@
+CreateInstance call:[Init,SceneManager] noreturn:[Init,SceneManager]
+GetInstance
+Init call:[Camera,DoChangeScene,Fader,Init,Init3D,TitleScene,now]
+Init3D call:[ChangeLightTypeDir,SetBackgroundColor,SetUseBackCulling,SetUseLighting,SetUseZBuffer3D,SetWriteZBuffer3D] noreturn:[ChangeLightTypeDir]
+Update call:[Fade,Update,count,now] noreturn:[Fade,Update]
+Draw call:[ClearDrawScreen,Draw,DrawEffekseer3D,SetBeforeDraw,SetDrawScreen,UpdateEffekseer3D] noreturn:[Draw]
+Destroy call:[Release]
+ChangeScene call:[SetFade]
+GetSceneID
+GetDeltaTime
+GetCamera
+GetGamePad
+SetGamePad
+GetIsOperation
+SetIsOperation
+SceneManager
+ResetDeltaTime call:[now] noreturn:[now]
+DoChangeScene call:[GameClearScene,GameOverScene,GameScene,GetInstance,Init,Release,ResetDeltaTime,TitleScene]
+Fade call:[DoChangeScene,GetState,IsEnd,SetFade] noreturn:[SetFade]

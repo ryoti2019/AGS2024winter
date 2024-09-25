@@ -2,35 +2,16 @@
 #include "../Application.h"
 #include "Fader.h"
 
-Fader::STATE Fader::GetState(void) const
+Fader::Fader()
+	:
+	state_(STATE::NONE),
+	alpha_(0),
+	isPreEnd_(true),
+	isEnd_(true)
 {
-	return state_;
 }
 
-bool Fader::IsEnd(void) const
-{
-	return isEnd_;
-}
-
-void Fader::SetFade(STATE state)
-{
-	state_ = state;
-	if (state_ != STATE::NONE)
-	{
-		isPreEnd_ = false;
-		isEnd_ = false;
-	}
-}
-
-void Fader::Init(void)
-{
-	state_ = STATE::NONE;
-	alpha_ = 0;
-	isPreEnd_ = true;
-	isEnd_ = true;
-}
-
-void Fader::Update(void)
+void Fader::Update()
 {
 
 	if (isEnd_)
@@ -80,7 +61,7 @@ void Fader::Update(void)
 
 }
 
-void Fader::Draw(void)
+void Fader::Draw()
 {
 
 	switch (state_)
@@ -89,7 +70,7 @@ void Fader::Draw(void)
 		return;
 	case STATE::FADE_OUT:
 	case STATE::FADE_IN:
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)alpha_);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(alpha_));
 		DrawBox(
 			0, 0,
 			Application::SCREEN_SIZE_X,

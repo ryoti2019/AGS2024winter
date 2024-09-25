@@ -16,18 +16,32 @@ public:
 		FADE_IN		// 徐々に明転
 	};
 
+	Fader();
+
+	~Fader() = default;
+
+	void Update();
+	void Draw();
+
+
 	// 状態の取得
-	STATE GetState(void) const;
+	const STATE& GetState() const { return state_; };
 
 	// フェード処理が終了しているか
-	bool IsEnd(void) const;
+	bool IsEnd() const { return isEnd_; };
 
 	// 指定フェードを開始する
-	void SetFade(STATE state);
+	const void SetFade(const STATE& state)
+	{
 
-	void Init(void);
-	void Update(void);
-	void Draw(void);
+		state_ = state;
+		if (state_ != STATE::NONE)
+		{
+			isPreEnd_ = false;
+			isEnd_ = false;
+		};
+
+	};
 
 private:
 

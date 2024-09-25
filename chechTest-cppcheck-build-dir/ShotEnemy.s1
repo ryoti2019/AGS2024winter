@@ -1,0 +1,20 @@
+ShotEnemy call:[InitEffect,InitMusic] noreturn:[InitMusic]
+ShotEnemy
+Release call:[StopEffekseer3DEffect] noreturn:[StopEffekseer3DEffect]
+InitEffect call:[GetInstance,Load]
+InitMusic call:[GetInstance,Load]
+GetState
+SetState call:[ChangeState] noreturn:[ChangeState]
+SetDir
+IsAlive
+IsIdle
+Shot call:[ChangeState,PlaySoundMem,StopSoundMem] noreturn:[ChangeState]
+Create call:[ChangeState,LookRotation,PlaySoundMem,PosAxis,SetParam,ShotPlayEffect,Update,VAdd] noreturn:[ChangeState]
+SetParam
+Move call:[VAdd,VScale] noreturn:[VAdd]
+UpdateIdle call:[PosAxis,ShotSyncEffect,VAdd] noreturn:[ShotSyncEffect]
+UpdateShot call:[CheckAlive,Move,ShotSyncEffect] noreturn:[ShotSyncEffect]
+UpdateBlast call:[ChangeState,IsEffekseer3DEffectPlaying] noreturn:[ChangeState]
+CheckAlive call:[ChangeState,GetDeltaTime,GetInstance,StopEffekseer3DEffect] noreturn:[ChangeState]
+ShotPlayEffect call:[PlayEffekseer3DEffect,SetScalePlayingEffekseer3DEffect,ShotSyncEffect] noreturn:[ShotSyncEffect]
+ShotSyncEffect call:[Deg2RadF,PosAxis,Rad2DegF,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,ToEuler,Update,VAdd] noreturn:[Update]

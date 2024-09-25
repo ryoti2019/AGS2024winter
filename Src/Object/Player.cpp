@@ -1,7 +1,7 @@
 #include <EffekseerForDXLib.h>
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "../Application.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
@@ -70,7 +70,7 @@ void Player::InitAnimation(void)
 	Quaternion rotPow = Quaternion::Identity();
 	rotPow = Quaternion::Mult(
 		rotPow,
-		Quaternion::AngleAxis(AsoUtility::Deg2RadF(180), AsoUtility::AXIS_Y));
+		Quaternion::AngleAxis(Utility::Deg2RadF(180), Utility::AXIS_Y));
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 
@@ -175,7 +175,7 @@ void Player::Init(void)
 	isTired_ = false;
 
 	// 移動方向
-	moveDir_ = AsoUtility::VECTOR_ZERO;
+	moveDir_ = Utility::VECTOR_ZERO;
 
 	staminaCnt_ = 0.0f;
 
@@ -747,7 +747,7 @@ void Player::CollisionStage(void)
 
 	auto vec = VSub({ 0.0f,-300.0f, 500.0f }, transform_.pos);
 
-	float length = AsoUtility::Magnitude(vec);
+	float length = Utility::Magnitude(vec);
 
 	auto dir = VNorm(vec);
 
@@ -838,7 +838,7 @@ void Player::KeyboardMove(void)
 	auto& ins = InputManager::GetInstance();
 
 	// 方向(direction)
-	VECTOR dir = AsoUtility::VECTOR_ZERO;
+	VECTOR dir = Utility::VECTOR_ZERO;
 
 	dir = inputController_->Dir();
 
@@ -848,33 +848,33 @@ void Player::KeyboardMove(void)
 		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
 		// 走る
-		if (inputController_->Run() && !AsoUtility::EqualsVZero(dir)
+		if (inputController_->Run() && !Utility::EqualsVZero(dir)
 			&& state_ != STATE::CHARGE_WALK && state_ != STATE::TIRED && stamina_ >= 1.0f)
 		{
 			ChangeState(STATE::RUN);
 			speed_ = MOVE_POW_RUN;
 		}
 		// 歩く
-		else if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
+		else if (!Utility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::WALK);
 			// 移動量
 			speed_ = MOVE_POW_WALK;
 		}
 		// 待機状態
-		else if (AsoUtility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
+		else if (Utility::EqualsVZero(dir) && state_ != STATE::CHARGE_WALK)
 		{
 			ChangeState(STATE::IDLE);
 			speed_ = 0.0f;
 		}
-		else if (AsoUtility::EqualsVZero(dir) && state_ != STATE::TIRED && stamina_ <= 0.0f)
+		else if (Utility::EqualsVZero(dir) && state_ != STATE::TIRED && stamina_ <= 0.0f)
 		{
 			speed_ = 0.0f;
 		}
 	}
 
 	//溜めながら歩く
-	if (inputController_->ChargeWalk() && !AsoUtility::EqualsVZero(dir) &&
+	if (inputController_->ChargeWalk() && !Utility::EqualsVZero(dir) &&
 		state_ != Player::STATE::HIT && state_ != Player::STATE::ROLL &&
 		state_ != Player::STATE::TIRED)
 	{
@@ -898,7 +898,7 @@ void Player::KeyboardMove(void)
 	}
 
 	// 回避
-	if (inputController_->Roll() && !AsoUtility::EqualsVZero(dir) &&
+	if (inputController_->Roll() && !Utility::EqualsVZero(dir) &&
 		state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED && stamina_ >= 10.0f)
 	{
 
@@ -934,7 +934,7 @@ void Player::KeyboardMove(void)
 		speed_ = 0;
 	}
 
-	if (!AsoUtility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
+	if (!Utility::EqualsVZero(dir) && state_ != STATE::ATTACK && state_ != STATE::ATTACK2
 		&& state_ != STATE::ATTACK3 && state_ != STATE::CHARGE_ATTACK
 		&& state_ != STATE::HIT && state_ != STATE::ROLL && state_ != STATE::TIRED)
 	{
@@ -994,11 +994,11 @@ void Player::KeyboardMove(void)
 	auto target2Player = VNorm(VSub(movedPosXZ, cameraTargetPosXZ));
 
 	// 移動後座標と移動前座標が0以上の時
-	if (!AsoUtility::EqualsVZero(moveDiff_))
+	if (!Utility::EqualsVZero(moveDiff_))
 	{
 
 		// 注視点と移動後座標の距離
-		target2PlayerDis_ = AsoUtility::Distance(cameraTargetPos, movedPos_);
+		target2PlayerDis_ = Utility::Distance(cameraTargetPos, movedPos_);
 
 		// 敵との最小限の距離
 		enemyMinDis_ = 100.0f;
@@ -1126,7 +1126,7 @@ void Player::KeyBoardLockOn(void)
 	auto camera = SceneManager::GetInstance().GetCamera();
 
 	// プレイヤーの方向を求める
-	auto length = AsoUtility::Distance(followTransform_->pos, transform_.pos);
+	auto length = Utility::Distance(followTransform_->pos, transform_.pos);
 	// キーを押したらロックオンする
 	if (ins.IsTrgDown(KEY_INPUT_V) && length <= 3000)
 	{
@@ -1307,9 +1307,9 @@ void Player::DrawDebug(void)
 
 	auto rad = transform_.quaRot.ToEuler();
 
-	VECTOR pDeg = { AsoUtility::Rad2DegF(rad.x),
-					AsoUtility::Rad2DegF(rad.y),
-					AsoUtility::Rad2DegF(rad.z) };
+	VECTOR pDeg = { Utility::Rad2DegF(rad.x),
+					Utility::Rad2DegF(rad.y),
+					Utility::Rad2DegF(rad.z) };
 	DrawFormatString(0, 70, 0xffffff, "プレイヤー座標 : (%.1f, %.1f, %.1f)", transform_.pos.x, transform_.pos.y, transform_.pos.z);
 	DrawFormatString(0, 90, 0xffffff, "プレイヤー角度deg : (%.1f, %.1f, %.1f)", pDeg.x, pDeg.y, pDeg.z);
 	DrawFormatString(0, 110, 0xffffff, "プレイヤー角度rad : (%.5f, %.5f, %.5f)", rad.x, rad.y, rad.z);

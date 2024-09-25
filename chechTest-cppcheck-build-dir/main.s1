@@ -1,0 +1,1 @@
+WinMain call:[CreateInstance,Destroy,GetInstance,IsInitFail,Run,_CrtSetDbgFlag]

@@ -1,5 +1,5 @@
 #include <EffekseerForDXLib.h>
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "SceneManager.h" 
@@ -80,7 +80,7 @@ void Camera::SetBeforeDrawFree(void)
 
 	// 回転
 	//-------------------------------------
-	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+	VECTOR axisDeg = Utility::VECTOR_ZERO;
 	if (ins.IsNew(KEY_INPUT_UP)) { axisDeg.x += 1.0f; }
 	if (ins.IsNew(KEY_INPUT_DOWN)) { axisDeg.x += -1.0f; }
 	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += 1.0f; }
@@ -88,23 +88,23 @@ void Camera::SetBeforeDrawFree(void)
 
 	// 移動
 	//--------------------------------------
-	VECTOR moveDir = AsoUtility::VECTOR_ZERO;
-	if (ins.IsNew(KEY_INPUT_W)) { moveDir = AsoUtility::DIR_F; }
-	if (ins.IsNew(KEY_INPUT_A)) { moveDir = AsoUtility::DIR_L; }
-	if (ins.IsNew(KEY_INPUT_S)) { moveDir = AsoUtility::DIR_B; }
-	if (ins.IsNew(KEY_INPUT_D)) { moveDir = AsoUtility::DIR_R; }
+	VECTOR moveDir = Utility::VECTOR_ZERO;
+	if (ins.IsNew(KEY_INPUT_W)) { moveDir = Utility::DIR_F; }
+	if (ins.IsNew(KEY_INPUT_A)) { moveDir = Utility::DIR_L; }
+	if (ins.IsNew(KEY_INPUT_S)) { moveDir = Utility::DIR_B; }
+	if (ins.IsNew(KEY_INPUT_D)) { moveDir = Utility::DIR_R; }
 	//---------------------------------------
 
-	if (!AsoUtility::EqualsVZero(axisDeg))
+	if (!Utility::EqualsVZero(axisDeg))
 	{
 
 		// カメラを回転させる
-		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
-		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
+		angle_.x += Utility::Deg2RadF(axisDeg.x);
+		angle_.y += Utility::Deg2RadF(axisDeg.y);
 
-		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
+		rotY_ = Quaternion::AngleAxis(angle_.y, Utility::AXIS_Y);
 
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, Utility::AXIS_X));
 
 		// 注視点(通常重力でいうところのY値を追従対象と同じにする)
 		VECTOR localPos = rotY_.PosAxis(LOCAL_P2T_POS);
@@ -119,7 +119,7 @@ void Camera::SetBeforeDrawFree(void)
 
 	}
 
-	if (!AsoUtility::EqualsVZero(moveDir))
+	if (!Utility::EqualsVZero(moveDir))
 	{
 
 		// 押下された移動ボタンの方向に移動
@@ -199,10 +199,10 @@ void Camera::SetBeforeDrawLockOn(void)
 	auto goalPos = VAdd(enemyTransform_->pos, { 0.0f,200.0f,0.0f });
 
 	// 敵とプレイヤーの距離をとる
-	float dis = AsoUtility::Distance(goalPos, playerPos);
+	float dis = Utility::Distance(goalPos, playerPos);
 	
 	// 注視点の座標を目標の座標に近づける(ゆっくり目標の座標に近づける)
-	targetPos_ = AsoUtility::Lerp(targetPos_, goalPos, 0.1f);
+	targetPos_ = Utility::Lerp(targetPos_, goalPos, 0.1f);
 
 	// +キャラクターから見た注視点の方向
 	auto followToTargetDir = VSub(targetPos_, playerPos);
@@ -212,11 +212,11 @@ void Camera::SetBeforeDrawLockOn(void)
 	lockOnLook_ = Quaternion::LookRotation(VNorm(followToTargetDir));
 
 	// カメラ位置
-	lockOnLook_ = lockOnLook_.Mult(Quaternion::AngleAxis(lockOnAngles_.y, AsoUtility::AXIS_Y));
-	lockOnLook_ = lockOnLook_.Mult(Quaternion::AngleAxis(-angles_.x + lockOnAngles_.x, AsoUtility::AXIS_X));
+	lockOnLook_ = lockOnLook_.Mult(Quaternion::AngleAxis(lockOnAngles_.y, Utility::AXIS_Y));
+	lockOnLook_ = lockOnLook_.Mult(Quaternion::AngleAxis(-angles_.x + lockOnAngles_.x, Utility::AXIS_X));
 	localRotPos = lockOnLook_.PosAxis(LOCAL_LOCK_ON_F2C_POS);
 	auto goalCameraPos = VAdd(playerPos, localRotPos);
-	dis = AsoUtility::Distance(goalCameraPos, targetPos_);
+	dis = Utility::Distance(goalCameraPos, targetPos_);
 
 	// 注視点とカメラの最低距離
 	float min = 500.0f;
@@ -235,13 +235,13 @@ void Camera::SetBeforeDrawLockOn(void)
 
 		// どうするか
 		goalCameraPos_ = goalCameraPos;
-		pos_ = AsoUtility::Lerp(pos_, goalCameraPos, 0.05f);
+		pos_ = Utility::Lerp(pos_, goalCameraPos, 0.05f);
 
 	}
 	else
 	{
 		goalCameraPos_ = goalCameraPos;
-		pos_ = AsoUtility::Lerp(pos_, goalCameraPos, 0.1f);
+		pos_ = Utility::Lerp(pos_, goalCameraPos, 0.1f);
 	}
 
 	rotXY_ = Quaternion::LookRotation(VSub(goalPos, goalCameraPos_));
@@ -440,7 +440,7 @@ void Camera::KeybordContoroller(void)
 
 	// 回転
 	//-------------------------------------
-	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+	VECTOR axisDeg = Utility::VECTOR_ZERO;
 
 	// マウス回転量
 	float rotPow = 4.0f;
@@ -466,26 +466,26 @@ void Camera::KeybordContoroller(void)
 	if (center.x <= mousePos.x) { axisDeg.y += rotPowY_; }
 	if (center.x >= mousePos.x) { axisDeg.y += rotPowY_; }
 
-	if (center.y >= mousePos.y && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
+	if (center.y >= mousePos.y && Utility::Rad2DegF(angle_.x) >= -30.0f)
 	{
 		axisDeg.x += rotPowX_;
 	}
-	if (center.y <= mousePos.y && AsoUtility::Rad2DegF(angle_.x) <= 10.0f)
+	if (center.y <= mousePos.y && Utility::Rad2DegF(angle_.x) <= 10.0f)
 	{
 		axisDeg.x += rotPowX_;
 	}
 
-	if (!AsoUtility::EqualsVZero(axisDeg))
+	if (!Utility::EqualsVZero(axisDeg))
 	{
 
 		// カメラを回転させる
 		// X軸のカメラの移動制御
-		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
-		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
+		angle_.x += Utility::Deg2RadF(axisDeg.x);
+		angle_.y += Utility::Deg2RadF(axisDeg.y);
 
-		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
+		rotY_ = Quaternion::AngleAxis(angle_.y, Utility::AXIS_Y);
 
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, Utility::AXIS_X));
 
 	}
 
@@ -505,13 +505,13 @@ void Camera::KeybordContoroller(void)
 	//pos_ = VAdd(followPos, relativeCPos);
 
 	// カメラ座標をゆっくり移動させる
-	pos_ = AsoUtility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
+	pos_ = Utility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
 
 	// 注視点をゆっくり移動させる
-	targetPos_ = AsoUtility::Lerp(targetPos_, VAdd(followPos, relativeTPos), 0.1f);
+	targetPos_ = Utility::Lerp(targetPos_, VAdd(followPos, relativeTPos), 0.1f);
 
 	// カメラの上方向
-	cameraUp_ = AsoUtility::DIR_U;
+	cameraUp_ = Utility::DIR_U;
 
 }
 
@@ -525,7 +525,7 @@ void Camera::KeybordLockOnContoroller(void)
 
 	// 回転
 	//-------------------------------------
-	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+	VECTOR axisDeg = Utility::VECTOR_ZERO;
 
 	// マウス回転量
 	float rotPow = 3.0f;
@@ -550,26 +550,26 @@ void Camera::KeybordLockOnContoroller(void)
 	if (center.x <= mousePos.x) { axisDeg.y += rotPowY_; }
 	if (center.x >= mousePos.x) { axisDeg.y += rotPowY_; }
 
-	if (center.y >= mousePos.y && AsoUtility::Rad2DegF(lockOnAngles_.x) >= -20.0f)
+	if (center.y >= mousePos.y && Utility::Rad2DegF(lockOnAngles_.x) >= -20.0f)
 	{
 		axisDeg.x += rotPowX_;
 	}
-	if (center.y <= mousePos.y && AsoUtility::Rad2DegF(lockOnAngles_.x) <= 10.0f)
+	if (center.y <= mousePos.y && Utility::Rad2DegF(lockOnAngles_.x) <= 10.0f)
 	{
 		axisDeg.x += rotPowX_;
 	}
 
-	if (!AsoUtility::EqualsVZero(axisDeg))
+	if (!Utility::EqualsVZero(axisDeg))
 	{
 
 		// カメラを回転させる
 		// X軸のカメラの移動制御
-		lockOnAngles_.x += AsoUtility::Deg2RadF(axisDeg.x);
-		lockOnAngles_.y += AsoUtility::Deg2RadF(axisDeg.y);
+		lockOnAngles_.x += Utility::Deg2RadF(axisDeg.x);
+		lockOnAngles_.y += Utility::Deg2RadF(axisDeg.y);
 
-		rotY_ = Quaternion::AngleAxis(lockOnAngles_.y, AsoUtility::AXIS_Y);
+		rotY_ = Quaternion::AngleAxis(lockOnAngles_.y, Utility::AXIS_Y);
 
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(lockOnAngles_.x, AsoUtility::AXIS_X));
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(lockOnAngles_.x, Utility::AXIS_X));
 
 	}
 
@@ -582,7 +582,7 @@ void Camera::GamePadController(void)
 
 	// 回転
 	//-------------------------------------
-	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+	VECTOR axisDeg = Utility::VECTOR_ZERO;
 
 	// ゲームパッドの番号を取得
 	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
@@ -605,7 +605,7 @@ void Camera::GamePadController(void)
 		axisDeg = VScale(axisDeg, 3.0f);
 	}
 	// 上方向
-	if (pad.AKeyRZ < 0 && AsoUtility::Rad2DegF(angle_.x) <= 30.0f)
+	if (pad.AKeyRZ < 0 && Utility::Rad2DegF(angle_.x) <= 30.0f)
 	{
 		axisDeg.x = -pad.AKeyRZ;
 		// 方向を正規化
@@ -613,7 +613,7 @@ void Camera::GamePadController(void)
 		axisDeg = VScale(axisDeg, 3.0f);
 	}
 	// 下方向
-	if (pad.AKeyRZ > 0 && AsoUtility::Rad2DegF(angle_.x) >= -30.0f)
+	if (pad.AKeyRZ > 0 && Utility::Rad2DegF(angle_.x) >= -30.0f)
 	{
 		axisDeg.x = -pad.AKeyRZ;
 		// 方向を正規化
@@ -626,12 +626,12 @@ void Camera::GamePadController(void)
 	{
 		// カメラを回転させる
 		// X軸のカメラの移動制御
-		angle_.x += AsoUtility::Deg2RadF(axisDeg.x);
-		angle_.y += AsoUtility::Deg2RadF(axisDeg.y);
+		angle_.x += Utility::Deg2RadF(axisDeg.x);
+		angle_.y += Utility::Deg2RadF(axisDeg.y);
 
-		rotY_ = Quaternion::AngleAxis(angle_.y, AsoUtility::AXIS_Y);
+		rotY_ = Quaternion::AngleAxis(angle_.y, Utility::AXIS_Y);
 
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, Utility::AXIS_X));
 	}
 
 	// 追従対象の位置
@@ -644,13 +644,13 @@ void Camera::GamePadController(void)
 	VECTOR relativeCPos = rotXY_.PosAxis(LOCAL_P2C_POS);
 
 	// カメラ座標をゆっくり移動させる
-	pos_ = AsoUtility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
+	pos_ = Utility::Lerp(pos_, VAdd(followPos, relativeCPos), 0.1f);
 
 	// 注視点をゆっくり移動させる
-	targetPos_ = AsoUtility::Lerp(targetPos_, VAdd(followPos, relativeTPos), 0.1f);
+	targetPos_ = Utility::Lerp(targetPos_, VAdd(followPos, relativeTPos), 0.1f);
 
 	// カメラの上方向
-	cameraUp_ = AsoUtility::DIR_U;
+	cameraUp_ = Utility::DIR_U;
 
 }
 
@@ -661,7 +661,7 @@ void Camera::GamePadLockOnContoroller(void)
 
 	// 回転
 	//-------------------------------------
-	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+	VECTOR axisDeg = Utility::VECTOR_ZERO;
 
 	// ゲームパッドの番号を取得
 	auto pad = ins.GetJPadInputState(InputManager::JOYPAD_NO::PAD1);
@@ -684,7 +684,7 @@ void Camera::GamePadLockOnContoroller(void)
 		axisDeg = VScale(axisDeg, 3.0f);
 	}
 	// 上方向
-	if (pad.AKeyRZ < 0 && AsoUtility::Rad2DegF(lockOnAngles_.x) <= 10.0f)
+	if (pad.AKeyRZ < 0 && Utility::Rad2DegF(lockOnAngles_.x) <= 10.0f)
 	{
 		axisDeg.x = -pad.AKeyRZ;
 		// 方向を正規化
@@ -692,7 +692,7 @@ void Camera::GamePadLockOnContoroller(void)
 		axisDeg = VScale(axisDeg, 3.0f);
 	}
 	// 下方向
-	if (pad.AKeyRZ > 0 && AsoUtility::Rad2DegF(lockOnAngles_.x) >= -20.0f)
+	if (pad.AKeyRZ > 0 && Utility::Rad2DegF(lockOnAngles_.x) >= -20.0f)
 	{
 		axisDeg.x = -pad.AKeyRZ;
 		// 方向を正規化
@@ -705,12 +705,12 @@ void Camera::GamePadLockOnContoroller(void)
 	{
 		// カメラを回転させる
 		// X軸のカメラの移動制御
-		lockOnAngles_.x += AsoUtility::Deg2RadF(axisDeg.x);
-		lockOnAngles_.y += AsoUtility::Deg2RadF(axisDeg.y);
+		lockOnAngles_.x += Utility::Deg2RadF(axisDeg.x);
+		lockOnAngles_.y += Utility::Deg2RadF(axisDeg.y);
 
-		rotY_ = Quaternion::AngleAxis(lockOnAngles_.y, AsoUtility::AXIS_Y);
+		rotY_ = Quaternion::AngleAxis(lockOnAngles_.y, Utility::AXIS_Y);
 
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(lockOnAngles_.x, AsoUtility::AXIS_X));
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(lockOnAngles_.x, Utility::AXIS_X));
 	}
 
 }
@@ -746,7 +746,7 @@ void Camera::LazyRotation(void)
 	{
 		rotY_ = Quaternion::Slerp(rotY_, lazyGoalRotY_, 0.1f);
 		angle_.y = rotY_.ToEuler().y;
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, Utility::AXIS_X));
 	}
 	// 回転しない場合
 	else
@@ -754,7 +754,7 @@ void Camera::LazyRotation(void)
 		rotY_ = lazyGoalRotY_;
 		isLazy_ = false;
 		angle_.y = rotY_.ToEuler().y;
-		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, AsoUtility::AXIS_X));
+		rotXY_ = rotY_.Mult(Quaternion::AngleAxis(angle_.x, Utility::AXIS_X));
 	}
 
 }

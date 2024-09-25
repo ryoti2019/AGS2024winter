@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="10208141854749534837">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.h" line="2" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;InputContoroller::animationController_&apos; is not initialized in the constructor." verbose="Member variable &apos;InputContoroller::animationController_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.cpp" line="8" column="19"/>
+            <symbol>InputContoroller::animationController_</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="111" column="25" info="Derived variable &apos;Player::TIME_ROT&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="17" column="25" info="Parent variable &apos;UnitBase::TIME_ROT&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>TIME_ROT</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="174" column="19" info="Derived function &apos;Player::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;InputContoroller&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;InputContoroller&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.h" line="12" column="2"/>
+            <symbol>InputContoroller</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="163" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Player</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="169" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="29" column="15" info="Virtual function in base class"/>
+            <symbol>Draw</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="171" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="452" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="79" column="15" info="Virtual function in base class"/>
+            <symbol>Animation</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="76" column="29" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.cpp" line="67" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.cpp" line="98" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.cpp" line="117" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.cpp" line="136" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;ins&apos; can be declared as reference to const" verbose="Variable &apos;ins&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/InputContoroller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\InputContoroller.cpp" line="155" column="8" info="Variable &apos;ins&apos; can be declared as reference to const"/>
+            <symbol>ins</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+<class name="AnimationController::AnimationData" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h" line="24" col="2" hash="7260631439233016987"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Dir" lineNumber="17"/>
+    <functiondecl functionName="ChargeWalk" lineNumber="64"/>
+    <functiondecl functionName="Run" lineNumber="95"/>
+    <functiondecl functionName="Roll" lineNumber="114"/>
+    <functiondecl functionName="Attack" lineNumber="133"/>
+    <functiondecl functionName="ChargeAttack" lineNumber="152"/>
+    <functioncall functionName="AnimationController"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="EqualsVZero"/>
+    <functioncall functionName="GetGamePad"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetJPadInputState"/>
+    <functioncall functionName="GetState"/>
+    <functioncall functionName="InputContoroller"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="IsClickMouseLeft"/>
+    <functioncall functionName="IsNew"/>
+    <functioncall functionName="IsPadBtnNew"/>
+    <functioncall functionName="IsPadBtnTrgDown"/>
+    <functioncall functionName="IsPadBtnTrgUp"/>
+    <functioncall functionName="IsTrgDown"/>
+    <functioncall functionName="IsTrgUpMouseLeft"/>
+    <functioncall functionName="KEY_INPUT_A"/>
+    <functioncall functionName="KEY_INPUT_D"/>
+    <functioncall functionName="KEY_INPUT_LSHIFT"/>
+    <functioncall functionName="KEY_INPUT_S"/>
+    <functioncall functionName="KEY_INPUT_SPACE"/>
+    <functioncall functionName="KEY_INPUT_W"/>
+    <functioncall functionName="Player"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="UnitBase"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

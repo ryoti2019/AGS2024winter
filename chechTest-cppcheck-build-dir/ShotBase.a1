@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="16748975901763938703">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotBase::state_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotBase::state_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="8" column="11"/>
+            <symbol>ShotBase::state_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotBase::speed_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotBase::speed_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="8" column="11"/>
+            <symbol>ShotBase::speed_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotBase::timeAlive_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotBase::timeAlive_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="8" column="11"/>
+            <symbol>ShotBase::timeAlive_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotBase::collisionRadius_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotBase::collisionRadius_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="8" column="11"/>
+            <symbol>ShotBase::collisionRadius_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotBase::effectBlastResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotBase::effectBlastResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="8" column="11"/>
+            <symbol>ShotBase::effectBlastResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;ShotBase::effectBlastPlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;ShotBase::effectBlastPlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="8" column="11"/>
+            <symbol>ShotBase::effectBlastPlayId_</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;dir_&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;dir_&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="13" column="2"/>
+            <symbol>dir_</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="returnByReference" severity="performance" msg="Function &apos;GetQuaRot()&apos; should return member &apos;quaRot&apos; by const reference." verbose="Function &apos;GetQuaRot()&apos; should return member &apos;quaRot&apos; by const reference." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="48" column="13"/>
+        </error>
+        <error id="constStatement" severity="warning" msg="Unused variable value &apos;relPos&apos;" verbose="Unused variable value &apos;relPos&apos;" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="41" column="2"/>
+        </error>
+        <error id="constStatement" severity="warning" msg="Unused variable value &apos;follow&apos;" verbose="Unused variable value &apos;follow&apos;" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/ShotBase.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.cpp" line="42" column="2"/>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Blast" lineNumber="58"/>
+    <functiondecl functionName="GetPos" lineNumber="127"/>
+    <functiondecl functionName="SetPos" lineNumber="132"/>
+    <functiondecl functionName="GetQuaRot" lineNumber="137"/>
+    <functiondecl functionName="GetSpeed" lineNumber="142"/>
+    <functiondecl functionName="GetTimeAlive" lineNumber="147"/>
+    <functiondecl functionName="GetCollisionRadius" lineNumber="152"/>
+    <functiondecl functionName="ChangeState" lineNumber="201"/>
+    <functiondecl functionName="PlayBlastEffect" lineNumber="228"/>
+    <functiondecl functionName="DrawDebug" lineNumber="239"/>
+    <functioncall functionName="ChangeState"/>
+    <functioncall functionName="CheckAlive"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="Deg2RadF"/>
+    <functioncall functionName="DrawSphere3D"/>
+    <functioncall functionName="Euler"/>
+    <functioncall functionName="GetDeltaTime"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="IsEffekseer3DEffectPlaying"/>
+    <functioncall functionName="LoadModelDuplicate"/>
+    <functioncall functionName="LookRotation"/>
+    <functioncall functionName="MV1DeleteModel"/>
+    <functioncall functionName="Move"/>
+    <functioncall functionName="PlayBlastEffect"/>
+    <functioncall functionName="PlayEffekseer3DEffect"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetParam"/>
+    <functioncall functionName="SetPosPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetRotationPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetScalePlayingEffekseer3DEffect"/>
+    <functioncall functionName="ShotBase"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="UpdateBlast"/>
+    <functioncall functionName="UpdateIdle"/>
+    <functioncall functionName="UpdateShot"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

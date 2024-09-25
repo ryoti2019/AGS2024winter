@@ -1,0 +1,10 @@
+UnitBase
+UnitBase
+Init
+Update call:[Move,Update] noreturn:[Update]
+Draw call:[MV1DrawModel] noreturn:[MV1DrawModel]
+Release call:[MV1DeleteModel] noreturn:[MV1DeleteModel]
+GetTransform
+GetStepAnim
+Move
+Animation

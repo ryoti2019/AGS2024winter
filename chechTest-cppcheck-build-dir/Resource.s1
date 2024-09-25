@@ -1,0 +1,7 @@
+Resource
+Resource
+Resource
+Resource
+Load call:[LoadDivGraph,LoadEffekseerEffect,LoadGraph,LoadSoundMem,MV1LoadModel,c_str]
+Release call:[DeleteEffekseerEffect,DeleteGraph,DeleteSoundMem,MV1DeleteModel] noreturn:[DeleteGraph,MV1DeleteModel]
+CopyHandle

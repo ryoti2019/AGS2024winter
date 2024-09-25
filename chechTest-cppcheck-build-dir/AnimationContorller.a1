@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="2425205084520076214">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="4" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;AnimationController::LoadModel_&apos; is not initialized in the constructor." verbose="Member variable &apos;AnimationController::LoadModel_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="6" column="22"/>
+            <symbol>AnimationController::LoadModel_</symbol>
+        </error>
+        <error id="returnByReference" severity="performance" msg="Function &apos;GetPlayType()&apos; should return member &apos;state_&apos; by const reference." verbose="Function &apos;GetPlayType()&apos; should return member &apos;state_&apos; by const reference." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="85" column="14"/>
+        </error>
+        <error id="returnByReference" severity="performance" msg="Function &apos;GetAnimDataNow()&apos; should return member &apos;state_&apos; by const reference." verbose="Function &apos;GetAnimDataNow()&apos; should return member &apos;state_&apos; by const reference." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="99" column="14"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="24" column="49" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="166" column="55" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="209" column="56" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="229" column="66" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="244" column="51" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="constVariableReference" severity="style" msg="Variable &apos;data&apos; can be declared as reference to const" verbose="Variable &apos;data&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="247" column="13" info="Variable &apos;data&apos; can be declared as reference to const"/>
+            <symbol>data</symbol>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::any_of algorithm instead of a raw loop." verbose="Consider using std::any_of algorithm instead of a raw loop." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="247" column="2"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;a&apos; is assigned a value that is never used." verbose="Variable &apos;a&apos; is assigned a value that is never used." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.cpp" line="176" column="9"/>
+            <symbol>a</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="AnimationController" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h" line="7" col="1" hash="14129433741664350546"/>
+<class name="AnimationController::AnimationData" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h" line="24" col="2" hash="7260631439233016987"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h:94:16" my-argnr="1" my-argname="state" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.cpp" line="196" col="19" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Add" lineNumber="24"/>
+    <functiondecl functionName="Update" lineNumber="51"/>
+    <functiondecl functionName="SetEndLoop" lineNumber="123"/>
+    <functiondecl functionName="GetPlayType" lineNumber="130"/>
+    <functiondecl functionName="GetAttachNum" lineNumber="135"/>
+    <functiondecl functionName="Attatch" lineNumber="140"/>
+    <functiondecl functionName="Dettach" lineNumber="160"/>
+    <functiondecl functionName="ChangeAnimation" lineNumber="166"/>
+    <functiondecl functionName="GetAnimData" lineNumber="194"/>
+    <functiondecl functionName="GetAnimDatas" lineNumber="199"/>
+    <functiondecl functionName="GetAnimDataNow" lineNumber="204"/>
+    <functiondecl functionName="SetStartStepAnim" lineNumber="209"/>
+    <functiondecl functionName="GetIsPriority" lineNumber="214"/>
+    <functiondecl functionName="IsEndPlayAnimation" lineNumber="219"/>
+    <functiondecl functionName="IsEndBlendPlayingAnimation" lineNumber="229"/>
+    <functiondecl functionName="IsBlendPlay" lineNumber="244"/>
+    <functioncall functionName="AnimationController"/>
+    <functioncall functionName="Attatch"/>
+    <functioncall functionName="Dettach"/>
+    <functioncall functionName="GetDeltaTime"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="MV1AttachAnim"/>
+    <functioncall functionName="MV1DeleteModel"/>
+    <functioncall functionName="MV1DetachAnim"/>
+    <functioncall functionName="MV1GetAttachAnimTotalTime"/>
+    <functioncall functionName="MV1LoadModel"/>
+    <functioncall functionName="MV1SetAttachAnimBlendRate"/>
+    <functioncall functionName="MV1SetAttachAnimTime"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="animHandle"/>
+    <functioncall functionName="at"/>
+    <functioncall functionName="attachNo"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="emplace"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="isPriority"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

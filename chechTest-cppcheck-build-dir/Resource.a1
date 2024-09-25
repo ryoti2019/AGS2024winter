@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="4086043042659003572">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;path_&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;path_&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.cpp" line="8" column="2"/>
+            <symbol>path_</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;path_&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;path_&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.cpp" line="22" column="2"/>
+            <symbol>path_</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;path_&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;path_&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.cpp" line="36" column="2"/>
+            <symbol>path_</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="Resource" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.h" line="5" col="1" hash="15158474690680441448"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.h:24:2" my-argnr="2" my-argname="path" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.cpp" line="22" col="10" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.h:26:2" my-argnr="2" my-argname="path" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/Resource.cpp" line="36" col="10" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Load" lineNumber="50"/>
+    <functiondecl functionName="Release" lineNumber="89"/>
+    <functiondecl functionName="CopyHandle" lineNumber="133"/>
+    <functioncall functionName="DeleteEffekseerEffect"/>
+    <functioncall functionName="DeleteGraph"/>
+    <functioncall functionName="DeleteSoundMem"/>
+    <functioncall functionName="LoadDivGraph"/>
+    <functioncall functionName="LoadEffekseerEffect"/>
+    <functioncall functionName="LoadGraph"/>
+    <functioncall functionName="LoadSoundMem"/>
+    <functioncall functionName="MV1DeleteModel"/>
+    <functioncall functionName="MV1LoadModel"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="c_str"/>
+  </FileInfo>
+</analyzerinfo>

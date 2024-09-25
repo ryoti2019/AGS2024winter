@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="11654681151095785776">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;scl&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;scl&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="9" column="2"/>
+            <symbol>scl</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;rot&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;rot&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="10" column="2"/>
+            <symbol>rot</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;pos&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;pos&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="11" column="2"/>
+            <symbol>pos</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;localPos&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;localPos&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="12" column="2"/>
+            <symbol>localPos</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;matScl&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;matScl&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="14" column="2"/>
+            <symbol>matScl</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;scl&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;scl&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="25" column="2"/>
+            <symbol>scl</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;rot&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;rot&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="26" column="2"/>
+            <symbol>rot</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;pos&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;pos&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="27" column="2"/>
+            <symbol>pos</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;localPos&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;localPos&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="28" column="2"/>
+            <symbol>localPos</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;matScl&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;matScl&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.cpp" line="30" column="2"/>
+            <symbol>matScl</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="Transform" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.h" line="11" col="1" hash="5165256426285214627"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.h:75:9" my-argnr="1" my-argname="vec" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/Transform.cpp" line="111" col="24" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Update" lineNumber="42"/>
+    <functiondecl functionName="Release" lineNumber="70"/>
+    <functiondecl functionName="SetModel" lineNumber="74"/>
+    <functiondecl functionName="GetForward" lineNumber="79"/>
+    <functiondecl functionName="GetBack" lineNumber="84"/>
+    <functiondecl functionName="GetRight" lineNumber="89"/>
+    <functiondecl functionName="GetLeft" lineNumber="94"/>
+    <functiondecl functionName="GetUp" lineNumber="99"/>
+    <functiondecl functionName="GetDown" lineNumber="104"/>
+    <functiondecl functionName="GetDir" lineNumber="109"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="GetDir"/>
+    <functioncall functionName="MGetIdent"/>
+    <functioncall functionName="MGetScale"/>
+    <functioncall functionName="MGetTranslate"/>
+    <functioncall functionName="MMult"/>
+    <functioncall functionName="MV1SetMatrix"/>
+    <functioncall functionName="Mult"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="ToEuler"/>
+    <functioncall functionName="ToMatrix"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="string"/>
+  </FileInfo>
+</analyzerinfo>

@@ -1,0 +1,66 @@
+Enemy
+Enemy
+InitAnimation call:[Add,AnimationController,ChangeAnimation,GetInstance,Load,LoadModelDuplicate,SetModel,Update]
+Init call:[ChangeState,GetInstance,InitAnimation,InitEffect,InitMusic,Load,MV1SearchFrame,SetParam] noreturn:[ChangeState]
+InitEffect call:[GetInstance,Load]
+CreatePlayEffect call:[CreateSyncEffect,PlayEffekseer3DEffect,SetScalePlayingEffekseer3DEffect] noreturn:[CreateSyncEffect]
+TacklePlayEffect call:[PlayEffekseer3DEffect,SetScalePlayingEffekseer3DEffect,TackleSyncEffect] noreturn:[TackleSyncEffect]
+TackleRangePlayEffect call:[PlayEffekseer3DEffect,SetScalePlayingEffekseer3DEffect,TackleRangeSyncEffect] noreturn:[TackleRangeSyncEffect]
+JumpAttackPlayEffect call:[JumpAttackSyncEffect,PlayEffekseer3DEffect,SetScalePlayingEffekseer3DEffect] noreturn:[JumpAttackSyncEffect]
+JumpAttackRangePlayEffect call:[JumpAttackRangeSyncEffect,PlayEffekseer3DEffect,SetScalePlayingEffekseer3DEffect] noreturn:[JumpAttackRangeSyncEffect]
+CreateSyncEffect call:[PosAxis,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,ToEuler,Update,VAdd] noreturn:[Update]
+TackleSyncEffect call:[PosAxis,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,ToEuler,Update,VAdd] noreturn:[Update]
+TackleRangeSyncEffect call:[LookRotation,PosAxis,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,ToEuler,Update,VAdd,VSub] noreturn:[Update]
+JumpAttackSyncEffect call:[PosAxis,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,ToEuler,Update,VAdd] noreturn:[Update]
+JumpAttackRangeSyncEffect call:[PosAxis,SetPosPlayingEffekseer3DEffect,SetRotationPlayingEffekseer3DEffect,ToEuler,Update,VAdd] noreturn:[Update]
+InitMusic call:[GetInstance,Load]
+FootStepsMusic call:[GetDeltaTime,GetInstance,PlaySoundMem] noreturn:[GetDeltaTime,PlaySoundMem]
+AttackMusic call:[GetRand,PlaySoundMem] noreturn:[PlaySoundMem]
+Update call:[Animation,AnimationFrame,Collision,CreateSyncEffect,FootStepsMusic,GetAnimData,GetDeltaTime,GetInstance,JumpAttackPlayEffect,JumpAttackRangeSyncEffect,JumpAttackSyncEffect,PlaySoundMem,Rotation,SetFrequencySoundMem,SetStartStepAnim,StopSoundMem,TackleSyncEffect,Update,UpdateAttack,UpdateBeforeTackle,UpdateCreate,UpdateIdle,UpdateJumpAttack,UpdateShot,UpdateTackle,UpdateWalk] noreturn:[PlaySoundMem,Update]
+Draw call:[Draw,DrawBillboard3D,DrawBox,DrawDebug,DrawExtendGraph,DrawFormatString,GetCamera,GetColor,GetDeltaTime,GetDrawStringWidth,GetInstance,GetMode,MV1DrawModel,SetDrawBlendMode,SetFontSize,VAdd,c_str,max,min,strlen] noreturn:[Draw,DrawBox]
+Release call:[DeleteEffekseerEffect,DeleteGraph,DeleteSoundMem,MV1DeleteModel,Release,clear] noreturn:[DeleteSoundMem]
+GetTransform
+GetState
+SetState call:[ChangeState] noreturn:[ChangeState]
+GetCBodyPosDown
+GetCBodyPosUP
+GetCWeponPosDown
+GetCWeponPosUP
+GetHP
+SetHP
+SetFollow
+GetAttack
+SetAttack
+GetHit
+SetHit
+SetDeathCnt
+GetShots
+SetStageID
+GetAttackPlayerPos
+GetStepAnim call:[GetAnimData,GetAnimDataNow]
+Think call:[ChangeState,GetAnimDatas,GetRand,Magnitude,VNorm,VSub] noreturn:[ChangeState]
+Rotation call:[LazyRotation,VNorm,VSub,atan2f] noreturn:[LazyRotation]
+AfterRotation call:[DegIn360,Euler,Rad2DegF,Slerp,VNorm,VSub,atan2f] noreturn:[DegIn360]
+UpdateIdle call:[ChangeState,GetDeltaTime,GetInstance] noreturn:[ChangeState]
+UpdateWalk call:[VAdd,VNorm,VScale,VSub]
+UpdateAttack call:[GetAnimData]
+UpdateJumpAttack call:[GetAnimData,Magnitude,VAdd,VScale,VSub]
+UpdateBeforeTackle call:[ChangeState,GetDeltaTime,GetInstance] noreturn:[ChangeState]
+UpdateTackle call:[GetDeltaTime,GetInstance,VAdd,VScale]
+UpdateCreate call:[CreateShot] noreturn:[CreateShot]
+UpdateShot call:[ProcessShot]
+UpdateHit call:[GetAnimData,VAdd,VNorm,VScale,VSub] noreturn:[VAdd]
+Collision call:[CollisionStage,EnemyBodyCollision,Update,WeponCollision] noreturn:[Update]
+CollisionStage call:[HitCheck_Capsule_Triangle,MV1CollCheck_Capsule,MV1CollResultPolyDimTerminate,Magnitude,Update,VAdd,VNorm,VScale,VSub] noreturn:[MV1CollResultPolyDimTerminate,Update]
+EnemyBodyCollision call:[GetRotation,MGetRotElem,MGetTranslateElem,MV1GetFrameLocalWorldMatrix,PosAxis,VAdd] noreturn:[VAdd]
+WeponCollision call:[GetRotation,MGetRotElem,MGetTranslateElem,MV1GetFrameLocalWorldMatrix,PosAxis,VAdd] noreturn:[VAdd]
+ChangeState call:[AttackMusic,ChangeAnimation,CreatePlayEffect,JumpAttackRangePlayEffect,PlaySoundMem,StopSoundMem,TackleRangePlayEffect,Think,emplace_back]
+LazyRotation call:[DegIn360,Euler,Rad2DegF,Slerp,ToEuler,abs]
+DrawDebug call:[DrawCapsule3D,DrawCone3D,DrawFormatString,GetAnimDatas,GetAttachNum,VAdd,c_str] noreturn:[DrawCone3D]
+SetParam
+Animation call:[ChangeState,DegIn360,Euler,GetAnimData,GetDeltaTime,GetInstance,Rad2DegF,Slerp,ToEuler,VNorm,VSub,atan2f] noreturn:[ChangeState,GetDeltaTime]
+AnimationFrame call:[IsBlendPlay,MGetIdent,MGetRotElem,MGetScale,MGetSize,MGetTranslate,MGetTranslateElem,MMult,MV1GetFrameLocalMatrix,MV1ResetFrameUserLocalMatrix,MV1SetFrameUserLocalMatrix] noreturn:[MV1SetFrameUserLocalMatrix]
+ProcessShot call:[ChangeAnimation,GetAnimData,GetDeltaTime,GetInstance,Shot] noreturn:[ChangeAnimation]
+Shot call:[AttackMusic,GetPos,IsIdle,Shot,VAdd,VNorm,VSub]
+CreateShot call:[ChangeState,Create,Euler,GetAnimData,GetAvailableShot,GetDeltaTime,GetInstance,PosAxis] noreturn:[ChangeState]
+GetAvailableShot call:[IsAlive,ShotEnemy,push_back]

@@ -1,5 +1,5 @@
 #include "../../Manager/InputManager.h"
-#include "../../Utility/AsoUtility.h"
+#include "../../Utility/Utility.h"
 #include "../../Manager/SceneManager.h"
 #include "../../Object/Common/AnimationContorller.h"
 #include "../Player.h"
@@ -17,7 +17,7 @@ InputContoroller::~InputContoroller(void)
 VECTOR InputContoroller::Dir()
 {
 
-	dir_ = AsoUtility::VECTOR_ZERO;
+	dir_ = Utility::VECTOR_ZERO;
 
 	auto& ins = InputManager::GetInstance();
 
@@ -57,7 +57,7 @@ VECTOR InputContoroller::Dir()
 
 	return dir_;
 
-	dir_ = AsoUtility::VECTOR_ZERO;
+	dir_ = Utility::VECTOR_ZERO;
 
 }
 
@@ -71,7 +71,7 @@ bool InputContoroller::ChargeWalk()
 	{
 
 		if (ins.IsClickMouseLeft() && (ins.IsNew(KEY_INPUT_W) || ins.IsNew(KEY_INPUT_A) ||
-			ins.IsNew(KEY_INPUT_S) || ins.IsNew(KEY_INPUT_D)) && !AsoUtility::EqualsVZero(dir_) &&
+			ins.IsNew(KEY_INPUT_S) || ins.IsNew(KEY_INPUT_D)) && !Utility::EqualsVZero(dir_) &&
 			player_->GetState() != Player::STATE::HIT && player_->GetState() != Player::STATE::ROLL &&
 			player_->GetState() != Player::STATE::TIRED)
 		{
@@ -81,7 +81,7 @@ bool InputContoroller::ChargeWalk()
 	if (SceneManager::GetInstance().GetGamePad())
 	{
 		if (ins.IsPadBtnNew(InputManager::JOYPAD_NO::PAD1, InputManager::JOYPAD_BTN::RIGHT) &&
-			!AsoUtility::EqualsVZero(dir_) && player_->GetState() != Player::STATE::HIT &&
+			!Utility::EqualsVZero(dir_) && player_->GetState() != Player::STATE::HIT &&
 			player_->GetState() != Player::STATE::ROLL && player_->GetState() != Player::STATE::TIRED)
 		{
 			return true;

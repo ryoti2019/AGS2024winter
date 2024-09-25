@@ -1,0 +1,9 @@
+CreateInstance call:[Init,ResourceManager] noreturn:[Init,ResourceManager]
+GetInstance
+Init call:[Resource,emplace] noreturn:[emplace]
+Release call:[Release,clear] noreturn:[clear]
+Destroy call:[Release,clear]
+Load call:[Resource,_Load] noreturn:[Resource]
+LoadModelDuplicate call:[MV1DuplicateModel,_Load,push_back]
+ResourceManager
+_Load call:[Load,Resource,emplace,end,find]

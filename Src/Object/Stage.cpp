@@ -1,5 +1,5 @@
 #include "../Manager/ResourceManager.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "Stage.h"
 
 Stage::Stage(void)

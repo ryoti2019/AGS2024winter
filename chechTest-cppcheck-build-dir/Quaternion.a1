@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="16309683824537719430">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;math.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;math.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;from&apos; should be passed by const reference." verbose="Parameter &apos;from&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.cpp" line="519" column="41" info="Function parameter &apos;from&apos; should be passed by const reference."/>
+            <symbol>from</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;to&apos; should be passed by const reference." verbose="Parameter &apos;to&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.cpp" line="519" column="58" info="Function parameter &apos;to&apos; should be passed by const reference."/>
+            <symbol>to</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;a&apos; should be passed by const reference." verbose="Parameter &apos;a&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.cpp" line="575" column="50" info="Function parameter &apos;a&apos; should be passed by const reference."/>
+            <symbol>a</symbol>
+        </error>
+        <error id="constParameterReference" severity="style" msg="Parameter &apos;f&apos; can be declared as reference to const" verbose="Parameter &apos;f&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.cpp" line="695" column="41" info="Parameter &apos;f&apos; can be declared as reference to const"/>
+            <symbol>f</symbol>
+        </error>
+        <error id="constParameterReference" severity="style" msg="Parameter &apos;rhs&apos; can be declared as reference to const" verbose="Parameter &apos;rhs&apos; can be declared as reference to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.cpp" line="703" column="46" info="Parameter &apos;rhs&apos; can be declared as reference to const"/>
+            <symbol>rhs</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="Quaternion" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h" line="5" col="1" hash="5670555323916944031"/>
+  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:88:7" my-argnr="1" my-argname="angle" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="670" col="3" value="0"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:18:2" my-argnr="1" my-argname="rad" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="14" col="26" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:24:20" my-argnr="1" my-argname="rad" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="35" col="18" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:28:20" my-argnr="1" my-argname="q1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="75" col="10" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:28:20" my-argnr="2" my-argname="q2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="75" col="17" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:39:16" my-argnr="1" my-argname="q" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="168" col="23" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:62:16" my-argnr="1" my-argname="q1" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="474" col="13" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:62:16" my-argnr="2" my-argname="q2" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="474" col="20" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:63:9" my-argnr="1" my-argname="q" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="479" col="17" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:66:20" my-argnr="1" my-argname="q" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="484" col="45" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:95:13" my-argnr="1" my-argname="f" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="696" col="27" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:96:19" my-argnr="1" my-argname="f" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="700" col="27" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:97:13" my-argnr="1" my-argname="rhs" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="704" col="27" value="0"/>
+    <unsafe-usage my-id="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.h:98:19" my-argnr="1" my-argname="rhs" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Quaternion.cpp" line="708" col="27" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="Euler" lineNumber="33"/>
+    <functiondecl functionName="Euler" lineNumber="38"/>
+    <functiondecl functionName="Mult" lineNumber="68"/>
+    <functiondecl functionName="Mult" lineNumber="106"/>
+    <functiondecl functionName="AngleAxis" lineNumber="111"/>
+    <functiondecl functionName="PosAxis" lineNumber="147"/>
+    <functiondecl functionName="PosAxis" lineNumber="158"/>
+    <functiondecl functionName="ToEuler" lineNumber="163"/>
+    <functiondecl functionName="ToEuler" lineNumber="182"/>
+    <functiondecl functionName="ToMatrix" lineNumber="187"/>
+    <functiondecl functionName="ToMatrix" lineNumber="247"/>
+    <functiondecl functionName="LookRotation" lineNumber="252"/>
+    <functiondecl functionName="LookRotation" lineNumber="258"/>
+    <functiondecl functionName="GetRotation" lineNumber="325"/>
+    <functiondecl functionName="GetDir" lineNumber="437"/>
+    <functiondecl functionName="GetForward" lineNumber="442"/>
+    <functiondecl functionName="GetBack" lineNumber="447"/>
+    <functiondecl functionName="GetRight" lineNumber="452"/>
+    <functiondecl functionName="GetLeft" lineNumber="457"/>
+    <functiondecl functionName="GetUp" lineNumber="462"/>
+    <functiondecl functionName="GetDown" lineNumber="467"/>
+    <functiondecl functionName="Dot" lineNumber="472"/>
+    <functiondecl functionName="Dot" lineNumber="477"/>
+    <functiondecl functionName="Normalize" lineNumber="482"/>
+    <functiondecl functionName="Normalized" lineNumber="490"/>
+    <functiondecl functionName="Normalize" lineNumber="498"/>
+    <functiondecl functionName="Inverse" lineNumber="510"/>
+    <functiondecl functionName="Slerp" lineNumber="519"/>
+    <functiondecl functionName="SIGN" lineNumber="527"/>
+    <functiondecl functionName="NORM" lineNumber="531"/>
+    <functiondecl functionName="FromToRotation" lineNumber="535"/>
+    <functiondecl functionName="RotateTowards" lineNumber="557"/>
+    <functiondecl functionName="Angle" lineNumber="568"/>
+    <functiondecl functionName="SlerpUnclamped" lineNumber="575"/>
+    <functiondecl functionName="Identity" lineNumber="643"/>
+    <functiondecl functionName="Length" lineNumber="648"/>
+    <functiondecl functionName="LengthSquared" lineNumber="653"/>
+    <functiondecl functionName="xyz" lineNumber="658"/>
+    <functiondecl functionName="ToAngleAxis" lineNumber="663"/>
+    <functioncall functionName="Angle"/>
+    <functioncall functionName="AngleAxis"/>
+    <functioncall functionName="AngleDeg"/>
+    <functioncall functionName="DX_PI"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="Deg2RadD"/>
+    <functioncall functionName="Dot"/>
+    <functioncall functionName="Euler"/>
+    <functioncall functionName="GetDir"/>
+    <functioncall functionName="Identity"/>
+    <functioncall functionName="Inverse"/>
+    <functioncall functionName="Length"/>
+    <functioncall functionName="LengthSquared"/>
+    <functioncall functionName="LookRotation"/>
+    <functioncall functionName="Mult"/>
+    <functioncall functionName="Normalize"/>
+    <functioncall functionName="Normalized"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="RadIn2PI"/>
+    <functioncall functionName="SlerpUnclamped"/>
+    <functioncall functionName="ToEuler"/>
+    <functioncall functionName="ToMatrix"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VCross"/>
+    <functioncall functionName="VDot"/>
+    <functioncall functionName="VNormalize"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="acos"/>
+    <functioncall functionName="acosf"/>
+    <functioncall functionName="asin"/>
+    <functioncall functionName="atan2"/>
+    <functioncall functionName="cos"/>
+    <functioncall functionName="min"/>
+    <functioncall functionName="sin"/>
+    <functioncall functionName="sinf"/>
+    <functioncall functionName="sqrt"/>
+    <functioncall functionName="sqrtf"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="xyz"/>
+  </FileInfo>
+</analyzerinfo>

@@ -1,0 +1,8 @@
+CreateInstance call:[Application,Init] noreturn:[Application,Init]
+GetInstance
+Init call:[ChangeWindowMode,CreateInstance,DxLib_End,DxLib_Init,Effekseer_Init,Effekseer_SetGraphicsDeviceLostCallbackFunctions,SetChangeScreenModeGraphicsSystemResetFlag,SetGraphMode,SetUseDirect3DVersion,SetUseDirectInputFlag,SetWindowText] noreturn:[CreateInstance,DxLib_End]
+Run call:[CheckHitKey,Draw,GetInstance,ProcessMessage,ScreenFlip,Update] noreturn:[ScreenFlip]
+Destroy call:[Destroy,DxLib_End,Effkseer_End,GetInstance]
+IsInitFail
+IsReleaseFail
+Application

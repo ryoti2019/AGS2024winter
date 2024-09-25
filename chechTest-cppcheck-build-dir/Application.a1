@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="16948273187454255868">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.h" line="2" column="0"/>
+        </error>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="CreateInstance" lineNumber="15"/>
+    <functiondecl functionName="GetInstance" lineNumber="24"/>
+    <functiondecl functionName="Init" lineNumber="29"/>
+    <functiondecl functionName="Run" lineNumber="67"/>
+    <functiondecl functionName="Destroy" lineNumber="88"/>
+    <functiondecl functionName="IsInitFail" lineNumber="108"/>
+    <functiondecl functionName="IsReleaseFail" lineNumber="113"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="ChangeWindowMode"/>
+    <functioncall functionName="CheckHitKey"/>
+    <functioncall functionName="CreateInstance"/>
+    <functioncall functionName="DX_DIRECT3D_11"/>
+    <functioncall functionName="Destroy"/>
+    <functioncall functionName="Draw"/>
+    <functioncall functionName="DxLib_End"/>
+    <functioncall functionName="DxLib_Init"/>
+    <functioncall functionName="Effekseer_Init"/>
+    <functioncall functionName="Effekseer_SetGraphicsDeviceLostCallbackFunctions"/>
+    <functioncall functionName="Effkseer_End"/>
+    <functioncall functionName="FALSE"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="Init"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="KEY_INPUT_ESCAPE"/>
+    <functioncall functionName="ProcessMessage"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="ScreenFlip"/>
+    <functioncall functionName="SetChangeScreenModeGraphicsSystemResetFlag"/>
+    <functioncall functionName="SetGraphMode"/>
+    <functioncall functionName="SetUseDirect3DVersion"/>
+    <functioncall functionName="SetUseDirectInputFlag"/>
+    <functioncall functionName="SetWindowText"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

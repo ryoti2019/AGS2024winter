@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="10302568461500647894">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Fader.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.h" line="2" column="0"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &apos;Fader&apos; does not declare a constructor although it has private member variables which likely require initialization." verbose="The class &apos;Fader&apos; does not declare a constructor although it has private member variables which likely require initialization. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Fader.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Fader.h" line="3" column="1"/>
+            <symbol>Fader</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="Fader" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Common/Fader.h" line="3" col="1" hash="14697803138834889800"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="GetState" lineNumber="5"/>
+    <functiondecl functionName="IsEnd" lineNumber="10"/>
+    <functiondecl functionName="SetFade" lineNumber="15"/>
+    <functiondecl functionName="Init" lineNumber="25"/>
+    <functiondecl functionName="Update" lineNumber="33"/>
+    <functiondecl functionName="Draw" lineNumber="83"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="DX_BLENDMODE_ALPHA"/>
+    <functioncall functionName="DX_BLENDMODE_NOBLEND"/>
+    <functioncall functionName="DrawBox"/>
+    <functioncall functionName="SetDrawBlendMode"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

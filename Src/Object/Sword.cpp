@@ -1,5 +1,5 @@
 #include "../Manager/ResourceManager.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "../Manager/SceneManager.h"
 #include "Sword.h"
 
@@ -25,8 +25,8 @@ void Sword::InitAnimation(void)
 	Quaternion rotPow = Quaternion::Identity();
 	rotPow = Quaternion::Mult(
 		rotPow,
-		Quaternion::AngleAxis(AsoUtility::Deg2RadF(-270), AsoUtility::AXIS_Z));
-	rotPow = rotPow.Mult(Quaternion::AngleAxis(AsoUtility::Deg2RadF(0), AsoUtility::AXIS_X));
+		Quaternion::AngleAxis(Utility::Deg2RadF(-270), Utility::AXIS_Z));
+	rotPow = rotPow.Mult(Quaternion::AngleAxis(Utility::Deg2RadF(0), Utility::AXIS_X));
 	transform_.quaRotLocal = Quaternion::Mult(transform_.quaRotLocal, rotPow);
 	transform_.Update();
 

@@ -1,0 +1,8 @@
+InputContoroller
+InputContoroller
+Dir call:[GetGamePad,GetInstance,GetJPadInputState,IsNew]
+ChargeWalk call:[EqualsVZero,GetGamePad,GetInstance,GetState,IsClickMouseLeft,IsNew,IsPadBtnNew]
+Run call:[GetGamePad,GetInstance,IsNew,IsPadBtnNew]
+Roll call:[GetGamePad,GetInstance,IsPadBtnTrgDown,IsTrgDown]
+Attack call:[GetGamePad,GetInstance,IsPadBtnTrgUp,IsTrgUpMouseLeft]
+ChargeAttack call:[GetGamePad,GetInstance,IsClickMouseLeft,IsPadBtnNew]

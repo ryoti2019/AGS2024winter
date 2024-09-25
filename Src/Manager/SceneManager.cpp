@@ -33,7 +33,6 @@ void SceneManager::Init(void)
 	waitSceneId_ = SCENE_ID::NONE;
 
 	fader_ = new Fader();
-	fader_->Init();
 
 	// ƒJƒƒ‰
 	camera_ = new Camera();

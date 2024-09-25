@@ -13,19 +13,36 @@ public:
 	IntVector3();
 
 	// コンストラクタ
-	IntVector3(int vX, int vY, int vZ);
+	IntVector3(const int vX, const int vY, const int vZ);
 
 	// コンストラクタ
-	IntVector3(VECTOR v);
+	IntVector3(const VECTOR& v);
 
 	// デストラクタ
-	~IntVector3(void);
+	~IntVector3() = default;
 
-	bool operator<(const IntVector3& value) const;
+	bool operator<(const IntVector3& value) const { return std::tie(x, y, z) < std::tie(value.x, value.y, value.z); };
 	
-	void Add(int v);
-	void Sub(int v);
-	void Scale(int v);
+	void Add(const int v)
+	{
+		x += v;
+		y += v;
+		z += v;
+	};
+
+	void Sub(const int v)
+	{
+		x -= v;
+		y -= v;
+		z -= v;
+	};
+
+	void Scale(const int v)
+	{
+		x *= v;
+		y *= v;
+		z *= v;
+	};
 
 };
 

@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="3218461778879137868">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Stage.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::stage_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::stage_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::stage_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::musicGameOverId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::musicGameOverId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::musicGameOverId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::musicDecisionId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::musicDecisionId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::musicDecisionId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::animAttachNo_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::animAttachNo_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::animAttachNo_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::animTotalTime_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::animTotalTime_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::animTotalTime_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::stepAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::stepAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::stepAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::speedAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::speedAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::speedAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::animNo_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::animNo_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::animNo_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::gameOverAnim_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::gameOverAnim_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::gameOverAnim_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::imgSpaceOrB_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::imgSpaceOrB_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::imgSpaceOrB_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameOverScene::BlinkCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameOverScene::BlinkCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="12" column="16"/>
+            <symbol>GameOverScene::BlinkCnt_</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~GameOverScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~GameOverScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.h" line="16" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\SceneBase.h" line="12" column="11" info="Virtual destructor in base class"/>
+            <symbol>~GameOverScene</symbol>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;pad&apos; is assigned a value that is never used." verbose="Variable &apos;pad&apos; is assigned a value that is never used." cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameOverScene.cpp" line="151" column="11"/>
+            <symbol>pad</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+<class name="GameOverScene" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameOverScene.h" line="7" col="1" hash="4387645944208628225"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="InitAnimation" lineNumber="21"/>
+    <functiondecl functionName="Animation" lineNumber="55"/>
+    <functiondecl functionName="SetAnimation" lineNumber="76"/>
+    <functiondecl functionName="InitMusic" lineNumber="92"/>
+    <functiondecl functionName="DrawLogo" lineNumber="203"/>
+    <functioncall functionName="Animation"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="Camera"/>
+    <functioncall functionName="ChangeMode"/>
+    <functioncall functionName="ChangeScene"/>
+    <functioncall functionName="ChangeVolumeSoundMem"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="DX_PLAYTYPE_BACK"/>
+    <functioncall functionName="DX_PLAYTYPE_LOOP"/>
+    <functioncall functionName="DeleteGraph"/>
+    <functioncall functionName="DeleteSoundMem"/>
+    <functioncall functionName="Draw"/>
+    <functioncall functionName="DrawLogo"/>
+    <functioncall functionName="DrawRotaGraph"/>
+    <functioncall functionName="GameOverScene"/>
+    <functioncall functionName="GetCamera"/>
+    <functioncall functionName="GetDeltaTime"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetJPadInputState"/>
+    <functioncall functionName="Identity"/>
+    <functioncall functionName="Init"/>
+    <functioncall functionName="InitAnimation"/>
+    <functioncall functionName="InitMusic"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="IsPadBtnTrgDown"/>
+    <functioncall functionName="IsTrgDown"/>
+    <functioncall functionName="KEY_INPUT_SPACE"/>
+    <functioncall functionName="Load"/>
+    <functioncall functionName="LoadModelDuplicate"/>
+    <functioncall functionName="MV1AttachAnim"/>
+    <functioncall functionName="MV1DeleteModel"/>
+    <functioncall functionName="MV1DetachAnim"/>
+    <functioncall functionName="MV1DrawModel"/>
+    <functioncall functionName="MV1GetAttachAnimTotalTime"/>
+    <functioncall functionName="MV1SetAttachAnimTime"/>
+    <functioncall functionName="PlaySoundMem"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Release"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetAnimation"/>
+    <functioncall functionName="SetGamePad"/>
+    <functioncall functionName="SetIsOperation"/>
+    <functioncall functionName="SetModel"/>
+    <functioncall functionName="Stage"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

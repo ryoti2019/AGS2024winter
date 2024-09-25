@@ -1,0 +1,11 @@
+GameOverScene
+GameOverScene
+InitAnimation call:[GetInstance,Identity,LoadModelDuplicate,MV1AttachAnim,Quaternion,SetModel,Update]
+Animation call:[GetDeltaTime,GetInstance,MV1SetAttachAnimTime] noreturn:[MV1SetAttachAnimTime]
+SetAnimation call:[MV1AttachAnim,MV1DetachAnim,MV1GetAttachAnimTotalTime]
+InitMusic call:[ChangeVolumeSoundMem,GetInstance,Load,PlaySoundMem]
+Init call:[ChangeMode,GetCamera,GetInstance,Init,InitAnimation,InitMusic,Load,SetAnimation,Stage] noreturn:[Init]
+Update call:[Animation,ChangeScene,GetInstance,GetJPadInputState,IsPadBtnTrgDown,IsTrgDown,PlaySoundMem,SetGamePad,SetIsOperation,Update] noreturn:[SetIsOperation,Update]
+Draw call:[Draw,DrawLogo,MV1DrawModel] noreturn:[DrawLogo]
+Release call:[DeleteGraph,DeleteSoundMem,MV1DeleteModel,Release] noreturn:[Release]
+DrawLogo call:[DrawRotaGraph] noreturn:[DrawRotaGraph]

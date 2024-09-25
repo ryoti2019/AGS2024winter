@@ -3,7 +3,7 @@
 #include "../Manager/ResourceManager.h"
 #include "../Manager/InputManager.h"
 #include "../Application.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/Utility.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
 #include "../Object/Common/AnimationContorller.h"
@@ -816,7 +816,7 @@ void Enemy::Think(void)
 
 	// プレイヤーの方向を求める
 	vec = VSub(followTransform_->pos, transform_.pos);
-	length = AsoUtility::Magnitude(vec);
+	length = Utility::Magnitude(vec);
 
 	// 敵とプレイヤーの距離が一定距離になったら攻撃する
 	if (attackNumber_ == 0 && length < ATTACK_RANGE)
@@ -834,7 +834,7 @@ void Enemy::Think(void)
 
 		// プレイヤーの方向を求める
 		vec = VSub(attackPlayerPos_, transform_.pos);
-		length = AsoUtility::Magnitude(vec);
+		length = Utility::Magnitude(vec);
 
 		// 正規化
 		pDirection_ = VNorm(vec);
@@ -856,7 +856,7 @@ void Enemy::Think(void)
 
 		// プレイヤーの方向を求める
 		vec = VSub(attackPlayerPos_, transform_.pos);
-		length = AsoUtility::Magnitude(vec);
+		length = Utility::Magnitude(vec);
 
 		beforeTackleCnt_ = BEOFRE_TACKLE_TIME;
 
@@ -916,8 +916,8 @@ void Enemy::AfterRotation(void)
 	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.02f);
 
 	// ラジアンからデグリー
-	float goalDeg = AsoUtility::Rad2DegF(angle);
-	goalDeg = AsoUtility::DegIn360(goalDeg);
+	float goalDeg = Utility::Rad2DegF(angle);
+	goalDeg = Utility::DegIn360(goalDeg);
 
 }
 
@@ -971,7 +971,7 @@ void Enemy::UpdateJumpAttack(void)
 
 	// プレイヤーとの距離を求める
 	VECTOR vec = VSub(attackPlayerPos_, transform_.pos);
-	float length = AsoUtility::Magnitude(vec);
+	float length = Utility::Magnitude(vec);
 	attack_ = false;
 
 	// 移動量
@@ -1100,7 +1100,7 @@ void Enemy::CollisionStage(void)
 
 	auto vec = VSub({ 0.0f,-300.0f, 500.0f }, transform_.pos);
 
-	float length = AsoUtility::Magnitude(vec);
+	float length = Utility::Magnitude(vec);
 
 	auto dir = VNorm(vec);
 
@@ -1316,13 +1316,13 @@ void Enemy::LazyRotation(float goalRot)
 	transform_.quaRot = Quaternion::Slerp(transform_.quaRot, goal, 0.05f);
 
 	// ラジアンからデグリー
-	float goalDeg = AsoUtility::Rad2DegF(goalRot);
-	goalDeg = AsoUtility::DegIn360(goalDeg);
+	float goalDeg = Utility::Rad2DegF(goalRot);
+	goalDeg = Utility::DegIn360(goalDeg);
 
 	auto rad = transform_.quaRot.ToEuler();
-	auto deg = AsoUtility::Rad2DegF(rad.y);
+	auto deg = Utility::Rad2DegF(rad.y);
 
-	deg = AsoUtility::DegIn360(deg);
+	deg = Utility::DegIn360(deg);
 
 	// 目的の角度と自分の角度の差を測る
 	float sub = goalDeg - deg;
@@ -1463,12 +1463,12 @@ void Enemy::Animation(void)
 		VECTOR rad = transform_.quaRot.ToEuler();
 
 		// ラジアンからデグリー
-		float deg = AsoUtility::Rad2DegF(rad.y);
-		deg = AsoUtility::DegIn360(deg);
+		float deg = Utility::Rad2DegF(rad.y);
+		deg = Utility::DegIn360(deg);
 
 		// ラジアンからデグリー
-		float goalDeg = AsoUtility::Rad2DegF(angle);
-		goalDeg = AsoUtility::DegIn360(goalDeg);
+		float goalDeg = Utility::Rad2DegF(angle);
+		goalDeg = Utility::DegIn360(goalDeg);
 
 		// 目的の角度に近い方向に旋回
 		if (goalDeg <= deg)

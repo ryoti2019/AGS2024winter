@@ -1,0 +1,453 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="12395914691152732079">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;EffekseerForDXLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="1" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\ResourceManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Resource.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;Dxlib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\InputManager.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\SceneManager.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Manager\Camera.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;iostream&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Application.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Utility\AsoUtility.h" line="4" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Stage.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;DxLib.h&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Sword.h" line="2" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="3" column="0"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Cppcheck does not need standard library headers to get proper results.">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="4" column="0"/>
+        </error>
+        <error id="normalCheckLevelMaxBranches" severity="information" msg="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." verbose="Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="0" column="0"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::grid_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::grid_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::grid_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::stage_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::stage_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::stage_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::player_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::player_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::player_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::enemy_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::enemy_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::enemy_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::sword_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::sword_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::sword_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::imgPlayerHPBar_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::imgPlayerHPBar_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::imgPlayerHPBar_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::hitStopCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::hitStopCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::hitStopCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::slowCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::slowCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::slowCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::sceneCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::sceneCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::sceneCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::enemyDeath_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::enemyDeath_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::enemyDeath_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::playerDeath_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::playerDeath_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::playerDeath_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::imgKeyBoad_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::imgKeyBoad_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::imgKeyBoad_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::imgGamePad_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::imgGamePad_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::imgGamePad_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::operationCnt_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::operationCnt_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::operationCnt_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::effectPlayerImpactResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::effectPlayerImpactResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::effectPlayerImpactResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::effectPlayerImpactPlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::effectPlayerImpactPlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::effectPlayerImpactPlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::effectEnemyImpactResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::effectEnemyImpactResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::effectEnemyImpactResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::effectEnemyImpactPlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::effectEnemyImpactPlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::effectEnemyImpactPlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::effectEnemyTornadeResId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::effectEnemyTornadeResId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::effectEnemyTornadeResId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::effectEnemyTornadePlayId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::effectEnemyTornadePlayId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::effectEnemyTornadePlayId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::isEffectTornade_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::isEffectTornade_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::isEffectTornade_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicGameId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicGameId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicGameId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicImpactId1_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicImpactId1_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicImpactId1_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicImpactId2_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicImpactId2_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicImpactId2_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicPlayerHitVoice1_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicPlayerHitVoice1_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicPlayerHitVoice1_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicPlayerHitVoice2_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicPlayerHitVoice2_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicPlayerHitVoice2_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicEnemyHitVoice1_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicEnemyHitVoice1_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicEnemyHitVoice1_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicEnemyHitVoice2_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicEnemyHitVoice2_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicEnemyHitVoice2_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicDecisionId_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicDecisionId_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicDecisionId_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicPlayerDeath_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicPlayerDeath_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicPlayerDeath_</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;GameScene::musicEnemyDeath_&apos; is not initialized in the constructor." verbose="Member variable &apos;GameScene::musicEnemyDeath_&apos; is not initialized in the constructor. Member variables of native types, pointers, or references are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="18" column="12"/>
+            <symbol>GameScene::musicEnemyDeath_</symbol>
+        </error>
+        <error id="unusedPrivateFunction" severity="style" msg="Unused private function: &apos;GameScene::DrawDebug&apos;" verbose="Unused private function: &apos;GameScene::DrawDebug&apos;" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.h" line="125" column="7"/>
+            <symbol>GameScene::DrawDebug</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member variable with name &apos;TIME_ROT&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="111" column="25" info="Derived variable &apos;Player::TIME_ROT&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="17" column="25" info="Parent variable &apos;UnitBase::TIME_ROT&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>TIME_ROT</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Player&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="174" column="19" info="Derived function &apos;Player::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Player</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member variable with name &apos;pos_&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member variable with name &apos;pos_&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="402" column="9" info="Derived variable &apos;Enemy::pos_&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="57" column="9" info="Parent variable &apos;UnitBase::pos_&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>pos_</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member function with name &apos;GetTransform&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="198" column="19" info="Derived function &apos;Enemy::GetTransform&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="33" column="19" info="Parent function &apos;UnitBase::GetTransform&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>GetTransform</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="duplInheritedMember" severity="warning" msg="The class &apos;Enemy&apos; defines member function with name &apos;GetStepAnim&apos; also defined in its parent class &apos;UnitBase&apos;." verbose="The class &apos;Enemy&apos; defines member function with name &apos;GetStepAnim&apos; also defined in its parent class &apos;UnitBase&apos;." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="252" column="8" info="Derived function &apos;Enemy::GetStepAnim&apos;"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="36" column="8" info="Parent function &apos;UnitBase::GetStepAnim&apos;"/>
+            <symbol>Enemy</symbol>
+            <symbol>GetStepAnim</symbol>
+            <symbol>UnitBase</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Quaternion&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Common\Quaternion.h" line="18" column="2"/>
+            <symbol>Quaternion</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Transform&apos; has a constructor with 1 argument that is not explicit. Such, so called &quot;Converting constructors&quot;, should in general be explicit for type safety reasons as that prevents unintended implicit conversions." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\Transform.h" line="18" column="2"/>
+            <symbol>Transform</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Player&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="163" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Player</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Draw&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="169" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="29" column="15" info="Virtual function in base class"/>
+            <symbol>Draw</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="171" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Animation&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Player.h" line="452" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="79" column="15" info="Virtual function in base class"/>
+            <symbol>Animation</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~Enemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~Enemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="187" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="26" column="11" info="Virtual destructor in base class"/>
+            <symbol>~Enemy</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;Release&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Enemy.h" line="195" column="7" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\UnitBase.h" line="30" column="15" info="Virtual function in base class"/>
+            <symbol>Release</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~ShotEnemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~ShotEnemy&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.h" line="14" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="28" column="11" info="Virtual destructor in base class"/>
+            <symbol>~ShotEnemy</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The function &apos;CheckAlive&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." verbose="The function &apos;CheckAlive&apos; overrides a function in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotEnemy.h" line="49" column="15" info="Function in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\ShotBase.h" line="102" column="15" info="Virtual function in base class"/>
+            <symbol>CheckAlive</symbol>
+        </error>
+        <error id="missingOverride" severity="style" msg="The destructor &apos;~GameScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." verbose="The destructor &apos;~GameScene&apos; overrides a destructor in a base class but is not marked with a &apos;override&apos; specifier." file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.h" line="19" column="3" info="Destructor in derived class"/>
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\SceneBase.h" line="12" column="11" info="Virtual destructor in base class"/>
+            <symbol>~GameScene</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;R&apos; can be reduced." verbose="The scope of the variable &apos;R&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="718" column="6"/>
+            <symbol>R</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;G&apos; can be reduced." verbose="The scope of the variable &apos;G&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="719" column="6"/>
+            <symbol>G</symbol>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;B&apos; can be reduced." verbose="The scope of the variable &apos;B&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="720" column="6"/>
+            <symbol>B</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;state&apos; should be passed by const reference." verbose="Parameter &apos;state&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Object\Common\AnimationContorller.h" line="76" column="29" info="Function parameter &apos;state&apos; should be passed by const reference."/>
+            <symbol>state</symbol>
+        </error>
+        <error id="constVariablePointer" severity="style" msg="Variable &apos;camera&apos; can be declared as pointer to const" verbose="Variable &apos;camera&apos; can be declared as pointer to const" cwe="398" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="470" column="10" info="Variable &apos;camera&apos; can be declared as pointer to const"/>
+            <symbol>camera</symbol>
+        </error>
+        <error id="unusedVariable" severity="style" msg="Unused variable: S" verbose="Unused variable: S" cwe="563" file0="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.cpp">
+            <location file="C:\Users\2216008\Desktop\Program\AGS2024winter\Src\Scene\GameScene.cpp" line="733" column="6"/>
+            <symbol>S</symbol>
+        </error>
+  <FileInfo check="Class">
+<class name="InputManager::JOYPAD_IN_STATE" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="57" col="2" hash="15265513513069520569"/>
+<class name="InputManager::Info" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="153" col="2" hash="3944254278883516912"/>
+<class name="InputManager::MouseInfo" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Manager/InputManager.h" line="163" col="2" hash="9437638551516248859"/>
+<class name="AnimationController::AnimationData" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Object/Common/AnimationContorller.h" line="24" col="2" hash="7260631439233016987"/>
+<class name="GameScene" file="C:/Users/2216008/Desktop/Program/AGS2024winter/Src/Scene/GameScene.h" line="10" col="1" hash="2039873591077258712"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="CollisionEnemyAndPlayer" lineNumber="315"/>
+    <functiondecl functionName="DrawDebug" lineNumber="467"/>
+    <functiondecl functionName="InitEffect" lineNumber="483"/>
+    <functiondecl functionName="PlayerImpactPlayEffect" lineNumber="500"/>
+    <functiondecl functionName="EnemyImpactPlayEffect" lineNumber="515"/>
+    <functiondecl functionName="EnemyTornadePlayEffect" lineNumber="530"/>
+    <functiondecl functionName="PlayerImpactSyncEffect" lineNumber="545"/>
+    <functiondecl functionName="EnemyImpactSyncEffect" lineNumber="570"/>
+    <functiondecl functionName="EnemyTornadeSyncEffect" lineNumber="595"/>
+    <functiondecl functionName="InitMusic" lineNumber="618"/>
+    <functiondecl functionName="ImpactMusic" lineNumber="662"/>
+    <functiondecl functionName="PlayerHitMusic" lineNumber="677"/>
+    <functiondecl functionName="EnemyHitMusic" lineNumber="695"/>
+    <functiondecl functionName="DrawHPBar" lineNumber="710"/>
+    <functioncall functionName="AnimationController"/>
+    <functioncall functionName="Application"/>
+    <functioncall functionName="Camera"/>
+    <functioncall functionName="ChangeMode"/>
+    <functioncall functionName="ChangeScene"/>
+    <functioncall functionName="ChangeVolumeSoundMem"/>
+    <functioncall functionName="CollisionEnemyAndPlayer"/>
+    <functioncall functionName="DX_PI_F"/>
+    <functioncall functionName="DX_PLAYTYPE_BACK"/>
+    <functioncall functionName="DX_PLAYTYPE_LOOP"/>
+    <functioncall functionName="DeleteEffekseerEffect"/>
+    <functioncall functionName="DeleteGraph"/>
+    <functioncall functionName="DeleteSoundMem"/>
+    <functioncall functionName="Draw"/>
+    <functioncall functionName="DrawBox"/>
+    <functioncall functionName="DrawExtendGraph"/>
+    <functioncall functionName="DrawFormatString"/>
+    <functioncall functionName="DrawHPBar"/>
+    <functioncall functionName="DrawRotaGraph"/>
+    <functioncall functionName="DrawSphere3D"/>
+    <functioncall functionName="Enemy"/>
+    <functioncall functionName="EnemyHitMusic"/>
+    <functioncall functionName="EnemyImpactPlayEffect"/>
+    <functioncall functionName="EnemyImpactSyncEffect"/>
+    <functioncall functionName="EnemyTornadePlayEffect"/>
+    <functioncall functionName="EnemyTornadeSyncEffect"/>
+    <functioncall functionName="GameScene"/>
+    <functioncall functionName="GetAngles"/>
+    <functioncall functionName="GetAttack"/>
+    <functioncall functionName="GetAttackPlayerPos"/>
+    <functioncall functionName="GetCBodyPosDown"/>
+    <functioncall functionName="GetCBodyPosUP"/>
+    <functioncall functionName="GetCPosDown"/>
+    <functioncall functionName="GetCPosUP"/>
+    <functioncall functionName="GetCWeponPosDown"/>
+    <functioncall functionName="GetCWeponPosUP"/>
+    <functioncall functionName="GetCamera"/>
+    <functioncall functionName="GetCollisionRadius"/>
+    <functioncall functionName="GetColor"/>
+    <functioncall functionName="GetDeltaTime"/>
+    <functioncall functionName="GetGamePad"/>
+    <functioncall functionName="GetHP"/>
+    <functioncall functionName="GetInstance"/>
+    <functioncall functionName="GetInvincible"/>
+    <functioncall functionName="GetIsOperation"/>
+    <functioncall functionName="GetModelId"/>
+    <functioncall functionName="GetPos"/>
+    <functioncall functionName="GetRand"/>
+    <functioncall functionName="GetShots"/>
+    <functioncall functionName="GetStamina"/>
+    <functioncall functionName="GetState"/>
+    <functioncall functionName="GetStepAnim"/>
+    <functioncall functionName="GetTargetPos"/>
+    <functioncall functionName="GetTransform"/>
+    <functioncall functionName="Grid"/>
+    <functioncall functionName="HitCheck_Capsule_Capsule"/>
+    <functioncall functionName="ImpactMusic"/>
+    <functioncall functionName="Init"/>
+    <functioncall functionName="InitEffect"/>
+    <functioncall functionName="InitMusic"/>
+    <functioncall functionName="InputManager"/>
+    <functioncall functionName="IsHitSphereCapsule"/>
+    <functioncall functionName="IsPadBtnNew"/>
+    <functioncall functionName="IsPadBtnTrgDown"/>
+    <functioncall functionName="IsTrgDown"/>
+    <functioncall functionName="KEY_INPUT_B"/>
+    <functioncall functionName="KEY_INPUT_SPACE"/>
+    <functioncall functionName="Load"/>
+    <functioncall functionName="PlayEffekseer3DEffect"/>
+    <functioncall functionName="PlaySoundMem"/>
+    <functioncall functionName="Player"/>
+    <functioncall functionName="PlayerHitMusic"/>
+    <functioncall functionName="PlayerImpactPlayEffect"/>
+    <functioncall functionName="PlayerImpactSyncEffect"/>
+    <functioncall functionName="PosAxis"/>
+    <functioncall functionName="Quaternion"/>
+    <functioncall functionName="Release"/>
+    <functioncall functionName="Resource"/>
+    <functioncall functionName="ResourceManager"/>
+    <functioncall functionName="SceneManager"/>
+    <functioncall functionName="SetAttack"/>
+    <functioncall functionName="SetEnemy"/>
+    <functioncall functionName="SetFollow"/>
+    <functioncall functionName="SetGamePad"/>
+    <functioncall functionName="SetHP"/>
+    <functioncall functionName="SetHit"/>
+    <functioncall functionName="SetIsOperation"/>
+    <functioncall functionName="SetPlayer"/>
+    <functioncall functionName="SetPos"/>
+    <functioncall functionName="SetPosPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetRotationPlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetScalePlayingEffekseer3DEffect"/>
+    <functioncall functionName="SetStageID"/>
+    <functioncall functionName="SetState"/>
+    <functioncall functionName="ShotBase"/>
+    <functioncall functionName="Stage"/>
+    <functioncall functionName="Sword"/>
+    <functioncall functionName="ToEuler"/>
+    <functioncall functionName="Transform"/>
+    <functioncall functionName="UnitBase"/>
+    <functioncall functionName="Update"/>
+    <functioncall functionName="VAdd"/>
+    <functioncall functionName="VNorm"/>
+    <functioncall functionName="VScale"/>
+    <functioncall functionName="VSub"/>
+    <functioncall functionName="Vector2"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="max"/>
+    <functioncall functionName="min"/>
+    <functioncall functionName="override"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

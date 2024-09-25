@@ -1,0 +1,36 @@
+CreateInstance call:[Init,InputManager] noreturn:[Init,InputManager]
+GetInstance call:[CreateInstance] noreturn:[CreateInstance]
+Init call:[Add,GetInstance,MouseInfo,emplace] noreturn:[emplace]
+Update call:[CheckHitKey,GetMouseInput,GetMousePoint,SetJPadInState] noreturn:[SetJPadInState]
+Destroy call:[clear]
+Add call:[Info,emplace] noreturn:[emplace]
+Clear call:[clear] noreturn:[clear]
+IsNew call:[Find]
+IsTrgDown call:[Find]
+IsTrgUp call:[Find]
+GetMousePos
+GetMouse
+IsClickMouseLeft
+IsClickMouseRight
+IsTrgDownMouseLeft call:[FindMouse]
+IsTrgUpMouseLeft call:[FindMouse]
+IsTrgDownMouseRight call:[FindMouse]
+IsTrgUpMouseRight call:[FindMouse]
+InputManager
+InputManager
+Find call:[end,find]
+FindMouse call:[end,find]
+GetJPadType call:[GetJoypadType]
+GetJPadDInputState call:[GetJoypadDirectInputState]
+GetJPadXInputState call:[GetJoypadXInputState]
+SetJPadInState call:[GetJPadInputState]
+GetJPadInputState call:[GetJPadDInputState,GetJPadType,GetJPadXInputState,JOYPAD_IN_STATE]
+IsPadBtnNew
+IsPadBtnTrgDown
+IsPadBtnTrgUp
+IsPadLStickTrgDown
+IsPadXStickTrgDownX
+IsPadZStickTrgDownZ
+IsPadRStickTrgDown
+IsPadRXStickTrgDownX
+IsPadRZStickTrgDownZ

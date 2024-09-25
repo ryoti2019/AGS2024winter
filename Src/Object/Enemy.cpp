@@ -440,6 +440,14 @@ void Enemy::Update(void)
 		return;
 	}
 
+	// アニメーション処理
+	animationController_->Update();
+
+	// アニメーションの固定
+	AnimationFrame();
+
+	if (hp_ <= 0)return;
+
 	switch (state_)
 	{
 	case Enemy::STATE::THINK:
@@ -551,12 +559,6 @@ void Enemy::Update(void)
 	transform_.Update();
 
 	walkCnt_ += SceneManager::GetInstance().GetDeltaTime();
-
-	// アニメーション処理
-	animationController_->Update();
-
-	// アニメーションの固定
-	AnimationFrame();
 
 	for (auto v : shots_)
 	{

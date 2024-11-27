@@ -249,7 +249,7 @@ void Player::Update(void)
 	case Player::STATE::ATTACK:
 		// •—‚ðØ‚é‰¹‚ÌÄ¶
 		SlashMusic();
-		if (animationController_->GetAnimData("ATTACK").stepAnim >= animationController_->GetAnimData("ATTACK").startTime
+		if (animationController_->GetAnimData("ATTACK").stepAnim >= ATTACK_COLLISION_START_TIME1
 			&& animationController_->GetAnimData("ATTACK").stepAnim <= ATTACK_COLLISION_END_TIME1
 			&& !hit_)
 		{
@@ -264,8 +264,8 @@ void Player::Update(void)
 	case Player::STATE::ATTACK2:
 		// •—‚ðØ‚é‰¹‚ÌÄ¶
 		SlashMusic();
-		if (animationController_->GetAnimData("ATTACK2").stepAnim >= animationController_->GetAnimData("ATTACK2").startTime
-			&& animationController_->GetAnimData("ATTACK2").stepAnim <= animationController_->GetAnimData("ATTACK2").animTotalTime
+		if (animationController_->GetAnimData("ATTACK2").stepAnim >= ATTACK_COLLISION_START_TIME2
+			&& animationController_->GetAnimData("ATTACK2").stepAnim <= ATTACK_COLLISION_END_TIME2
 			&& !hit_)
 		{
 			attack_ = true;
@@ -279,8 +279,8 @@ void Player::Update(void)
 	case Player::STATE::ATTACK3:
 		// •—‚ðØ‚é‰¹‚ÌÄ¶
 		SlashMusic();
-		if (animationController_->GetAnimData("ATTACK3").stepAnim >= animationController_->GetAnimData("ATTACK3").startTime
-			&& animationController_->GetAnimData("ATTACK3").stepAnim <= animationController_->GetAnimData("ATTACK").animTotalTime
+		if (animationController_->GetAnimData("ATTACK3").stepAnim >= ATTACK_COLLISION_START_TIME3
+			&& animationController_->GetAnimData("ATTACK3").stepAnim <= ATTACK_COLLISION_END_TIME3
 			&& !hit_)
 		{
 			attack_ = true;
@@ -289,8 +289,8 @@ void Player::Update(void)
 	case Player::STATE::CHARGE_ATTACK:
 		// •—‚ðØ‚é‰¹‚ÌÄ¶
 		SlashMusic();
-		if (animationController_->GetAnimData("CHARGE_ATTACK").stepAnim >= animationController_->GetAnimData("CHARGE_ATTACK").startTime
-			&& animationController_->GetAnimData("CHARGE_ATTACK").stepAnim <= animationController_->GetAnimData("CHARGE_ATTACK").animTotalTime
+		if (animationController_->GetAnimData("CHARGE_ATTACK").stepAnim >= CHARGE_ATTACK_COLLISION_START_TIME
+			&& animationController_->GetAnimData("CHARGE_ATTACK").stepAnim <= CHARGE_ATTACK_COLLISION_END_TIME
 			&& !hit_)
 		{
 			attack_ = true;
@@ -1077,7 +1077,7 @@ void Player::KeyboardAttack(void)
 	if (attack2_ && !attack1_ && state_ == STATE::ATTACK)
 	{
 		chargeCnt_ = 0.0f;
-		attack_ = true;
+		attack_ = false;
 		StopEffekseer3DEffect(effectChargePlayId_);
 		ChangeState(STATE::ATTACK2);
 	}
@@ -1086,7 +1086,7 @@ void Player::KeyboardAttack(void)
 	if (attack3_ && !attack2_ && state_ == STATE::ATTACK2)
 	{
 		chargeCnt_ = 0.0f;
-		attack_ = true;
+		attack_ = false;
 		StopEffekseer3DEffect(effectChargePlayId_);
 		ChangeState(STATE::ATTACK3);
 	}
@@ -1095,7 +1095,7 @@ void Player::KeyboardAttack(void)
 	if (chargeCnt_ >= CHARGE_TIME)
 	{
 		chargeAttack_ = true;
-		attack_ = true;
+		attack_ = false;
 		chargeCnt_ = 0.0f;
 		StopEffekseer3DEffect(effectChargePlayId_);
 		ChangeState(STATE::CHARGE_ATTACK);

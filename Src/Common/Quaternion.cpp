@@ -35,14 +35,109 @@ Quaternion::Quaternion(double ww, double wx, double wy, double wz)
 {
 }
 
-Quaternion::~Quaternion()
+Quaternion Quaternion::Euler(double radX, double radY, double radZ)
 {
+    Quaternion ret = Quaternion();
+
+    radX = Utility::RadIn2PI(radX);
+    radY = Utility::RadIn2PI(radY);
+    radZ = Utility::RadIn2PI(radZ);
+
+    double cosZ = cos(radZ / 2.0f);
+    double sinZ = sin(radZ / 2.0f);
+    double cosX = cos(radX / 2.0f);
+    double sinX = sin(radX / 2.0f);
+    double cosY = cos(radY / 2.0f);
+    double sinY = sin(radY / 2.0f);
+
+    ret.w = cosX * cosY * cosZ + sinX * sinY * sinZ;
+    ret.x = sinX * cosY * cosZ + cosX * sinY * sinZ;
+    ret.y = cosX * sinY * cosZ - sinX * cosY * sinZ;
+    ret.z = cosX * cosY * sinZ - sinX * sinY * cosZ;
+
+    return ret;
 }
 
-VECTOR Quaternion::PosAxis(const Quaternion& q, VECTOR pos)
+Quaternion Quaternion::Mult(const Quaternion& q1, const Quaternion& q2)
+{
+    Quaternion ret = Quaternion();
+    double d1, d2, d3, d4;
 
-VECTOR Quaternion::PosAxis(VECTOR pos) const
+    // wÇÃåvéZ 
+    d1 = q1.w * q2.w;
+    d2 = -q1.x * q2.x;
+    d3 = -q1.y * q2.y;
+    d4 = -q1.z * q2.z;
+    ret.w = d1 + d2 + d3 + d4;
 
+    // xÇÃåvéZ 
+    d1 = q1.w * q2.x;
+    d2 = q2.w * q1.x;
+    d3 = q1.y * q2.z;
+    d4 = -q1.z * q2.y;
+    ret.x = d1 + d2 + d3 + d4;
+
+    // yÇÃåvéZ
+    d1 = q1.w * q2.y;
+    d2 = q2.w * q1.y;
+    d3 = q1.z * q2.x;
+    d4 = -q1.x * q2.z;
+    ret.y = d1 + d2 + d3 + d4;
+
+    // zÇÃåvéZ
+    d1 = q1.w * q2.z;
+    d2 = q2.w * q1.z;
+    d3 = q1.x * q2.y;
+    d4 = -q1.y * q2.x;
+    ret.z = d1 + d2 + d3 + d4;
+
+    return ret;
+}
+
+Quaternion Quaternion::AngleAxis(const double rad, VECTOR axis)
+{
+    Quaternion ret = Quaternion();
+
+    double norm;
+    double c, s;
+
+    // UnityÇ…çáÇÌÇπÇÈ
+    //ret.w = ret.x = ret.y = ret.z = 0.0;
+    ret.w = 1.0;
+    ret.x = ret.y = ret.z = 0.0;
+
+    norm = (double)axis.x * (double)axis.x + (double)axis.y * (double)axis.y + (double)axis.z * (double)axis.z;
+    if (norm <= 0.0f)
+    {
+        return ret;
+    }
+
+    norm = 1.0 / sqrt(norm);
+    axis.x = (float)(axis.x * norm);
+    axis.y = (float)(axis.y * norm);
+    axis.z = (float)(axis.z * norm);
+
+    c = cos(0.5f * rad);
+    s = sin(0.5f * rad);
+
+    ret.w = c;
+    ret.x = s * axis.x;
+    ret.y = s * axis.y;
+    ret.z = s * axis.z;
+
+    return ret;
+}
+
+VECTOR Quaternion::PosAxis(const Quaternion& q, const VECTOR& pos)
+{
+    // à íuèÓïÒÇ…âÒì]èÓïÒÇîΩâfÇ≥ÇπÇÈ
+// pos' = qÅEposÅEq(-1)
+    Quaternion tmp = Quaternion();
+    tmp = tmp.Mult(q);
+    tmp = tmp.Mult(Quaternion(0.0f, pos.x, pos.y, pos.z));
+    tmp = tmp.Mult(q.Inverse());
+    return { (float)tmp.x, (float)tmp.y, (float)tmp.z };
+}
 
 VECTOR Quaternion::ToEuler(const Quaternion& q)
 {

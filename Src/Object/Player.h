@@ -24,22 +24,22 @@ public:
 	static constexpr float ATTACK_END_TIME1 = 40.0f;
 
 	// 攻撃の1段階目の当たり判定が始まる時間
-	static constexpr float ATTACK_COLLISION_START_TIME1 = 30.0f;
+	static constexpr float ATTACK_COLLISION_START_TIME1 = 16.0f;
 
 	// 攻撃の1段階目の当たり判定が終わる時間
-	static constexpr float ATTACK_COLLISION_END_TIME1 = 37.0f;
+	static constexpr float ATTACK_COLLISION_END_TIME1 = 27.0f;
 
 	// 攻撃の2段階目が始まる時間
-	static constexpr float ATTACK_START_TIME2 = 40.0f;
+	static constexpr float ATTACK_START_TIME2 = 4.0f;
 
 	// 攻撃の2段階目が終わる時間
 	static constexpr float ATTACK_END_TIME2 = 60.0f;
 
 	// 攻撃の2段階目の当たり判定が始まる時間
-	static constexpr float ATTACK_COLLISION_START_TIME2 = 51.0f;
+	static constexpr float ATTACK_COLLISION_START_TIME2 = 20.0f;
 
 	// 攻撃の2段階目の当たり判定が終わる時間
-	static constexpr float ATTACK_COLLISION_END_TIME2 = 58.0f;
+	static constexpr float ATTACK_COLLISION_END_TIME2 = 30.0f;
 
 	// 攻撃の3段階目が始まる時間
 	static constexpr float ATTACK_START_TIME3 = 60.0f;
@@ -48,13 +48,13 @@ public:
 	static constexpr float ATTACK_END_TIME3 = 40.0f;
 
 	// 攻撃の3段階目の当たり判定が始まる時間
-	static constexpr float ATTACK_COLLISION_START_TIME3 = 100.0f;
+	static constexpr float ATTACK_COLLISION_START_TIME3 = 35.0f;
 
 	// 攻撃の3段階目の当たり判定が終わる時間
-	static constexpr float ATTACK_COLLISION_END_TIME3 = 110.0f;
+	static constexpr float ATTACK_COLLISION_END_TIME3 = 45.0f;
 
 	// 溜め攻撃の当たり判定が始まる時間
-	static constexpr float CHARGE_ATTACK_COLLISION_START_TIME = 20.0f;
+	static constexpr float CHARGE_ATTACK_COLLISION_START_TIME = 16.0f;
 
 	// 溜めの攻撃の当たり判定が終わる時間
 	static constexpr float CHARGE_ATTACK_COLLISION_END_TIME = 30.0f;

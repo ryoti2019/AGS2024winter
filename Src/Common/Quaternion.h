@@ -23,122 +23,18 @@ public:
 	// オイラー角からクォータニオンへ変換
 	static const Quaternion Euler(const VECTOR& rad) { return Euler(rad.x, rad.y, rad.z); };
 
-	static Quaternion Euler(double radX, double radY, double radZ)
-	{
-
-		Quaternion ret = Quaternion();
-
-		radX = Utility::RadIn2PI(radX);
-		radY = Utility::RadIn2PI(radY);
-		radZ = Utility::RadIn2PI(radZ);
-
-		double cosZ = cos(radZ / 2.0f);
-		double sinZ = sin(radZ / 2.0f);
-		double cosX = cos(radX / 2.0f);
-		double sinX = sin(radX / 2.0f);
-		double cosY = cos(radY / 2.0f);
-		double sinY = sin(radY / 2.0f);
-
-		ret.w = cosX * cosY * cosZ + sinX * sinY * sinZ;
-		ret.x = sinX * cosY * cosZ + cosX * sinY * sinZ;
-		ret.y = cosX * sinY * cosZ - sinX * cosY * sinZ;
-		ret.z = cosX * cosY * sinZ - sinX * sinY * cosZ;
-
-		return ret;
-
-	};
+	static Quaternion Euler(double radX, double radY, double radZ);
 
 	// クォータニオンの合成
-	static Quaternion Mult(const Quaternion& q1, const Quaternion& q2)
-	{
-
-		Quaternion ret = Quaternion();
-		double d1, d2, d3, d4;
-
-		// wの計算 
-		d1 = q1.w * q2.w;
-		d2 = -q1.x * q2.x;
-		d3 = -q1.y * q2.y;
-		d4 = -q1.z * q2.z;
-		ret.w = d1 + d2 + d3 + d4;
-
-		// xの計算 
-		d1 = q1.w * q2.x;
-		d2 = q2.w * q1.x;
-		d3 = q1.y * q2.z;
-		d4 = -q1.z * q2.y;
-		ret.x = d1 + d2 + d3 + d4;
-
-		// yの計算
-		d1 = q1.w * q2.y;
-		d2 = q2.w * q1.y;
-		d3 = q1.z * q2.x;
-		d4 = -q1.x * q2.z;
-		ret.y = d1 + d2 + d3 + d4;
-
-		// zの計算
-		d1 = q1.w * q2.z;
-		d2 = q2.w * q1.z;
-		d3 = q1.x * q2.y;
-		d4 = -q1.y * q2.x;
-		ret.z = d1 + d2 + d3 + d4;
-
-		return ret;
-
-	};
+	static Quaternion Mult(const Quaternion& q1, const Quaternion& q2);
 
 	Quaternion Mult(const Quaternion& q) const { return Mult(Quaternion(w, x, y, z), q); };
 
 	// 指定軸を指定角分、回転させる
-	static Quaternion AngleAxis(const double rad, VECTOR axis)
-	{
-
-		Quaternion ret = Quaternion();
-
-		double norm;
-		double c, s;
-
-		// Unityに合わせる
-		//ret.w = ret.x = ret.y = ret.z = 0.0;
-		ret.w = 1.0;
-		ret.x = ret.y = ret.z = 0.0;
-
-		norm = (double)axis.x * (double)axis.x + (double)axis.y * (double)axis.y + (double)axis.z * (double)axis.z;
-		if (norm <= 0.0f)
-		{
-			return ret;
-		}
-
-		norm = 1.0 / sqrt(norm);
-		axis.x = (float)(axis.x * norm);
-		axis.y = (float)(axis.y * norm);
-		axis.z = (float)(axis.z * norm);
-
-		c = cos(0.5f * rad);
-		s = sin(0.5f * rad);
-
-		ret.w = c;
-		ret.x = s * axis.x;
-		ret.y = s * axis.y;
-		ret.z = s * axis.z;
-
-		return ret;
-
-	};
+	static Quaternion AngleAxis(const double rad, VECTOR axis);
 
 	// 座標を回転させる
-	static VECTOR PosAxis(const Quaternion& q, const VECTOR& pos)
-	{
-
-		// 位置情報に回転情報を反映させる
-		// pos' = q・pos・q(-1)
-		Quaternion tmp = Quaternion();
-		tmp = tmp.Mult(q);
-		tmp = tmp.Mult(Quaternion(0.0f, pos.x, pos.y, pos.z));
-		tmp = tmp.Mult(q.Inverse());
-		return { (float)tmp.x, (float)tmp.y, (float)tmp.z };
-
-	};
+	static VECTOR PosAxis(const Quaternion& q, const VECTOR& pos);
 
 	VECTOR PosAxis(const VECTOR& pos) const { return PosAxis(Quaternion(w, x, y, z), pos); };
 
